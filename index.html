@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lady Legalz ContractGen 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;600&display=swap');
-
         body {
             font-family: 'Inter', sans-serif;
             max-width: 1100px;
@@ -18,8 +17,6 @@
             position: relative;
             overflow-x: hidden;
         }
-
-        /* Subtle animated background particles */
         body::before {
             content: '';
             position: absolute;
@@ -29,13 +26,11 @@
             animation: float 20s infinite linear;
             z-index: -1;
         }
-
         @keyframes float {
             0% { transform: translate(0, 0); }
             50% { transform: translate(100px, 100px); }
             100% { transform: translate(0, 0); }
         }
-
         header {
             text-align: center;
             padding: 60px 20px;
@@ -46,7 +41,6 @@
             box-shadow: 0 0 40px rgba(120, 80, 255, 0.2);
             margin-bottom: 40px;
         }
-
         h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 48px;
@@ -56,14 +50,12 @@
             margin: 0;
             text-shadow: 0 0 20px rgba(167, 139, 250, 0.5);
         }
-
         .live-link a {
             color: #a78bfa;
             font-size: 20px;
             text-decoration: none;
             text-shadow: 0 0 10px rgba(167, 139, 250, 0.4);
         }
-
         .disclaimer {
             background: rgba(239, 68, 68, 0.15);
             border-left: 6px solid #ef4444;
@@ -74,7 +66,6 @@
             margin-bottom: 40px;
             box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
         }
-
         .form-card {
             background: rgba(30, 15, 60, 0.5);
             backdrop-filter: blur(16px);
@@ -83,7 +74,6 @@
             border: 1px solid rgba(120, 80, 255, 0.4);
             box-shadow: 0 0 50px rgba(120, 80, 255, 0.15);
         }
-
         label {
             display: block;
             margin-top: 30px;
@@ -91,7 +81,6 @@
             font-size: 18px;
             color: #c4b5fd;
         }
-
         select, textarea, input[type="text"] {
             width: 100%;
             padding: 18px;
@@ -103,13 +92,11 @@
             font-size: 17px;
             transition: all 0.3s;
         }
-
         select:focus, textarea:focus, input:focus {
             outline: none;
             border-color: #a78bfa;
             box-shadow: 0 0 20px rgba(167, 139, 250, 0.4);
         }
-
         button {
             margin-top: 50px;
             padding: 20px;
@@ -125,18 +112,15 @@
             transition: all 0.4s;
             animation: pulse 2s infinite;
         }
-
         button:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 60px rgba(167, 139, 250, 0.8);
         }
-
         @keyframes pulse {
             0% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
             50% { box-shadow: 0 0 60px rgba(167, 139, 250, 0.8); }
             100% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
         }
-
         #progress {
             margin-top: 30px;
             height: 12px;
@@ -145,7 +129,6 @@
             overflow: hidden;
             display: none;
         }
-
         #progress-bar {
             height: 100%;
             width: 0;
@@ -154,7 +137,6 @@
             box-shadow: 0 0 20px rgba(167, 139, 250, 0.8);
             transition: width 0.3s;
         }
-
         #output {
             margin-top: 60px;
             padding: 40px;
@@ -164,7 +146,6 @@
             border: 1px solid rgba(120, 80, 255, 0.4);
             box-shadow: 0 0 50px rgba(120, 80, 255, 0.2);
         }
-
         .risk {
             background: rgba(250, 204, 21, 0.15);
             border-left: 8px solid #facc15;
@@ -172,13 +153,11 @@
             border-radius: 16px;
             margin: 30px 0;
         }
-
         h2 {
             font-family: 'Orbitron', sans-serif;
             color: #a78bfa;
             text-shadow: 0 0 15px rgba(167, 139, 250, 0.5);
         }
-
         .download-btn {
             margin-top: 40px;
             padding: 16px 32px;
@@ -190,7 +169,6 @@
             cursor: pointer;
             box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
         }
-
         footer {
             text-align: center;
             margin-top: 80px;
@@ -212,16 +190,40 @@
     </div>
 
     <div class="form-card">
-        <!-- (Same form fields as before – contract type dropdown, description, jurisdiction) -->
         <label for="type">Contract Domain & Template:</label>
         <select id="type">
-            <!-- (Keep all previous optgroups and options) -->
             <optgroup label="Core Business">
                 <option value="custom">Custom Intelligent Contract</option>
                 <option value="nda">NDA / Confidentiality</option>
-                <!-- ... all previous options ... -->
+                <option value="service">Service Agreement</option>
+                <option value="employment">Employment Contract</option>
+                <option value="sale">Sales / Purchase Agreement</option>
+                <option value="partnership">Partnership Agreement</option>
             </optgroup>
-            <!-- Include Real Estate, Probate, Family, Crypto groups as before -->
+            <optgroup label="Real Estate">
+                <option value="realestate_purchase">Real Estate Purchase Agreement</option>
+                <option value="realestate_lease">Residential/Commercial Lease</option>
+                <option value="realestate_deed">Quitclaim/Warranty Deed</option>
+                <option value="realestate_listing">Listing Agreement</option>
+            </optgroup>
+            <optgroup label="Probate & Estate Planning">
+                <option value="will">Last Will & Testament</option>
+                <option value="trust">Revocable Living Trust</option>
+                <option value="power_attorney">Power of Attorney</option>
+                <option value="advance_directive">Advance Healthcare Directive</option>
+            </optgroup>
+            <optgroup label="Family Law">
+                <option value="divorce">Divorce Settlement Agreement</option>
+                <option value="prenup">Prenuptial Agreement</option>
+                <option value="child_custody">Child Custody & Support Agreement</option>
+                <option value="adoption">Adoption Agreement</option>
+            </optgroup>
+            <optgroup label="Cryptocurrency & Blockchain">
+                <option value="crypto_saas">Token Sale / SAFU Agreement</option>
+                <option value="crypto_nft">NFT Transfer / License Agreement</option>
+                <option value="crypto_wallet">Crypto Asset Succession Plan</option>
+                <option value="smart_contract">Smart Contract Development Agreement</option>
+            </optgroup>
         </select>
 
         <label for="description">Quantum-Level Description (assets, parties, terms, conditions):</label>
@@ -241,10 +243,108 @@
         Pioneering AI-Driven Legal Evolution • Neon Glassmorphic Edition
     </footer>
 
-    <!-- (Same JavaScript as previous enhanced version – generateContract(), downloadContract()) -->
     <script>
-        // Paste the full JavaScript from the previous version here (generateContract function with progress, analysis, contract, download)
-        // It works perfectly with this new design.
+        function generateContract() {
+            const type = document.getElementById('type').value;
+            const description = document.getElementById('description').value.trim();
+            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'applicable quantum jurisdiction principles';
+
+            if (!description) {
+                alert('Please provide a quantum-level description.');
+                return;
+            }
+
+            document.getElementById('output').innerHTML = '<p style="text-align:center; font-size:20px;">⚡ Neural Engine Activating... Processing Quantum Contract...</p>';
+            document.getElementById('progress').style.display = 'block';
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                document.getElementById('progress-bar').style.width = progress + '%';
+                if (progress >= 100) clearInterval(interval);
+            }, 150);
+
+            const titles = {
+                custom: 'Custom Quantum Agreement',
+                nda: 'Non-Disclosure Agreement',
+                service: 'Service Agreement',
+                employment: 'Employment Contract',
+                sale: 'Sales/Purchase Agreement',
+                partnership: 'Partnership Agreement',
+                realestate_purchase: 'Real Estate Purchase Agreement',
+                realestate_lease: 'Lease Agreement',
+                realestate_deed: 'Deed Transfer',
+                realestate_listing: 'Listing Agreement',
+                will: 'Last Will and Testament',
+                trust: 'Revocable Living Trust',
+                power_attorney: 'Power of Attorney',
+                advance_directive: 'Advance Healthcare Directive',
+                divorce: 'Divorce Settlement Agreement',
+                prenup: 'Prenuptial Agreement',
+                child_custody: 'Child Custody & Support Agreement',
+                adoption: 'Adoption Agreement',
+                crypto_saas: 'Token Sale Agreement',
+                crypto_nft: 'NFT Transfer/License Agreement',
+                crypto_wallet: 'Crypto Asset Succession Plan',
+                smart_contract: 'Smart Contract Development Agreement'
+            };
+            const contractTitle = titles[type] || 'Quantum Legal Agreement';
+
+            const analysis = `**Neural Risk Analysis Engine**\n\n` +
+                `• Jurisdiction Matrix: ${jurisdiction}\n` +
+                `• Domain: ${contractTitle}\n` +
+                `• Key Vectors Extracted: Parties, assets, timelines, conditions.\n` +
+                `• Innovation Notes: ${type.includes('crypto') ? 'Private key succession & oracle integration recommended.' : type.includes('realestate') ? 'Metaverse/title NFT verification advised.' : 'Standard quantum enforceability applied.'}\n` +
+                `• Critical Alerts: **Enforceability in emerging jurisdictions may require hybrid analog-digital notarization.**\n` +
+                `• Optimization: Add blockchain escrow, AI arbitration clauses.\n\n` +
+                `Quantum Draft Compiled. Professional validation required.`;
+
+            const contract = `**${contractTitle.toUpperCase()} - QUANTUM DRAFT 2026**\n\n` +
+                `Effective Date: [Quantum Timestamp] | Governing Law: ${jurisdiction}\n\n` +
+                `PARTIES:\n[Entity A: Full Quantum Identifier]\n[Entity B: Full Quantum Identifier]\n\n` +
+                `SUBJECT:\n${description.substring(0, 300)}...\n\n` +
+                `NEURAL PROVISIONS:\n` +
+                `1. Consideration & Phased Execution\n` +
+                `2. Rights, Obligations & Smart Conditions\n` +
+                `3. Representations & Quantum Warranties\n` +
+                `4. Contingencies & Oracle Triggers\n` +
+                `5. Indemnification & Decentralized Liability\n` +
+                `6. Termination & Auto-Reversion\n` +
+                `7. Dispute Resolution (AI Mediation / Arbitration)\n` +
+                `8. Special Quantum Clauses\n\n` +
+                `EXECUTION:\n\n` +
+                `______________________________   ______________________________\n` +
+                `Digital Signature (Party A)      Digital Signature (Party B)\n\n` +
+                `Blockchain Hash: [Pending]\n\n` +
+                `**NOTICE:** AI-Generated Quantum Draft. Mandatory Human Attorney Review.`;
+
+            setTimeout(() => {
+                document.getElementById('progress').style.display = 'none';
+                document.getElementById('progress-bar').style.width = '0';
+                document.getElementById('output').innerHTML = `
+                    <h2>⚡ Neural Risk Analysis</h2>
+                    <div class="risk">${analysis.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</div>
+                    
+                    <h2>📜 Quantum Contract Draft</h2>
+                    <div>${contract.replace(/\n/g, '<br>')}</div>
+                    
+                    <button class="download-btn" onclick="downloadContract('${contractTitle}', \`${contract}\`)">📥 Download Quantum Draft</button>
+                    
+                    <p style="font-weight:bold; color:#facc15; text-align:center; margin-top:40px;">
+                        ⚠️ Prototype Draft • Requires Licensed Legal Validation
+                    </p>
+                `;
+            }, 3000);
+        }
+
+        function downloadContract(title, content) {
+            const blob = new Blob([content], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title.replace(/ /g, '_')}_2026_Draft.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
     </script>
 </body>
 </html>
