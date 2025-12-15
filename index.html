@@ -6,7 +6,6 @@
     <title>Lady Legalz Neo-ContractGen 2026 - Innovation Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Exo+2:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         html, body {
             margin: 0;
@@ -58,6 +57,12 @@
             opacity: 0.9;
         }
 
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
         .disclaimer {
             max-width: 1100px;
             margin: 50px auto;
@@ -69,12 +74,6 @@
             box-shadow: 0 8px 30px rgba(250,204,21,0.15);
             font-size: 1.1rem;
             line-height: 1.7;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
         }
 
         .main-grid {
@@ -213,6 +212,11 @@
         }
         #statute-search {
             margin: 25px 0;
+            padding: 14px;
+            background: rgba(15,5,40,0.8);
+            border: 1px solid rgba(139,92,246,0.6);
+            border-radius: 14px;
+            color: #e6e6ff;
         }
         .statute-item {
             background: rgba(15,5,40,0.7);
@@ -283,17 +287,20 @@
                         <option value="nda">NDA / Confidentiality Agreement</option>
                         <option value="service">Master Service Agreement</option>
                         <option value="employment">Employment & Equity Contract</option>
-                        <option value="sale">Sales / Asset Purchase</option>
+                        <option value="sale">Sales / Asset Purchase Agreement</option>
                         <option value="partnership">Strategic Partnership / JV</option>
                         <option value="license">Software/IP License Agreement</option>
                         <option value="consulting">Consulting Services Agreement</option>
+                        <option value="merger">Merger & Acquisition Agreement</option>
+                        <option value="shareholder">Shareholders Agreement</option>
                     </optgroup>
                     <optgroup label="Real Estate & Property">
                         <option value="realestate_purchase">Real Estate Purchase & Financing</option>
                         <option value="realestate_lease">Commercial/Residential Lease</option>
                         <option value="realestate_deed">Deed & Title Transfer</option>
-                        <option value="realestate_listing">Brokerage & Listing</option>
-                        <option value="construction">Construction Contract</option>
+                        <option value="realestate_listing">Brokerage & Listing Agreement</option>
+                        <option value="construction">Construction & Development Contract</option>
+                        <option value="mortgage">Mortgage / Loan Agreement</option>
                     </optgroup>
                     <optgroup label="Estate Planning & Probate">
                         <option value="will">Last Will & Testament</option>
@@ -304,9 +311,9 @@
                     </optgroup>
                     <optgroup label="Family & Personal Law">
                         <option value="divorce">Separation & Divorce Settlement</option>
-                        <option value="prenup">Prenuptial / Postnuptial</option>
-                        <option value="child_custody">Custody & Support Framework</option>
-                        <option value="adoption">Adoption & Guardianship</option>
+                        <option value="prenup">Prenuptial / Postnuptial Agreement</option>
+                        <option value="child_custody">Child Custody & Support Framework</option>
+                        <option value="adoption">Adoption & Guardianship Agreement</option>
                         <option value="cohabitation">Cohabitation Agreement</option>
                     </optgroup>
                     <optgroup label="Web3, Blockchain & Digital Assets">
@@ -316,21 +323,24 @@
                         <option value="smart_contract">Smart Contract Development & Audit</option>
                         <option value="dao">DAO Governance & Operating Agreement</option>
                         <option value="defi">DeFi Protocol Service Agreement</option>
+                        <option value="token_vesting">Token Vesting & Release Schedule</option>
                     </optgroup>
-                    <optgroup label="Additional Emerging Domains">
+                    <optgroup label="Emerging & Specialized">
                         <option value="ai_development">AI Model Development & Licensing</option>
                         <option value="data_sharing">Data Sharing & Processing Agreement</option>
                         <option value="esports">Esports Player/Team Contract</option>
                         <option value="influencer">Influencer Marketing Agreement</option>
                         <option value="freelance">Freelance/Independent Contractor</option>
+                        <option value="non_compete">Non-Compete & Non-Solicitation</option>
+                        <option value="settlement">Settlement & Release Agreement</option>
                     </optgroup>
                 </select>
 
                 <label for="description">Scenario Description:</label>
-                <textarea id="description" rows="12" placeholder="Provide detailed information about the parties, transaction, assets, timelines, obligations, and any special conditions..."></textarea>
+                <textarea id="description" rows="12" placeholder="Describe the parties, transaction details, assets, timelines, obligations, and any special conditions in detail..."></textarea>
 
                 <label for="jurisdiction">Governing Jurisdiction:</label>
-                <input type="text" id="jurisdiction" placeholder="e.g., Delaware, USA • England & Wales • Singapore • New York">
+                <input type="text" id="jurisdiction" placeholder="e.g., Delaware, USA • England & Wales • Singapore • Cayman Islands">
 
                 <button id="generate-btn" onclick="generateContract()">⚡ Generate Contract</button>
                 <div id="progress"><div id="progress-bar"></div></div>
@@ -338,16 +348,67 @@
 
             <div id="library-panel">
                 <h3>📚 Legal Research Vault</h3>
-                <input type="search" id="statute-search" placeholder="Search resources...">
+                <input type="search" id="statute-search" placeholder="Search resources (e.g., GDPR, UCC, smart contracts)...">
                 <div id="statute-results">
-                    <!-- Resources remain the same, omitted for brevity in this response but kept in full code -->
-                    <!-- (Same as original, expanded list) -->
+                    <div class="statute-item">
+                        <h4>U.S. Uniform Commercial Code (UCC)</h4>
+                        <a href="https://www.law.cornell.edu/ucc" target="_blank">Cornell LII – Complete UCC</a>
+                        <a href="https://www.uniformlaws.org/acts/ucc" target="_blank">Uniform Law Commission</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>Delaware General Corporation Law</h4>
+                        <a href="https://delcode.delaware.gov/title8/c001/" target="_blank">Official Delaware Code</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>EU GDPR & Digital Markets Act</h4>
+                        <a href="https://gdpr-info.eu" target="_blank">GDPR Full Text</a>
+                        <a href="https://digital-markets-act.ec.europa.eu" target="_blank">Digital Markets Act (DMA)</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>UK Companies Act & Crypto Regulations</h4>
+                        <a href="https://www.legislation.gov.uk/ukpga/2006/46/contents" target="_blank">Companies Act 2006</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>California Consumer Privacy Act (CCPA)</h4>
+                        <a href="https://oag.ca.gov/privacy/ccpa" target="_blank">Official CCPA Text</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>Bitcoin Whitepaper & SEC Guidelines</h4>
+                        <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">Satoshi Nakamoto Whitepaper</a>
+                    </div>
+                    <div class="category">
+                        <h4>Leading Legal Tech & AI Research</h4>
+                        <div class="statute-item">
+                            <h4>Stanford CodeX</h4>
+                            <a href="https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/" target="_blank">Center for Legal Informatics</a>
+                            <a href="https://codex.stanford.edu/publications/" target="_blank">Research Publications</a>
+                        </div>
+                        <div class="statute-item">
+                            <h4>Oxford Institute for Legal Practice</h4>
+                            <a href="https://www.law.ox.ac.uk/research-subject-groups/oxford-institute-legal-practice/research/ai-and-law" target="_blank">AI & Law Research Hub</a>
+                        </div>
+                        <div class="statute-item">
+                            <h4>Key AI + Law Papers</h4>
+                            <a href="https://arxiv.org/search/?searchtype=author&query=Legal" target="_blank">arXiv – Latest Legal AI Papers</a>
+                        </div>
+                    </div>
+                    <div class="category">
+                        <h4>Global Innovation Ecosystems</h4>
+                        <div class="statute-item">
+                            <h4>LawtechUK & European Legal Tech</h4>
+                            <a href="https://www.lawtechuk.io/" target="_blank">LawtechUK Initiative</a>
+                        </div>
+                        <div class="statute-item">
+                            <h4>ABA & Gartner Reports</h4>
+                            <a href="https://www.americanbar.org/groups/law_practice/publications/techreport/" target="_blank">ABA Legal Technology Report</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="output">
-            <h2>Generated Contract</h2>
+            <h2>Generated Contract Draft</h2>
             <div id="contract-content" class="contract-content"></div>
             <button class="download-btn" onclick="downloadPDF()">📥 Download as PDF</button>
         </div>
@@ -359,7 +420,6 @@
     </footer>
 
     <script>
-        // Search functionality (unchanged)
         document.getElementById('statute-search').addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
             document.querySelectorAll('.statute-item').forEach(item => {
@@ -368,54 +428,60 @@
         });
 
         const titles = {
-            custom: 'Custom Neural Agreement',
+            custom: 'Custom Agreement',
             nda: 'Non-Disclosure & Confidentiality Agreement',
             service: 'Master Services Agreement',
-            employment: 'Executive Employment Contract',
+            employment: 'Employment & Equity Contract',
             sale: 'Asset Purchase Agreement',
-            partnership: 'Strategic Partnership Framework',
+            partnership: 'Strategic Partnership Agreement',
             license: 'Software/IP License Agreement',
             consulting: 'Consulting Services Agreement',
-            realestate_purchase: 'Real Estate Acquisition Agreement',
-            realestate_lease: 'Commercial Lease Agreement',
-            realestate_deed: 'Property Deed Transfer',
-            realestate_listing: 'Exclusive Listing Agreement',
+            merger: 'Merger & Acquisition Agreement',
+            shareholder: 'Shareholders Agreement',
+            realestate_purchase: 'Real Estate Purchase Agreement',
+            realestate_lease: 'Lease Agreement',
+            realestate_deed: 'Deed of Transfer',
+            realestate_listing: 'Listing Agreement',
             construction: 'Construction Contract',
+            mortgage: 'Mortgage Loan Agreement',
             will: 'Last Will & Testament',
             trust: 'Revocable Living Trust',
             power_attorney: 'Durable Power of Attorney',
             advance_directive: 'Advance Healthcare Directive',
             estate_plan: 'Comprehensive Estate Plan',
-            divorce: 'Marital Separation Agreement',
+            divorce: 'Separation & Divorce Agreement',
             prenup: 'Prenuptial Agreement',
-            child_custody: 'Child Custody & Support Plan',
-            adoption: 'Adoption & Guardianship Agreement',
+            child_custody: 'Child Custody & Support Agreement',
+            adoption: 'Adoption Agreement',
             cohabitation: 'Cohabitation Agreement',
             crypto_saas: 'SAFT / Token Sale Agreement',
-            crypto_nft: 'NFT Licensing & Transfer Agreement',
-            crypto_wallet: 'Digital Asset Succession Protocol',
+            crypto_nft: 'NFT Licensing Agreement',
+            crypto_wallet: 'Digital Asset Succession Plan',
             smart_contract: 'Smart Contract Development Agreement',
-            dao: 'DAO Governance & Operating Agreement',
-            defi: 'DeFi Protocol Service Agreement',
-            ai_development: 'AI Model Development & Licensing Agreement',
-            data_sharing: 'Data Sharing & Processing Agreement',
-            esports: 'Esports Player Contract',
+            dao: 'DAO Operating Agreement',
+            defi: 'DeFi Service Agreement',
+            token_vesting: 'Token Vesting Agreement',
+            ai_development: 'AI Development & Licensing Agreement',
+            data_sharing: 'Data Processing Agreement',
+            esports: 'Esports Contract',
             influencer: 'Influencer Marketing Agreement',
-            freelance: 'Independent Contractor Agreement'
+            freelance: 'Independent Contractor Agreement',
+            non_compete: 'Non-Compete Agreement',
+            settlement: 'Settlement & Release Agreement'
         };
 
         function generateContract() {
             const type = document.getElementById('type').value;
             const description = document.getElementById('description').value.trim();
-            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'applicable global jurisdiction';
+            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'applicable law';
 
             if (!description) {
-                alert('Please provide a scenario description.');
+                alert('Please provide a detailed scenario description.');
                 return;
             }
 
             document.getElementById('output').style.display = 'block';
-            document.getElementById('contract-content').innerHTML = '<p style="text-align:center; font-size:24px;">⚡ Generating contract...<br>Neural engine processing...</p>';
+            document.getElementById('contract-content').innerHTML = '<p style="text-align:center; font-size:24px;">⚡ Neural Engine Processing...<br>Generating full contract draft...</p>';
             document.getElementById('progress').style.display = 'block';
 
             let progress = 0;
@@ -425,47 +491,49 @@
                 if (progress >= 100) clearInterval(interval);
             }, 100);
 
-            const contractTitle = titles[type] || 'Custom Legal Agreement';
+            const title = titles[type] || 'Custom Legal Agreement';
 
-            // Simulated full contract generation
-            const fullContract = `${contractTitle.toUpperCase()}
+            const fullContract = `${title.toUpperCase()}
 
-GOVERNING LAW: ${jurisdiction}
+GOVERNING LAW
+This Agreement shall be governed by and construed in accordance with the laws of ${jurisdiction}.
 
-PARTIES AND RECITALS:
+PARTIES
 ${description}
 
-ARTICLE 1 - DEFINITIONS
-[Comprehensive definitions tailored to the transaction]
+RECITALS
+The parties enter into this Agreement to formalize their understanding regarding the above transaction.
 
-ARTICLE 2 - OBLIGATIONS OF THE PARTIES
-[Detailed rights, duties, and performance requirements]
+ARTICLE 1 – DEFINITIONS
+[Relevant defined terms based on transaction]
 
-ARTICLE 3 - PAYMENT AND CONSIDERATION
-[Compensation structure, milestones, and terms]
+ARTICLE 2 – RIGHTS AND OBLIGATIONS
+[Detailed obligations of each party]
 
-ARTICLE 4 - REPRESENTATIONS AND WARRANTIES
-[Standard and transaction-specific reps]
+ARTICLE 3 – CONSIDERATION AND PAYMENT
+[Payment terms, milestones, and compensation structure]
 
-ARTICLE 5 - CONFIDENTIALITY AND INTELLECTUAL PROPERTY
-[Robust protection clauses]
+ARTICLE 4 – REPRESENTATIONS AND WARRANTIES
+[Mutual and specific representations]
 
-ARTICLE 6 - TERM AND TERMINATION
-[Duration, renewal, and termination events]
+ARTICLE 5 – CONFIDENTIALITY AND INTELLECTUAL PROPERTY
+[Protection of confidential information and IP ownership]
 
-ARTICLE 7 - INDEMNIFICATION AND LIABILITY
-[Risk allocation and limitation of liability]
+ARTICLE 6 – TERM AND TERMINATION
+[Duration and grounds for termination]
 
-ARTICLE 8 - DISPUTE RESOLUTION
-[Governing law, venue, arbitration/mediation]
+ARTICLE 7 – INDEMNIFICATION AND LIMITATION OF LIABILITY
+[Risk allocation provisions]
 
-ARTICLE 9 - MISCELLANEOUS
-[Assignment, severability, entire agreement, notices, etc.]
+ARTICLE 8 – DISPUTE RESOLUTION
+[Any dispute shall be resolved through arbitration or courts in ${jurisdiction}]
 
-EXECUTION
-This agreement may be executed in counterparts and via electronic signature.
+ARTICLE 9 – MISCELLANEOUS
+Severability • Entire Agreement • Amendments • Notices • Counterparts • Electronic Signatures
 
-DISCLAIMER: This is an AI-generated draft. Use at your own risk.`;
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first written above.
+
+DISCLAIMER: This is an AI-generated draft document for reference only. Use at your own risk.`;
 
             setTimeout(() => {
                 document.getElementById('progress').style.display = 'none';
@@ -475,15 +543,20 @@ DISCLAIMER: This is an AI-generated draft. Use at your own risk.`;
             }, 3000);
         }
 
-        async function downloadPDF() {
+        function downloadPDF() {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
             const content = document.getElementById('contract-content');
             const text = content.textContent;
 
-            doc.setFontSize(12);
-            doc.text(text, 15, 20, { maxWidth: 180 });
-            doc.save('Neo-ContractGen_Draft.pdf');
+            doc.setFontSize(11);
+            doc.text(text, 15, 20, { maxWidth: 180, lineHeightFactor: 1.5 });
+            doc.save('NeoContractGen_Draft.pdf');
         }
     </script>
 </body>
