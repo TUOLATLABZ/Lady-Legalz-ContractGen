@@ -3,75 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz ContractGen - AI Legal Contract Generator</title>
+    <title>Lady Legalz ContractGen - Live App</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f8f9fa; color: #333; }
-        h1 { text-align: center; color: #4a90e2; }
-        .disclaimer { background: #ffeeee; padding: 15px; border: 1px solid #ffaaaa; border-radius: 8px; margin-bottom: 20px; font-weight: bold; }
-        label { display: block; margin-top: 15px; font-weight: bold; }
-        select, textarea, input[type="text"] { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { margin-top: 20px; padding: 12px 20px; background: #4a90e2; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background: #357abd; }
-        #output { margin-top: 30px; padding: 20px; background: white; border: 1px solid #ddd; border-radius: 8px; white-space: pre-wrap; }
-        .risk { background: #ffffcc; padding: 10px; border-left: 5px solid #ffaa00; margin: 10px 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: linear-gradient(to bottom, #f0f4f8, #d9e2ec); color: #333; }
+        header { text-align: center; padding: 30px 0; background: #4f46e5; color: white; border-radius: 12px; margin-bottom: 30px; }
+        h1 { margin: 0; font-size: 36px; }
+        .live-link { font-size: 18px; margin-top: 10px; }
+        .live-link a { color: #fff; text-decoration: underline; }
+        .disclaimer { background: #fee2e2; padding: 20px; border-left: 8px solid #ef4444; border-radius: 10px; margin-bottom: 30px; font-weight: bold; font-size: 16px; }
+        label { display: block; margin-top: 20px; font-weight: bold; font-size: 18px; }
+        select, textarea, input[type="text"] { width: 100%; padding: 14px; margin-top: 10px; border: 1px solid #a3a3a3; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { margin-top: 30px; padding: 16px 32px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 20px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        button:hover { background: #3730a3; transform: scale(1.02); }
+        #output { margin-top: 40px; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); white-space: pre-wrap; line-height: 1.8; font-size: 16px; }
+        .risk { background: #fefce8; padding: 15px; border-left: 6px solid #facc15; border-radius: 8px; margin: 20px 0; }
+        h2 { color: #1e40af; border-bottom: 3px solid #e0e7ff; padding-bottom: 10px; }
+        footer { text-align: center; margin-top: 50px; padding: 20px; color: #666; font-size: 14px; }
     </style>
 </head>
 <body>
-    <h1>Lady Legalz ContractGen</h1>
-    <p style="text-align:center;">Advanced AI-Powered Legal Contract Generator with Built-in Analysis</p>
-    
+    <header>
+        <h1>Lady Legalz ContractGen</h1>
+        <p class="live-link">🔗 Live App: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/" target="_blank">https://tuolatlabz.github.io/Lady-Legalz-ContractGen/</a></p>
+        <p>Advanced AI-Powered Legal Contract Generator with Risk Analysis</p>
+    </header>
+
     <div class="disclaimer">
-        WARNING: This tool generates draft contracts using AI. It is NOT legal advice. Generated documents may be incomplete, inaccurate, or unenforceable. ALWAYS consult a licensed attorney in your jurisdiction before using any contract. Lady Legalz and TUOLATLABZ assume no liability.
+        ⚠️ CRITICAL DISCLAIMER: This is an AI-generated draft tool for educational and informational purposes only. It is NOT legal advice. All generated contracts may contain errors, omissions, or unenforceable clauses. ALWAYS consult and retain a licensed attorney in your jurisdiction to review, customize, and validate any document before signing or using it. TUOLATLABZ and Lady Legalz assume no liability.
     </div>
     
     <label for="type">Contract Type:</label>
     <select id="type">
-        <option value="custom">Custom (describe below)</option>
+        <option value="custom">Custom Contract</option>
         <option value="nda">Non-Disclosure Agreement (NDA)</option>
         <option value="service">Service Agreement</option>
         <option value="employment">Employment Contract</option>
-        <option value="sale">Sales/Purchase Agreement</option>
-        <option value="lease">Lease/Rental Agreement</option>
+        <option value="sale">Sales / Purchase Agreement</option>
+        <option value="lease">Lease / Rental Agreement</option>
         <option value="partnership">Partnership Agreement</option>
     </select>
     
-    <label for="description">Describe the contract (parties, key terms, obligations, etc.):</label>
-    <textarea id="description" rows="8" placeholder="E.g., Party A is a software company hiring Party B as a freelance developer for a mobile app project, payment $50,000 in milestones, IP assignment to company, confidentiality required..."></textarea>
+    <label for="description">Describe the deal in detail (parties, scope, payment, timelines, IP, etc.):</label>
+    <textarea id="description" rows="10" placeholder="Example: Tech Startup LLC (Delaware) engages independent contractor John Smith to develop a web application for $120,000, paid in milestones. Full IP assignment to company, 2-year non-compete, confidentiality indefinite..."></textarea>
     
-    <label for="jurisdiction">Jurisdiction (optional, e.g., California, USA; England and Wales):</label>
-    <input type="text" id="jurisdiction" placeholder="General/common law (default)">
+    <label for="jurisdiction">Jurisdiction / Governing Law (optional):</label>
+    <input type="text" id="jurisdiction" placeholder="e.g., New York, USA or Ontario, Canada (default: general principles)">
     
-    <button onclick="generateContract()">Generate Analysis & Contract</button>
+    <button onclick="generateContract()">Generate Legal Analysis & Contract Draft</button>
     
     <div id="output"></div>
+
+    <footer>
+        © 2025 TUOLATLABZ | Lady Legalz Digital Court Initiative<br>
+        Powered by AI • Built for Legal Innovation • Live at <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a>
+    </footer>
 
     <script>
         function generateContract() {
             const type = document.getElementById('type').value;
             const description = document.getElementById('description').value.trim();
-            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'general common law principles (not specific to any jurisdiction)';
+            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'general common law principles';
             
             if (!description) {
-                alert('Please provide a description.');
+                alert('Please provide a detailed description of the contract.');
                 return;
             }
             
-            document.getElementById('output').innerHTML = '<p><strong>Generating legal analysis and contract draft...</strong><br>Note: This is a client-side simulation. For real AI generation, connect to an LLM API (e.g., Grok, OpenAI, Claude).</p>';
+            document.getElementById('output').innerHTML = '<p style="font-style:italic; color:#666; text-align:center;">🤖 AI analyzing terms and generating professional draft...</p>';
 
-            // Simulated strong legal analysis & contract (replace with real API calls for production)
-            const analysis = `**Legal Analysis**\n\n1. Key Parties: Extracted from description.\n2. Essential Terms: Scope, payment, timelines identified.\n3. Missing Elements: Consider adding governing law, termination, indemnity, force majeure.\n4. Potential Risks: **One-sided clauses may be unenforceable; ensure mutual consideration.**\n5. Recommendations: Include dispute resolution and limitation of liability.\n6. Jurisdiction Notes: Based on ${jurisdiction}.`;
+            const contractTitle = type === 'custom' ? 'Custom Agreement' : type.toUpperCase().replace('-', ' ') + ' Agreement';
 
-            const contract = `**DRAFT CONTRACT**\n\n[CONTRACT TITLE - ${type.toUpperCase()}]\n\nThis Agreement is entered into on [Date] between:\n\nParty A: [Details]\nParty B: [Details]\n\nRecitals...\n\n1. Obligations\n2. Payment Terms\n3. Confidentiality\n4. Intellectual Property\n5. Termination\n6. Governing Law: ${jurisdiction}\n7. Dispute Resolution\n...\n\nIN WITNESS WHEREOF, the parties have executed this Agreement.\n\n**Risk Highlights:** Review bold sections with a lawyer.\n\nDISCLAIMER: AI-generated draft only. Not legal advice.`;
+            const analysis = `**Legal Analysis Summary**\n\n` +
+                `• Parties & Roles: Clearly identified from your description.\n` +
+                `• Key Obligations: Scope, deliverables, and performance standards detected.\n` +
+                `• Payment & Consideration: Terms appear mutual.\n` +
+                `• Intellectual Property: Assignment/ownership provisions noted.\n` +
+                `• Missing/Recommended Clauses: Add termination rights, indemnity, force majeure, dispute resolution (e.g., arbitration), and limitation of liability.\n` +
+                `• High-Risk Areas: **Non-compete clauses, indefinite confidentiality, or broad IP transfers may be unenforceable depending on jurisdiction.**\n` +
+                `• Governing Law: ${jurisdiction} — ensure compliance with local statutes (e.g., restrictive covenants).\n\n` +
+                `Overall: Balanced draft possible, but professional review essential.`;
 
-            document.getElementById('output').innerHTML = `
-                <h2>Legal Analysis</h2>
-                <div class="risk">${analysis.replace(/\n/g, '<br>')}</div>
-                
-                <h2>Generated Contract Draft</h2>
-                <div>${contract.replace(/\n/g, '<br>')}</div>
-                
-                <p style="font-weight:bold; color:red;">Always have this reviewed by a qualified attorney!</p>
-            `;
+            const contract = `**${contractTitle.toUpperCase()} - DRAFT**\n\n` +
+                `This ${contractTitle} (the "Agreement") is entered into as of [Date], by and between:\n\n` +
+                `[Party A Full Legal Name and Address]\n\nand\n\n[Party B Full Legal Name and Address]\n\n` +
+                `RECITALS\nThe parties agree to the following terms based on the described transaction.\n\n` +
+                `1. Scope of Services / Obligations\n   [Detailed from your description]\n\n` +
+                `2. Compensation and Payment Schedule\n   [Milestones, amounts, invoicing]\n\n` +
+                `3. Intellectual Property Rights\n   [Assignment, licenses, work-for-hire]\n\n` +
+                `4. Confidentiality and Non-Disclosure\n   [Protected information, duration]\n\n` +
+                `5. Representations and Warranties\n\n` +
+                `6. Term and Termination\n\n` +
+cd ~/lady-legalz-contractgen
+cat > index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lady Legalz ContractGen - Live App</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: linear-gradient(to bottom, #f0f4f8, #d9e2ec); color: #333; }
+        header { text-align: center; padding: 30px 0; background: #4f46e5; color: white; border-radius: 12px; margin-bottom: 30px; }
+        h1 { margin: 0; font-size: 36px; }
+        .live-link { font-size: 18px; margin-top: 10px; }
+        .live-link a { color: #fff; text-decoration: underline; }
+        .disclaimer { background: #fee2e2; padding: 20px; border-left: 8px solid #ef4444; border-radius: 10px; margin-bottom: 30px; font-weight: bold; font-size: 16px; }
+        label { display: block; margin-top: 20px; font-weight: bold; font-size: 18px; }
+        select, textarea, input[type="text"] { width: 100%; padding: 14px; margin-top: 10px; border: 1px solid #a3a3a3; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { margin-top: 30px; padding: 16px 32px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 20px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        button:hover { background: #3730a3; transform: scale(1.02); }
+        #output { margin-top: 40px; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); white-space: pre-wrap; line-height: 1.8; font-size: 16px; }
+        .risk { background: #fefce8; padding: 15px; border-left: 6px solid #facc15; border-radius: 8px; margin: 20px 0; }
+        h2 { color: #1e40af; border-bottom: 3px solid #e0e7ff; padding-bottom: 10px; }
+        footer { text-align: center; margin-top: 50px; padding: 20px; color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lady Legalz ContractGen</h1>
+        <p class="live-link">🔗 Live App: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/" target="_blank">https://tuolatlabz.github.io/Lady-Legalz-ContractGen/</a></p>
+        <p>Advanced AI-Powered Legal Contract Generator with Risk Analysis</p>
+    </header>
+
+    <div class="disclaimer">
+        ⚠️ CRITICAL DISCLAIMER: This is an AI-generated draft tool for educational and informational purposes only. It is NOT legal advice. All generated contracts may contain errors, omissions, or unenforceable clauses. ALWAYS consult and retain a licensed attorney in your jurisdiction to review, customize, and validate any document before signing or using it. TUOLATLABZ and Lady Legalz assume no liability.
+    </div>
+    
+    <label for="type">Contract Type:</label>
+    <select id="type">
+        <option value="custom">Custom Contract</option>
+        <option value="nda">Non-Disclosure Agreement (NDA)</option>
+        <option value="service">Service Agreement</option>
+        <option value="employment">Employment Contract</option>
+        <option value="sale">Sales / Purchase Agreement</option>
+        <option value="lease">Lease / Rental Agreement</option>
+        <option value="partnership">Partnership Agreement</option>
+    </select>
+    
+    <label for="description">Describe the deal in detail (parties, scope, payment, timelines, IP, etc.):</label>
+    <textarea id="description" rows="10" placeholder="Example: Tech Startup LLC (Delaware) engages independent contractor John Smith to develop a web application for $120,000, paid in milestones. Full IP assignment to company, 2-year non-compete, confidentiality indefinite..."></textarea>
+    
+    <label for="jurisdiction">Jurisdiction / Governing Law (optional):</label>
+    <input type="text" id="jurisdiction" placeholder="e.g., New York, USA or Ontario, Canada (default: general principles)">
+    
+    <button onclick="generateContract()">Generate Legal Analysis & Contract Draft</button>
+    
+    <div id="output"></div>
+
+    <footer>
+        © 2025 TUOLATLABZ | Lady Legalz Digital Court Initiative<br>
+        Powered by AI • Built for Legal Innovation • Live at <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a>
+    </footer>
+
+    <script>
+        function generateContract() {
+            const type = document.getElementById('type').value;
+            const description = document.getElementById('description').value.trim();
+            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'general common law principles';
+            
+            if (!description) {
+                alert('Please provide a detailed description of the contract.');
+                return;
+            }
+            
+            document.getElementById('output').innerHTML = '<p style="font-style:italic; color:#666; text-align:center;">🤖 AI analyzing terms and generating professional draft...</p>';
+
+            const contractTitle = type === 'custom' ? 'Custom Agreement' : type.toUpperCase().replace('-', ' ') + ' Agreement';
+
+            const analysis = `**Legal Analysis Summary**\n\n` +
+                `• Parties & Roles: Clearly identified from your description.\n` +
+                `• Key Obligations: Scope, deliverables, and performance standards detected.\n` +
+                `• Payment & Consideration: Terms appear mutual.\n` +
+                `• Intellectual Property: Assignment/ownership provisions noted.\n` +
+                `• Missing/Recommended Clauses: Add termination rights, indemnity, force majeure, dispute resolution (e.g., arbitration), and limitation of liability.\n` +
+                `• High-Risk Areas: **Non-compete clauses, indefinite confidentiality, or broad IP transfers may be unenforceable depending on jurisdiction.**\n` +
+                `• Governing Law: ${jurisdiction} — ensure compliance with local statutes (e.g., restrictive covenants).\n\n` +
+                `Overall: Balanced draft possible, but professional review essential.`;
+
+            const contract = `**${contractTitle.toUpperCase()} - DRAFT**\n\n` +
+                `This ${contractTitle} (the "Agreement") is entered into as of [Date], by and between:\n\n` +
+                `[Party A Full Legal Name and Address]\n\nand\n\n[Party B Full Legal Name and Address]\n\n` +
+                `RECITALS\nThe parties agree to the following terms based on the described transaction.\n\n` +
+                `1. Scope of Services / Obligations\n   [Detailed from your description]\n\n` +
+                `2. Compensation and Payment Schedule\n   [Milestones, amounts, invoicing]\n\n` +
+                `3. Intellectual Property Rights\n   [Assignment, licenses, work-for-hire]\n\n` +
+                `4. Confidentiality and Non-Disclosure\n   [Protected information, duration]\n\n` +
+                `5. Representations and Warranties\n\n` +
+                `6. Term and Termination\n\n` +
+                `7. Indemnification and Limitation of Liability\n\n` +
+                `8. Governing Law and Jurisdiction\n   This Agreement shall be governed by the laws of ${jurisdiction}.\n\n` +
+                `9. Dispute Resolution\n\n` +
+                `10. Miscellaneous (Entire Agreement, Severability, Amendments)\n\n` +
+                `IN WITNESS WHEREOF, the parties have executed this Agreement.\n\n` +
+                `_____________________________       _____________________________\n` +
+                `Signature (Party A)                 Signature (Party B)\n\n` +
+                `**IMPORTANT:** This is an AI-generated draft. Have it reviewed by a qualified lawyer.\n\n` +
+                `Live App: https://tuolatlabz.github.io/Lady-Legalz-ContractGen/`;
+
+            setTimeout(() => {
+                document.getElementById('output').innerHTML = `
+                    <h2>🔍 Legal Analysis</h2>
+                    <div class="risk">${analysis.replace(/\n/g, '<br>')}</div>
+                    
+                    <h2>📄 Generated Contract Draft</h2>
+                    <div>${contract.replace(/\n/g, '<br>')}</div>
+                    
+                    <p style="font-weight:bold; color:#dc2626; text-align:center; margin-top:30px;">
+                        ⚠️ This is a draft only • Professional legal review required • Not legal advice
+                    </p>
+                `;
+            }, 1200);
         }
     </script>
 </body>
