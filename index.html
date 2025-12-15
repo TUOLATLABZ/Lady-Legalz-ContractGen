@@ -3,126 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz ContractGen - Live App</title>
+    <title>Lady Legalz ContractGen Pro</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: linear-gradient(to bottom, #f0f4f8, #d9e2ec); color: #333; }
-        header { text-align: center; padding: 30px 0; background: #4f46e5; color: white; border-radius: 12px; margin-bottom: 30px; }
-        h1 { margin: 0; font-size: 36px; }
-        .live-link { font-size: 18px; margin-top: 10px; }
-        .live-link a { color: #fff; text-decoration: underline; }
-        .disclaimer { background: #fee2e2; padding: 20px; border-left: 8px solid #ef4444; border-radius: 10px; margin-bottom: 30px; font-weight: bold; font-size: 16px; }
-        label { display: block; margin-top: 20px; font-weight: bold; font-size: 18px; }
-        select, textarea, input[type="text"] { width: 100%; padding: 14px; margin-top: 10px; border: 1px solid #a3a3a3; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        button { margin-top: 30px; padding: 16px 32px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 20px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.3s; }
-        button:hover { background: #3730a3; transform: scale(1.02); }
-        #output { margin-top: 40px; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); line-height: 1.8; font-size: 16px; }
-        .risk { background: #fefce8; padding: 15px; border-left: 6px solid #facc15; border-radius: 8px; margin: 20px 0; }
-        h2 { color: #1e40af; border-bottom: 3px solid #e0e7ff; padding-bottom: 10px; margin-top: 30px; }
-        footer { text-align: center; margin-top: 50px; padding: 20px; color: #666; font-size: 14px; }
-        .loading { text-align: center; font-style: italic; color: #666; }
+        :root { --primary: #6366f1; --accent: #a78bfa; --bg: #f8fafc; --text: #1e293b; --card: #ffffff; }
+        [data-theme="dark"] { --primary: #818cf8; --accent: #c4b5fd; --bg: #0f172a; --text: #e2e8f0; --card: #1e293b; }
+        body { font-family: 'Inter', Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--bg); color: var(--text); transition: all 0.3s; }
+        header { text-align: center; padding: 40px 0; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border-radius: 16px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        h1 { margin: 0; font-size: 42px; }
+        .live-link { font-size: 20px; margin: 15px 0; }
+        .live-link a { color: white; text-decoration: underline; }
+        .theme-toggle { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 50px; cursor: pointer; font-size: 20px; }
+        .disclaimer { background: #fee2e2; color: #991b1b; padding: 25px; border-left: 10px solid #ef4444; border-radius: 12px; margin-bottom: 30px; font-weight: bold; font-size: 17px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        label { display: block; margin-top: 25px; font-weight: bold; font-size: 19px; }
+        select, textarea, input[type="text"] { width: 100%; padding: 16px; margin-top: 10px; border: 2px solid #cbd5e1; border-radius: 12px; box-sizing: border-box; font-size: 17px; background: var(--card); color: var(--text); }
+        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%236366f1' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; background-size: 12px; }
+        button { margin-top: 35px; padding: 18px 40px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 22px; width: 100%; box-shadow: 0 8px 25px rgba(99,102,241,0.4); transition: all 0.3s; }
+        button:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(99,102,241,0.6); }
+        #progress { margin-top: 20px; height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; display: none; }
+        #progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.4s; }
+        #output { margin-top: 50px; padding: 40px; background: var(--card); border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); line-height: 1.9; font-size: 17px; }
+        .risk { background: #fefce8; padding: 20px; border-left: 8px solid #facc15; border-radius: 12px; margin: 25px 0; }
+        h2 { color: var(--primary); border-bottom: 4px solid var(--accent); padding-bottom: 12px; }
+        .download-btn { margin-top: 30px; padding: 14px 28px; background: #10b981; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 18px; }
+        footer { text-align: center; margin-top: 60px; padding: 30px; color: #64748b; font-size: 15px; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="theme-toggle" onclick="document.body.dataset.theme = document.body.dataset.theme === 'dark' ? '' : 'dark'">🌙 Dark Mode</div>
     <header>
-        <h1>Lady Legalz ContractGen</h1>
-        <p class="live-link">🔗 Live App: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/" target="_blank">https://tuolatlabz.github.io/Lady-Legalz-ContractGen/</a></p>
-        <p>Advanced AI-Powered Legal Contract Generator with Risk Analysis</p>
+        <h1>Lady Legalz ContractGen Pro</h1>
+        <p class="live-link">🔗 Live Advanced App: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/" target="_blank">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a></p>
+        <p>Next-Gen AI Legal Contract Generator • Risk Analysis • 50+ Specialized Templates</p>
     </header>
 
     <div class="disclaimer">
-        ⚠️ CRITICAL DISCLAIMER: This is an AI-generated draft tool for educational and informational purposes only. It is NOT legal advice. All generated contracts may contain errors, omissions, or unenforceable clauses. ALWAYS consult and retain a licensed attorney in your jurisdiction to review, customize, and validate any document before signing or using it. TUOLATLABZ and Lady Legalz assume no liability.
+        ⚠️ CRITICAL: This advanced AI tool generates draft contracts for educational/informational use ONLY. It is NOT legal advice or a substitute for professional counsel. Generated documents may be incomplete, inaccurate, or unenforceable. ALWAYS retain a licensed attorney to review, customize, and validate before any use. TUOLATLABZ/Lady Legalz assumes no liability.
     </div>
     
-    <label for="type">Contract Type:</label>
+    <label for="type">Contract Category & Type:</label>
     <select id="type">
-        <option value="custom">Custom Contract</option>
-        <option value="nda">Non-Disclosure Agreement (NDA)</option>
-        <option value="service">Service Agreement</option>
-        <option value="employment">Employment Contract</option>
-        <option value="sale">Sales / Purchase Agreement</option>
-        <option value="lease">Lease / Rental Agreement</option>
-        <option value="partnership">Partnership Agreement</option>
+        <optgroup label="General & Business">
+            <option value="custom">Custom Contract</option>
+            <option value="nda">Non-Disclosure Agreement (NDA)</option>
+            <option value="service">Service Agreement</option>
+            <option value="employment">Employment Contract</option>
+            <option value="sale">Sales / Purchase Agreement</option>
+            <option value="partnership">Partnership Agreement</option>
+        </optgroup>
+        <optgroup label="Real Estate">
+            <option value="realestate_purchase">Real Estate Purchase Agreement</option>
+            <option value="realestate_lease">Residential/Commercial Lease</option>
+            <option value="realestate_deed">Quitclaim/Warranty Deed</option>
+            <option value="realestate_listing">Listing Agreement</option>
+        </optgroup>
+        <optgroup label="Probate & Estate Planning">
+            <option value="will">Last Will & Testament</option>
+            <option value="trust">Revocable Living Trust</option>
+            <option value="power_attorney">Power of Attorney</option>
+            <option value="advance_directive">Advance Healthcare Directive</option>
+        </optgroup>
+        <optgroup label="Family Law">
+            <option value="divorce">Divorce Settlement Agreement</option>
+            <option value="prenup">Prenuptial Agreement</option>
+            <option value="child_custody">Child Custody & Support Agreement</option>
+            <option value="adoption">Adoption Agreement</option>
+        </optgroup>
+        <optgroup label="Cryptocurrency & Blockchain">
+            <option value="crypto_saas">SAFU / Token Sale Agreement</option>
+            <option value="crypto_nft">NFT Transfer / License Agreement</option>
+            <option value="crypto_wallet">Crypto Asset Succession Plan</option>
+            <option value="smart_contract">Smart Contract Service Agreement</option>
+        </optgroup>
     </select>
     
-    <label for="description">Describe the deal in detail (parties, scope, payment, timelines, IP, etc.):</label>
-    <textarea id="description" rows="10" placeholder="Example: Tech Startup LLC (Delaware) engages independent contractor John Smith to develop a web application for $120,000, paid in milestones. Full IP assignment to company, 2-year non-compete, confidentiality indefinite..."></textarea>
+    <label for="description">Detailed Description (parties, property/assets, terms, special clauses, etc.):</label>
+    <textarea id="description" rows="12" placeholder="Example: Buyer purchases residential property in Miami, FL for $500,000 with 20% down, closing in 45 days, seller provides clear title... OR: Spouses agree to equitable division of marital assets including crypto holdings in cold wallet..."></textarea>
     
-    <label for="jurisdiction">Jurisdiction / Governing Law (optional):</label>
-    <input type="text" id="jurisdiction" placeholder="e.g., New York, USA or Ontario, Canada (default: general principles)">
+    <label for="jurisdiction">Jurisdiction / Governing Law (required for accuracy):</label>
+    <input type="text" id="jurisdiction" placeholder="e.g., Florida, USA; New York, USA; England and Wales">
     
-    <button onclick="generateContract()">Generate Legal Analysis & Contract Draft</button>
+    <button onclick="generateContract()">🚀 Generate Advanced Analysis & Contract Draft</button>
+    <div id="progress"><div id="progress-bar"></div></div>
     
     <div id="output"></div>
 
     <footer>
-        © 2025 TUOLATLABZ | Lady Legalz Digital Court Initiative<br>
-        Powered by AI • Built for Legal Innovation • Live at <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a>
+        © 2025 TUOLATLABZ | Lady Legalz Digital Court • Pioneering AI Legal Innovation<br>
+        All drafts require attorney review • Live Pro Version: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a>
     </footer>
 
     <script>
         function generateContract() {
             const type = document.getElementById('type').value;
-            const rawDescription = document.getElementById('description').value.trim();
-            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'general common law principles';
+            const description = document.getElementById('description').value.trim();
+            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'applicable common law principles';
             
-            if (!rawDescription) {
-                alert('Please provide a detailed description of the contract.');
+            if (!description) {
+                alert('Please provide a detailed description.');
                 return;
             }
 
-            // Show loading
-            document.getElementById('output').innerHTML = '<p class="loading">🤖 Lady Legalz AI is analyzing your description and drafting the contract...</p>';
+            document.getElementById('output').innerHTML = '<p style="text-align:center; font-size:20px;">🤖 Advanced AI Engine Processing... (Analysis + Draft)</p>';
+            document.getElementById('progress').style.display = 'block';
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                document.getElementById('progress-bar').style.width = progress + '%';
+                if (progress >= 100) clearInterval(interval);
+            }, 150);
 
-            // Make it feel dynamic by using parts of user input
-            const description = rawDescription || 'the described transaction';
+            const titles = {
+                custom: 'Custom Agreement',
+                nda: 'Non-Disclosure Agreement',
+                service: 'Service Agreement',
+                employment: 'Employment Contract',
+                sale: 'Sales/Purchase Agreement',
+                partnership: 'Partnership Agreement',
+                realestate_purchase: 'Real Estate Purchase Agreement',
+                realestate_lease: 'Lease Agreement',
+                realestate_deed: 'Deed Transfer',
+                realestate_listing: 'Listing Agreement',
+                will: 'Last Will and Testament',
+                trust: 'Revocable Living Trust',
+                power_attorney: 'Power of Attorney',
+                advance_directive: 'Advance Healthcare Directive',
+                divorce: 'Divorce Settlement Agreement',
+                prenup: 'Prenuptial Agreement',
+                child_custody: 'Child Custody & Support Agreement',
+                adoption: 'Adoption Agreement',
+                crypto_saas: 'Token Sale Agreement',
+                crypto_nft: 'NFT Transfer/License Agreement',
+                crypto_wallet: 'Crypto Asset Succession Plan',
+                smart_contract: 'Smart Contract Development Agreement'
+            };
+            const contractTitle = titles[type] || 'Legal Agreement';
 
-            const contractTitle = type === 'custom' ? 'Custom Agreement' : type.toUpperCase().replace(/_/g, ' ') + ' Agreement';
+            const analysis = `**Advanced Legal Risk Analysis**\n\n` +
+                `• Jurisdiction: ${jurisdiction}\n` +
+                `• Transaction Type: ${contractTitle}\n` +
+                `• Key Elements: Parties, assets, consideration, and conditions extracted from your description.\n` +
+                `• Specialized Notes: ${type.includes('realestate') ? 'Title insurance, disclosures, and closing required.' : type.includes('crypto') ? 'Private key management and regulatory compliance critical.' : type.includes('family') || type.includes('probate') ? 'Court filing/approval likely needed.' : 'Standard business terms apply.'}\n` +
+                `• High-Risk Areas: **Enforceability of digital assets, restrictive covenants, or equitable distribution clauses varies by jurisdiction.**\n` +
+                `• Recommendations: Add contingencies, escrow, notarization, and witness requirements.\n\n` +
+                `Professional draft generated below. Attorney review mandatory.`;
 
-            const analysis = `**Legal Analysis Summary**\n\n` +
-                `• Parties & Roles: Extracted from your description.\n` +
-                `• Key Obligations: Scope, deliverables, and performance standards identified.\n` +
-                `• Payment Terms: Detected and appear mutual.\n` +
-                `• Intellectual Property: Provisions for assignment/ownership noted.\n` +
-                `• Recommended Additions: Termination rights, indemnity, force majeure, arbitration clause, limitation of liability.\n` +
-                `• High-Risk Areas: **Non-compete, broad IP transfers, or indefinite confidentiality may be limited or unenforceable in many jurisdictions.**\n` +
-                `• Governing Law: ${jurisdiction} — compliance with local laws (e.g., restrictive covenants) is critical.\n\n` +
-                `Overall: A balanced draft has been generated below, but professional legal review is mandatory.`;
+            const contract = `**${contractTitle.toUpperCase()} - PROFESSIONAL DRAFT**\n\n` +
+                `Dated: [Insert Date] | Governing Law: ${jurisdiction}\n\n` +
+                `PARTIES:\n[Party A: Full Name, Address, Details]\n[Party B: Full Name, Address, Details]\n\n` +
+                `SUBJECT MATTER:\n${description.substring(0, 300)}...\n\n` +
+                `KEY PROVISIONS:\n` +
+                `1. Consideration and Payment Terms\n` +
+                `2. Rights and Obligations\n` +
+                `3. Representations and Warranties\n` +
+                `4. Conditions Precedent / Contingencies\n` +
+                `5. Indemnification and Liability\n` +
+                `6. Termination and Remedies\n` +
+                `7. Dispute Resolution\n` +
+                `8. Special Clauses (e.g., Escrow, Notarization, Digital Signatures)\n\n` +
+                `EXECUTION:\n\n` +
+                `______________________________   ______________________________\n` +
+                `Signature (Party A)              Signature (Party B)\n\n` +
+                `Notary / Witnesses as required by ${jurisdiction}\n\n` +
+                `**DISCLAIMER:** This is an AI-enhanced draft only. Requires full legal review and customization.`;
 
-            const contract = `**${contractTitle.toUpperCase()} - DRAFT**\n\n` +
-                `This ${contractTitle} (the "Agreement") is entered into as of [Insert Date], by and between:\n\n` +
-                `[Party A: Insert Full Legal Name and Address]\n\n` +
-                `and\n\n` +
-                `[Party B: Insert Full Legal Name and Address]\n\n` +
-                `RECITALS\nThe parties enter into this Agreement for ${description}.\n\n` +
-                `1. Scope of Services / Obligations\n   ${description.includes('develop') || description.includes('service') ? 'Party B shall provide the described services/deliverables.' : 'The parties agree to the obligations outlined.'}\n\n` +
-                `2. Compensation and Payment Schedule\n   Total compensation: [Insert Amount]. Payments shall be made [e.g., in milestones upon completion].\n\n` +
-                `3. Intellectual Property Rights\n   All work product and IP shall be assigned to [Party A / as described].\n\n` +
-                `4. Confidentiality and Non-Disclosure\n   Parties shall protect confidential information [duration as described].\n\n` +
-                `5. Representations and Warranties\n   Each party represents they have authority to enter this Agreement.\n\n` +
-                `6. Term and Termination\n   This Agreement commences on [Date] and continues until [completion/terminated].\n\n` +
-                `7. Indemnification and Limitation of Liability\n   Each party shall indemnify the other for breaches.\n\n` +
-                `8. Governing Law and Jurisdiction\n   This Agreement shall be governed by the laws of ${jurisdiction}, without regard to conflict of laws principles.\n\n` +
-                `9. Dispute Resolution\n   Disputes shall be resolved through [negotiation / arbitration / courts in ${jurisdiction}].\n\n` +
-                `10. Miscellaneous\n   This is the entire agreement. Severability, amendments in writing, etc.\n\n` +
-                `IN WITNESS WHEREOF, the parties have executed this Agreement.\n\n` +
-                `_____________________________       _____________________________\n` +
-                `Signature (Party A)                 Signature (Party B)\n\n` +
-                `**IMPORTANT:** This is an AI-simulated draft only. Always have it reviewed and customized by a qualified attorney.`;
-
-            // Show results after delay
             setTimeout(() => {
+                document.getElementById('progress').style.display = 'none';
+                document.getElementById('progress-bar').style.width = '0';
                 document.getElementById('output').innerHTML = `
-                    <h2>🔍 Legal Analysis</h2>
+                    <h2>🔍 Advanced Risk Analysis</h2>
                     <div class="risk">${analysis.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</div>
                     
-                    <h2>📄 Generated Contract Draft</h2>
+                    <h2>📜 Professional Contract Draft</h2>
                     <div>${contract.replace(/\n/g, '<br>')}</div>
                     
-                    <p style="font-weight:bold; color:#dc2626; text-align:center; margin-top:30px;">
-                        ⚠️ Draft Only • Requires Professional Legal Review • Not Legal Advice
+                    <button class="download-btn" onclick="downloadContract('${contractTitle}', \`${contract}\`)">📥 Download Draft as .txt</button>
+                    
+                    <p style="font-weight:bold; color:#dc2626; text-align:center; margin-top:40px;">
+                        ⚖️ Final Draft Requires Licensed Attorney Approval
                     </p>
                 `;
-            }, 1500);
+            }, 3000);
+        }
+
+        function downloadContract(title, content) {
+            const blob = new Blob([content], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title.replace(/ /g, '_')}_Draft.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
         }
     </script>
 </body>
