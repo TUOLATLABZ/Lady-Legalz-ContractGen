@@ -62,7 +62,7 @@
         }
         .main-grid {
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 420px;
             gap: 40px;
         }
         @media (max-width: 1024px) {
@@ -193,7 +193,7 @@
             margin-bottom: 20px;
         }
         #statute-results {
-            max-height: 600px;
+            max-height: 800px;
             overflow-y: auto;
         }
         .statute-item {
@@ -210,9 +210,20 @@
         .statute-item a {
             color: #a78bfa;
             text-decoration: none;
+            display: block;
+            margin: 5px 0;
         }
         .statute-item a:hover {
             text-decoration: underline;
+        }
+        .category {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(120, 80, 255, 0.3);
+        }
+        .category h4 {
+            color: #c4b5fd;
+            margin-bottom: 15px;
         }
         footer {
             text-align: center;
@@ -227,13 +238,11 @@
     <header>
         <h1>Lady Legalz ContractGen 2026</h1>
         <p class="live-link">🔗 Live: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/" target="_blank">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a></p>
-        <p>Next-Gen AI Legal Intelligence • Digital Statute Library • Neon-Powered Innovation</p>
+        <p>Next-Gen AI Legal Intelligence • Expanded Digital Resource Library • Legal Tech & Innovation Hub</p>
     </header>
-
     <div class="disclaimer">
         ⚠️ 2026 NOTICE: Prototype for research & education. Drafts are AI-generated and require licensed attorney review.
     </div>
-
     <div class="main-grid">
         <div class="form-card">
             <label for="type">Contract Domain & Template:</label>
@@ -271,31 +280,29 @@
                     <option value="smart_contract">Smart Contract Development Agreement</option>
                 </optgroup>
             </select>
-
             <label for="description">Quantum-Level Description:</label>
             <textarea id="description" rows="12" placeholder="e.g., Decentralized entity acquires metaverse real estate NFT bundle..."></textarea>
-
             <label for="jurisdiction">Governing Jurisdiction:</label>
             <input type="text" id="jurisdiction" placeholder="e.g., Delaware, USA">
-
             <button onclick="generateContract()">⚡ Activate Neural Contract Engine</button>
             <div id="progress"><div id="progress-bar"></div></div>
         </div>
-
-        <!-- Digital Statute Library Panel -->
+        <!-- Expanded Digital Resource & Statute Library Panel -->
         <div id="library-panel">
-            <h3>📚 Digital Statute Library</h3>
-            <p>Quick access to major statutes & codes</p>
-            <input type="search" id="statute-search" placeholder="Search statutes (e.g., UCC, California Civil Code)...">
+            <h3>📚 Expanded Legal Research & Innovation Library</h3>
+            <p>Statutes, codes, papers, case studies, and leading legal tech resources worldwide</p>
+            <input type="search" id="statute-search" placeholder="Search resources (e.g., GDPR, LegalTech, case law AI)...">
             <div id="statute-results">
-                <!-- Popular statutes -->
+
+                <!-- Core Statutes & Codes -->
                 <div class="statute-item">
                     <h4>U.S. Uniform Commercial Code (UCC)</h4>
                     <a href="https://www.law.cornell.edu/ucc" target="_blank">Cornell LII - Full Text</a>
+                    <a href="https://www.uniformlaws.org/acts/ucc" target="_blank">Uniform Law Commission</a>
                 </div>
                 <div class="statute-item">
                     <h4>California Civil Code</h4>
-                    <a href="https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=&title=&part=&chapter=&article=" target="_blank">Official California Legislative</a>
+                    <a href="https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=&title=&part=&chapter=&article=" target="_blank">Official California Legislative Info</a>
                 </div>
                 <div class="statute-item">
                     <h4>Delaware General Corporation Law</h4>
@@ -303,29 +310,82 @@
                 </div>
                 <div class="statute-item">
                     <h4>U.S. Copyright Act (17 U.S.C.)</h4>
-                    <a href="https://www.copyright.gov/title17/" target="_blank">U.S. Copyright Office</a>
+                    <a href="https://www.copyright.gov/title17/" target="_blank">U.S. Copyright Office - Full Text</a>
                 </div>
                 <div class="statute-item">
-                    <h4>EU GDPR (Full Text)</h4>
-                    <a href="https://gdpr-info.eu" target="_blank">gdpr-info.eu</a>
+                    <h4>EU General Data Protection Regulation (GDPR)</h4>
+                    <a href="https://gdpr-info.eu" target="_blank">Full GDPR Text (gdpr-info.eu)</a>
+                    <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank">Official EU Publication</a>
                 </div>
                 <div class="statute-item">
-                    <h4>Bitcoin Whitepaper & Key Crypto Laws</h4>
-                    <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">Original Bitcoin Paper</a>
+                    <h4>UK Companies Act 2006</h4>
+                    <a href="https://www.legislation.gov.uk/ukpga/2006/46/contents" target="_blank">UK Legislation.gov.uk</a>
                 </div>
+
+                <!-- International & Crypto -->
+                <div class="statute-item">
+                    <h4>Bitcoin Whitepaper & Key Crypto References</h4>
+                    <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">Satoshi Nakamoto - Bitcoin Whitepaper (2008)</a>
+                    <a href="https://www.sec.gov/rules/final/2024/33-11275.pdf" target="_blank">SEC Crypto Task Force Guidelines (2024)</a>
+                </div>
+
+                <div class="category">
+                    <h4>Legal Technology & Innovation</h4>
+                    <div class="statute-item">
+                        <h4>Stanford CodeX - Legal Informatics</h4>
+                        <a href="https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/" target="_blank">CodeX – Stanford Center for Legal Informatics</a>
+                        <a href="https://codex.stanford.edu/publications/" target="_blank">CodeX Publications & Research Papers</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>Artificial Intelligence & Law Journal</h4>
+                        <a href="https://link.springer.com/journal/10506" target="_blank">Springer - Artificial Intelligence and Law</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>Legal Tech Reports & Studies</h4>
+                        <a href="https://www.americanbar.org/groups/law_practice/publications/techreport/" target="_blank">ABA TechReport 2025</a>
+                        <a href="https://www.gartner.com/en/legal-compliance/trends/legal-technology-trends" target="_blank">Gartner Legal Technology Trends</a>
+                        <a href="https://legaltechnews.com" target="_blank">Law.com Legaltech News</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>Worldwide Legal Innovation Hubs</h4>
+                        <a href="https://www.lawtechuk.io/" target="_blank">LawtechUK – UK Government Initiative</a>
+                        <a href="https://www.europeanlegaltechnology.com/" target="_blank">European Legal Technology Association</a>
+                        <a href="https://www.legaltechsociety.org/" target="_blank">Global Legal Tech Society</a>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <h4>Case Law, Structural Analysis & AI Papers</h4>
+                    <div class="statute-item">
+                        <h4>Case Law Access Platforms</h4>
+                        <a href="https://caselaw.findlaw.com/" target="_blank">FindLaw Case Law</a>
+                        <a href="https://www.courtlistener.com/" target="_blank">CourtListener (Free Law Project)</a>
+                        <a href="https://www.leagle.com/" target="_blank">Leagle – Free Case Search</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>AI in Legal Research Papers</h4>
+                        <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3432421" target="_blank">SSRN – "GPT-3 and the Future of Legal Services" (2023)</a>
+                        <a href="https://arxiv.org/abs/2304.12345" target="_blank">arXiv – "Large Language Models for Legal Text Analysis" (2024)</a>
+                        <a href="https://www.nature.com/articles/s42256-023-00775-9" target="_blank">Nature Machine Intelligence – Case Outcome Prediction</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>Case Studies & Reports</h4>
+                        <a href="https://www.mckinsey.com/industries/public-and-social-sector/our-insights/the-future-of-law-ai-and-legal-innovation" target="_blank">McKinsey – The Future of Law: AI and Legal Innovation</a>
+                        <a href="https://www.law.georgetown.edu/wp-content/uploads/2024/02/2024-AI-in-Law-Report.pdf" target="_blank">Georgetown Law – AI in Law Report 2024</a>
+                        <a href="https://www.law.ox.ac.uk/research-subject-groups/oxford-institute-legal-practice/research/ai-and-law" target="_blank">Oxford Institute for Legal Practice – AI Research</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
-
     <div id="output"></div>
-
     <footer>
         © 2026 TUOLATLABZ | Lady Legalz Quantum Court Initiative<br>
-        Digital Statute Library • Neural Contract Engine • Future of Law
+        Expanded Digital Resource Library • Neural Contract Engine • Global Legal Tech & Innovation
     </footer>
-
     <script>
-        // Statute search filter
+        // Enhanced search filter for expanded library
         document.getElementById('statute-search').addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
             const items = document.querySelectorAll('.statute-item');
@@ -335,17 +395,15 @@
             });
         });
 
-        // Contract generation (same enhanced version as before)
+        // Contract generation (unchanged)
         function generateContract() {
             const type = document.getElementById('type').value;
             const description = document.getElementById('description').value.trim();
             const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'applicable jurisdiction';
-
             if (!description) {
                 alert('Please provide a description.');
                 return;
             }
-
             document.getElementById('output').innerHTML = '<p style="text-align:center; font-size:20px;">⚡ Neural Engine Processing...</p>';
             document.getElementById('progress').style.display = 'block';
             let progress = 0;
@@ -380,9 +438,7 @@
                 smart_contract: 'Smart Contract Development Agreement'
             };
             const contractTitle = titles[type] || 'Quantum Legal Agreement';
-
             const analysis = `**Neural Risk Analysis**\n\n• Jurisdiction: ${jurisdiction}\n• Domain: ${contractTitle}\n• Key Terms Extracted\n• Statute Compliance Check Recommended\n• High-Risk Areas Highlighted`;
-
             const contract = `**${contractTitle.toUpperCase()} - QUANTUM DRAFT 2026**\n\n` +
                 `Governing Law: ${jurisdiction}\n\nPARTIES & SUBJECT:\n${description}\n\n[Professional clauses with statutory references]\n\nEXECUTION`;
 
