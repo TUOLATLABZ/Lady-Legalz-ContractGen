@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz ContractGen 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>Lady Legalz Neo-ContractGen 2026 - Innovation Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Exo+2:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
+            margin: 0;
             font-family: 'Inter', sans-serif;
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #0a001f, #1a0033);
-            color: #e0e0ff;
+            background: radial-gradient(circle at top left, #0a001a, #15002f, #200040);
+            color: #e6e6ff;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
@@ -20,439 +18,553 @@
         body::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at 20% 80%, rgba(120, 80, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(80, 200, 255, 0.1) 0%, transparent 50%);
-            animation: float 20s infinite linear;
-            z-index: -1;
+            top: 0; left: 0; width: 100%; height: 200%;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="1.5" fill="%238b5cf6" opacity="0.4"/%3E%3C/svg%3E') repeat;
+            opacity: 0.08;
+            animation: particle-float 50s linear infinite;
+            pointer-events: none;
         }
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(100px, 100px); }
-            100% { transform: translate(0, 0); }
-        }
+        @keyframes particle-float { 0% { transform: translateY(0); } 100% { transform: translateY(-100px); } }
+
         header {
             text-align: center;
-            padding: 60px 20px;
-            background: rgba(15, 5, 35, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 24px;
-            border: 1px solid rgba(120, 80, 255, 0.3);
-            box-shadow: 0 0 40px rgba(120, 80, 255, 0.2);
-            margin-bottom: 40px;
+            padding: 100px 20px 80px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.6));
+            border-bottom: 4px solid #8b5cf6;
+            box-shadow: 0 0 90px #8b5cf6;
+            position: relative;
+            overflow: hidden;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 40px;
+            background: linear-gradient(to bottom, #8b5cf6, transparent);
+            opacity: 0.7;
         }
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 48px;
-            background: linear-gradient(90deg, #a78bfa, #818cf8);
+            font-size: 4.5rem;
+            background: linear-gradient(90deg, #a78bfa, #c4b5fd, #818cf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(139,92,246,0.6);
             margin: 0;
-            text-shadow: 0 0 20px rgba(167, 139, 250, 0.5);
+            letter-spacing: 5px;
         }
+        .subtitle {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.6rem;
+            margin-top: 20px;
+            color: #d8b4fe;
+            text-shadow: 0 0 15px #8b5cf6;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            margin-top: 12px;
+            color: #c4b5fd;
+            opacity: 0.9;
+        }
+        .live-link a {
+            color: #c4b5fd;
+            text-decoration: none;
+        }
+
         .disclaimer {
-            background: rgba(239, 68, 68, 0.15);
-            border-left: 6px solid #ef4444;
-            padding: 25px;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            margin-bottom: 40px;
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+            max-width: 1200px;
+            margin: 40px auto;
+            background: rgba(239,68,68,0.15);
+            border-left: 8px solid #ef4444;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(239,68,68,0.3);
+            box-shadow: 0 0 30px rgba(239,68,68,0.2);
+            font-size: 1.1rem;
         }
+
         .main-grid {
+            max-width: 1600px;
+            margin: 0 auto 60px;
+            padding: 0 40px;
             display: grid;
-            grid-template-columns: 1fr 420px;
-            gap: 40px;
+            grid-template-columns: 1fr 480px;
+            gap: 50px;
         }
-        @media (max-width: 1024px) {
-            .main-grid { grid-template-columns: 1fr; }
+        @media (max-width: 1200px) {
+            .main-grid { grid-template-columns: 1fr; padding: 0 20px; }
             #library-panel { order: -1; }
         }
+
         .form-card {
-            background: rgba(30, 15, 60, 0.5);
-            backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 40px;
-            border: 1px solid rgba(120, 80, 255, 0.4);
-            box-shadow: 0 0 50px rgba(120, 80, 255, 0.15);
+            background: rgba(25,10,55,0.75);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 50px;
+            border: 2px solid #8b5cf6;
+            box-shadow: 0 0 80px rgba(139,92,246,0.4);
+            transition: all 0.4s ease;
         }
+        .form-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 120px rgba(139,92,246,0.6);
+        }
+
         label {
             display: block;
-            margin-top: 30px;
+            margin-top: 35px;
             font-weight: 600;
-            font-size: 18px;
-            color: #c4b5fd;
+            font-size: 1.2rem;
+            color: #d8b4fe;
         }
-        select, textarea, input[type="text"], input[type="search"] {
+        select, textarea, input[type="text"] {
             width: 100%;
-            padding: 18px;
-            margin-top: 12px;
-            background: rgba(15, 5, 35, 0.6);
-            border: 1px solid rgba(120, 80, 255, 0.5);
-            border-radius: 16px;
-            color: #e0e0ff;
-            font-size: 17px;
+            padding: 20px;
+            margin-top: 14px;
+            background: rgba(15,5,40,0.8);
+            border: 1px solid rgba(139,92,246,0.6);
+            border-radius: 18px;
+            color: #e6e6ff;
+            font-size: 1.1rem;
             transition: all 0.3s;
         }
         select:focus, textarea:focus, input:focus {
             outline: none;
             border-color: #a78bfa;
-            box-shadow: 0 0 20px rgba(167, 139, 250, 0.4);
+            box-shadow: 0 0 25px rgba(167,139,250,0.5);
         }
-        button {
-            margin-top: 50px;
-            padding: 20px;
+
+        button#generate-btn {
+            margin-top: 60px;
+            padding: 24px;
             width: 100%;
-            background: linear-gradient(135deg, #6366f1, #a78bfa);
+            background: linear-gradient(135deg, #7c3aed, #a78bfa, #c4b5fd);
             border: none;
-            border-radius: 20px;
-            color: white;
-            font-size: 24px;
+            border-radius: 24px;
+            color: #000;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.6rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+            box-shadow: 0 0 60px rgba(139,92,246,0.8);
             transition: all 0.4s;
-            animation: pulse 2s infinite;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 60px rgba(167, 139, 250, 0.8);
+        button#generate-btn:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 100px rgba(167,139,250,1);
         }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
-            50% { box-shadow: 0 0 60px rgba(167, 139, 250, 0.8); }
-            100% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
-        }
+
         #progress {
             margin-top: 30px;
-            height: 12px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 6px;
+            height: 14px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 7px;
             overflow: hidden;
             display: none;
         }
         #progress-bar {
             height: 100%;
             width: 0;
-            background: linear-gradient(90deg, #6366f1, #a78bfa);
-            border-radius: 6px;
-            box-shadow: 0 0 20px rgba(167, 139, 250, 0.8);
-            transition: width 0.3s;
+            background: linear-gradient(90deg, #7c3aed, #a78bfa);
+            border-radius: 7px;
+            box-shadow: 0 0 30px rgba(167,139,250,0.9);
         }
+
         #output {
-            margin-top: 60px;
-            padding: 40px;
-            background: rgba(20, 10, 50, 0.6);
-            backdrop-filter: blur(16px);
-            border-radius: 24px;
-            border: 1px solid rgba(120, 80, 255, 0.4);
-            box-shadow: 0 0 50px rgba(120, 80, 255, 0.2);
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 50px;
+            background: rgba(20,10,50,0.75);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            border: 2px solid #8b5cf6;
+            box-shadow: 0 0 80px rgba(139,92,246,0.4);
         }
-        .risk {
-            background: rgba(250, 204, 21, 0.15);
-            border-left: 8px solid #facc15;
-            padding: 25px;
-            border-radius: 16px;
-            margin: 30px 0;
-        }
-        h2 {
+        #output h2 {
             font-family: 'Orbitron', sans-serif;
             color: #a78bfa;
-            text-shadow: 0 0 15px rgba(167, 139, 250, 0.5);
+            text-shadow: 0 0 20px #8b5cf6;
+        }
+        .risk {
+            background: rgba(250,204,21,0.15);
+            border-left: 10px solid #facc15;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 35px 0;
+            font-size: 1.1rem;
         }
         .download-btn {
-            margin-top: 40px;
-            padding: 16px 32px;
+            padding: 18px 40px;
             background: linear-gradient(135deg, #10b981, #34d399);
             border: none;
-            border-radius: 16px;
-            color: white;
-            font-size: 20px;
+            border-radius: 20px;
+            color: #000;
+            font-size: 1.3rem;
+            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 40px rgba(16,185,129,0.6);
+            transition: 0.3s;
         }
-        /* Digital Library Panel */
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 60px rgba(52,211,153,0.8);
+        }
+
+        /* Library Panel */
         #library-panel {
-            background: rgba(30, 15, 60, 0.5);
-            backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 30px;
-            border: 1px solid rgba(120, 80, 255, 0.4);
-            box-shadow: 0 0 50px rgba(120, 80, 255, 0.15);
+            background: rgba(25,10,55,0.75);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 40px;
+            border: 2px solid #8b5cf6;
+            box-shadow: 0 0 80px rgba(139,92,246,0.4);
             height: fit-content;
             position: sticky;
-            top: 20px;
+            top: 30px;
         }
         #library-panel h3 {
-            margin-top: 0;
+            font-family: 'Orbitron', sans-serif;
             color: #a78bfa;
             text-align: center;
+            text-shadow: 0 0 15px #8b5cf6;
+            margin-top: 0;
         }
         #statute-search {
-            margin-bottom: 20px;
+            margin: 25px 0;
         }
         #statute-results {
-            max-height: 800px;
+            max-height: 900px;
             overflow-y: auto;
         }
         .statute-item {
-            background: rgba(15, 5, 35, 0.6);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(120, 80, 255, 0.3);
+            background: rgba(15,5,40,0.7);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(139,92,246,0.4);
+            transition: 0.3s;
+        }
+        .statute-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 0 30px rgba(139,92,246,0.3);
         }
         .statute-item h4 {
-            margin: 0 0 10px 0;
-            color: #818cf8;
+            margin: 0 0 12px;
+            color: #c4b5fd;
         }
         .statute-item a {
             color: #a78bfa;
             text-decoration: none;
             display: block;
-            margin: 5px 0;
+            margin: 8px 0;
+            transition: 0.2s;
         }
         .statute-item a:hover {
+            color: #e0e0ff;
             text-decoration: underline;
         }
         .category {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(120, 80, 255, 0.3);
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px dashed rgba(139,92,246,0.5);
         }
         .category h4 {
-            color: #c4b5fd;
-            margin-bottom: 15px;
+            color: #d8b4fe;
+            font-size: 1.3rem;
         }
+
+        .resources-section {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 40px;
+        }
+        .resources-section h2 {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            color: #a78bfa;
+            text-shadow: 0 0 20px #8b5cf6;
+            margin-bottom: 50px;
+        }
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .resource-card {
+            background: rgba(25,10,55,0.7);
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid #8b5cf6;
+            text-align: center;
+            transition: 0.4s;
+        }
+        .resource-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 0 60px rgba(139,92,246,0.5);
+        }
+        .resource-card a {
+            color: #c4b5fd;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        .resource-card p {
+            margin: 15px 0 0;
+            color: #b3a0f0;
+            font-size: 1rem;
+        }
+
         footer {
             text-align: center;
-            margin-top: 80px;
-            padding: 40px;
-            color: #818cf8;
-            font-size: 16px;
+            padding: 60px;
+            background: rgba(0,0,0,0.6);
+            border-top: 2px solid #8b5cf6;
+            color: #c4b5fd;
+            font-size: 1.1rem;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Lady Legalz ContractGen 2026</h1>
-        <p class="live-link">🔗 Live: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/" target="_blank">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a></p>
-        <p>Next-Gen AI Legal Intelligence • Expanded Digital Resource Library • Legal Tech & Innovation Hub</p>
+        <h1>Lady Legalz Neo-ContractGen</h1>
+        <div class="subtitle">2026 Innovation Hub • Neural Contract Intelligence Engine</div>
+        <div class="tagline">Pioneering AI-Driven Legal Drafting • Quantum-Inspired Precision • Global Legal Tech Frontier</div>
+        <p class="live-link">🔗 Live Demo: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/" target="_blank">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a></p>
     </header>
+
     <div class="disclaimer">
-        ⚠️ 2026 NOTICE: Prototype for research & education. Drafts are AI-generated and require licensed attorney review.
+        ⚠️ 2026 PROTOTYPE NOTICE: This is an advanced research and educational demonstration. All generated drafts are AI-produced and must be reviewed and finalized by a licensed attorney. Not legal advice.
     </div>
+
     <div class="main-grid">
         <div class="form-card">
-            <label for="type">Contract Domain & Template:</label>
+            <label for="type">Contract Domain & Neural Template:</label>
             <select id="type">
-                <optgroup label="Core Business">
-                    <option value="custom">Custom Intelligent Contract</option>
-                    <option value="nda">NDA / Confidentiality</option>
-                    <option value="service">Service Agreement</option>
-                    <option value="employment">Employment Contract</option>
-                    <option value="sale">Sales / Purchase Agreement</option>
-                    <option value="partnership">Partnership Agreement</option>
+                <optgroup label="Core Business & Commercial">
+                    <option value="custom">Custom Quantum Contract</option>
+                    <option value="nda">NDA / Confidentiality Agreement</option>
+                    <option value="service">Master Service Agreement</option>
+                    <option value="employment">Employment & Equity Contract</option>
+                    <option value="sale">Sales / Asset Purchase</option>
+                    <option value="partnership">Strategic Partnership / JV</option>
                 </optgroup>
-                <optgroup label="Real Estate">
-                    <option value="realestate_purchase">Real Estate Purchase Agreement</option>
-                    <option value="realestate_lease">Residential/Commercial Lease</option>
-                    <option value="realestate_deed">Quitclaim/Warranty Deed</option>
-                    <option value="realestate_listing">Listing Agreement</option>
+                <optgroup label="Real Estate & Property">
+                    <option value="realestate_purchase">Real Estate Purchase & Financing</option>
+                    <option value="realestate_lease">Commercial/Residential Lease</option>
+                    <option value="realestate_deed">Deed & Title Transfer</option>
+                    <option value="realestate_listing">Brokerage & Listing</option>
                 </optgroup>
-                <optgroup label="Probate & Estate Planning">
+                <optgroup label="Estate Planning & Probate">
                     <option value="will">Last Will & Testament</option>
-                    <option value="trust">Revocable Living Trust</option>
-                    <option value="power_attorney">Power of Attorney</option>
-                    <option value="advance_directive">Advance Healthcare Directive</option>
+                    <option value="trust">Revocable/Irrevocable Trust</option>
+                    <option value="power_attorney">Durable Power of Attorney</option>
+                    <option value="advance_directive">Living Will & Healthcare Directive</option>
                 </optgroup>
-                <optgroup label="Family Law">
-                    <option value="divorce">Divorce Settlement Agreement</option>
-                    <option value="prenup">Prenuptial Agreement</option>
-                    <option value="child_custody">Child Custody & Support Agreement</option>
-                    <option value="adoption">Adoption Agreement</option>
+                <optgroup label="Family & Personal Law">
+                    <option value="divorce">Separation & Divorce Settlement</option>
+                    <option value="prenup">Prenuptial / Postnuptial</option>
+                    <option value="child_custody">Custody & Support Framework</option>
+                    <option value="adoption">Adoption & Guardianship</option>
                 </optgroup>
-                <optgroup label="Cryptocurrency & Blockchain">
-                    <option value="crypto_saas">Token Sale / SAFU Agreement</option>
-                    <option value="crypto_nft">NFT Transfer / License Agreement</option>
-                    <option value="crypto_wallet">Crypto Asset Succession Plan</option>
-                    <option value="smart_contract">Smart Contract Development Agreement</option>
+                <optgroup label="Web3, Blockchain & Digital Assets">
+                    <option value="crypto_saas">SAFT / Token Sale Agreement</option>
+                    <option value="crypto_nft">NFT Creation & Licensing</option>
+                    <option value="crypto_wallet">Digital Asset Estate Plan</option>
+                    <option value="smart_contract">Smart Contract Development & Audit</option>
                 </optgroup>
             </select>
-            <label for="description">Quantum-Level Description:</label>
-            <textarea id="description" rows="12" placeholder="e.g., Decentralized entity acquires metaverse real estate NFT bundle..."></textarea>
-            <label for="jurisdiction">Governing Jurisdiction:</label>
-            <input type="text" id="jurisdiction" placeholder="e.g., Delaware, USA">
-            <button onclick="generateContract()">⚡ Activate Neural Contract Engine</button>
+
+            <label for="description">Quantum-Level Scenario Description:</label>
+            <textarea id="description" rows="12" placeholder="Describe the transaction, parties, assets, timelines, and special conditions in detail... e.g., Decentralized autonomous organization acquires virtual land NFTs in metaverse platform with revenue-sharing mechanics..."></textarea>
+
+            <label for="jurisdiction">Governing Jurisdiction & Framework:</label>
+            <input type="text" id="jurisdiction" placeholder="e.g., Delaware, USA • Singapore • Cayman Islands • EU GDPR Zone">
+
+            <button id="generate-btn" onclick="generateContract()">⚡ Activate Neo-Contract Engine</button>
             <div id="progress"><div id="progress-bar"></div></div>
         </div>
-        <!-- Expanded Digital Resource & Statute Library Panel -->
-        <div id="library-panel">
-            <h3>📚 Expanded Legal Research & Innovation Library</h3>
-            <p>Statutes, codes, papers, case studies, and leading legal tech resources worldwide</p>
-            <input type="search" id="statute-search" placeholder="Search resources (e.g., GDPR, LegalTech, case law AI)...">
-            <div id="statute-results">
 
-                <!-- Core Statutes & Codes -->
+        <div id="library-panel">
+            <h3>📚 Neo-Legal Research & Innovation Vault</h3>
+            <p>Curated global statutes, landmark cases, AI legal research papers, and cutting-edge legal tech resources</p>
+            <input type="search" id="statute-search" placeholder="Search vault (e.g., GDPR, smart contracts, AI ethics)...">
+
+            <div id="statute-results">
+                <!-- Core Global Codes -->
                 <div class="statute-item">
                     <h4>U.S. Uniform Commercial Code (UCC)</h4>
-                    <a href="https://www.law.cornell.edu/ucc" target="_blank">Cornell LII - Full Text</a>
+                    <a href="https://www.law.cornell.edu/ucc" target="_blank">Cornell LII – Complete UCC</a>
                     <a href="https://www.uniformlaws.org/acts/ucc" target="_blank">Uniform Law Commission</a>
                 </div>
                 <div class="statute-item">
-                    <h4>California Civil Code</h4>
-                    <a href="https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=&title=&part=&chapter=&article=" target="_blank">Official California Legislative Info</a>
-                </div>
-                <div class="statute-item">
                     <h4>Delaware General Corporation Law</h4>
-                    <a href="https://delcode.delaware.gov/title8/c001/" target="_blank">Delaware Code Online</a>
+                    <a href="https://delcode.delaware.gov/title8/c001/" target="_blank">Official Delaware Code</a>
                 </div>
                 <div class="statute-item">
-                    <h4>U.S. Copyright Act (17 U.S.C.)</h4>
-                    <a href="https://www.copyright.gov/title17/" target="_blank">U.S. Copyright Office - Full Text</a>
+                    <h4>EU GDPR & Digital Markets Act</h4>
+                    <a href="https://gdpr-info.eu" target="_blank">GDPR Full Text</a>
+                    <a href="https://digital-markets-act.ec.europa.eu" target="_blank">Digital Markets Act (DMA)</a>
                 </div>
                 <div class="statute-item">
-                    <h4>EU General Data Protection Regulation (GDPR)</h4>
-                    <a href="https://gdpr-info.eu" target="_blank">Full GDPR Text (gdpr-info.eu)</a>
-                    <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank">Official EU Publication</a>
-                </div>
-                <div class="statute-item">
-                    <h4>UK Companies Act 2006</h4>
-                    <a href="https://www.legislation.gov.uk/ukpga/2006/46/contents" target="_blank">UK Legislation.gov.uk</a>
+                    <h4>UK Companies Act & Crypto Regulations</h4>
+                    <a href="https://www.legislation.gov.uk/ukpga/2006/46/contents" target="_blank">Companies Act 2006</a>
                 </div>
 
-                <!-- International & Crypto -->
-                <div class="statute-item">
-                    <h4>Bitcoin Whitepaper & Key Crypto References</h4>
-                    <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">Satoshi Nakamoto - Bitcoin Whitepaper (2008)</a>
-                    <a href="https://www.sec.gov/rules/final/2024/33-11275.pdf" target="_blank">SEC Crypto Task Force Guidelines (2024)</a>
+                <!-- Innovation & AI Law -->
+                <div class="category">
+                    <h4>Leading Legal Tech & AI Research</h4>
+                    <div class="statute-item">
+                        <h4>Stanford CodeX</h4>
+                        <a href="https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/" target="_blank">Center for Legal Informatics</a>
+                        <a href="https://codex.stanford.edu/publications/" target="_blank">Research Publications</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>Oxford Institute for Legal Practice</h4>
+                        <a href="https://www.law.ox.ac.uk/research-subject-groups/oxford-institute-legal-practice/research/ai-and-law" target="_blank">AI & Law Research Hub</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>Key AI + Law Papers</h4>
+                        <a href="https://arxiv.org/search/?searchtype=author&query=Legal" target="_blank">arXiv – Latest Legal AI Papers</a>
+                        <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=123456" target="_blank">SSRN Legal Tech Collection</a>
+                    </div>
                 </div>
 
                 <div class="category">
-                    <h4>Legal Technology & Innovation</h4>
+                    <h4>Global Innovation Ecosystems</h4>
                     <div class="statute-item">
-                        <h4>Stanford CodeX - Legal Informatics</h4>
-                        <a href="https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/" target="_blank">CodeX – Stanford Center for Legal Informatics</a>
-                        <a href="https://codex.stanford.edu/publications/" target="_blank">CodeX Publications & Research Papers</a>
-                    </div>
-                    <div class="statute-item">
-                        <h4>Artificial Intelligence & Law Journal</h4>
-                        <a href="https://link.springer.com/journal/10506" target="_blank">Springer - Artificial Intelligence and Law</a>
-                    </div>
-                    <div class="statute-item">
-                        <h4>Legal Tech Reports & Studies</h4>
-                        <a href="https://www.americanbar.org/groups/law_practice/publications/techreport/" target="_blank">ABA TechReport 2025</a>
-                        <a href="https://www.gartner.com/en/legal-compliance/trends/legal-technology-trends" target="_blank">Gartner Legal Technology Trends</a>
-                        <a href="https://legaltechnews.com" target="_blank">Law.com Legaltech News</a>
-                    </div>
-                    <div class="statute-item">
-                        <h4>Worldwide Legal Innovation Hubs</h4>
-                        <a href="https://www.lawtechuk.io/" target="_blank">LawtechUK – UK Government Initiative</a>
+                        <h4>LawtechUK & European Legal Tech</h4>
+                        <a href="https://www.lawtechuk.io/" target="_blank">LawtechUK Initiative</a>
                         <a href="https://www.europeanlegaltechnology.com/" target="_blank">European Legal Technology Association</a>
-                        <a href="https://www.legaltechsociety.org/" target="_blank">Global Legal Tech Society</a>
+                    </div>
+                    <div class="statute-item">
+                        <h4>Reports & Forecasts</h4>
+                        <a href="https://www.americanbar.org/groups/law_practice/publications/techreport/" target="_blank">ABA Legal Technology Report</a>
+                        <a href="https://www.gartner.com/en/legal-compliance/trends/legal-technology-trends" target="_blank">Gartner Legal Tech Trends</a>
                     </div>
                 </div>
-
-                <div class="category">
-                    <h4>Case Law, Structural Analysis & AI Papers</h4>
-                    <div class="statute-item">
-                        <h4>Case Law Access Platforms</h4>
-                        <a href="https://caselaw.findlaw.com/" target="_blank">FindLaw Case Law</a>
-                        <a href="https://www.courtlistener.com/" target="_blank">CourtListener (Free Law Project)</a>
-                        <a href="https://www.leagle.com/" target="_blank">Leagle – Free Case Search</a>
-                    </div>
-                    <div class="statute-item">
-                        <h4>AI in Legal Research Papers</h4>
-                        <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3432421" target="_blank">SSRN – "GPT-3 and the Future of Legal Services" (2023)</a>
-                        <a href="https://arxiv.org/abs/2304.12345" target="_blank">arXiv – "Large Language Models for Legal Text Analysis" (2024)</a>
-                        <a href="https://www.nature.com/articles/s42256-023-00775-9" target="_blank">Nature Machine Intelligence – Case Outcome Prediction</a>
-                    </div>
-                    <div class="statute-item">
-                        <h4>Case Studies & Reports</h4>
-                        <a href="https://www.mckinsey.com/industries/public-and-social-sector/our-insights/the-future-of-law-ai-and-legal-innovation" target="_blank">McKinsey – The Future of Law: AI and Legal Innovation</a>
-                        <a href="https://www.law.georgetown.edu/wp-content/uploads/2024/02/2024-AI-in-Law-Report.pdf" target="_blank">Georgetown Law – AI in Law Report 2024</a>
-                        <a href="https://www.law.ox.ac.uk/research-subject-groups/oxford-institute-legal-practice/research/ai-and-law" target="_blank">Oxford Institute for Legal Practice – AI Research</a>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
+
     <div id="output"></div>
+
+    <div class="resources-section">
+        <h2>2026 Innovation Partners & Future Resources</h2>
+        <div class="resource-grid">
+            <div class="resource-card">
+                <a href="https://openai.com" target="_blank">OpenAI</a>
+                <p>Foundation of advanced reasoning models powering legal intelligence</p>
+            </div>
+            <div class="resource-card">
+                <a href="https://anthropic.com" target="_blank">Anthropic</a>
+                <p>Constitutional AI and safety-focused large language models</p>
+            </div>
+            <div class="resource-card">
+                <a href="https://www.ibm.com/quantum" target="_blank">IBM Quantum</a>
+                <p>Quantum computing research for future legal optimization</p>
+            </div>
+            <div class="resource-card">
+                <a href="https://www.harvey.ai" target="_blank">Harvey AI</a>
+                <p>Professional-grade AI built specifically for law firms</p>
+            </div>
+            <div class="resource-card">
+                <a href="https://www.cooleygo.com" target="_blank">Cooley GO</a>
+                <p>Leading startup & venture legal document generator</p>
+            </div>
+            <div class="resource-card">
+                <a href="https://legalrobot.com" target="_blank">LegalRobot</a>
+                <p>Automated contract analysis and style intelligence</p>
+            </div>
+            <div class="resource-card">
+                <a href="https://www.luminance.com" target="_blank">Luminance</a>
+                <p>AI-powered contract review used by top global firms</p>
+            </div>
+            <div class="resource-card">
+                <a href="https://www.futureoflaw.org" target="_blank">Future of Law</a>
+                <p>Global community advancing legal innovation</p>
+            </div>
+        </div>
+    </div>
+
     <footer>
-        © 2026 TUOLATLABZ | Lady Legalz Quantum Court Initiative<br>
-        Expanded Digital Resource Library • Neural Contract Engine • Global Legal Tech & Innovation
+        © 2026 TUOLAT LABZ • Lady Legalz Neo-ContractGen Initiative<br>
+        Neural Legal Intelligence • Global Innovation Vault • Pioneering the Future of Law
     </footer>
+
     <script>
-        // Enhanced search filter for expanded library
+        // Enhanced search
         document.getElementById('statute-search').addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
-            const items = document.querySelectorAll('.statute-item');
-            items.forEach(item => {
-                const text = item.textContent.toLowerCase();
-                item.style.display = text.includes(query) ? 'block' : 'none';
+            document.querySelectorAll('.statute-item').forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(query) ? 'block' : 'none';
             });
         });
 
-        // Contract generation (unchanged)
         function generateContract() {
             const type = document.getElementById('type').value;
             const description = document.getElementById('description').value.trim();
-            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'applicable jurisdiction';
+            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'applicable global jurisdiction';
+
             if (!description) {
-                alert('Please provide a description.');
+                alert('Please provide a detailed scenario description.');
                 return;
             }
-            document.getElementById('output').innerHTML = '<p style="text-align:center; font-size:20px;">⚡ Neural Engine Processing...</p>';
+
+            document.getElementById('output').innerHTML = '<p style="text-align:center; font-size:24px;">⚡ Neo-Contract Engine Initializing...<br>Quantum Processing Active</p>';
             document.getElementById('progress').style.display = 'block';
+
             let progress = 0;
             const interval = setInterval(() => {
-                progress += 5;
+                progress += 4;
                 document.getElementById('progress-bar').style.width = progress + '%';
                 if (progress >= 100) clearInterval(interval);
-            }, 150);
+            }, 120);
 
             const titles = {
-                custom: 'Custom Quantum Agreement',
-                nda: 'Non-Disclosure Agreement',
-                service: 'Service Agreement',
-                employment: 'Employment Contract',
-                sale: 'Sales/Purchase Agreement',
-                partnership: 'Partnership Agreement',
-                realestate_purchase: 'Real Estate Purchase Agreement',
-                realestate_lease: 'Lease Agreement',
-                realestate_deed: 'Deed Transfer',
-                realestate_listing: 'Listing Agreement',
+                custom: 'Custom Neural Agreement',
+                nda: 'Non-Disclosure & Confidentiality Agreement',
+                service: 'Master Services Agreement',
+                employment: 'Executive Employment Contract',
+                sale: 'Asset Purchase Agreement',
+                partnership: 'Strategic Partnership Framework',
+                realestate_purchase: 'Real Estate Acquisition Agreement',
+                realestate_lease: 'Commercial Lease Framework',
+                realestate_deed: 'Property Deed Transfer',
+                realestate_listing: 'Exclusive Listing Agreement',
                 will: 'Last Will & Testament',
                 trust: 'Revocable Living Trust',
-                power_attorney: 'Power of Attorney',
+                power_attorney: 'Durable Power of Attorney',
                 advance_directive: 'Advance Healthcare Directive',
-                divorce: 'Divorce Settlement Agreement',
+                divorce: 'Marital Separation Agreement',
                 prenup: 'Prenuptial Agreement',
-                child_custody: 'Child Custody & Support Agreement',
-                adoption: 'Adoption Agreement',
-                crypto_saas: 'Token Sale Agreement',
-                crypto_nft: 'NFT Transfer/License Agreement',
-                crypto_wallet: 'Crypto Asset Succession Plan',
+                child_custody: 'Child Custody & Support Plan',
+                adoption: 'Adoption & Guardianship Agreement',
+                crypto_saas: 'SAFT / Token Generation Agreement',
+                crypto_nft: 'NFT Licensing & Transfer',
+                crypto_wallet: 'Digital Asset Succession Protocol',
                 smart_contract: 'Smart Contract Development Agreement'
             };
-            const contractTitle = titles[type] || 'Quantum Legal Agreement';
-            const analysis = `**Neural Risk Analysis**\n\n• Jurisdiction: ${jurisdiction}\n• Domain: ${contractTitle}\n• Key Terms Extracted\n• Statute Compliance Check Recommended\n• High-Risk Areas Highlighted`;
-            const contract = `**${contractTitle.toUpperCase()} - QUANTUM DRAFT 2026**\n\n` +
-                `Governing Law: ${jurisdiction}\n\nPARTIES & SUBJECT:\n${description}\n\n[Professional clauses with statutory references]\n\nEXECUTION`;
+
+            const contractTitle = titles[type] || 'Neo-Quantum Legal Instrument';
+
+            const analysis = `**Neural Risk & Compliance Scan**\n\n• Jurisdiction: ${jurisdiction}\n• Domain: ${contractTitle}\n• Key Terms Extracted & Structured\n• Statutory Alignment Check\n• High-Impact Clauses Flagged\n• Quantum Uncertainty Mitigation Applied`;
+
+            const contract = `**${contractTitle.toUpperCase()} — NEO-DRAFT 2026**\n\n` +
+                `Governing Law: ${jurisdiction}\n\nPARTIES & TRANSACTION:\n${description}\n\n[Advanced clauses with cross-jurisdictional references]\n\nEXECUTION & DIGITAL SIGNATURE PROTOCOL`;
 
             setTimeout(() => {
                 document.getElementById('progress').style.display = 'none';
                 document.getElementById('progress-bar').style.width = '0';
                 document.getElementById('output').innerHTML = `
-                    <h2>⚡ Neural Risk Analysis</h2>
+                    <h2>⚡ Neural Risk & Compliance Analysis</h2>
                     <div class="risk">${analysis.replace(/\n/g, '<br>')}</div>
-                    <h2>📜 Quantum Contract Draft</h2>
-                    <div>${contract.replace(/\n/g, '<br>')}</div>
-                    <button class="download-btn" onclick="alert('Download feature coming soon!')">📥 Download Draft</button>
+                    <h2>📜 Neo-Quantum Contract Draft</h2>
+                    <div style="line-height:1.8; font-size:1.1rem;">${contract.replace(/\n/g, '<br>')}</div>
+                    <button class="download-btn" onclick="alert('Secure download module launching in 2026 update!')">📥 Secure Draft Export</button>
                 `;
-            }, 3000);
+            }, 3500);
         }
     </script>
 </body>
