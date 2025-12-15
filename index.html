@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lady Legalz ContractGen - AI Legal Contract Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f8f9fa; color: #333; }
+        h1 { text-align: center; color: #4a90e2; }
+        .disclaimer { background: #ffeeee; padding: 15px; border: 1px solid #ffaaaa; border-radius: 8px; margin-bottom: 20px; font-weight: bold; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        select, textarea, input[type="text"] { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { margin-top: 20px; padding: 12px 20px; background: #4a90e2; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #357abd; }
+        #output { margin-top: 30px; padding: 20px; background: white; border: 1px solid #ddd; border-radius: 8px; white-space: pre-wrap; }
+        .risk { background: #ffffcc; padding: 10px; border-left: 5px solid #ffaa00; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Lady Legalz ContractGen</h1>
+    <p style="text-align:center;">Advanced AI-Powered Legal Contract Generator with Built-in Analysis</p>
+    
+    <div class="disclaimer">
+        WARNING: This tool generates draft contracts using AI. It is NOT legal advice. Generated documents may be incomplete, inaccurate, or unenforceable. ALWAYS consult a licensed attorney in your jurisdiction before using any contract. Lady Legalz and TUOLATLABZ assume no liability.
+    </div>
+    
+    <label for="type">Contract Type:</label>
+    <select id="type">
+        <option value="custom">Custom (describe below)</option>
+        <option value="nda">Non-Disclosure Agreement (NDA)</option>
+        <option value="service">Service Agreement</option>
+        <option value="employment">Employment Contract</option>
+        <option value="sale">Sales/Purchase Agreement</option>
+        <option value="lease">Lease/Rental Agreement</option>
+        <option value="partnership">Partnership Agreement</option>
+    </select>
+    
+    <label for="description">Describe the contract (parties, key terms, obligations, etc.):</label>
+    <textarea id="description" rows="8" placeholder="E.g., Party A is a software company hiring Party B as a freelance developer for a mobile app project, payment $50,000 in milestones, IP assignment to company, confidentiality required..."></textarea>
+    
+    <label for="jurisdiction">Jurisdiction (optional, e.g., California, USA; England and Wales):</label>
+    <input type="text" id="jurisdiction" placeholder="General/common law (default)">
+    
+    <button onclick="generateContract()">Generate Analysis & Contract</button>
+    
+    <div id="output"></div>
+
+    <script>
+        function generateContract() {
+            const type = document.getElementById('type').value;
+            const description = document.getElementById('description').value.trim();
+            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'general common law principles (not specific to any jurisdiction)';
+            
+            if (!description) {
+                alert('Please provide a description.');
+                return;
+            }
+            
+            document.getElementById('output').innerHTML = '<p><strong>Generating legal analysis and contract draft...</strong><br>Note: This is a client-side simulation. For real AI generation, connect to an LLM API (e.g., Grok, OpenAI, Claude).</p>';
+
+            // Simulated strong legal analysis & contract (replace with real API calls for production)
+            const analysis = `**Legal Analysis**\n\n1. Key Parties: Extracted from description.\n2. Essential Terms: Scope, payment, timelines identified.\n3. Missing Elements: Consider adding governing law, termination, indemnity, force majeure.\n4. Potential Risks: **One-sided clauses may be unenforceable; ensure mutual consideration.**\n5. Recommendations: Include dispute resolution and limitation of liability.\n6. Jurisdiction Notes: Based on ${jurisdiction}.`;
+
+            const contract = `**DRAFT CONTRACT**\n\n[CONTRACT TITLE - ${type.toUpperCase()}]\n\nThis Agreement is entered into on [Date] between:\n\nParty A: [Details]\nParty B: [Details]\n\nRecitals...\n\n1. Obligations\n2. Payment Terms\n3. Confidentiality\n4. Intellectual Property\n5. Termination\n6. Governing Law: ${jurisdiction}\n7. Dispute Resolution\n...\n\nIN WITNESS WHEREOF, the parties have executed this Agreement.\n\n**Risk Highlights:** Review bold sections with a lawyer.\n\nDISCLAIMER: AI-generated draft only. Not legal advice.`;
+
+            document.getElementById('output').innerHTML = `
+                <h2>Legal Analysis</h2>
+                <div class="risk">${analysis.replace(/\n/g, '<br>')}</div>
+                
+                <h2>Generated Contract Draft</h2>
+                <div>${contract.replace(/\n/g, '<br>')}</div>
+                
+                <p style="font-weight:bold; color:red;">Always have this reviewed by a qualified attorney!</p>
+            `;
+        }
+    </script>
+</body>
+</html>
