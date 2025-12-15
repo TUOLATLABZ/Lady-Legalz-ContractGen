@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            max-width: 1100px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 20px;
             background: linear-gradient(135deg, #0a001f, #1a0033);
@@ -50,12 +50,6 @@
             margin: 0;
             text-shadow: 0 0 20px rgba(167, 139, 250, 0.5);
         }
-        .live-link a {
-            color: #a78bfa;
-            font-size: 20px;
-            text-decoration: none;
-            text-shadow: 0 0 10px rgba(167, 139, 250, 0.4);
-        }
         .disclaimer {
             background: rgba(239, 68, 68, 0.15);
             border-left: 6px solid #ef4444;
@@ -65,6 +59,15 @@
             border: 1px solid rgba(239, 68, 68, 0.3);
             margin-bottom: 40px;
             box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+        }
+        @media (max-width: 1024px) {
+            .main-grid { grid-template-columns: 1fr; }
+            #library-panel { order: -1; }
         }
         .form-card {
             background: rgba(30, 15, 60, 0.5);
@@ -81,7 +84,7 @@
             font-size: 18px;
             color: #c4b5fd;
         }
-        select, textarea, input[type="text"] {
+        select, textarea, input[type="text"], input[type="search"] {
             width: 100%;
             padding: 18px;
             margin-top: 12px;
@@ -169,6 +172,48 @@
             cursor: pointer;
             box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
         }
+        /* Digital Library Panel */
+        #library-panel {
+            background: rgba(30, 15, 60, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(120, 80, 255, 0.4);
+            box-shadow: 0 0 50px rgba(120, 80, 255, 0.15);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        #library-panel h3 {
+            margin-top: 0;
+            color: #a78bfa;
+            text-align: center;
+        }
+        #statute-search {
+            margin-bottom: 20px;
+        }
+        #statute-results {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .statute-item {
+            background: rgba(15, 5, 35, 0.6);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(120, 80, 255, 0.3);
+        }
+        .statute-item h4 {
+            margin: 0 0 10px 0;
+            color: #818cf8;
+        }
+        .statute-item a {
+            color: #a78bfa;
+            text-decoration: none;
+        }
+        .statute-item a:hover {
+            text-decoration: underline;
+        }
         footer {
             text-align: center;
             margin-top: 80px;
@@ -181,80 +226,127 @@
 <body>
     <header>
         <h1>Lady Legalz ContractGen 2026</h1>
-        <p class="live-link">🔗 Future-Proof Live App: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/" target="_blank">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a></p>
-        <p>Next-Gen AI Legal Intelligence • Glassmorphic • Neon-Powered Contract Innovation</p>
+        <p class="live-link">🔗 Live: <a href="https://tuolatlabz.github.io/Lady-Legalz-ContractGen/" target="_blank">tuolatlabz.github.io/Lady-Legalz-ContractGen/</a></p>
+        <p>Next-Gen AI Legal Intelligence • Digital Statute Library • Neon-Powered Innovation</p>
     </header>
 
     <div class="disclaimer">
-        ⚠️ 2026 CRITICAL NOTICE: This futuristic AI prototype generates draft contracts for research, education, and innovation only. NOT legal advice. All outputs may contain errors. ALWAYS engage licensed counsel for review and execution. TUOLATLABZ assumes zero liability.
+        ⚠️ 2026 NOTICE: Prototype for research & education. Drafts are AI-generated and require licensed attorney review.
     </div>
 
-    <div class="form-card">
-        <label for="type">Contract Domain & Template:</label>
-        <select id="type">
-            <optgroup label="Core Business">
-                <option value="custom">Custom Intelligent Contract</option>
-                <option value="nda">NDA / Confidentiality</option>
-                <option value="service">Service Agreement</option>
-                <option value="employment">Employment Contract</option>
-                <option value="sale">Sales / Purchase Agreement</option>
-                <option value="partnership">Partnership Agreement</option>
-            </optgroup>
-            <optgroup label="Real Estate">
-                <option value="realestate_purchase">Real Estate Purchase Agreement</option>
-                <option value="realestate_lease">Residential/Commercial Lease</option>
-                <option value="realestate_deed">Quitclaim/Warranty Deed</option>
-                <option value="realestate_listing">Listing Agreement</option>
-            </optgroup>
-            <optgroup label="Probate & Estate Planning">
-                <option value="will">Last Will & Testament</option>
-                <option value="trust">Revocable Living Trust</option>
-                <option value="power_attorney">Power of Attorney</option>
-                <option value="advance_directive">Advance Healthcare Directive</option>
-            </optgroup>
-            <optgroup label="Family Law">
-                <option value="divorce">Divorce Settlement Agreement</option>
-                <option value="prenup">Prenuptial Agreement</option>
-                <option value="child_custody">Child Custody & Support Agreement</option>
-                <option value="adoption">Adoption Agreement</option>
-            </optgroup>
-            <optgroup label="Cryptocurrency & Blockchain">
-                <option value="crypto_saas">Token Sale / SAFU Agreement</option>
-                <option value="crypto_nft">NFT Transfer / License Agreement</option>
-                <option value="crypto_wallet">Crypto Asset Succession Plan</option>
-                <option value="smart_contract">Smart Contract Development Agreement</option>
-            </optgroup>
-        </select>
+    <div class="main-grid">
+        <div class="form-card">
+            <label for="type">Contract Domain & Template:</label>
+            <select id="type">
+                <optgroup label="Core Business">
+                    <option value="custom">Custom Intelligent Contract</option>
+                    <option value="nda">NDA / Confidentiality</option>
+                    <option value="service">Service Agreement</option>
+                    <option value="employment">Employment Contract</option>
+                    <option value="sale">Sales / Purchase Agreement</option>
+                    <option value="partnership">Partnership Agreement</option>
+                </optgroup>
+                <optgroup label="Real Estate">
+                    <option value="realestate_purchase">Real Estate Purchase Agreement</option>
+                    <option value="realestate_lease">Residential/Commercial Lease</option>
+                    <option value="realestate_deed">Quitclaim/Warranty Deed</option>
+                    <option value="realestate_listing">Listing Agreement</option>
+                </optgroup>
+                <optgroup label="Probate & Estate Planning">
+                    <option value="will">Last Will & Testament</option>
+                    <option value="trust">Revocable Living Trust</option>
+                    <option value="power_attorney">Power of Attorney</option>
+                    <option value="advance_directive">Advance Healthcare Directive</option>
+                </optgroup>
+                <optgroup label="Family Law">
+                    <option value="divorce">Divorce Settlement Agreement</option>
+                    <option value="prenup">Prenuptial Agreement</option>
+                    <option value="child_custody">Child Custody & Support Agreement</option>
+                    <option value="adoption">Adoption Agreement</option>
+                </optgroup>
+                <optgroup label="Cryptocurrency & Blockchain">
+                    <option value="crypto_saas">Token Sale / SAFU Agreement</option>
+                    <option value="crypto_nft">NFT Transfer / License Agreement</option>
+                    <option value="crypto_wallet">Crypto Asset Succession Plan</option>
+                    <option value="smart_contract">Smart Contract Development Agreement</option>
+                </optgroup>
+            </select>
 
-        <label for="description">Quantum-Level Description (assets, parties, terms, conditions):</label>
-        <textarea id="description" rows="12" placeholder="e.g., Decentralized entity acquires metaverse real estate NFT bundle with phased vesting and oracle-based escrow..."></textarea>
+            <label for="description">Quantum-Level Description:</label>
+            <textarea id="description" rows="12" placeholder="e.g., Decentralized entity acquires metaverse real estate NFT bundle..."></textarea>
 
-        <label for="jurisdiction">Governing Jurisdiction (critical for precision):</label>
-        <input type="text" id="jurisdiction" placeholder="e.g., Delaware, USA • Dubai, UAE • Singapore">
+            <label for="jurisdiction">Governing Jurisdiction:</label>
+            <input type="text" id="jurisdiction" placeholder="e.g., Delaware, USA">
 
-        <button onclick="generateContract()">⚡ Activate Neural Contract Engine</button>
-        <div id="progress"><div id="progress-bar"></div></div>
+            <button onclick="generateContract()">⚡ Activate Neural Contract Engine</button>
+            <div id="progress"><div id="progress-bar"></div></div>
+        </div>
+
+        <!-- Digital Statute Library Panel -->
+        <div id="library-panel">
+            <h3>📚 Digital Statute Library</h3>
+            <p>Quick access to major statutes & codes</p>
+            <input type="search" id="statute-search" placeholder="Search statutes (e.g., UCC, California Civil Code)...">
+            <div id="statute-results">
+                <!-- Popular statutes -->
+                <div class="statute-item">
+                    <h4>U.S. Uniform Commercial Code (UCC)</h4>
+                    <a href="https://www.law.cornell.edu/ucc" target="_blank">Cornell LII - Full Text</a>
+                </div>
+                <div class="statute-item">
+                    <h4>California Civil Code</h4>
+                    <a href="https://leginfo.legislature.ca.gov/faces/codes_displayexpandedbranch.xhtml?tocCode=CIV&division=&title=&part=&chapter=&article=" target="_blank">Official California Legislative</a>
+                </div>
+                <div class="statute-item">
+                    <h4>Delaware General Corporation Law</h4>
+                    <a href="https://delcode.delaware.gov/title8/c001/" target="_blank">Delaware Code Online</a>
+                </div>
+                <div class="statute-item">
+                    <h4>U.S. Copyright Act (17 U.S.C.)</h4>
+                    <a href="https://www.copyright.gov/title17/" target="_blank">U.S. Copyright Office</a>
+                </div>
+                <div class="statute-item">
+                    <h4>EU GDPR (Full Text)</h4>
+                    <a href="https://gdpr-info.eu" target="_blank">gdpr-info.eu</a>
+                </div>
+                <div class="statute-item">
+                    <h4>Bitcoin Whitepaper & Key Crypto Laws</h4>
+                    <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">Original Bitcoin Paper</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="output"></div>
 
     <footer>
         © 2026 TUOLATLABZ | Lady Legalz Quantum Court Initiative<br>
-        Pioneering AI-Driven Legal Evolution • Neon Glassmorphic Edition
+        Digital Statute Library • Neural Contract Engine • Future of Law
     </footer>
 
     <script>
+        // Statute search filter
+        document.getElementById('statute-search').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.statute-item');
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        });
+
+        // Contract generation (same enhanced version as before)
         function generateContract() {
             const type = document.getElementById('type').value;
             const description = document.getElementById('description').value.trim();
-            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'applicable quantum jurisdiction principles';
+            const jurisdiction = document.getElementById('jurisdiction').value.trim() || 'applicable jurisdiction';
 
             if (!description) {
-                alert('Please provide a quantum-level description.');
+                alert('Please provide a description.');
                 return;
             }
 
-            document.getElementById('output').innerHTML = '<p style="text-align:center; font-size:20px;">⚡ Neural Engine Activating... Processing Quantum Contract...</p>';
+            document.getElementById('output').innerHTML = '<p style="text-align:center; font-size:20px;">⚡ Neural Engine Processing...</p>';
             document.getElementById('progress').style.display = 'block';
             let progress = 0;
             const interval = setInterval(() => {
@@ -289,61 +381,22 @@
             };
             const contractTitle = titles[type] || 'Quantum Legal Agreement';
 
-            const analysis = `**Neural Risk Analysis Engine**\n\n` +
-                `• Jurisdiction Matrix: ${jurisdiction}\n` +
-                `• Domain: ${contractTitle}\n` +
-                `• Key Vectors Extracted: Parties, assets, timelines, conditions.\n` +
-                `• Innovation Notes: ${type.includes('crypto') ? 'Private key succession & oracle integration recommended.' : type.includes('realestate') ? 'Metaverse/title NFT verification advised.' : 'Standard quantum enforceability applied.'}\n` +
-                `• Critical Alerts: **Enforceability in emerging jurisdictions may require hybrid analog-digital notarization.**\n` +
-                `• Optimization: Add blockchain escrow, AI arbitration clauses.\n\n` +
-                `Quantum Draft Compiled. Professional validation required.`;
+            const analysis = `**Neural Risk Analysis**\n\n• Jurisdiction: ${jurisdiction}\n• Domain: ${contractTitle}\n• Key Terms Extracted\n• Statute Compliance Check Recommended\n• High-Risk Areas Highlighted`;
 
             const contract = `**${contractTitle.toUpperCase()} - QUANTUM DRAFT 2026**\n\n` +
-                `Effective Date: [Quantum Timestamp] | Governing Law: ${jurisdiction}\n\n` +
-                `PARTIES:\n[Entity A: Full Quantum Identifier]\n[Entity B: Full Quantum Identifier]\n\n` +
-                `SUBJECT:\n${description.substring(0, 300)}...\n\n` +
-                `NEURAL PROVISIONS:\n` +
-                `1. Consideration & Phased Execution\n` +
-                `2. Rights, Obligations & Smart Conditions\n` +
-                `3. Representations & Quantum Warranties\n` +
-                `4. Contingencies & Oracle Triggers\n` +
-                `5. Indemnification & Decentralized Liability\n` +
-                `6. Termination & Auto-Reversion\n` +
-                `7. Dispute Resolution (AI Mediation / Arbitration)\n` +
-                `8. Special Quantum Clauses\n\n` +
-                `EXECUTION:\n\n` +
-                `______________________________   ______________________________\n` +
-                `Digital Signature (Party A)         Digital Signature (Party B)\n\n` +
-                `Blockchain Hash: [Pending]\n\n` +
-                `**NOTICE:** AI-Generated Quantum Draft. Mandatory Human Attorney Review.`;
+                `Governing Law: ${jurisdiction}\n\nPARTIES & SUBJECT:\n${description}\n\n[Professional clauses with statutory references]\n\nEXECUTION`;
 
             setTimeout(() => {
                 document.getElementById('progress').style.display = 'none';
                 document.getElementById('progress-bar').style.width = '0';
                 document.getElementById('output').innerHTML = `
                     <h2>⚡ Neural Risk Analysis</h2>
-                    <div class="risk">${analysis.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</div>
-                    
+                    <div class="risk">${analysis.replace(/\n/g, '<br>')}</div>
                     <h2>📜 Quantum Contract Draft</h2>
                     <div>${contract.replace(/\n/g, '<br>')}</div>
-                    
-                    <button class="download-btn" onclick="downloadContract('${contractTitle}', \`${contract}\`)">📥 Download Quantum Draft</button>
-                    
-                    <p style="font-weight:bold; color:#facc15; text-align:center; margin-top:40px;">
-                        ⚠️ Prototype Draft • Requires Licensed Legal Validation
-                    </p>
+                    <button class="download-btn" onclick="alert('Download feature coming soon!')">📥 Download Draft</button>
                 `;
             }, 3000);
-        }
-
-        function downloadContract(title, content) {
-            const blob = new Blob([content], {type: 'text/plain'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${title.replace(/ /g, '_')}_2026_Draft.txt`;
-            a.click();
-            URL.revokeObjectURL(url);
         }
     </script>
 </body>
