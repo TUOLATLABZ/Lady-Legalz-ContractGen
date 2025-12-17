@@ -66,6 +66,7 @@
             border-radius: 8px;
             object-fit: cover;
             border: 1px solid var(--accent);
+            background: #111; /* Fallback color if image is missing */
         }
 
         .section-label { font-family: 'Space Mono'; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
@@ -171,7 +172,7 @@
     <div class="app-grid">
         <div class="sidebar">
             <div class="logo-header">
-                <img src="https://i.imgur.com/8QzQp0O.png" class="logo-img" alt="Lady Legalz Logo">
+                <img src="logo.png" class="logo-img" alt="Lady Legalz Logo" onerror="this.style.display='none'">
                 <div>
                     <h2 style="margin:0; font-size: 0.95rem; font-weight: 900; color: white; line-height:1;">LADY LEGALZ</h2>
                     <div style="font-family:'Space Mono'; font-size: 0.55rem; color:var(--accent); margin-top:4px;">NEO INTELLIGENCE 2026</div>
@@ -205,7 +206,7 @@
 
         <div class="main-stage">
             <div class="legal-paper" id="active-draft">
-                <img src="https://i.imgur.com/8QzQp0O.png" class="paper-logo" alt="Document Logo">
+                <img src="logo.png" class="paper-logo" alt="Document Logo" onerror="this.style.display='none'">
                 <h1>NEO INTELLIGENCE CORE</h1>
                 <p style="text-align: center;">Select a legal library template to begin high-fidelity generation.</p>
             </div>
@@ -220,6 +221,7 @@
     </div>
 
     <script>
+        // JS logic remains identical but looks for 'logo.png' in root
         const VAULT_CLAUSES = {
             arb: `<h2>ARBITRATION</h2><p>Any dispute, claim or controversy arising out of or relating to this Agreement shall be determined by confidential binding arbitration in the venue specified herein, administered by JAMS or AAA.</p>`,
             solic: `<h2>NON-SOLICITATION</h2><p>During the term of this Agreement and for one year thereafter, neither party shall solicit for employment any employee or contractor of the other party involved in the performance of this Agreement.</p>`,
@@ -267,24 +269,20 @@
 
         function render() {
             if (!activeKey) return;
-            let text = `<img src="https://i.imgur.com/8QzQp0O.png" class="paper-logo">` + TEMPLATES[activeKey].content;
+            // Use local logo.png
+            let text = `<img src="logo.png" class="paper-logo" onerror="this.style.display='none'">` + TEMPLATES[activeKey].content;
             const state = document.getElementById('state-select').value;
             
-            // Inject Variables
             TEMPLATES[activeKey].vars.forEach(v => {
                 const val = userData[v] || `<span class="variable-highlight">[${v.split('_').join(' ')}]</span>`;
                 text = text.split(`[[${v}]]`).join(val);
             });
 
-            // Add Vault Logic
             if(document.getElementById('v-arb').checked) text += VAULT_CLAUSES.arb;
             if(document.getElementById('v-solic').checked) text += VAULT_CLAUSES.solic;
             if(document.getElementById('v-fees').checked) text += VAULT_CLAUSES.fees;
 
-            // Governing Law
             text += `<h2>GOVERNING LAW</h2><p>This Agreement is governed by the laws of the State of ${state}. Venue shall be ${STATE_LOGIC[state].venue}.</p>`;
-
-            // Signature Block
             text += `<div class="sig-block"><div><b>FOR PROVIDER:</b><div class="sig-line">Name:</div><div class="sig-line">Title:</div><div class="sig-line">Date:</div></div><div><b>FOR CUSTOMER:</b><div class="sig-line">Name:</div><div class="sig-line">Title:</div><div class="sig-line">Date:</div></div></div>`;
 
             document.getElementById('active-draft').innerHTML = text;
@@ -307,7 +305,6 @@
             Packer.toBlob(doc).then(blob => saveAs(blob, "LadyLegalz_Contract_2026.docx"));
         }
 
-        // Visual Particles
         const canvas = document.getElementById('particlesCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
