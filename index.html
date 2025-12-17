@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lady Legalz ContractGen 2026 | NEO INTELLIGENCE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon-blue: #00f2ff;
@@ -16,48 +16,37 @@
         }
 
         body, html { margin: 0; padding: 0; height: 100%; background: var(--deep-space); color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
-        .app-shell { display: grid; grid-template-columns: 400px 1fr; height: 100vh; }
+        .app-shell { display: grid; grid-template-columns: 420px 1fr; height: 100vh; }
         
-        /* Sidebar Navigation */
-        .sidebar { background: var(--sidebar-bg); border-right: 1px solid rgba(0,242,255,0.1); padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
-        
-        .branding { text-align: center; border: 1px solid var(--neon-blue); padding: 20px; border-radius: 4px; margin-bottom: 10px; }
+        .sidebar { background: var(--sidebar-bg); border-right: 1px solid rgba(0,242,255,0.1); padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .branding { text-align: center; border: 1px solid var(--neon-blue); padding: 20px; border-radius: 4px; }
         .branding h1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 0; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 2px; }
-        .branding span { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--legal-gray); display: block; margin-top: 5px; }
 
-        .input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-        .input-label { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--legal-gray); text-transform: uppercase; letter-spacing: 1px; }
-        
-        .field-input, .select-input { background: var(--input-bg); border: 1px solid #30363d; padding: 12px; color: #fff; border-radius: 4px; font-size: 13px; transition: 0.2s; width: 100%; }
-        .field-input:focus { border-color: var(--neon-blue); outline: none; box-shadow: 0 0 8px rgba(0,242,255,0.2); }
+        .control-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+        .label { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--legal-gray); text-transform: uppercase; }
+        .input-field, .select-field { background: var(--input-bg); border: 1px solid #30363d; padding: 12px; color: #fff; border-radius: 4px; font-size: 13px; width: 100%; }
 
-        /* Document Canvas */
-        .canvas-area { background: #000; overflow-y: auto; padding: 50px; display: flex; flex-direction: column; align-items: center; scroll-behavior: smooth; }
-        
-        .document-page {
+        .canvas { background: #000; overflow-y: auto; padding: 50px; display: flex; flex-direction: column; align-items: center; }
+        .doc-page {
             width: 8.5in; min-height: 11in; background: var(--paper-white); color: #000;
             padding: 1in; margin-bottom: 50px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            font-family: 'Times New Roman', serif; font-size: 12pt; line-height: 1.5; position: relative;
+            font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.5;
         }
 
-        /* Legal Styling */
-        .court-header { text-align: center; font-weight: bold; text-transform: uppercase; font-size: 14pt; margin-bottom: 25px; line-height: 1.2; }
-        .caption-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
-        .caption-table td { border: 1.5px solid #000; padding: 12px; vertical-align: top; width: 50%; }
-        .doc-title { text-align: center; font-weight: bold; font-size: 15pt; margin: 25px 0; text-decoration: underline; text-transform: uppercase; }
-        .section-header { font-weight: bold; text-transform: uppercase; margin-top: 20px; border-bottom: 1px solid #000; display: block; margin-bottom: 10px; }
+        .court-header { text-align: center; font-weight: bold; text-transform: uppercase; font-size: 14pt; margin-bottom: 20px; }
+        .caption-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 2px solid #000; }
+        .caption-table td { padding: 10px; border: 1px solid #000; vertical-align: top; width: 50%; }
+        .doc-title { text-align: center; font-weight: bold; font-size: 15pt; margin: 20px 0; text-decoration: underline; text-transform: uppercase; }
         
-        .live-field { background: #e0f2fe; border-bottom: 1px solid #0369a1; font-weight: bold; padding: 0 2px; }
-        .empty-field { color: #dc2626; border-bottom: 1px dashed #dc2626; background: #fef2f2; }
+        .var-field { background: #e0f2fe; border-bottom: 1px solid #0369a1; font-weight: bold; }
+        .err-field { color: #dc2626; border-bottom: 1px dashed #dc2626; background: #fef2f2; }
 
-        .action-bar { position: sticky; bottom: 0; background: var(--sidebar-bg); padding: 20px; border-top: 1px solid rgba(0,242,255,0.1); display: grid; gap: 10px; }
-        .btn-primary { background: var(--neon-blue); color: #000; border: none; padding: 16px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-size: 12px; transition: 0.2s; }
-        .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+        .btn-gen { background: var(--neon-blue); color: #000; border: none; padding: 15px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
 
         @media print {
             .sidebar { display: none; }
-            .canvas-area { background: #fff; padding: 0; display: block; }
-            .document-page { box-shadow: none; margin: 0; page-break-after: always; border: none; }
+            .canvas { background: #fff; padding: 0; display: block; }
+            .doc-page { box-shadow: none; margin: 0; page-break-after: always; }
         }
     </style>
 </head>
@@ -65,145 +54,108 @@
 
 <div class="app-shell">
     <aside class="sidebar">
-        <div class="branding">
-            <h1>LADY LEGALZ</h1>
-            <span>CONTRACTGEN 2026 // PRODUCTION</span>
-        </div>
-
-        <div class="input-group">
-            <label class="input-label">Jurisdiction</label>
-            <select id="jurisdiction" class="select-input" onchange="renderDoc()">
-                <option value="United States District Court, Southern District of New York">Federal (SDNY)</option>
-                <option value="Superior Court of California, County of Los Angeles">California Superior</option>
-                <option value="In the Court of Chancery of the State of Delaware">Delaware Chancery</option>
-                <option value="State of Texas, County of Harris">Texas District Court</option>
+        <div class="branding"><h1>LADY LEGALZ</h1><span>2026 SUPER LEGAL BOT</span></div>
+        <div class="control-group">
+            <label class="label">Jurisdiction</label>
+            <select id="jurisdiction" class="select-field" onchange="updateView()">
+                <option value="United States District Court, SDNY">Federal (SDNY)</option>
+                <option value="State of Delaware">Delaware Chancery</option>
+                <option value="State of New York">New York</option>
+                <option value="State of California">California</option>
             </select>
         </div>
-
-        <div class="input-group">
-            <label class="input-label">Document Protocol</label>
-            <select id="protocol" class="select-input" onchange="initFields()">
-                <option value="">-- Select Legal Protocol --</option>
-                <optgroup label="Litigation Packets">
-                    <option value="LIT_FULL">Summons, Complaint & Service</option>
-                </optgroup>
-                <optgroup label="Corporate Actions">
-                    <option value="CORP_RES">Board Resolution to Authorize Litigation</option>
-                    <option value="CORP_MERGE">Agreement and Plan of Merger</option>
-                </optgroup>
-                <optgroup label="Technology & Employment">
-                    <option value="TECH_SAAS">Master SaaS Services Agreement</option>
-                    <option value="EMP_EXEC">Executive Employment (IP & Clawback)</option>
-                </optgroup>
+        <div class="control-group">
+            <label class="label">Protocol Selection</label>
+            <select id="protocol" class="select-field" onchange="initFields()">
+                <option value="">-- Choose Protocol --</option>
+                <option value="LIT_FULL">Full Litigation (Summons/Complaint)</option>
+                <option value="CORP_MERGE">Merger & Acquisition Plan</option>
+                <option value="EMP_EXEC">Executive Employment (IP/Clawback)</option>
+                <option value="TECH_SAAS">Master SaaS Agreement</option>
+                <option value="CORP_RES">Board Resolution</option>
             </select>
         </div>
-
-        <div id="dynamic-fields"></div>
-
-        <div class="action-bar">
-            <button class="btn-primary" onclick="window.print()">Print / Export Final PDF</button>
-        </div>
+        <div id="form-fields"></div>
+        <button class="btn-gen" onclick="window.print()">Export Final PDF</button>
     </aside>
 
-    <main class="canvas-area" id="main-canvas">
-        <div style="text-align:center; padding-top:200px; opacity:0.2;">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-            <h2 style="font-family:'Playfair Display';">PROTOCOL INJECTION PENDING</h2>
-            <p style="font-family:'Fira Code';">System Status: 200 OK</p>
-        </div>
-    </main>
+    <main class="canvas" id="doc-output"></main>
 </div>
 
 <script>
     const PROTOCOLS = {
         LIT_FULL: {
-            fields: ["Plaintiff_Name", "Plaintiff_Address", "Defendant_Name", "Defendant_Address", "Case_Number", "Amount_Claimed"],
+            fields: ["Plaintiff", "Plaintiff_Address", "Defendant", "Defendant_Address", "Case_No", "Claim_Amount"],
             render: (f, j) => `
-                <div class="document-page">
+                <div class="doc-page">
                     <div class="court-header">${j}</div>
                     <table class="caption-table">
-                        <tr>
-                            <td>${f.Plaintiff_Name}, Plaintiff<br>v.<br>${f.Defendant_Name}, Defendant</td>
-                            <td><b>SUMMONS</b><br>Case No: ${f.Case_Number}</td>
-                        </tr>
+                        <tr><td>${f.Plaintiff}, Plaintiff vs. ${f.Defendant}, Defendant</td><td><b>SUMMONS</b><br>Case No: ${f.Case_No}</td></tr>
                     </table>
-                    <p><b>TO: ${f.Defendant_Name}</b><br>${f.Defendant_Address}</p>
-                    <p>A lawsuit has been filed against you. You are hereby summoned to serve an Answer to the attached Complaint or a motion under Rule 12 within 21 days of service. Failure to respond will result in a default judgment for the relief demanded.</p>
-                    <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                        <div style="width:200px; border-top:1px solid #000; text-align:center;">Date</div>
-                        <div style="width:200px; border-top:1px solid #000; text-align:center;">Clerk of Court</div>
-                    </div>
+                    <p><b>TO: ${f.Defendant}</b>. You are summoned to answer the complaint within 21 days.</p>
                 </div>
-                <div class="document-page">
-                    <div class="court-header">${j}</div>
-                    <div class="doc-title">Complaint for Breach of Contract</div>
-                    <span class="section-header">1. Jurisdiction</span>
-                    <p>This Court has subject matter jurisdiction pursuant to the laws of ${j}. The Amount in Controversy exceeds ${f.Amount_Claimed}.</p>
-                    <span class="section-header">2. Statement of Claim</span>
-                    <p>Plaintiff ${f.Plaintiff_Name} alleges that Defendant ${f.Defendant_Name} failed to perform under written agreement, causing direct damages.</p>
-                    <span class="section-header">3. Prayer for Relief</span>
-                    <p>WHEREFORE, Plaintiff prays for judgment in the amount of ${f.Amount_Claimed} plus interest and costs.</p>
-                </div>
-            `
+                <div class="doc-page">
+                    <div class="doc-title">Complaint for Damages</div>
+                    <p>Plaintiff seeks ${f.Claim_Amount} for breach of duty by ${f.Defendant}. Jurisdiction is proper in ${j}.</p>
+                </div>`
         },
-        CORP_RES: {
-            fields: ["Corporation_Name", "Secretary_Name", "Meeting_Date", "Defendant_Name"],
+        CORP_MERGE: {
+            fields: ["Parent_Corp", "Target_Corp", "Price", "Closing_Date"],
             render: (f, j) => `
-                <div class="document-page">
-                    <div class="doc-title">CORPORATE RESOLUTION OF ${f.Corporation_Name}</div>
-                    <p>The undersigned, ${f.Secretary_Name}, Secretary of ${f.Corporation_Name}, hereby certifies that at a meeting of the Board of Directors held on ${f.Meeting_Date}, the following resolution was adopted:</p>
-                    <span class="section-header">Resolution to Initiate Litigation</span>
-                    <p>RESOLVED, that the officers of the Corporation are authorized to initiate a legal action against ${f.Defendant_Name} in the courts of ${j} for breach of contract and all other applicable claims.</p>
-                    <p>FURTHER RESOLVED, that the Corporation is authorized to retain legal counsel and incur necessary expenses to prosecute said action.</p>
-                    <div style="margin-top:100px; width:300px; border-top:1px solid #000;">
-                        Certified By: ${f.Secretary_Name}, Secretary
-                    </div>
-                </div>
-            `
+                <div class="doc-page">
+                    <div class="doc-title">Agreement and Plan of Merger</div>
+                    <p>This agreement by and between ${f.Parent_Corp} and ${f.Target_Corp} defines the purchase for ${f.Price} to close on ${f.Closing_Date}.</p>
+                    <p>Governed by the laws of ${j}.</p>
+                </div>`
         },
         EMP_EXEC: {
-            fields: ["Company_Name", "Executive_Name", "Salary", "Clawback_Months", "IP_Scope"],
+            fields: ["Company", "Executive", "Salary", "Clawback_Period"],
             render: (f, j) => `
-                <div class="document-page">
-                    <div class="doc-title">EXECUTIVE EMPLOYMENT AGREEMENT</div>
-                    <span class="section-header">1. Intellectual Property</span>
-                    <p>Executive agrees that all work concerning ${f.IP_Scope} is a "Work Made for Hire." Executive hereby assigns all right, title, and interest in such IP to ${f.Company_Name}.</p>
-                    <span class="section-header">2. Performance Clawback</span>
-                    <p>In the event of termination for Cause, ${f.Company_Name} shall recover any performance bonuses paid within the preceding ${f.Clawback_Months} months.</p>
-                    <span class="section-header">3. Governing Law</span>
-                    <p>This Agreement shall be governed by the laws of the ${j}.</p>
-                </div>
-            `
+                <div class="doc-page">
+                    <div class="doc-title">Executive Employment Agreement</div>
+                    <p>${f.Executive} shall serve ${f.Company} at a salary of ${f.Salary}. All IP is Work for Hire. Clawback applies for ${f.Clawback_Period} months.</p>
+                </div>`
+        },
+        TECH_SAAS: {
+            fields: ["Provider", "Client", "Uptime_SLA", "Annual_Fee"],
+            render: (f, j) => `
+                <div class="doc-page">
+                    <div class="doc-title">Master SaaS Agreement</div>
+                    <p>${f.Provider} grants ${f.Client} access to services for an annual fee of ${f.Annual_Fee}. Uptime is guaranteed at ${f.Uptime_SLA}%.</p>
+                </div>`
+        },
+        CORP_RES: {
+            fields: ["Corp_Name", "Action_Title", "Meeting_Date"],
+            render: (f, j) => `
+                <div class="doc-page">
+                    <div class="doc-title">Corporate Resolution</div>
+                    <p>The board of ${f.Corp_Name} on ${f.Meeting_Date} resolved to authorize ${f.Action_Title}.</p>
+                </div>`
         }
     };
 
     function initFields() {
         const p = document.getElementById('protocol').value;
-        const container = document.getElementById('dynamic-fields');
+        const container = document.getElementById('form-fields');
         container.innerHTML = '';
         if(!p) return;
         PROTOCOLS[p].fields.forEach(f => {
-            const wrap = document.createElement('div');
-            wrap.className = 'input-group';
-            wrap.innerHTML = `<label class="input-label">${f.replace(/_/g, ' ')}</label>
-                              <input type="text" id="f_${f}" class="field-input" oninput="renderDoc()" placeholder="Enter ${f.toLowerCase()}...">`;
-            container.appendChild(wrap);
+            container.innerHTML += `<div class="control-group"><label class="label">${f.replace(/_/g,' ')}</label>
+            <input type="text" id="f_${f}" class="input-field" oninput="updateView()"></div>`;
         });
-        renderDoc();
+        updateView();
     }
 
-    function renderDoc() {
+    function updateView() {
         const p = document.getElementById('protocol').value;
         if(!p) return;
         const jur = document.getElementById('jurisdiction').value;
-        const fData = {};
+        const data = {};
         PROTOCOLS[p].fields.forEach(f => {
             const val = document.getElementById(`f_${f}`).value;
-            fData[f] = val ? `<span class="live-field">${val}</span>` : `<span class="empty-field">[${f.replace(/_/g, ' ')}]</span>`;
+            data[f] = val ? `<span class="var-field">${val}</span>` : `<span class="err-field">[${f}]</span>`;
         });
-        document.getElementById('main-canvas').innerHTML = PROTOCOLS[p].render(fData, jur);
+        document.getElementById('doc-output').innerHTML = PROTOCOLS[p].render(data, jur);
     }
 </script>
 </body>
