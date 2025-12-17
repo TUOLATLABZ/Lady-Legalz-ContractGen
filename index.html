@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz ContractGen 2026 - NEO INTELLIGENCE</title>
+    <title>Lady Legalz ContractGen NEO INTELLIGENCE 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
@@ -13,8 +13,9 @@
             --accent: #00f2ff;
             --secondary: #7000ff;
             --glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.12);
-            --bg: #05070a;
+            --border: rgba(255, 255, 255, 0.15);
+            --bg: #030508;
+            --sidebar-bg: #0a0e14;
         }
 
         * { box-sizing: border-box; scrollbar-width: none; }
@@ -27,7 +28,7 @@
             overflow: hidden; 
         }
 
-        #particlesCanvas { position: fixed; top: 0; left: 0; z-index: 0; opacity: 0.3; pointer-events: none; }
+        #particlesCanvas { position: fixed; top: 0; left: 0; z-index: 0; opacity: 0.25; pointer-events: none; }
 
         .app-grid {
             display: grid;
@@ -37,134 +38,90 @@
             z-index: 1;
         }
 
-        /* SIDEBAR */
+        /* SIDEBAR DESIGN */
         .sidebar {
-            background: rgba(10, 15, 25, 0.9);
+            background: var(--sidebar-bg);
             border-right: 1px solid var(--border);
-            padding: 25px;
+            padding: 30px;
             overflow-y: auto;
-            backdrop-filter: blur(40px);
+            backdrop-filter: blur(60px);
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
 
         .logo-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 16px;
+            display: flex; align-items: center; gap: 15px; padding: 18px;
+            background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), transparent);
+            border: 1px solid var(--border); border-radius: 12px;
             margin-bottom: 10px;
         }
 
-        .logo-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: cover;
-            border: 1px solid var(--accent);
-            background: #111; /* Fallback color if image is missing */
-        }
+        .logo-img { width: 50px; height: 50px; border-radius: 6px; border: 1.5px solid var(--accent); }
 
-        .section-label { font-family: 'Space Mono'; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .section-label { font-family: 'Space Mono'; font-size: 0.65rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-top: 15px; }
         
-        .tree-item {
-            padding: 14px; margin-bottom: 10px;
-            background: var(--glass);
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            border: 1px solid transparent;
-            transition: 0.3s;
-        }
-        .tree-item:hover { border-color: var(--accent); transform: translateX(5px); }
-        .tree-item.active { background: var(--secondary); border-color: var(--accent); }
-
-        .var-input, .state-select {
+        .state-select {
             width: 100%;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
-            padding: 12px;
+            background-color: #111827; 
+            border: 1px solid var(--accent);
+            padding: 14px;
             border-radius: 10px;
-            color: #fff;
-            margin-bottom: 12px;
-            font-size: 0.85rem;
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 600;
             outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300f2ff'%3E%3Cpath d='M2 4l4 4 4-4H2z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
         }
 
-        /* VAULT TOGGLES */
-        .vault-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            font-size: 0.8rem;
-        }
-        .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #333; transition: .4s; border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
-            background-color: white; transition: .4s; border-radius: 50%;
-        }
-        input:checked + .slider { background-color: var(--accent); }
-        input:checked + .slider:before { transform: translateX(14px); }
+        .state-select option { background-color: #030508; color: white; padding: 12px; }
 
-        /* MAIN STAGE */
-        .main-stage {
-            display: flex; flex-direction: column;
-            padding: 30px;
-            background: radial-gradient(circle at top right, rgba(112, 0, 255, 0.08), transparent);
+        .tree-item {
+            padding: 14px; background: rgba(255,255,255,0.03); border-radius: 10px; cursor: pointer;
+            font-size: 0.85rem; border: 1px solid transparent; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .tree-item:hover { border-color: var(--accent); background: rgba(0, 242, 255, 0.05); }
+        .tree-item.active { background: var(--secondary); border-color: var(--accent); font-weight: 700; }
+
+        .var-input {
+            width: 100%; background: #0d1117; border: 1px solid var(--border);
+            padding: 12px; border-radius: 10px; color: #fff; margin-bottom: 10px; font-size: 0.85rem;
+        }
+        .var-input:focus { border-color: var(--accent); outline: none; }
+
+        /* DOCUMENT STAGE */
+        .main-stage { display: flex; flex-direction: column; padding: 40px; background: radial-gradient(circle at center, rgba(112, 0, 255, 0.03), transparent); }
 
         .legal-paper { 
-            background: #fff; color: #1e293b; 
-            padding: 80px 100px; border-radius: 2px; 
-            font-family: 'Times New Roman', Times, serif; font-size: 12pt; 
-            box-shadow: 0 50px 120px rgba(0,0,0,0.6); 
-            flex: 1; overflow-y: auto; text-align: justify;
-            border-top: 15px solid #1e293b;
-            line-height: 1.5;
-            position: relative;
+            background: #ffffff; color: #0f172a; padding: 90px 100px; border-radius: 0; 
+            font-family: 'Times New Roman', Times, serif; font-size: 11.5pt; 
+            box-shadow: 0 40px 150px rgba(0,0,0,0.8); flex: 1; overflow-y: auto; text-align: justify;
+            border-top: 12px solid #0f172a; line-height: 1.7; position: relative;
         }
 
-        .paper-logo {
-            display: block;
-            margin: 0 auto 30px auto;
-            max-width: 100px;
-            height: auto;
-        }
+        .paper-logo { display: block; margin: 0 auto 30px auto; max-width: 90px; filter: grayscale(1); }
+        .legal-paper h1 { text-align: center; font-size: 15pt; margin-bottom: 40px; text-transform: uppercase; font-weight: bold; text-decoration: underline; }
+        .legal-paper h2 { font-size: 11pt; margin-top: 25px; text-transform: uppercase; font-weight: bold; display: block; border-bottom: 1px solid #ddd; margin-bottom: 10px; }
+        .legal-paper p { margin-bottom: 15px; }
 
-        .legal-paper h1 { text-align: center; font-size: 16pt; margin-bottom: 40px; text-transform: uppercase; font-weight: bold; }
-        .legal-paper h2 { font-size: 13pt; margin-top: 30px; border-bottom: 1px solid #000; padding-bottom: 5px; font-weight: bold; }
-        
-        .sig-block { margin-top: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border-top: 1px dashed #ccc; padding-top: 30px; }
-        .sig-line { border-top: 1px solid #000; margin-top: 40px; padding-top: 5px; font-size: 10pt; }
+        .sig-block { margin-top: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; border-top: 1px dashed #eee; padding-top: 30px; }
+        .sig-line { border-top: 1px solid #000; margin-top: 40px; padding-top: 6px; font-size: 9.5pt; font-family: 'Arial', sans-serif; }
 
         .toolbar {
-            margin-top: 25px;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 35px; background: var(--glass); border-radius: 24px;
-            backdrop-filter: blur(20px); border: 1px solid var(--border);
+            margin-top: 30px; display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid var(--border);
         }
 
         .btn {
-            background: var(--accent); color: #000; border: none;
-            padding: 14px 28px; border-radius: 30px; font-weight: 800;
-            cursor: pointer; transition: 0.3s; font-size: 0.85rem;
-            text-transform: uppercase;
+            background: var(--accent); color: #000; border: none; padding: 15px 35px; border-radius: 4px;
+            font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 0.9rem; text-transform: uppercase;
+            font-family: 'Space Mono';
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.3); }
-        .btn-ghost { background: transparent; border: 1px solid var(--border); color: #fff; margin-left: 10px; }
+        .btn:hover { box-shadow: 0 0 25px rgba(0, 242, 255, 0.4); transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -172,79 +129,86 @@
     <div class="app-grid">
         <div class="sidebar">
             <div class="logo-header">
-                <img src="logo.png" class="logo-img" alt="Lady Legalz Logo" onerror="this.style.display='none'">
+                <img src="logo.png" class="logo-img" alt="Lady Legalz" onerror="this.style.display='none'">
                 <div>
-                    <h2 style="margin:0; font-size: 0.95rem; font-weight: 900; color: white; line-height:1;">LADY LEGALZ</h2>
-                    <div style="font-family:'Space Mono'; font-size: 0.55rem; color:var(--accent); margin-top:4px;">NEO INTELLIGENCE 2026</div>
+                    <h2 style="margin:0; font-size: 1rem; font-weight: 900; color: white; letter-spacing: -0.5px;">LADY LEGALZ</h2>
+                    <div style="font-family:'Space Mono'; font-size: 0.55rem; color:var(--accent); margin-top: 2px;">NEO INTELLIGENCE 2026</div>
                 </div>
             </div>
 
-            <div class="section-label">1. Legal Standard</div>
+            <div class="section-label">Legal Instrument Selection</div>
             <div id="contract-list">
-                <div class="tree-item" onclick="loadTemplate('csa')">Cloud Service Agreement</div>
-                <div class="tree-item" onclick="loadTemplate('nda')">Mutual Non-Disclosure</div>
+                <div class="tree-item" id="csa-item" onclick="loadTemplate('csa')">Cloud Service (v2.1)</div>
+                <div class="tree-item" id="nda-item" onclick="loadTemplate('nda')">Mutual NDA (Enterprise)</div>
+                <div class="tree-item" id="aia-item" onclick="loadTemplate('aia')">AI Liability Addendum</div>
             </div>
 
-            <div class="section-label">2. Governing State</div>
+            <div class="section-label">Governing Jurisdiction</div>
             <select class="state-select" id="state-select" onchange="render()">
-                <option value="Delaware">Delaware (Corporate Standard)</option>
-                <option value="California">California</option>
-                <option value="New York">New York</option>
-                <option value="Texas">Texas</option>
+                <option value="Delaware">Delaware (Chancery Court)</option>
+                <option value="California">California (Silicon Valley)</option>
+                <option value="New York">New York (Manhattan)</option>
+                <option value="Texas">Texas (Austin Central)</option>
             </select>
 
-            <div class="section-label">3. Clause Vault (Optional)</div>
-            <div id="vault">
-                <div class="vault-item">Arbitration Clause <label class="switch"><input type="checkbox" id="v-arb" onchange="render()"><span class="slider"></span></label></div>
-                <div class="vault-item">Non-Solicitation <label class="switch"><input type="checkbox" id="v-solic" onchange="render()"><span class="slider"></span></label></div>
-                <div class="vault-item">Attorney Fees <label class="switch"><input type="checkbox" id="v-fees" onchange="render()"><span class="slider"></span></label></div>
+            <div id="variable-area" style="display:none;">
+                <div class="section-label">Execution Variables</div>
+                <div id="variable-fields"></div>
             </div>
-
-            <div class="section-label">4. Cover Page Data</div>
-            <div id="variable-fields"></div>
         </div>
 
         <div class="main-stage">
             <div class="legal-paper" id="active-draft">
-                <img src="logo.png" class="paper-logo" alt="Document Logo" onerror="this.style.display='none'">
-                <h1>NEO INTELLIGENCE CORE</h1>
-                <p style="text-align: center;">Select a legal library template to begin high-fidelity generation.</p>
+                <img src="logo.png" class="paper-logo" alt="Logo" onerror="this.style.display='none'">
+                <h1>NEO INTELLIGENCE READY</h1>
+                <p style="text-align: center; font-family: 'Space Mono'; color: #64748b;">Select an instrument to begin high-fidelity generation.</p>
             </div>
             <div class="toolbar">
-                <div>
-                    <button class="btn" onclick="exportPDF()">Export PDF</button>
-                    <button class="btn btn-ghost" onclick="exportWord()">Export DOCX</button>
-                </div>
-                <div id="status" style="font-family:'Space Mono'; font-size: 0.65rem; color:var(--accent);">OS_SYNCED: 100%</div>
+                <button class="btn" onclick="exportPDF()">Export Final PDF</button>
+                <div id="status" style="font-family:'Space Mono'; font-size: 0.7rem; color:var(--accent);">OS_v2026_MASTER_LINKED</div>
             </div>
         </div>
     </div>
 
     <script>
-        // JS logic remains identical but looks for 'logo.png' in root
-        const VAULT_CLAUSES = {
-            arb: `<h2>ARBITRATION</h2><p>Any dispute, claim or controversy arising out of or relating to this Agreement shall be determined by confidential binding arbitration in the venue specified herein, administered by JAMS or AAA.</p>`,
-            solic: `<h2>NON-SOLICITATION</h2><p>During the term of this Agreement and for one year thereafter, neither party shall solicit for employment any employee or contractor of the other party involved in the performance of this Agreement.</p>`,
-            fees: `<h2>ATTORNEY FEES</h2><p>In the event of litigation or arbitration to enforce the terms of this Agreement, the prevailing party shall be entitled to recover its reasonable attorney's fees and costs.</p>`
-        };
-
-        const STATE_LOGIC = {
-            "Delaware": { venue: "the state and federal courts of Delaware" },
-            "California": { venue: "the state and federal courts in San Francisco, California" },
-            "New York": { venue: "the state and federal courts in New York County, New York" },
-            "Texas": { venue: "the state and federal courts in Travis County, Texas" }
-        };
-
         const TEMPLATES = {
             csa: {
                 title: "CLOUD SERVICE AGREEMENT",
-                vars: ["Provider_Name", "Customer_Name", "Date"],
-                content: `<h1>Cloud Service Agreement</h1><p>This Agreement is made on <b>[[Date]]</b> between <b>[[Provider_Name]]</b> and <b>[[Customer_Name]]</b>.</p><h2>1. Services</h2><p>Provider shall provide the digital services as described in the applicable Order Form.</p><h2>2. Intellectual Property</h2><p>Provider retains all right, title, and interest in and to the Services. Customer retains all rights to Customer Data.</p>`
+                vars: ["Provider_Entity", "Customer_Entity", "Service_Name", "Effective_Date"],
+                content: `
+                    <h1>Cloud Service Agreement</h1>
+                    <p>This Cloud Service Agreement (this "<b>Agreement</b>") is entered into as of <b>[[Effective_Date]]</b> between <b>[[Provider_Entity]]</b> ("<b>Provider</b>") and <b>[[Customer_Entity]]</b> ("<b>Customer</b>").</p>
+                    <h2>1. THE CLOUD SERVICE</h2>
+                    <p><b>1.1 Access.</b> During the Subscription Period, Customer may access and use the Cloud Service known as <b>[[Service_Name]]</b> for its internal business purposes. <b>1.2 AI Usage.</b> Provider may use de-identified Customer Content to train machine learning models, provided such use does not disclose Customer's identity.</p>
+                    <h2>2. INTELLECTUAL PROPERTY</h2>
+                    <p>Provider retains all right, title, and interest in and to the Cloud Service. Customer retains all ownership of Customer Content.</p>
+                    <h2>3. INDEMNIFICATION</h2>
+                    <p>Provider shall defend Customer against any third-party claim alleging that the Cloud Service infringes any patent, copyright, or trademark.</p>
+                `
             },
             nda: {
                 title: "MUTUAL NON-DISCLOSURE AGREEMENT",
-                vars: ["Party_A", "Party_B", "Purpose"],
-                content: `<h1>Mutual Non-Disclosure Agreement</h1><p>This Agreement between <b>[[Party_A]]</b> and <b>[[Party_B]]</b> facilitates discussions regarding <b>[[Purpose]]</b>.</p><h2>1. Confidentiality</h2><p>Each party shall protect Confidential Information with at least the same degree of care as its own proprietary information.</p>`
+                vars: ["Party_A_Name", "Party_B_Name", "Business_Purpose", "Effective_Date"],
+                content: `
+                    <h1>Mutual Non-Disclosure Agreement</h1>
+                    <p>This Mutual Non-Disclosure Agreement (this "<b>Agreement</b>") is dated <b>[[Effective_Date]]</b> between <b>[[Party_A_Name]]</b> and <b>[[Party_B_Name]]</b>.</p>
+                    <h2>1. CONFIDENTIAL INFORMATION</h2>
+                    <p>"<b>Confidential Information</b>" means any information disclosed by one party to the other related to <b>[[Business_Purpose]]</b>. The Receiving Party shall protect it using at least a reasonable degree of care.</p>
+                    <h2>2. DURATION</h2>
+                    <p>This Agreement governs disclosures for one (1) year. The confidentiality obligations shall survive for a period of three (3) years.</p>
+                `
+            },
+            aia: {
+                title: "AI LIABILITY ADDENDUM",
+                vars: ["Model_Owner", "Deploying_Party", "AI_Service_Name", "Effective_Date"],
+                content: `
+                    <h1>AI Liability Addendum</h1>
+                    <p>This AI Liability Addendum (this "<b>Addendum</b>") is entered into as of <b>[[Effective_Date]]</b> between <b>[[Model_Owner]]</b> ("<b>Licensor</b>") and <b>[[Deploying_Party]]</b> ("<b>Licensee</b>") and amends the Master Services Agreement regarding <b>[[AI_Service_Name]]</b>.</p>
+                    <h2>1. ALGORITHMIC RESPONSIBILITY</h2>
+                    <p><b>1.1 Hallucination Disclaimer.</b> Licensee acknowledges that AI outputs may be inaccurate or "hallucinated." Licensee assumes all risk for reliance on such outputs. <b>1.2 Bias Mitigation.</b> Licensor represents that the Model has undergone bias testing consistent with 2026 industry standards.</p>
+                    <h2>2. IP INDEMNITY FOR GENERATIVE OUTPUT</h2>
+                    <p>Licensor shall indemnify Licensee against claims that the training data used for the Model infringes third-party copyrights, provided that the output in question has not been substantially modified by Licensee.</p>
+                `
             }
         };
 
@@ -253,9 +217,14 @@
 
         function loadTemplate(key) {
             activeKey = key;
+            document.getElementById('variable-area').style.display = 'block';
             const varBox = document.getElementById('variable-fields');
             varBox.innerHTML = '';
             userData = {};
+            
+            document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(key + '-item').classList.add('active');
+
             TEMPLATES[key].vars.forEach(v => {
                 const input = document.createElement('input');
                 input.className = 'var-input';
@@ -264,27 +233,34 @@
                 varBox.appendChild(input);
             });
             render();
-            document.getElementById('status').innerText = "ASSEMBLING_" + key.toUpperCase();
         }
 
         function render() {
             if (!activeKey) return;
-            // Use local logo.png
             let text = `<img src="logo.png" class="paper-logo" onerror="this.style.display='none'">` + TEMPLATES[activeKey].content;
             const state = document.getElementById('state-select').value;
             
             TEMPLATES[activeKey].vars.forEach(v => {
-                const val = userData[v] || `<span class="variable-highlight">[${v.split('_').join(' ')}]</span>`;
+                const val = userData[v] ? `<b>${userData[v]}</b>` : `<span style="color:#ff0055; border-bottom:1.5px dashed #ff0055;">[${v.split('_').join(' ')}]</span>`;
                 text = text.split(`[[${v}]]`).join(val);
             });
 
-            if(document.getElementById('v-arb').checked) text += VAULT_CLAUSES.arb;
-            if(document.getElementById('v-solic').checked) text += VAULT_CLAUSES.solic;
-            if(document.getElementById('v-fees').checked) text += VAULT_CLAUSES.fees;
-
-            text += `<h2>GOVERNING LAW</h2><p>This Agreement is governed by the laws of the State of ${state}. Venue shall be ${STATE_LOGIC[state].venue}.</p>`;
-            text += `<div class="sig-block"><div><b>FOR PROVIDER:</b><div class="sig-line">Name:</div><div class="sig-line">Title:</div><div class="sig-line">Date:</div></div><div><b>FOR CUSTOMER:</b><div class="sig-line">Name:</div><div class="sig-line">Title:</div><div class="sig-line">Date:</div></div></div>`;
-
+            text += `
+                <h2>GOVERNING LAW</h2>
+                <p>This Agreement is governed by the laws of the State of <b>${state}</b>. Any legal suit or proceeding must be instituted in the federal or state courts located in <b>${state}</b>.</p>
+                <div class="sig-block">
+                    <div>
+                        <b>EXECUTED BY FIRST PARTY:</b>
+                        <div class="sig-line">Signature</div>
+                        <div class="sig-line">Title & Date</div>
+                    </div>
+                    <div>
+                        <b>EXECUTED BY SECOND PARTY:</b>
+                        <div class="sig-line">Signature</div>
+                        <div class="sig-line">Title & Date</div>
+                    </div>
+                </div>
+            `;
             document.getElementById('active-draft').innerHTML = text;
         }
 
@@ -292,23 +268,16 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFont("times", "normal");
-            doc.setFontSize(12);
+            doc.setFontSize(11);
             const text = document.getElementById('active-draft').innerText;
-            doc.text(doc.splitTextToSize(text, 170), 20, 35);
-            doc.save('LadyLegalz_Contract_2026.pdf');
-        }
-
-        function exportWord() {
-            const { Document, Packer, Paragraph, TextRun, AlignmentType } = window.docx;
-            const text = document.getElementById('active-draft').innerText;
-            const doc = new Document({ sections: [{ children: text.split('\n').map(l => new Paragraph({ alignment: AlignmentType.JUSTIFY, children: [new TextRun({ text: l, font: "Times New Roman", size: 24 })] })) }] });
-            Packer.toBlob(doc).then(blob => saveAs(blob, "LadyLegalz_Contract_2026.docx"));
+            doc.text(doc.splitTextToSize(text, 170), 20, 30);
+            doc.save('Lady_Legalz_2026.pdf');
         }
 
         const canvas = document.getElementById('particlesCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particles = Array.from({length: 40}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: Math.random()-0.5, vy: Math.random()-0.5 }));
+        let particles = Array.from({length: 35}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: Math.random()-0.5, vy: Math.random()-0.5 }));
         function animate() {
             ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = '#00f2ff';
             particles.forEach(p => { p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>canvas.width)p.vx*=-1; if(p.y<0||p.y>canvas.height)p.vy*=-1; ctx.beginPath(); ctx.arc(p.x,p.y,1,0,Math.PI*2); ctx.fill(); });
