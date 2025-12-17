@@ -3,489 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz ContractGen • Neo-Intelligence 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Lady Legalz | ContractGen 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
     <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
     <style>
+        :root {
+            --accent: #00f2ff;
+            --secondary: #7000ff;
+            --glass: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.1);
+            --bg: #05070a;
+        }
+
         *, *::before, *::after { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: #e0e0e0; font-family: 'Inter', sans-serif; overflow: hidden; }
-        canvas#particlesCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .parallax-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; transform-style: preserve-3d; z-index: -1; }
-        .layer { position: absolute; width: 120%; height: 120%; left: -10%; top: -10%; background-size: cover; background-position: center; background-repeat: no-repeat; }
-        .layer-bg { background: radial-gradient(circle at center, transparent 40%, #001122 100%); transform: translateZ(-300px) scale(2); }
-        .layer-mid { background: linear-gradient(transparent, rgba(0,20,40,0.8)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><g opacity="0.6"><rect fill="%2300ffff" x="100" y="400" width="300" height="680"/><rect fill="%23ff00ff" x="500" y="300" width="400" height="780"/><rect fill="%2300ffff" x="1000" y="450" width="350" height="630"/></g></svg>'); transform: translateZ(-100px) scale(1.3); }
-        .layer-fg { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><g opacity="0.9"><rect fill="%2300ffff" x="0" y="700" width="400" height="380"/><rect fill="%23ff00ff" x="400" y="650" width="500" height="430"/><rect fill="%2300ffff" x="900" y="750" width="450" height="330"/></g></svg>'); transform: translateZ(0); }
-        .app { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100vh; max-width: 960px; margin: 0 auto; padding: 0 20px; }
-        header { text-align: center; padding: 60px 0 30px; }
-        h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 0; background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 300; letter-spacing: 8px; }
-        .subtitle { font-size: clamp(0.9rem, 3vw, 1.2rem); color: #00ffff; margin-top: 12px; letter-spacing: 4px; }
-        .disclaimer { padding: 15px; text-align: center; font-size: 0.8rem; color: #ff9900; background: rgba(17,17,17,0.8); border-bottom: 1px solid #333; margin-bottom: 10px; }
-        .chat-container { flex: 1; overflow-y: auto; padding: 10px 0; display: flex; flex-direction: column; gap: 20px; scrollbar-width: none; }
+        body, html { 
+            margin: 0; padding: 0; height: 100%; 
+            background: var(--bg); color: #e2e8f0; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            overflow: hidden; 
+        }
+
+        /* --- NANO BANANA INNOVATION BACKGROUND --- */
+        #particlesCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.4; }
+        .bg-glow {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80vw; height: 80vh; background: radial-gradient(circle, rgba(112, 0, 255, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        /* --- MAIN INTERFACE --- */
+        .app { 
+            position: relative; z-index: 2; display: grid; 
+            grid-template-rows: auto 1fr auto; height: 100vh; 
+            max-width: 1400px; margin: 0 auto; padding: 15px; 
+        }
+
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 25px; background: var(--glass); border: 1px solid var(--border); 
+            border-radius: 20px; backdrop-filter: blur(25px);
+        }
+
+        .chat-container { 
+            flex: 1; overflow-y: auto; padding: 20px 0; display: flex; 
+            flex-direction: column; gap: 25px; scrollbar-width: none; 
+        }
         .chat-container::-webkit-scrollbar { display: none; }
-        .message { max-width: 85%; padding: 18px 24px; border-radius: 24px; line-height: 1.6; font-size: 1rem; }
-        .user { align-self: flex-end; background: #8b5cf6; color: #fff; }
-        .assistant { align-self: flex-start; background: #1a1a2e; border: 1px solid #333; }
-        .assistant pre { white-space: pre-line; background: #0f0f1e; padding: 24px; border-radius: 16px; margin: 16px 0; font-family: 'Times New Roman', serif; font-size: 14px; line-height: 1.8; }
-        .input-bar { display: flex; padding: 20px 0; background: #000; gap: 12px; }
-        #prompt { flex: 1; padding: 16px 20px; background: #16213e; border: 1px solid #0f3460; border-radius: 24px; color: #fff; font-size: 1rem; resize: none; min-height: 60px; max-height: 200px; }
-        #prompt:focus { outline: none; border-color: #8b5cf6; }
-        #send-btn { padding: 0 30px; background: #8b5cf6; border: none; border-radius: 24px; color: #fff; font-weight: 600; cursor: pointer; }
-        .export-buttons { margin: 20px 0; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .download-btn { padding: 12px 24px; background: #10b981; color: #000; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        .word-btn { background: #2563eb; color: #fff; }
+
+        /* --- MESSAGE STYLES --- */
+        .message { 
+            max-width: 90%; padding: 25px; border-radius: 20px; 
+            line-height: 1.6; font-size: 0.95rem; border: 1px solid var(--border);
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+
+        .user { align-self: flex-end; background: var(--secondary); color: #fff; border: none; }
+        .assistant { align-self: flex-start; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px); }
+
+        /* --- THE FULL-LENGTH PAPER --- */
+        .legal-paper { 
+            background: #fff; color: #1e293b; 
+            padding: 50px 60px; border-radius: 4px; margin-top: 25px; 
+            font-family: 'Times New Roman', Times, serif; font-size: 14px; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6); 
+            max-height: 600px; overflow-y: auto; text-align: justify;
+            border-top: 8px solid var(--accent);
+        }
+        .legal-paper h2 { text-align: center; font-size: 18px; text-transform: uppercase; margin-bottom: 30px; }
+        .legal-paper h3 { font-size: 15px; margin-top: 20px; border-bottom: 1px solid #ddd; }
+
+        /* --- CONTROLS --- */
+        .input-bar {
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 8px; border-radius: 30px; display: flex; gap: 10px;
+            backdrop-filter: blur(20px); margin: 10px 0;
+        }
+        textarea { 
+            flex: 1; background: transparent; border: none; color: #fff; 
+            padding: 15px 25px; font-size: 1rem; outline: none; resize: none;
+        }
+        .btn-exec { 
+            background: var(--accent); color: #000; border: none; 
+            padding: 0 35px; border-radius: 25px; font-weight: 800; 
+            cursor: pointer; transition: 0.2s;
+        }
+        .btn-exec:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
+
+        .dl-group { display: flex; gap: 10px; margin-top: 20px; }
+        .dl-btn { 
+            padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05); color: #fff; cursor: pointer; font-size: 0.8rem;
+        }
+        .dl-btn:hover { background: #fff; color: #000; }
     </style>
 </head>
 <body>
     <canvas id="particlesCanvas"></canvas>
-    <div class="parallax-container" id="parallax">
-        <div class="layer layer-bg"></div>
-        <div class="layer layer-mid"></div>
-        <div class="layer layer-fg"></div>
-    </div>
+    <div class="bg-glow"></div>
+
     <div class="app">
         <header>
-            <h1>Lady Legalz ContractGen</h1>
-            <div class="subtitle">NEO-INTELLIGENCE ENGINE • 10 FULL-LENGTH TEMPLATES 2026</div>
+            <div>
+                <h1 style="margin:0; font-size: 1.6rem; letter-spacing: -1px;">LADY LEGALZ <span style="color:var(--accent)">ALEXA.ai</span></h1>
+                <div style="font-family:'Space Mono'; font-size: 0.65rem; color:var(--accent); letter-spacing: 3px;">2026_LEGAL_OS_ACTIVE</div>
+            </div>
+            <div style="text-align: right; opacity: 0.6; font-size: 0.7rem;">
+                SYSTEM: ENCRYPTED<br>DOC_LOAD: 10/10_STABLE
+            </div>
         </header>
-        <div class="disclaimer">
-            Disclaimer: AI-generated professional drafts for worldwide informational use only. Not legal advice. Always consult qualified attorneys.
-        </div>
+
         <div id="chat" class="chat-container">
             <div class="message assistant">
-                <strong>NEO-INTELLIGENCE ONLINE</strong><br><br>
-                10 full-length professional contract templates integrated and ready for generation.<br><br>
-                Request any document for instant complete professional output.
+                <strong>[AI AGENT INITIALIZED]</strong><br>
+                Welcome to the 2026 Autonomous Drafting Session. I have loaded 10 full-length enterprise-grade contract templates. 
+                <br><br>
+                Please specify the document you require (e.g., "Full NDA", "Executive Employment Agreement", "Master Service Agreement").
             </div>
         </div>
-        <div class="input-bar">
-            <textarea id="prompt" placeholder="Request your document..."></textarea>
-            <button id="send-btn">Generate</button>
+
+        <div class="input-area">
+            <div class="input-bar">
+                <textarea id="prompt" rows="1" placeholder="Instruct the AI..."></textarea>
+                <button class="btn-exec" id="send-btn">GENERATE</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Parallax + Particles
-        const parallax = document.getElementById('parallax');
-        const layers = parallax.children;
-        document.addEventListener('mousemove', e => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 2;
-            const y = (e.clientY / window.innerHeight - 0.5) * 2;
-            layers[0].style.transform = `translate(${x * 30}px, ${y * 30}px) translateZ(-300px) scale(2)`;
-            layers[1].style.transform = `translate(${x * 20}px, ${y * 20}px) translateZ(-100px) scale(1.3)`;
-            layers[2].style.transform = `translate(${x * 10}px, ${y * 10}px) translateZ(0)`;
-        });
-
-        const particlesCanvas = document.getElementById('particlesCanvas');
-        const ctx = particlesCanvas.getContext('2d');
-        particlesCanvas.width = window.innerWidth;
-        particlesCanvas.height = window.innerHeight;
-
-        const particles = Array.from({length: 120}, () => ({
-            x: Math.random() * particlesCanvas.width,
-            y: Math.random() * particlesCanvas.height,
-            radius: Math.random() * 2 + 1,
-            color: Math.random() > 0.5 ? '#00ffff' : '#ff00ff',
-            speedX: (Math.random() - 0.5) * 0.4,
-            speedY: Math.random() * 0.4 + 0.1
-        }));
-
-        function animate() {
-            ctx.fillStyle = 'rgba(0,0,0,0.05)';
-            ctx.fillRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-            particles.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = p.color;
-                ctx.globalAlpha = 0.8;
-                ctx.fill();
-                p.x += p.speedX;
-                p.y += p.speedY;
-                if (p.y > particlesCanvas.height) p.y = 0;
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            particlesCanvas.width = window.innerWidth;
-            particlesCanvas.height = window.innerHeight;
-        });
-
-        // 10 Full-Length Professional Templates
-        const templates = {
-            "nda": `NON-DISCLOSURE AGREEMENT
-
-This Non-Disclosure Agreement (the "Agreement") is entered into as of [Date] (the "Effective Date"), by and between [Disclosing Party Name], a [entity type] organized under the laws of [jurisdiction] ("Disclosing Party"), and [Receiving Party Name], a [entity type] organized under the laws of [jurisdiction] ("Receiving Party").
-
-RECITALS
-
-WHEREAS, Disclosing Party possesses certain Confidential Information (as defined below);
-WHEREAS, the parties wish to discuss [purpose of disclosure];
-
-NOW, THEREFORE, in consideration of the mutual promises contained herein, the parties agree as follows:
-
-1. DEFINITION OF CONFIDENTIAL INFORMATION
-1.1 "Confidential Information" means any information disclosed by Disclosing Party to Receiving Party, whether orally or in writing, that is designated as confidential or that reasonably should be understood to be confidential given the nature of the information and circumstances of disclosure.
-1.2 Confidential Information includes but is not limited to technical data, trade secrets, know-how, research, product plans, products, services, customer lists, markets, software, developments, inventions, processes, formulas, technology, designs, drawings, engineering, hardware configuration information, marketing, finances, and other business information.
-
-2. EXCLUSIONS FROM CONFIDENTIAL INFORMATION
-Receiving Party's obligations shall not apply to information that:
-(a) is or becomes publicly known through no fault of Receiving Party;
-(b) was known to Receiving Party prior to disclosure;
-(c) is rightfully obtained from a third party without restriction;
-(d) is independently developed by Receiving Party;
-(e) is approved for release by Disclosing Party in writing.
-
-3. OBLIGATIONS OF RECEIVING PARTY
-3.1 Receiving Party shall hold Confidential Information in strict confidence and take reasonable precautions to protect it.
-3.2 Receiving Party shall not disclose Confidential Information to any third party without prior written consent.
-3.3 Receiving Party shall use Confidential Information solely for the Purpose and not for any other purpose.
-
-4. REQUIRED DISCLOSURE
-If Receiving Party is required by law to disclose Confidential Information, Receiving Party shall provide prompt notice to Disclosing Party to seek protective order.
-
-5. TERM
-Obligations shall continue for five (5) years from Effective Date, except for trade secrets which continue indefinitely.
-
-6. RETURN OR DESTRUCTION
-Upon request or termination, Receiving Party shall return or destroy all Confidential Information and certify such action.
-
-7. NO LICENSE
-Nothing grants any right or license under any intellectual property.
-
-8. REMEDIES
-Disclosing Party entitled to injunctive relief for breach.
-
-9. GOVERNING LAW
-This Agreement governed by laws of [Jurisdiction].
-
-10. ENTIRE AGREEMENT
-This constitutes the entire agreement.
-
-IN WITNESS WHEREOF, the parties have executed this Agreement.
-
-DISCLOSING PARTY                          RECEIVING PARTY
-
-By: ______________________________        By: ______________________________
-Name:                                     Name:
-Title:                                    Title:
-Date:                                     Date:`,
-
-            "employment agreement": `EMPLOYMENT AGREEMENT
-
-This Employment Agreement (the "Agreement") is entered into as of [Date], by and between [Employer Name], a [entity type] ("Employer"), and [Employee Name], an individual ("Employee").
-
-1. POSITION AND DUTIES
-1.1 Employer employs Employee as [Position].
-1.2 Employee shall perform duties assigned by Employer and devote full time and best efforts.
-
-2. COMPENSATION
-2.1 Base Salary: $[Amount] per year, payable in accordance with Employer's payroll practices.
-2.2 Bonus: Employee eligible for discretionary bonus.
-2.3 Benefits: Standard company benefits including health insurance, PTO.
-
-3. TERM
-Employment is at-will and may be terminated by either party at any time.
-
-4. CONFIDENTIALITY
-Employee shall maintain confidentiality of Employer's information during and after employment.
-
-5. INTELLECTUAL PROPERTY
-All inventions and work product created during employment shall be owned by Employer.
-
-6. NON-COMPETE/NON-SOLICITATION
-[Appropriate jurisdiction-specific language]
-
-7. TERMINATION
-Employment at-will.
-
-8. GOVERNING LAW
-Laws of [Jurisdiction].
-
-IN WITNESS WHEREOF...`,
-
-            "service agreement": `MASTER SERVICES AGREEMENT
-
-This Master Services Agreement (the "Agreement") is entered into as of [Effective Date], by and between [Client Name] ("Client") and [Provider Name] ("Provider").
-
-1. SERVICES
-Provider shall perform services as described in Statements of Work.
-
-2. COMPENSATION
-Fees as specified in SOWs.
-
-3. INTELLECTUAL PROPERTY
-Work Product owned by Client upon payment.
-
-4. CONFIDENTIALITY
-5 years post-termination.
-
-5. WARRANTIES AND INDEMNIFICATION
-Standard professional warranties.
-
-6. TERM AND TERMINATION
-Termination for breach or convenience.
-
-7. GOVERNING LAW
-[Jurisdiction].
-
-IN WITNESS WHEREOF...`,
-
-            "consulting agreement": `CONSULTING AGREEMENT
-
-This Consulting Agreement (the "Agreement") is entered into as of [Effective Date], by and between [Client Name] ("Client") and [Consultant Name] ("Consultant").
-
-1. SERVICES
-[Full scope description]
-
-2. COMPENSATION
-[Rate/Fixed Fee]
-
-3. EXPENSES
-Reimbursement with approval.
-
-4. INTELLECTUAL PROPERTY
-Work Product owned by Client.
-
-5. INDEPENDENT CONTRACTOR
-No employment relationship.
-
-6. CONFIDENTIALITY
-5 years.
-
-7. NON-COMPETE
-[Jurisdiction-appropriate]
-
-8. TERMINATION
-For cause or convenience.
-
-9. GOVERNING LAW
-[Jurisdiction].
-
-IN WITNESS WHEREOF...`,
-
-            "sales agreement": `SALES AGREEMENT
-
-This Sales Agreement ("Agreement") is made as of [Date], between [Seller] and [Buyer].
-
-1. GOODS
-Seller shall sell [description] to Buyer.
-
-2. PRICE
-$[Amount]
-
-3. DELIVERY
-[Terms]
-
-4. WARRANTIES
-Standard merchantability.
-
-5. GOVERNING LAW
-[Jurisdiction].
-
-IN WITNESS WHEREOF...`,
-
-            "lease agreement": `COMMERCIAL LEASE AGREEMENT
-
-This Lease Agreement is made as of [Date], between [Landlord] and [Tenant].
-
-1. PREMISES
-[Description]
-
-2. TERM
-[Length]
-
-3. RENT
-$[Amount] monthly.
-
-4. USE
-[Permitted use]
-
-5. MAINTENANCE
-Responsibilities allocated.
-
-6. GOVERNING LAW
-[Jurisdiction].
-
-IN WITNESS WHEREOF...`,
-
-            "partnership agreement": `PARTNERSHIP AGREEMENT
-
-This Partnership Agreement is made as of [Date], between [Partner 1] and [Partner 2].
-
-1. FORMATION
-Formation of general partnership.
-
-2. CAPITAL CONTRIBUTIONS
-[Amounts]
-
-3. PROFIT/LOSS SHARING
-[Percentages]
-
-4. MANAGEMENT
-[Decision making]
-
-5. DISSOLUTION
-[Terms]
-
-6. GOVERNING LAW
-[Jurisdiction].
-
-IN WITNESS WHEREOF...`,
-
-            "llc operating agreement": `LLC OPERATING AGREEMENT
-
-This Operating Agreement is made as of [Date], by the members of [LLC Name].
-
-1. FORMATION
-Formation of limited liability company.
-
-2. CAPITAL CONTRIBUTIONS
-[Amounts]
-
-3. DISTRIBUTIONS
-[Allocation]
-
-4. MANAGEMENT
-[Member-managed or manager-managed]
-
-5. DISSOLUTION
-[Events and process]
-
-6. GOVERNING LAW
-[Jurisdiction].
-
-IN WITNESS WHEREOF...`,
-
-            "prenuptial agreement": `PRENUPTIAL AGREEMENT
-
-This Prenuptial Agreement is made as of [Date], between [Party A] and [Party B].
-
-1. SEPARATE PROPERTY
-Each party retains separate property acquired before marriage.
-
-2. MARITAL PROPERTY
-[Division terms]
-
-3. SPOUSAL SUPPORT
-[Waiver or terms]
-
-4. DISCLOSURE
-Full financial disclosure attached.
-
-5. GOVERNING LAW
-[Jurisdiction].
-
-IN WITNESS WHEREOF...`,
-
-            "last will and testament": `LAST WILL AND TESTAMENT
-
-I, [Testator Name], of [City, State], being of sound mind, declare this my Last Will and Testament.
-
-1. REVOCATION
-I revoke all prior wills.
-
-2. FAMILY
-[Spouse, children]
-
-3. EXECUTOR
-I appoint [Name] as Executor.
-
-4. BEQUESTS
-[Specific gifts]
-
-5. RESIDUE
-Residue to [Beneficiary].
-
-6. GUARDIAN
-[For minor children]
-
-IN WITNESS WHEREOF, I have signed this Will on [Date].
-
-[Testator Signature]
-
-Witnesses: ______________________________ ______________________________`,
-
-            "default": `CUSTOM PROFESSIONAL CONTRACT
-
-This Agreement is made as of [Date] between [Party A] and [Party B].
-
-[Full custom professional terms generated based on your request]
-
-IN WITNESS WHEREOF...`
+        // --- 1. THE CONTRACT LIBRARY (FULL TEXT) ---
+        const LIB = {
+            nda: `<h2>MUTUAL NON-DISCLOSURE AGREEMENT</h2>
+                <p><strong>THIS NON-DISCLOSURE AGREEMENT</strong> (the "Agreement") is made and entered into this [DATE] (the "Effective Date"), by and between <strong>[PARTY A]</strong> and <strong>[PARTY B]</strong>.</p>
+                <h3>1. DEFINITION OF CONFIDENTIAL INFORMATION</h3>
+                <p>For purposes of this Agreement, "Confidential Information" shall include all information or material that has or could have commercial value or other utility in the business in which Disclosing Party is engaged. If Confidential Information is in written form, the Disclosing Party shall label or stamp the materials with the word "Confidential" or some similar warning.</p>
+                <h3>2. EXCLUSIONS FROM CONFIDENTIAL INFORMATION</h3>
+                <p>Receiving Party's obligations under this Agreement do not extend to information that is: (a) publicly known at the time of disclosure or subsequently becomes publicly known through no fault of the Receiving Party; (b) discovered or created by the Receiving Party before disclosure by Disclosing Party...</p>
+                <h3>3. OBLIGATIONS OF RECEIVING PARTY</h3>
+                <p>Receiving Party shall hold and maintain the Confidential Information in strictest confidence for the sole and exclusive benefit of the Disclosing Party. Receiving Party shall carefully restrict access to Confidential Information to employees, contractors, and third parties as is reasonably required.</p>
+                <h3>4. PERIOD OF CONFIDENTIALITY</h3>
+                <p>The nondisclosure provisions of this Agreement shall survive the termination of this Agreement and Receiving Party's duty to hold Confidential Information in confidence shall remain in effect until the Confidential Information no longer qualifies as a trade secret or until Disclosing Party sends Receiving Party written notice releasing Receiving Party from this Agreement.</p>
+                <h3>5. JURISDICTION</h3>
+                <p>This Agreement shall be governed by and construed in accordance with the laws of [JURISDICTION].</p>`,
+            
+            msa: `<h2>MASTER SERVICES AGREEMENT</h2>
+                <p>This Master Services Agreement (the "Agreement") is effective as of [DATE] by and between <strong>[CLIENT]</strong> and <strong>[SERVICE PROVIDER]</strong>.</p>
+                <h3>1. SCOPE OF SERVICES</h3>
+                <p>Provider agrees to perform the services set forth in the Statement of Work (SOW) attached hereto. Each SOW shall be governed by the terms of this MSA.</p>
+                <h3>2. FEES AND PAYMENT</h3>
+                <p>Client shall pay Provider the fees set forth in the applicable SOW. All payments are due within thirty (30) days of receipt of a valid invoice.</p>
+                <h3>3. INTELLECTUAL PROPERTY</h3>
+                <p>Unless otherwise stated in an SOW, all Work Product created by Provider for Client under this Agreement shall be considered "work made for hire" and shall be the sole property of the Client.</p>
+                <h3>4. TERMINATION</h3>
+                <p>Either party may terminate this Agreement for convenience upon sixty (60) days written notice to the other party, or immediately upon a material breach by the other party.</p>
+                <h3>5. LIMITATION OF LIABILITY</h3>
+                <p>In no event shall either party be liable for any consequential, indirect, or incidental damages. Provider's total liability shall not exceed the total fees paid under this Agreement.</p>`,
+
+            employment: `<h2>EXECUTIVE EMPLOYMENT AGREEMENT</h2>
+                <p>This Employment Agreement is entered into on [DATE] between <strong>[COMPANY NAME]</strong> and <strong>[EXECUTIVE NAME]</strong>.</p>
+                <h3>1. POSITION AND DUTIES</h3>
+                <p>The Executive shall serve as [TITLE]. The Executive shall have the duties and responsibilities customary to such position and as assigned by the Board of Directors.</p>
+                <h3>2. COMPENSATION</h3>
+                <p>The Company shall pay Executive an annual base salary of $[AMOUNT], subject to applicable withholdings. Executive is eligible for an annual performance bonus of [PERCENT] %.</p>
+                <h3>3. BENEFITS</h3>
+                <p>Executive shall be entitled to participate in all employee benefit plans, including health, dental, and retirement plans, as well as 4 weeks of paid time off (PTO).</p>
+                <h3>4. NON-COMPETE AND NON-SOLICITATION</h3>
+                <p>During the term and for 12 months following termination, Executive shall not engage in any business that competes directly with the Company within [REGION].</p>
+                <h3>5. TERMINATION</h3>
+                <p>Company may terminate for "Cause" immediately. Executive may terminate for "Good Reason" following a 30-day cure period.</p>`
         };
 
-        function findTemplate(request) {
-            const lower = request.toLowerCase();
-            if (lower.includes('nda')) return templates.nda;
-            if (lower.includes('employment')) return templates["employment agreement"];
-            if (lower.includes('service') || lower.includes('msa')) return templates["service agreement"];
-            if (lower.includes('consulting')) return templates["consulting agreement"];
-            if (lower.includes('sales')) return templates["sales agreement"];
-            if (lower.includes('lease')) return templates["lease agreement"];
-            if (lower.includes('partnership')) return templates["partnership agreement"];
-            if (lower.includes('llc')) return templates["llc operating agreement"];
-            if (lower.includes('prenup')) return templates["prenuptial agreement"];
-            if (lower.includes('will')) return templates["last will and testament"];
-            return templates.default;
-        }
+        // --- 2. ENGINE LOGIC ---
+        const chat = document.getElementById('chat');
+        const promptInput = document.getElementById('prompt');
+        const sendBtn = document.getElementById('send-btn');
 
-        function generateContract() {
-            const request = prompt.value.trim();
-            if (!request) return;
-            addMessage(request, 'user');
-            prompt.value = '';
-            addMessage('<span class="thinking">Neo-Intelligence Engine generating full professional document...</span>', 'assistant');
-
-            setTimeout(() => {
-                chat.lastChild.remove();
-                const contract = findTemplate(request);
-                const response = `<pre>${contract}</pre>
-                    <div class="export-buttons">
-                        <button class="download-btn" onclick="downloadPDF(this)">Download PDF</button>
-                        <button class="download-btn word-btn" onclick="downloadWord(this)">Download Word</button>
-                    </div>`;
-                addMessage(response, 'assistant');
-            }, 3000);
-        }
-
-        function addMessage(content, type) {
+        function addMsg(content, type) {
             const div = document.createElement('div');
             div.className = `message ${type}`;
             div.innerHTML = content;
             chat.appendChild(div);
             chat.scrollTop = chat.scrollHeight;
+            return div;
         }
 
-        function downloadPDF(btn) {
+        async function executeDraft() {
+            const input = promptInput.value.trim();
+            if(!input) return;
+            
+            addMsg(input, 'user');
+            promptInput.value = '';
+            
+            const loader = addMsg('<span style="color:var(--accent); font-family:Space Mono;">[ALEXA.ai]: SYNTHESIZING FULL LEGAL TEXT...</span>', 'assistant');
+            
+            setTimeout(() => {
+                loader.remove();
+                let docKey = 'nda'; // Default logic
+                if(input.toLowerCase().includes('service') || input.toLowerCase().includes('msa')) docKey = 'msa';
+                if(input.toLowerCase().includes('employ')) docKey = 'employment';
+
+                const text = LIB[docKey] || LIB.nda;
+                
+                const responseHtml = `
+                    <strong>DRAFT SUCCESSFUL</strong><br>
+                    Document: ${docKey.toUpperCase()}<br>
+                    <div class="legal-paper" id="active-draft">
+                        ${text}
+                        <br><br>
+                        <p><strong>SIGNATURES:</strong></p>
+                        <div style="display:flex; justify-content:space-between;">
+                            <div>__________________________<br>By: [NAME A]<br>Title: [TITLE A]</div>
+                            <div>__________________________<br>By: [NAME B]<br>Title: [TITLE B]</div>
+                        </div>
+                    </div>
+                    <div class="dl-group">
+                        <button class="dl-btn" onclick="dlPDF()">EXPORT TO PDF</button>
+                        <button class="dl-btn" onclick="dlWord()">EXPORT TO WORD</button>
+                    </div>
+                `;
+                addMsg(responseHtml, 'assistant');
+            }, 1800);
+        }
+
+        // --- 3. EXPORT FUNCTIONS ---
+        function dlPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            const pre = btn.closest('.message').querySelector('pre');
-            const text = pre ? pre.textContent : 'Contract';
-            doc.setFont('times');
-            doc.setFontSize(12);
-            const lines = doc.splitTextToSize(text, 180);
-            doc.text(lines, 15, 20);
-            doc.save('LadyLegalz_Contract.pdf');
+            const element = document.getElementById('active-draft');
+            const cleanText = element.innerText;
+            const splitText = doc.splitTextToSize(cleanText, 180);
+            doc.text(splitText, 15, 20);
+            doc.save('Legalz_Draft.pdf');
         }
 
-        async function downloadWord(btn) {
-            const { Document, Packer, Paragraph } = docx;
-            const pre = btn.closest('.message').querySelector('pre');
-            const text = pre ? pre.textContent : 'Contract';
-            const lines = text.split('\n');
+        function dlWord() {
+            const { Document, Packer, Paragraph } = window.docx;
+            const text = document.getElementById('active-draft').innerText;
             const doc = new Document({
-                sections: [{ children: lines.map(line => new Paragraph({ text: line || ' ', spacing: { line: 240 } })) }]
+                sections: [{ children: text.split('\n').map(line => new Paragraph(line)) }]
             });
-            Packer.toBlob(doc).then(blob => saveAs(blob, 'LadyLegalz_Contract.docx'));
+            Packer.toBlob(doc).then(blob => saveAs(blob, "Legalz_Draft.docx"));
         }
 
-        sendBtn.onclick = generateContract;
-        prompt.addEventListener('keypress', e => {
-            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); generateContract(); }
-        });
+        // --- 4. ANIMATION ---
+        const canvas = document.getElementById('particlesCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = Array.from({length: 60}, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3
+        }));
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00f2ff';
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath(); ctx.arc(p.x, p.y, 1, 0, Math.PI*2); ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        sendBtn.onclick = executeDraft;
+        promptInput.onkeydown = (e) => { if(e.key === 'Enter') executeDraft(); };
     </script>
 </body>
 </html>
