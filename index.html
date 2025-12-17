@@ -4,187 +4,348 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lady Legalz ContractGen 2026 | NEO INTELLIGENCE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;770&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --neon-blue: #00f2ff;
-            --deep-space: #010409;
-            --legal-gray: #64748b;
-            --paper-white: #ffffff;
-            --sidebar-bg: #0d1117;
-            --input-bg: #161b22;
+            --neural-glow: #00f2ff;
+            --deep-void: #0a001a;
+            --synth-purple: #1a0033;
+            --interface-text: #e0e0e0;
+            --control-bg: #2a004d;
+            --border-light: rgba(0, 242, 255, 0.2);
+            --paper-bg: #f8faff; 
+            --legal-black: #1a1a1a;
         }
 
-        body, html { margin: 0; padding: 0; height: 100%; background: var(--deep-space); color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
-        .app-shell { display: grid; grid-template-columns: 420px 1fr; height: 100vh; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Rajdhani', sans-serif; color: var(--interface-text); background: var(--deep-void); }
+        .app-container { display: grid; grid-template-columns: 480px 1fr; height: 100vh; position: relative; }
+
+        .sidebar { background: var(--synth-purple); border-right: 1px solid var(--border-light); padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; box-shadow: 2px 0 15px rgba(0,242,255,0.1); }
         
-        .sidebar { background: var(--sidebar-bg); border-right: 1px solid rgba(0,242,255,0.1); padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .branding { text-align: center; border: 1px solid var(--neon-blue); padding: 20px; border-radius: 4px; }
-        .branding h1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 0; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 2px; }
+        /* Updated Branding Section with logo.png */
+        .logo-panel { text-align: center; margin-bottom: 20px; padding: 20px; border: 1px solid var(--neural-glow); border-radius: 8px; background: rgba(0,242,255,0.05); }
+        .brand-logo { max-width: 120px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 5px var(--neural-glow)); }
+        .logo-text { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 15px var(--neural-glow); margin: 0; }
+        .tagline { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--interface-text); opacity: 0.7; margin-top: 5px; }
 
-        .control-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-        .label { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--legal-gray); text-transform: uppercase; }
-        .input-field, .select-field { background: var(--input-bg); border: 1px solid #30363d; padding: 12px; color: #fff; border-radius: 4px; font-size: 13px; width: 100%; }
+        .control-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+        .control-label { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 1px; }
+        .input-field, .select-field { 
+            background: var(--control-bg); border: 1px solid var(--border-light); padding: 12px; 
+            color: var(--interface-text); font-family: 'Rajdhani', sans-serif; font-size: 1rem; 
+            border-radius: 5px; transition: all 0.2s ease-in-out;
+        }
+        .input-field:focus, .select-field:focus { border-color: var(--neural-glow); outline: none; box-shadow: 0 0 10px rgba(0,242,255,0.4); }
 
-        .canvas { background: #000; overflow-y: auto; padding: 50px; display: flex; flex-direction: column; align-items: center; }
-        .doc-page {
-            width: 8.5in; min-height: 11in; background: var(--paper-white); color: #000;
-            padding: 1in; margin-bottom: 50px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.4;
+        .doc-canvas { background: #000; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        .document-page {
+            width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
+            padding: 0.8in 1in; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.6;
+            border-radius: 2px;
         }
 
-        .court-header { text-align: center; font-weight: bold; text-transform: uppercase; font-size: 14pt; margin-bottom: 20px; }
-        .caption-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 2px solid #000; }
-        .caption-table td { padding: 10px; border: 1px solid #000; vertical-align: top; width: 50%; }
-        .doc-title { text-align: center; font-weight: bold; font-size: 15pt; margin: 20px 0; text-decoration: underline; text-transform: uppercase; }
-        
-        .section-header { font-weight: bold; text-transform: uppercase; margin-top: 15px; border-bottom: 1px solid #000; display: block; }
-        .var-field { background: #e0f2fe; border-bottom: 1px solid #0369a1; font-weight: bold; }
-        .err-field { color: #dc2626; border-bottom: 1px dashed #dc2626; background: #fef2f2; }
+        .court-header { text-align: center; font-weight: bold; text-transform: uppercase; font-size: 14pt; margin-bottom: 25px; line-height: 1.3; }
+        .caption-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; border: 2px solid var(--legal-black); }
+        .caption-table td { padding: 12px; border: 1px solid var(--legal-black); vertical-align: top; width: 50%; }
+        .doc-title { text-align: center; font-weight: bold; font-size: 16pt; margin: 25px 0; text-decoration: underline; text-transform: uppercase; }
+        .section-heading { font-weight: bold; text-transform: uppercase; margin-top: 20px; border-bottom: 1px solid var(--legal-black); padding-bottom: 5px; display: block; font-size: 11.5pt; }
+        .clause-num { font-weight: bold; margin-right: 5px; }
 
-        .btn-gen { background: var(--neon-blue); color: #000; border: none; padding: 15px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; width: 100%; margin-top: 10px; }
+        .var-field { background: #e0f2fe; border-bottom: 1px solid #0369a1; font-weight: 600; padding: 0 4px; border-radius: 2px; }
+        .fillable-input { 
+            border: none; border-bottom: 1px dashed #007bff; background-color: rgba(0,123,255,0.05); 
+            font-family: 'Times New Roman', serif; font-size: 11pt; color: var(--legal-black);
+            padding: 2px 4px; margin: 0 2px; width: auto; min-width: 80px; 
+            display: inline-block; 
+        }
+        .fillable-input:focus { background-color: rgba(0,123,255,0.15); border-bottom: 1px solid #007bff; outline: none; }
+        .err-field { color: #dc2626; border-bottom: 1px dashed #dc2626; background: #fef2f2; padding: 0 4px; border-radius: 2px; }
+
+        .action-bar { padding: 20px; border-top: 1px solid var(--border-light); background: var(--synth-purple); display: flex; gap: 15px; justify-content: center; }
+        .btn { 
+            background: var(--neural-glow); color: var(--deep-void); border: none; padding: 14px 25px; 
+            font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; border-radius: 5px; 
+            text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0,242,255,0.3);
+        }
+        .btn:hover { background: #fff; color: var(--deep-void); transform: translateY(-2px); box-shadow: 0 0 25px rgba(255,255,255,0.5); }
 
         @media print {
-            .sidebar { display: none; }
-            .canvas { background: #fff; padding: 0; display: block; }
-            .doc-page { box-shadow: none; margin: 0; page-break-after: always; border: none; }
+            .sidebar, .action-bar { display: none; }
+            .doc-canvas { background: #fff; padding: 0; display: block; }
+            .document-page { box-shadow: none; margin: 0; page-break-after: always; border-radius: 0; border: none; }
+            .fillable-input { border-bottom: 1px solid var(--legal-black); background: none; }
         }
     </style>
 </head>
 <body>
 
-<div class="app-shell">
+<div class="app-container">
     <aside class="sidebar">
-        <div class="branding"><h1>LADY LEGALZ</h1><span>CONTRACTGEN 2026</span></div>
-        
+        <div class="logo-panel">
+            <img src="logo.png" alt="Lady Legalz Logo" class="brand-logo" onerror="this.style.display='none'">
+            <h1 class="logo-text">LADY LEGALZ</h1>
+            <span class="tagline">CONTRACTGEN 2026 // NEO INTELLIGENCE</span>
+        </div>
+
         <div class="control-group">
-            <label class="label">Jurisdiction (State & Federal)</label>
+            <label class="control-label" for="jurisdiction">Target Jurisdiction</label>
             <select id="jurisdiction" class="select-field" onchange="updateView()">
                 <optgroup label="Federal Courts">
-                    <option value="U.S. District Court, Southern District of New York">Federal (SDNY)</option>
-                    <option value="U.S. District Court, Northern District of California">Federal (NDCA)</option>
-                    <option value="U.S. District Court, District of Delaware">Federal (D. Del)</option>
+                    <option value="United States District Court, Southern District of New York">Federal (SDNY)</option>
+                    <option value="United States District Court, Northern District of California">Federal (NDCA)</option>
+                    <option value="United States District Court, District of Delaware">Federal (D. Del)</option>
+                    <option value="United States Bankruptcy Court, District of Arizona">Federal (AZ Bankruptcy)</option>
                 </optgroup>
-                <optgroup label="State Jurisdictions" id="state-list"></optgroup>
+                <optgroup label="State Courts (All 50)" id="state-list"></optgroup>
             </select>
         </div>
 
         <div class="control-group">
-            <label class="label">Protocol Selection</label>
+            <label class="control-label" for="protocol">Select Legal Protocol</label>
             <select id="protocol" class="select-field" onchange="initFields()">
-                <option value="">-- Choose Protocol --</option>
-                <option value="LIT_FULL">Civil Complaint & Summons (Full Packet)</option>
-                <option value="CORP_MERGE">M&A: Agreement and Plan of Merger</option>
-                <option value="EMP_EXEC">Executive Employment (IP & Clawback)</option>
-                <option value="TECH_SAAS">Master SaaS Services Agreement</option>
-                <option value="REAL_LEASE">Commercial Real Estate Lease</option>
-                <option value="NDA_MUTUAL">Mutual Non-Disclosure Agreement</option>
+                <option value="">-- Choose High-Fidelity Protocol --</option>
+                <optgroup label="Civil Litigation Forms (US Courts)">
+                    <option value="CIV_COMPLAINT_FED">Federal Civil Complaint (Form AO 21)</option>
+                    <option value="CIV_SUMMONS_FED">Federal Summons (Form AO 440)</option>
+                    <option value="CIV_ANSWER_STATE">State Civil Answer & Affirm. Defenses</option>
+                    <option value="CIV_DISCOVERY_INTERROG">State Interrogatories (Basic Set)</option>
+                    <option value="CRIM_INDICTMENT_FED">Federal Indictment (Simplified)</option>
+                    <option value="FAMILY_PETITION_DIVORCE">State Petition for Dissolution of Marriage</option>
+                    <option value="PROBATE_WILL">Simple Last Will and Testament</option>
+                </optgroup>
+                <optgroup label="Corporate & Transactional">
+                    <option value="CORP_MERGE">Agreement and Plan of Merger</option>
+                    <option value="CORP_RES">Board Resolution (General Purpose)</option>
+                    <option value="TECH_SAAS">Master SaaS Services Agreement</option>
+                    <option value="NDA_MUTUAL">Mutual Non-Disclosure Agreement</option>
+                    <option value="LOI_ACQUISITION">Letter of Intent (Acquisition)</option>
+                </optgroup>
+                <optgroup label="Employment & IP">
+                    <option value="EMP_EXEC">Executive Employment Agreement (IP/Clawback)</option>
+                    <option value="IP_ASSIGN">Intellectual Property Assignment Agreement</option>
+                    <option value="CONSULTING_AGR">Independent Consulting Agreement</option>
+                </optgroup>
+                <optgroup label="Real Estate">
+                    <option value="REAL_LEASE_COMM">Commercial Triple-Net Lease (NNN)</option>
+                    <option value="REAL_PURCHASE">Real Estate Purchase & Sale Agreement</option>
+                </optgroup>
             </select>
         </div>
 
         <div id="form-fields"></div>
-        <button class="btn-gen" onclick="window.print()">Print / Export Final PDF</button>
     </aside>
 
-    <main class="canvas" id="doc-output"></main>
+    <main class="doc-canvas" id="doc-output">
+        <div style="text-align:center; padding-top:200px; opacity:0.1; color:var(--neural-glow);">
+            <h1 style="font-family:'Orbitron'; font-size:3rem; text-shadow: 0 0 20px var(--neural-glow);">LADY LEGALZ</h1>
+            <p style="font-family:'Share Tech Mono'; letter-spacing:4px; font-size:1rem;">AWAITING NEURAL PROTOCOL INJECTION</p>
+            <p style="font-family:'Share Tech Mono'; font-size:0.8rem; margin-top:20px;">SYSTEM STATUS: ONLINE // NANO BANANA MODULES READY</p>
+        </div>
+    </main>
+
+    <div class="action-bar">
+        <button class="btn" onclick="generateFillablePdf()">Generate Fillable PDF</button>
+        <button class="btn" onclick="window.print()">Print / Export Static PDF</button>
+        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset Engine</button>
+    </div>
 </div>
 
 <script>
     const STATES = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
 
     const PROTOCOLS = {
-        LIT_FULL: {
-            fields: ["Plaintiff", "Defendant", "Plaintiff_Address", "Defendant_Address", "Amount_Claimed", "Case_No"],
+        CIV_COMPLAINT_FED: {
+            fields: ["Plaintiff_Name", "Defendant_Name", "Court_District", "Cause_of_Action", "Relief_Sought", "Jury_Demand"],
             render: (f, j) => `
-                <div class="doc-page">
+                <div class="document-page">
                     <div class="court-header">${j}</div>
                     <table class="caption-table">
-                        <tr><td>${f.Plaintiff}, Plaintiff<br>v.<br>${f.Defendant}, Defendant</td><td><b>SUMMONS</b><br>Case No: ${f.Case_No}</td></tr>
+                        <tr>
+                            <td><b>${f.Plaintiff_Name}</b>,<br>Plaintiff,<br><br>v.<br><br><b>${f.Defendant_Name}</b>,<br>Defendant.</td>
+                            <td>Civil Action No. <input type="text" class="fillable-input" placeholder="Case No."><br><br><b>COMPLAINT</b><br>JURY TRIAL DEMANDED: ${f.Jury_Demand}</td>
+                        </tr>
                     </table>
-                    <p><b>TO THE ABOVE-NAMED DEFENDANT:</b> You are hereby summoned and required to serve upon the plaintiff’s attorney an answer to the complaint which is herewith served upon you within 21 days after service.</p>
-                </div>
-                <div class="doc-page">
-                    <div class="doc-title">Verified Complaint</div>
-                    <span class="section-header">I. Parties</span>
-                    <p>1. Plaintiff ${f.Plaintiff} resides at ${f.Plaintiff_Address}. 2. Defendant ${f.Defendant} is located at ${f.Defendant_Address}.</p>
-                    <span class="section-header">II. Jurisdiction</span>
-                    <p>Jurisdiction is proper in ${j} because the acts giving rise to this claim occurred herein and the amount in controversy exceeds ${f.Amount_Claimed}.</p>
+                    <span class="section-heading">I. JURISDICTION AND VENUE</span>
+                    <p><span class="clause-num">1.</span> This is an action for ${f.Cause_of_Action}. This Court has subject matter jurisdiction pursuant to 28 U.S.C. § 1332 (Diversity).</p>
+                    <span class="section-heading">II. PARTIES</span>
+                    <p><span class="clause-num">2.</span> Plaintiff ${f.Plaintiff_Name} is a citizen of <input type="text" class="fillable-input" placeholder="State/Country">. Defendant ${f.Defendant_Name} is a citizen of <input type="text" class="fillable-input" placeholder="State/Country">.</p>
+                    <span class="section-heading">III. CLAIMS FOR RELIEF</span>
+                    <p><span class="clause-num">3.</span> Defendant engaged in conduct constituting ${f.Cause_of_Action}, causing damage to Plaintiff.</p>
+                    <span class="section-heading">IV. PRAYER FOR RELIEF</span>
+                    <p><span class="clause-num">4.</span> WHEREFORE, Plaintiff respectfully requests that the Court enter judgment against Defendant for ${f.Relief_Sought}.</p>
                 </div>`
         },
-        REAL_LEASE: {
-            fields: ["Landlord", "Tenant", "Premises_Address", "Monthly_Rent", "Security_Deposit", "Term_Months"],
+        CIV_SUMMONS_FED: {
+            fields: ["Plaintiff_Name", "Defendant_Name", "Court_District", "Attorney_Name", "Attorney_Address"],
             render: (f, j) => `
-                <div class="doc-page">
-                    <div class="doc-title">Commercial Lease Agreement</div>
-                    <span class="section-header">1. Parties & Premises</span>
-                    <p>This lease is made between ${f.Landlord} ("Landlord") and ${f.Tenant} ("Tenant") for the premises at ${f.Premises_Address}.</p>
-                    <span class="section-header">2. Term and Rent</span>
-                    <p>The term shall be for ${f.Term_Months} months. Tenant shall pay ${f.Monthly_Rent} per month.</p>
-                    <span class="section-header">3. Governing Law</span>
-                    <p>This lease is governed by the laws of the State of ${j.includes('Court') ? 'Delaware' : j}.</p>
+                <div class="document-page">
+                    <div class="court-header">${j}</div>
+                    <table class="caption-table">
+                        <tr>
+                            <td><b>${f.Plaintiff_Name}</b>,<br>Plaintiff,<br><br>v.<br><br><b>${f.Defendant_Name}</b>,<br>Defendant.</td>
+                            <td>Civil Action No. <input type="text" class="fillable-input" placeholder="Case No."><br><br><b>SUMMONS IN A CIVIL ACTION</b></td>
+                        </tr>
+                    </table>
+                    <p><b>TO: ${f.Defendant_Name}</b><br><input type="text" class="fillable-input" style="width:90%;" placeholder="Defendant's Address"></p>
+                    <p>A lawsuit has been filed against you. Within 21 days after receiving this summons, you must serve an answer to the attached complaint.</p>
+                    <div style="margin-top:80px;">
+                        <p>Date: <input type="text" class="fillable-input" placeholder="MM/DD/YYYY"></p>
+                        <p>Clerk of Court: __________________________</p>
+                        <p style="margin-top:30px;">Attorney for Plaintiff:<br><b>${f.Attorney_Name}</b><br><input type="text" class="fillable-input" style="width:90%;" placeholder="Attorney Address"><br><input type="text" class="fillable-input" placeholder="Phone"> Fax: <input type="text" class="fillable-input" placeholder="Fax"></p>
+                    </div>
                 </div>`
         },
-        CORP_MERGE: {
-            fields: ["Acquiror", "Target", "Purchase_Price", "Closing_Date"],
+        NDA_MUTUAL: {
+            fields: ["Party_One", "Party_Two", "Purpose_of_Disclosure", "Confidentiality_Term_Years"],
             render: (f, j) => `
-                <div class="doc-page">
-                    <div class="doc-title">Agreement and Plan of Merger</div>
-                    <span class="section-header">Recitals</span>
-                    <p>WHEREAS, ${f.Acquiror} desires to acquire ${f.Target} via a statutory merger under the laws of ${j}.</p>
-                    <span class="section-header">Article I: Consideration</span>
-                    <p>The total consideration for the Target shares shall be ${f.Purchase_Price} payable on ${f.Closing_Date}.</p>
+                <div class="document-page">
+                    <div class="doc-title">MUTUAL NON-DISCLOSURE AGREEMENT</div>
+                    <p>This Mutual Non-Disclosure Agreement (the "Agreement") is made effective as of <input type="text" class="fillable-input" placeholder="Effective Date"> (the "Effective Date"), by and between <b>${f.Party_One}</b>, located at <input type="text" class="fillable-input" placeholder="Address">, and <b>${f.Party_Two}</b>, located at <input type="text" class="fillable-input" placeholder="Address"> (collectively, the "Parties").</p>
+                    <span class="section-heading">1. PURPOSE</span>
+                    <p><span class="clause-num">1.1</span> The Parties wish to explore a potential business relationship concerning ${f.Purpose_of_Disclosure} (the "Permitted Purpose").</p>
+                    <span class="section-heading">2. CONFIDENTIAL INFORMATION</span>
+                    <p><span class="clause-num">2.1</span> "Confidential Information" means any non-public information disclosed by one Party to the other for the Permitted Purpose.</p>
+                    <span class="section-heading">3. OBLIGATIONS OF RECEIVING PARTY</span>
+                    <p><span class="clause-num">3.1</span> Each Party shall protect the other's Confidential Information with the same degree of care as it uses for its own.</p>
+                    <span class="section-heading">4. TERM</span>
+                    <p><span class="clause-num">4.1</span> The obligations of confidentiality hereunder shall survive for a period of ${f.Confidentiality_Term_Years} years from the Effective Date.</p>
+                    <p style="margin-top:50px;">IN WITNESS WHEREOF, the Parties have executed this Agreement as of the Effective Date.</p>
+                    <div style="display:flex; justify-content:space-between; margin-top:40px;">
+                        <div style="width:45%; border-top:1px solid var(--legal-black); padding-top:10px;">By: <input type="text" class="fillable-input" placeholder="Print Name"><br>Title: <input type="text" class="fillable-input" placeholder="Title"><br>Date: <input type="text" class="fillable-input" placeholder="Date"></div>
+                        <div style="width:45%; border-top:1px solid var(--legal-black); padding-top:10px;">By: <input type="text" class="fillable-input" placeholder="Print Name"><br>Title: <input type="text" class="fillable-input" placeholder="Title"><br>Date: <input type="text" class="fillable-input" placeholder="Date"></div>
+                    </div>
                 </div>`
         },
-        EMP_EXEC: {
-            fields: ["Employer", "Executive", "Base_Salary", "Clawback_Period"],
+        REAL_LEASE_COMM: {
+            fields: ["Landlord_Name", "Tenant_Name", "Property_Address", "Monthly_Base_Rent", "Lease_Term_Years", "Security_Deposit_Amount"],
             render: (f, j) => `
-                <div class="doc-page">
-                    <div class="doc-title">Executive Employment Agreement</div>
-                    <span class="section-header">1. Duties</span>
-                    <p>${f.Executive} shall serve as an officer of ${f.Employer}.</p>
-                    <span class="section-header">2. Intellectual Property</span>
-                    <p>All work product is "Work Made for Hire." All rights vest in ${f.Employer}.</p>
-                    <span class="section-header">3. Clawback</span>
-                    <p>Bonuses are subject to a ${f.Clawback_Period} month clawback period for cause.</p>
+                <div class="document-page">
+                    <div class="doc-title">COMMERCIAL TRIPLE-NET LEASE AGREEMENT</div>
+                    <p>This Lease Agreement ("Lease") is made this <input type="text" class="fillable-input" placeholder="Day"> day of <input type="text" class="fillable-input" placeholder="Month">, <input type="text" class="fillable-input" placeholder="Year">, between <b>${f.Landlord_Name}</b> ("Landlord"), and <b>${f.Tenant_Name}</b> ("Tenant").</p>
+                    <span class="section-heading">1. LEASED PREMISES</span>
+                    <p><span class="clause-num">1.1</span> Landlord hereby leases to Tenant, and Tenant hereby leases from Landlord, the premises located at ${f.Property_Address} (the "Premises").</p>
+                    <span class="section-heading">2. TERM OF LEASE</span>
+                    <p><span class="clause-num">2.1</span> The initial term of this Lease shall be for a period of ${f.Lease_Term_Years} years, commencing on <input type="text" class="fillable-input" placeholder="Start Date"> and expiring on <input type="text" class="fillable-input" placeholder="End Date">.</p>
+                    <span class="section-heading">3. RENT</span>
+                    <p><span class="clause-num">3.1</span> Tenant shall pay to Landlord a Monthly Base Rent of ${f.Monthly_Base_Rent}, payable on the first day of each calendar month.</p>
+                    <span class="section-heading">4. SECURITY DEPOSIT</span>
+                    <p><span class="clause-num">4.1</span> Tenant shall deposit with Landlord the sum of ${f.Security_Deposit_Amount} as a security deposit.</p>
+                    <span class="section-heading">5. TRIPLE-NET OBLIGATIONS</span>
+                    <p><span class="clause-num">5.1</span> Tenant shall be solely responsible for all real estate taxes, insurance, and maintenance costs related to the Premises.</p>
+                    <span class="section-heading">6. GOVERNING LAW</span>
+                    <p><span class="clause-num">6.1</span> This Lease shall be governed by the laws of the State of <input type="text" class="fillable-input" placeholder="State"></p>
                 </div>`
         }
     };
 
-    function init() {
-        const list = document.getElementById('state-list');
+    function initStates() {
+        const stateList = document.getElementById('state-list');
         STATES.forEach(s => {
-            const opt = document.createElement('option');
-            opt.value = "State of " + s;
-            opt.innerHTML = s;
-            list.appendChild(opt);
+            const option = document.createElement('option');
+            option.value = `State of ${s}`;
+            option.textContent = s;
+            stateList.appendChild(option);
         });
     }
 
     function initFields() {
-        const p = document.getElementById('protocol').value;
-        const container = document.getElementById('form-fields');
-        container.innerHTML = '';
-        if(!p) return;
-        PROTOCOLS[p].fields.forEach(f => {
-            container.innerHTML += `<div class="control-group"><label class="label">${f.replace(/_/g,' ')}</label>
-            <input type="text" id="f_${f}" class="input-field" oninput="updateView()"></div>`;
-        });
+        const protocolKey = document.getElementById('protocol').value;
+        const formFieldsContainer = document.getElementById('form-fields');
+        formFieldsContainer.innerHTML = ''; 
+
+        if (!protocolKey) {
+            document.getElementById('doc-output').innerHTML = `<div style="text-align:center; padding-top:200px; opacity:0.1; color:var(--neural-glow);">
+                <h1 style="font-family:'Orbitron'; font-size:3rem; text-shadow: 0 0 20px var(--neural-glow);">LADY LEGALZ</h1>
+                <p style="font-family:'Share Tech Mono'; letter-spacing:4px; font-size:1rem;">AWAITING NEURAL PROTOCOL INJECTION</p>
+                <p style="font-family:'Share Tech Mono'; font-size:0.8rem; margin-top:20px;">SYSTEM STATUS: ONLINE // NANO BANANA MODULES READY</p>
+            </div>`;
+            return;
+        }
+
+        const protocol = PROTOCOLS[protocolKey];
+        if (protocol) {
+            protocol.fields.forEach(field => {
+                const group = document.createElement('div');
+                group.className = 'control-group';
+                group.innerHTML = `
+                    <label class="control-label" for="field-${field}">${field.replace(/_/g, ' ')}</label>
+                    <input type="text" id="field-${field}" class="input-field" oninput="updateView()" placeholder="Enter ${field.replace(/_/g, ' ').toLowerCase()}">
+                `;
+                formFieldsContainer.appendChild(group);
+            });
+        }
         updateView();
     }
 
     function updateView() {
-        const p = document.getElementById('protocol').value;
-        if(!p) return;
-        const jur = document.getElementById('jurisdiction').value;
-        const data = {};
-        PROTOCOLS[p].fields.forEach(f => {
-            const val = document.getElementById(`f_${f}`).value;
-            data[f] = val ? `<span class="var-field">${val}</span>` : `<span class="err-field">[${f}]</span>`;
+        const protocolKey = document.getElementById('protocol').value;
+        const docOutput = document.getElementById('doc-output');
+        
+        if (!protocolKey) return;
+
+        const protocol = PROTOCOLS[protocolKey];
+        const jurisdiction = document.getElementById('jurisdiction').value;
+        const fieldData = {};
+
+        protocol.fields.forEach(field => {
+            const inputElement = document.getElementById(`field-${field}`);
+            if (inputElement) {
+                fieldData[field] = `<span class="var-field">${inputElement.value || '[Missing ' + field.replace(/_/g, ' ') + ']'}</span>`;
+            } else {
+                fieldData[field] = `<span class="err-field">[Error: Field not found]</span>`;
+            }
         });
-        document.getElementById('doc-output').innerHTML = PROTOCOLS[p].render(data, jur);
+
+        docOutput.innerHTML = protocol.render(fieldData, jurisdiction);
     }
 
-    init();
+    async function generateFillablePdf() {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'pt', 'letter');
+        const docElement = document.getElementById('doc-output');
+        const pages = docElement.querySelectorAll('.document-page');
+
+        for (let i = 0; i < pages.length; i++) {
+            const page = pages[i];
+            const canvas = await html2canvas(page, { scale: 2, useCORS: true, logging: false });
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            const imgWidth = 8.5 * 72; 
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            if (i > 0) pdf.addPage();
+            pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+
+            const inputs = page.querySelectorAll('.fillable-input');
+            inputs.forEach(input => {
+                const rect = input.getBoundingClientRect();
+                const docRect = docElement.getBoundingClientRect();
+                const x = rect.left - page.getBoundingClientRect().left + (1 * 72); 
+                const y = rect.top - page.getBoundingClientRect().top + (0.8 * 72); 
+                const inputWidth = rect.width;
+                const inputHeight = rect.height;
+                const scaleX = pdf.internal.pageSize.width / docRect.width;
+                const scaleY = pdf.internal.pageSize.height / docRect.height;
+                
+                pdf.addField(new jsPDF.API.FormField({
+                    type: 'text',
+                    fieldName: input.placeholder.replace(/\s/g, '_') + '_' + i + '_' + Math.random().toString(36).substring(7),
+                    x: x * scaleX, y: y * scaleY, width: inputWidth * scaleX, height: inputHeight * scaleY,
+                    value: input.value || '', font: 'Times', textSize: 11, textColor: [26, 26, 26], 
+                    borderColor: [0, 123, 255], borderWidth: 1, borderStyle: 'dashed'
+                }));
+            });
+        }
+        pdf.save('Lady_Legalz_Fillable_Document.pdf');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initStates();
+        initFields(); 
+    });
 </script>
 </body>
 </html>
