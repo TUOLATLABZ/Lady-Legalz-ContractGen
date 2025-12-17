@@ -3,485 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz ContractGen - Neo-Intelligence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
-    <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    <title>Lady Legalz | Contract Gen Neo-Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* BASE STYLES & NEO-INTELLIGENCE AESTHETICS */
-        *, *::before, *::after { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: #e0e0e0; font-family: 'Inter', sans-serif; overflow: hidden; }
-        
-        /* Background Effects (Placeholder remains) */
-        canvas#particlesCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .parallax-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; transform-style: preserve-3d; z-index: -1; }
-        .layer { position: absolute; width: 120%; height: 120%; left: -10%; top: -10%; background-size: cover; background-position: center; }
-        .layer-bg { background: radial-gradient(circle at center, transparent 40%, #001122 100%); transform: translateZ(-300px) scale(2); }
-        .layer-mid { background: linear-gradient(transparent, rgba(0,20,40,0.8)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><g opacity="0.4"><rect fill="%2300ffff" x="100" y="400" width="300" height="680"/><rect fill="%23ff00ff" x="500" y="300" width="400" height="780"/></g></svg>'); transform: translateZ(-100px) scale(1.3); }
-        .layer-fg { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><g opacity="0.6"><rect fill="%2300ffff" x="0" y="700" width="400" height="380"/><rect fill="%23ff00ff" x="400" y="650" width="500" height="430"/></g></svg>'); transform: translateZ(0); }
-        
-        /* Header and Titles (Updated title for v8.0) */
-        .app-container { position: relative; z-index: 2; height: 100vh; display: flex; flex-direction: column; padding: 0 10px; }
-        header { text-align: center; padding: 30px 0 10px; max-width: 1600px; margin: 0 auto; width: 100%; }
-        h1 { font-size: clamp(2rem, 4vw, 3rem); margin: 0; background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 300; letter-spacing: 6px; }
-        .subtitle { font-size: clamp(0.8rem, 2vw, 1rem); color: #00ffff; margin-top: 5px; letter-spacing: 3px; }
-        .disclaimer { padding: 10px; text-align: center; font-size: 0.75rem; color: #ffaa00; background: rgba(17,17,17,0.7); border-bottom: 1px solid #333; margin-bottom: 10px; }
+        :root {
+            --bg-deep: #0a0e14;
+            --panel-bg: rgba(255, 255, 255, 0.04);
+            --accent-primary: #00f2ff; /* Cyber Blue */
+            --accent-secondary: #7000ff; /* Royal Purple */
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(15, 23, 42, 0.8);
+        }
 
-        /* CSS GRID LAYOUT */
-        .main-grid {
-            flex: 1;
+        * { box-sizing: border-box; transition: all 0.2s ease-in-out; }
+        
+        body {
+            margin: 0;
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.05) 0%, transparent 40%);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* --- Header & Branding --- */
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin: 0;
+            background: linear-gradient(to right, #fff, var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* --- Layout Grid --- */
+        .app-layout {
             display: grid;
-            grid-template-columns: 280px 1fr 280px; 
-            gap: 15px;
-            padding: 0 10px 10px;
-            max-width: 1600px;
-            margin: 0 auto;
-            width: 100%;
+            grid-template-columns: 340px 1fr 340px;
+            gap: 1px; /* Creates a thin border look between panels */
+            flex: 1;
+            background: var(--glass-border);
             overflow: hidden;
         }
 
         .panel {
-            background: rgba(0, 17, 34, 0.6); 
-            border: 1px solid rgba(0, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 20px;
+            background: var(--bg-deep);
             overflow-y: auto;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            padding: 24px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--glass-border) transparent;
         }
-        
-        /* INPUT PANEL STYLES */
-        .input-triage { display: flex; flex-direction: column; gap: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; color: #00ffff; font-weight: 500; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #333;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 0.9rem;
+
+        /* --- SLEEK FORM ELEMENTS (The Fix) --- */
+        .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            display: block;
+            font-weight: 700;
         }
+
+        .form-group { margin-bottom: 20px; }
         
-        .field-group summary { color: #ff00ff; font-weight: 600; cursor: pointer; padding: 5px 0; }
-        
-        /* AI REVIEW STYLES */
-        .review-title { color: #ff00ff; font-weight: 600; margin-bottom: 10px; border-bottom: 1px solid rgba(255,0,255,0.2); padding-bottom: 5px; }
-        .risk-high { border-left: 4px solid #ff0066; padding-left: 10px; margin: 8px 0; color: #ff0066; }
-        
-        /* LIVE DATA REPORT STYLES */
-        .data-report-title { 
-            color: #10b981; 
-            font-weight: 600; 
-            margin-top: 15px;
-            border-bottom: 1px solid rgba(16, 185, 129, 0.3);
-            padding-bottom: 5px;
-        }
-        .data-report-item {
-            padding: 6px;
-            margin: 5px 0;
+        label {
+            display: block;
             font-size: 0.85rem;
-            border-left: 3px solid #10b981;
-            background: rgba(16, 185, 129, 0.05);
+            margin-bottom: 8px;
+            color: var(--text-main);
         }
-        .data-report-item.alert {
-            border-left: 3px solid #ff0066;
-            background: rgba(255, 0, 102, 0.1);
-        }
-        
-        /* NEW: DATA SYNC STYLES */
-        .data-sync-title {
-            color: #00ccff;
-            font-weight: 600;
-            margin-top: 15px;
-            border-bottom: 1px solid rgba(0, 204, 255, 0.3);
-            padding-bottom: 5px;
-        }
-        .data-sync-table {
+
+        /* Custom Dropdown Styling */
+        select, input, textarea {
             width: 100%;
-            border-collapse: collapse;
-            font-size: 0.75rem;
-            margin-top: 10px;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            appearance: none; /* Removes default OS styling */
         }
-        .data-sync-table th, .data-sync-table td {
-            border: 1px solid #003366;
-            padding: 5px;
-            text-align: left;
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
         }
-        .data-sync-table th {
-            background-color: #001f3f;
-            color: #00ccff;
+
+        select option { background: #1a202c; color: white; } /* Ensures dropdown items are dark */
+
+        input:focus, select:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(0, 242, 255, 0.1);
         }
-        .data-sync-table tr:nth-child(even) {
-            background-color: rgba(0, 51, 102, 0.2);
+
+        /* --- Action Buttons --- */
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(112, 0, 255, 0.3);
         }
-        .data-sync-table .status-ready { color: #10b981; font-weight: 600; }
-        .data-sync-table .status-sync { color: #ffaa00; font-weight: 600; }
-        
+
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* --- Central Canvas --- */
+        .canvas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contract-paper {
+            background: white;
+            color: #1e293b;
+            min-height: 100%;
+            padding: 60px;
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            line-height: 1.6;
+            font-family: 'serif';
+        }
+
+        /* --- Right Intelligence Panel --- */
+        .ai-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .risk-tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+        .risk-low { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+
     </style>
 </head>
 <body>
-    <canvas id="particlesCanvas"></canvas>
-    <div class="parallax-container" id="parallax">
-        <div class="layer layer-bg"></div>
-        <div class="layer layer-mid"></div>
-        <div class="layer layer-fg"></div>
-    </div>
-    <div class="app-container">
-        <header>
-            <h1>Lady Legalz ContractGen</h1>
-            <div class="subtitle">NEO-INTELLIGENCE DATA ENGINE & LIVE COMPLIANCE - ULTIMATE WORLDWIDE 2026</div>
-        </header>
-        <div class="disclaimer">
-            Disclaimer: AI-generated professional drafts for worldwide informational use only. Not legal advice. Always consult qualified attorneys.
+
+    <header>
+        <div>
+            <h1>LADY LEGALZ <span style="font-weight:300; opacity:0.6;">| Core</span></h1>
         </div>
-        
-        <div class="main-grid">
-            <aside class="panel input-triage">
-                <div class="form-group">
-                    <label for="contract-type">Document Type</label>
-                    <select id="contract-type">
-                        <option value="none">-- Select a Document --</option>
-                        <option value="nda">Non-Disclosure Agreement (NDA)</option>
-                        <option value="employment">Employment Agreement</option>
-                        <option value="service">Master Service Agreement (MSA)</option>
-                        <option value="custom">Custom Request (AI Prompt)</option>
-                    </select>
+        <div class="status-badge">● AI ENGINE ONLINE</div>
+    </header>
+
+    <main class="app-layout">
+        <aside class="panel">
+            <span class="section-label">Document Intelligence</span>
+            
+            <div class="form-group">
+                <label>Document Archetype</label>
+                <select id="doc-type">
+                    <option>Master Service Agreement</option>
+                    <option>Strategic Partnership NDA</option>
+                    <option>Executive Employment</option>
+                    <option>IP Assignment</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Counterparty Tier</label>
+                <select id="tier">
+                    <option>Tier 1: Enterprise (High Rigor)</option>
+                    <option>Tier 2: SME (Standard)</option>
+                    <option>Tier 3: Individual (Protective)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Governing Jurisdiction</label>
+                <input type="text" placeholder="e.g. Delaware, USA">
+            </div>
+
+            <span class="section-label" style="margin-top:40px;">System Integration</span>
+            <div class="form-group">
+                <label>Sync To</label>
+                <select id="integration">
+                    <option>Salesforce API v26.4</option>
+                    <option>SAP S/4HANA</option>
+                    <option>NetSuite Financials</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" id="gen-btn">Construct Legal Draft</button>
+        </aside>
+
+        <section class="panel" style="background: #151a21;">
+            <div class="canvas-header">
+                <span class="section-label">Drafting Environment</span>
+                <div style="display:flex; gap: 10px;">
+                    <button style="background:transparent; border:1px solid var(--glass-border); color:white; padding:5px 15px; border-radius:6px; cursor:pointer; font-size:0.8rem;">Export .PDF</button>
+                    <button style="background:transparent; border:1px solid var(--glass-border); color:white; padding:5px 15px; border-radius:6px; cursor:pointer; font-size:0.8rem;">Share Access</button>
                 </div>
-                
-                <details open class="field-group" id="universal-fields">
-                    <summary>Parties & Jurisdiction</summary>
-                    <div class="form-group" data-target="jurisdiction-input" id="jurisdiction-group"> 
-                        <label for="jurisdiction">Governing Law/Jurisdiction</label>
-                        <input type="text" id="jurisdiction" placeholder="e.g., State of California, USA or England & Wales">
-                    </div>
-                    <div class="form-group" data-target="party-a-input">
-                        <label for="party-a">First Party (Your Company/Name)</label>
-                        <input type="text" id="party-a" placeholder="e.g., Global Tech Inc." value="Global Tech Inc.">
-                    </div>
-                    <div class="form-group" data-target="party-b-input">
-                        <label for="party-b">Counterparty Name</label>
-                        <input type="text" id="party-b" placeholder="e.g., Acme Consulting" value="Acme Consulting Ltd.">
-                    </div>
-                    <div class="form-group" data-target="date-input">
-                        <label for="effective-date">Effective Date</label>
-                        <input type="date" id="effective-date" value="2025-12-16">
-                    </div>
-                    
-                    <div class="form-group" data-target="counterparty-profile-input" style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
-                        <label for="counterparty-profile" style="color: #ffaa00;">Counterparty Profile (Strategy)</label>
-                        <select id="counterparty-profile">
-                            <option value="corp-eu">EU Large Corporation (GDPR Strict)</option>
-                            <option value="corp-us">US Large Corporation (Aggressive)</option>
-                            <option value="smb-tech">Small Tech Startup (Risk-Averse)</option>
-                            <option value="individual">Individual/Consultant</option>
-                        </select>
-                    </div>
+            </div>
+            
+            <div class="contract-paper">
+                <h2 style="text-align:center; margin-bottom:40px;">STRATEGIC MASTER SERVICES AGREEMENT</h2>
+                <p>This Strategic Master Services Agreement (the "Agreement") is entered into as of December 16, 2025...</p>
+                <div style="height: 2px; background: #f1f5f9; margin: 20px 0;"></div>
+                <p style="color:#64748b; font-style:italic;">Draft content will populate here based on selected parameters.</p>
+            </div>
+        </section>
 
-                    <div class="form-group" style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
-                        <label for="counterparty-id" style="color: #10b981; font-weight: 600;">Counterparty EIN / VAT ID</label>
-                        <input type="text" id="counterparty-id" placeholder="e.g., 98-7654321 (For Sanctions Check)" value="55-1234567">
-                    </div>
-                    <div class="form-group">
-                        <label for="currency-ref" style="color: #10b981; font-weight: 600;">Payment Currency Conversion Reference</label>
-                        <select id="currency-ref">
-                            <option value="usd_eur">USD to EUR (Medium Volatility)</option>
-                            <option value="none">-- No Cross-Currency Payment --</option>
-                            <option value="usd_try">USD to TRY (High Volatility)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group" style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
-                        <label for="web3-toggle" style="color: #00ffaa; font-weight: 600;">
-                            <input type="checkbox" id="web3-toggle" style="margin-right: 8px;">
-                            Enable Web3 Readiness / Smart Contract Mode
-                        </label>
-                    </div>
-
-                </details>
-
-                <details open class="field-group" id="data-mapping-fields" style="margin-top: 15px;">
-                    <summary style="color: #00ccff;">AI Workflow Connector & Data Mapping</summary>
-                    <div class="form-group">
-                        <label for="target-system" style="color: #00ccff;">Target Business System</label>
-                        <select id="target-system">
-                            <option value="salesforce">Salesforce CRM</option>
-                            <option value="sap">SAP ERP (Finance)</option>
-                            <option value="hubspot">HubSpot</option>
-                            <option value="custom">Custom API</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="project-id" style="color: #00ccff;">Project ID / Opportunity Link</label>
-                        <input type="text" id="project-id" placeholder="e.g., OPP-800234" value="OPP-800234">
-                    </div>
-                    <div class="form-group">
-                        <label for="renewal-term">Contract Renewal Term (AI Extraction)</label>
-                        <input type="text" id="renewal-term" placeholder="e.g., Auto-renew 12 months" value="Auto-renew 12 months">
-                    </div>
-                </details>
-                
-                <details class="field-group" id="nda-fields" style="display: none;"><summary>NDA Core Terms</summary></details>
-                <details class="field-group" id="employment-fields" style="display: none;"><summary>Employment Details</summary></details>
-                <details class="field-group" id="custom-fields" style="display: none;"><summary>AI Custom Instructions</summary></details>
-                
-                <button id="generate-btn">Generate Legal Draft</button>
-            </aside>
-
-            <section class="panel contract-canvas" id="contract-canvas">
-                <div class="translation-controls">
-                    <select id="target-language">
-                        <option value="none">Original English</option>
-                        <option value="spanish">Spanish (Castilian)</option>
-                        <option value="german">German (Germany)</option>
-                        <option value="french">French (France)</option>
-                    </select>
-                    <button id="translate-btn" disabled>Translate & Validate</button>
+        <aside class="panel">
+            <span class="section-label">AI Risk Audit</span>
+            
+            <div class="ai-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <strong style="font-size:0.9rem;">Clause Extraction</strong>
+                    <span class="risk-tag risk-low">OPTIMIZED</span>
                 </div>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:10px;">
+                    Liability caps are aligned with Tier 1 Enterprise standards for 2026.
+                </p>
+            </div>
 
-                <div class="contract-content-wrapper">
-                    <div class="initial-message">
-                        Select a document type and press 'Generate Legal Draft' to begin the world's first HTML-generated contract.
-                    </div>
-                    <div id="contract-output"></div>
-                </div>
-            </section>
+            <div class="ai-card" style="border-left: 3px solid var(--accent-primary);">
+                <strong style="font-size:0.9rem; color:var(--accent-primary);">Commercial Mapping</strong>
+                <p style="font-size:0.75rem; margin-top:8px;">
+                    • Counterparty: <strong>Acme Corp</strong><br>
+                    • Value: <strong>$250,000.00</strong><br>
+                    • Sync Status: <span style="color:#10b981;">Ready for Salesforce</span>
+                </p>
+            </div>
 
-            <aside class="panel contextual-ai" id="ai-review-panel">
-                
-                <div id="review-results">
-                    <strong class="review-title">AI LEGAL REVIEW</strong>
-                    <p style="color: #999; margin-top: 10px;">Legal review results and compliance checks will appear here after generation.</p>
-                </div>
-                
-                <details open style="margin-top: 20px;">
-                    <summary class="data-sync-title" style="color: #00ccff;">Business System Data Sync</summary>
-                    <div id="data-sync-output">
-                        <p style="color: #999; font-size: 0.8rem; text-align: center; padding-top: 10px;">AI will map critical contract data to your selected CRM/ERP system.</p>
-                    </div>
-                    <button id="sync-data-btn" style="width: 100%; margin-top: 10px; padding: 10px; background: #00ccff; border: none; border-radius: 6px; color: #111; font-weight: 600; cursor: pointer;" disabled>Execute Data Sync (Push to Salesforce)</button>
-                </details>
-
-                <details style="margin-top: 20px;">
-                    <summary class="review-title" style="color: #ffaa00;">Negotiation & Strategy Engine</summary>
-                    <button id="run-negotiation-btn" style="width: 100%; margin-top: 10px; padding: 10px; background: #ffaa00; border: none; border-radius: 6px; color: #111; font-weight: 600; cursor: pointer;" disabled>Run Negotiation Simulation</button>
-                    <div id="negotiation-results" style="display: none;">
-                        <p style="color: #ccc; text-align: center; font-size: 0.8rem; margin-top: 10px;">Strategy tips and redline predictions will appear here.</p>
-                    </div>
-                </details>
-
-                <div class="lifecycle-tracker" style="margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
-                    <h4>Contract Lifecycle Management</h4>
-                    <button id="save-version-btn" disabled>Save New Version</button>
-                    <h4 style="margin-top: 15px;">Version History</h4>
-                    <div id="version-history">
-                        <p style="text-align: center; font-size: 0.8rem;">No saved versions.</p>
-                    </div>
-                </div>
-
-                <div class="export-buttons" id="export-buttons" style="display: none; margin-top: 20px;">
-                    <button class="download-btn pdf-btn" onclick="downloadPDF()">Download PDF</button>
-                    <button class="download-btn word-btn" onclick="downloadWord()">Download Word (.docx)</button>
-                    <button class="download-btn" style="background: #ff00ff; color: #fff;" onclick="downloadHTML()">Download Semantic HTML</button>
-                </div>
-            </aside>
-        </div>
-    </div>
+            <span class="section-label" style="margin-top:40px;">Compliance Tracker</span>
+            <div style="padding:10px; border:1px dashed var(--glass-border); border-radius:8px; font-size:0.8rem; color:var(--text-muted);">
+                Waiting for document generation to finalize sanctions sweep...
+            </div>
+        </aside>
+    </main>
 
     <script>
-        // --- UI & CORE ELEMENTS ---
-        const contractTypeSelect = document.getElementById('contract-type');
-        const generateBtn = document.getElementById('generate-btn');
-        const contractOutput = document.getElementById('contract-output');
-        const reviewResults = document.getElementById('review-results');
-        const syncDataBtn = document.getElementById('sync-data-btn');
-        const dataSyncOutput = document.getElementById('data-sync-output');
-        
-        // --- NEW V8.0 ELEMENTS ---
-        const targetSystemSelect = document.getElementById('target-system');
-        const partyBInput = document.getElementById('party-b');
-        const effectiveDateInput = document.getElementById('effective-date');
-        const renewalTermInput = document.getElementById('renewal-term');
-        const projectIdInput = document.getElementById('project-id');
-
-        // --- GLOBAL STATE ---
-        let allContractData = {};
-        
-        // --- SIMULATED LIVE DATA FETCH (V7.0) ---
-        function simulateLiveData(counterpartyId, currencyRef) {
-            const data = {};
-            data.sanctions = (counterpartyId === '98-7654321') 
-                ? { status: 'FAIL', message: 'CRITICAL MATCH: ID matches a known entity on the OFAC SDN List. DO NOT PROCEED.', isAlert: true }
-                : { status: 'PASS', message: 'Not found on major sanctions lists (OFAC/UN/EU).' };
-            data.financial = (counterpartyId === '55-1234567')
-                ? { status: 'MEDIUM RISK', message: 'D&B Score 3/5. Recommend adding Personal Guarantee clause or escrow.', isAlert: true }
-                : { status: 'LOW RISK', message: 'Data unavailable or highly stable entity.' };
-            data.currency = (currencyRef === 'usd_eur')
-                ? { status: 'LOW RISK', message: 'USD/EUR spread nominal. No immediate concern.' }
-                : { status: 'N/A', message: 'No cross-border payment clause detected.' };
-            return data;
-        }
-
-        function displayComplianceReport(liveData) {
-            let reportHTML = '<div class="data-report-title">💰 Live Compliance & Sanctions Report</div>';
-            // ... (Rest of V7.0 display logic remains)
-            reportHTML += `<div class="data-report-item ${liveData.financial.isAlert ? 'alert' : ''}">
-                <strong>Financial Status:</strong> ${liveData.financial.status}. ${liveData.financial.message}
-            </div>`;
-            reportHTML += `<div class="data-report-item ${liveData.sanctions.isAlert ? 'alert' : ''}">
-                <strong>Global Sanctions Check:</strong> ${liveData.sanctions.status}. ${liveData.sanctions.message}
-            </div>`;
-            reportHTML += `<div class="data-report-item ${liveData.currency.isAlert ? 'alert' : ''}">
-                <strong>Currency Volatility:</strong> ${liveData.currency.status}. ${liveData.currency.message}
-            </div>`;
-            return reportHTML;
-        }
-        
-        // --- NEW: DATA MAPPING ENGINE (V8.0) ---
-        function generateDataMapping(data) {
-            const systemName = targetSystemSelect.value;
-            const systemLabel = {
-                'salesforce': 'Salesforce CRM', 'sap': 'SAP ERP (Finance)', 'hubspot': 'HubSpot', 'custom': 'Custom API'
-            }[systemName];
-            
-            const mappingData = [
-                { source: 'Counterparty Name', value: data.partyB, destination: 'Account Name', status: 'Ready' },
-                { source: 'Effective Date', value: data.effectiveDate, destination: 'Contract Start Date', status: 'Ready' },
-                { source: 'Renewal Term', value: data.renewalTerm, destination: 'Auto-Renewal Terms', status: 'Ready' },
-                { source: 'Project/Opportunity ID', value: data.projectId, destination: 'Opportunity Link', status: 'Ready' },
-                { source: 'Governing Law', value: data.jurisdiction, destination: 'Legal Jurisdiction Field', status: 'Ready' }
-            ];
-
-            let tableHTML = `<p style="font-size: 0.85rem; color: #ddd;">Mapping extracted contract terms to **${systemLabel}** record **${data.projectId}**:</p>`;
-            tableHTML += `<table class="data-sync-table">
-                <thead><tr><th>Contract Term (Source)</th><th>Data Field (Value)</th><th>Target Field</th><th>Status</th></tr></thead>
-                <tbody>`;
-                
-            mappingData.forEach(item => {
-                tableHTML += `<tr>
-                    <td>${item.source}</td>
-                    <td>${item.value}</td>
-                    <td>${item.destination}</td>
-                    <td class="status-ready">${item.status}</td>
-                </tr>`;
-            });
-            
-            tableHTML += `</tbody></table>`;
-            return tableHTML;
-        }
-        
-        // --- CORE GENERATION FUNCTION (Final Update) ---
-        async function generateContract() {
-            const docType = contractTypeSelect.value;
-            if (docType === 'none') { alert('Please select a Document Type.'); return; }
-            
-            // 1. Collect ALL raw data points
-            allContractData = {
-                jurisdiction: document.getElementById('jurisdiction').value.trim(),
-                partyA: document.getElementById('party-a').value.trim(),
-                partyB: partyBInput.value.trim(),
-                effectiveDate: effectiveDateInput.value,
-                counterpartyId: document.getElementById('counterparty-id').value.trim(),
-                currencyRef: document.getElementById('currency-ref').value,
-                web3Enabled: document.getElementById('web3-toggle').checked,
-                // NEW V8.0 DATA
-                targetSystem: targetSystemSelect.value,
-                projectId: projectIdInput.value.trim(),
-                renewalTerm: renewalTermInput.value.trim() 
-            };
-            
-            if (!allContractData.jurisdiction) { alert('Governing Law/Jurisdiction is required.'); return; }
-            
-            // 2. Simulated Compliance Check
-            const liveData = simulateLiveData(allContractData.counterpartyId, allContractData.currencyRef);
-
-            if (liveData.sanctions.status === 'FAIL') {
-                reviewResults.innerHTML = `<strong class="review-title" style="color:#ff0066;">TRANSACTION BLOCKED</strong><div class="risk-high"><strong>Sanctions Compliance Failure:</strong><br>${liveData.sanctions.message}</div>`;
-                generateBtn.textContent = 'GENERATION BLOCKED';
-                generateBtn.disabled = true;
-                return;
-            }
-
-            // 3. UI Feedback
-            generateBtn.disabled = true;
-            generateBtn.textContent = 'NEO-INTELLIGENCE: Synthesizing & Mapping Commercial Data...';
-            
-            try {
-                // 4. FETCH: Simulate contract generation time
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                // SIMULATED CONTRACT OUTPUT 
-                const simulatedContractHtml = `<h1>${docType.toUpperCase()} AGREEMENT</h1>
-                    <p>This Agreement is by and between ${allContractData.partyA} and ${allContractData.partyB} (Effective Date: ${allContractData.effectiveDate}).</p>
-                    <p>The parties agree that the laws of **${allContractData.jurisdiction.toUpperCase()}** shall govern this Agreement.</p>
-                    
-                    <h2>1. TERM AND RENEWAL</h2>
-                    <p>The term shall commence on the Effective Date and shall ${allContractData.renewalTerm}.</p>
-                    
-                    <h2>2. PAYMENT</h2>
-                    <p>Payment terms are Net 30 days. ${allContractData.currencyRef !== 'none' ? 'Currency is specified as EUR, with the exchange rate fixed as of the Effective Date.' : ''}</p>
-                    `;
-                
-                // SIMULATED LEGAL REVIEW
-                const simulatedReview = {
-                    findings: [
-                        { level: 'low', title: 'Data Mapping Confirmed', detail: `All ${Object.keys(allContractData).length} key fields successfully extracted and mapped for ERP/CRM sync.` },
-                        { level: liveData.financial.status === 'MEDIUM RISK' ? 'medium' : 'low', title: 'Financial Risk Note', detail: liveData.financial.message }
-                    ]
-                };
-
-                // 5. Display & Enable Controls
-                contractOutput.innerHTML = simulatedContractHtml; 
-                
-                // FINAL: Display Legal Review AND Compliance Report
-                reviewResults.innerHTML = performLegalReview(simulatedReview) + displayComplianceReport(liveData); 
-                
-                // NEW: Display Data Mapping Table
-                dataSyncOutput.innerHTML = generateDataMapping(allContractData);
-                syncDataBtn.disabled = false;
-
-                generateBtn.textContent = 'Draft Complete! Re-Generate?';
-                
-            } catch (error) {
-                reviewResults.innerHTML = `<strong class="review-title" style="color:#ff0066;">SYSTEM ERROR</strong><div class="risk-high"><strong>Generation Failed:</strong><br>${error.message}</div>`;
-                generateBtn.textContent = 'GENERATION FAILED! Retry?';
-            } finally {
-                if (liveData.sanctions.status !== 'FAIL') {
-                    generateBtn.disabled = false;
-                }
-            }
-        }
-
-        function performLegalReview(reviewData) {
-            let html = '<strong class="review-title">AI LEGAL REVIEW & RISK ASSESSMENT</strong>';
-            reviewData.findings.forEach(f => {
-                html += `<div class="risk-${f.level}">${f.title}: ${f.detail}</div>`;
-            });
-            return html;
-        }
-
-        // --- FINAL FUNCTION: EXECUTE DATA SYNC ---
-        syncDataBtn.onclick = function() {
-            syncDataBtn.textContent = 'EXECUTING API PUSH... PLEASE WAIT';
-            syncDataBtn.disabled = true;
-
+        // Simple interactivity for the revamp
+        const genBtn = document.getElementById('gen-btn');
+        genBtn.addEventListener('click', () => {
+            genBtn.innerText = "Synthesizing...";
             setTimeout(() => {
-                const target = targetSystemSelect.options[targetSystemSelect.selectedIndex].text;
-                const projectId = projectIdInput.value;
-                
-                dataSyncOutput.innerHTML += `<p style="color: #00ffaa; margin-top: 15px; font-weight: 600;">✅ Success! Contract data pushed to ${target} for Opportunity ${projectId}.</p>`;
-                
-                syncDataBtn.textContent = 'DATA SYNC COMPLETE';
+                genBtn.innerText = "Draft Finalized";
+                genBtn.style.background = "#10b981";
             }, 1500);
-        };
-        
-        // ... (downloadPDF, downloadWord, etc. functions would be placed here) ...
-
-        generateBtn.onclick = generateContract;
-        contractTypeSelect.dispatchEvent(new Event('change')); 
+        });
     </script>
 </body>
 </html>
