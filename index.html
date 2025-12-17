@@ -4,319 +4,207 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lady Legalz ContractGen 2026 | NEO INTELLIGENCE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent: #00f2ff;
-            --secondary: #7000ff;
-            --bg: #010204;
-            --sidebar: #080c12;
-            --border: rgba(0, 242, 255, 0.25);
+            --neon-blue: #00f2ff;
+            --deep-space: #010409;
+            --legal-gray: #64748b;
+            --paper-white: #ffffff;
+            --sidebar-bg: #0d1117;
+            --input-bg: #161b22;
         }
 
-        * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-        body, html { 
-            margin: 0; padding: 0; height: 100%; 
-            background: var(--bg); color: #e2e8f0; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            overflow: hidden; 
+        body, html { margin: 0; padding: 0; height: 100%; background: var(--deep-space); color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .app-shell { display: grid; grid-template-columns: 400px 1fr; height: 100vh; }
+        
+        /* Sidebar Navigation */
+        .sidebar { background: var(--sidebar-bg); border-right: 1px solid rgba(0,242,255,0.1); padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        
+        .branding { text-align: center; border: 1px solid var(--neon-blue); padding: 20px; border-radius: 4px; margin-bottom: 10px; }
+        .branding h1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 0; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 2px; }
+        .branding span { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--legal-gray); display: block; margin-top: 5px; }
+
+        .input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+        .input-label { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--legal-gray); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .field-input, .select-input { background: var(--input-bg); border: 1px solid #30363d; padding: 12px; color: #fff; border-radius: 4px; font-size: 13px; transition: 0.2s; width: 100%; }
+        .field-input:focus { border-color: var(--neon-blue); outline: none; box-shadow: 0 0 8px rgba(0,242,255,0.2); }
+
+        /* Document Canvas */
+        .canvas-area { background: #000; overflow-y: auto; padding: 50px; display: flex; flex-direction: column; align-items: center; scroll-behavior: smooth; }
+        
+        .document-page {
+            width: 8.5in; min-height: 11in; background: var(--paper-white); color: #000;
+            padding: 1in; margin-bottom: 50px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            font-family: 'Times New Roman', serif; font-size: 12pt; line-height: 1.5; position: relative;
         }
 
-        #particlesCanvas { position: fixed; top: 0; left: 0; z-index: 0; opacity: 0.1; pointer-events: none; }
+        /* Legal Styling */
+        .court-header { text-align: center; font-weight: bold; text-transform: uppercase; font-size: 14pt; margin-bottom: 25px; line-height: 1.2; }
+        .caption-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+        .caption-table td { border: 1.5px solid #000; padding: 12px; vertical-align: top; width: 50%; }
+        .doc-title { text-align: center; font-weight: bold; font-size: 15pt; margin: 25px 0; text-decoration: underline; text-transform: uppercase; }
+        .section-header { font-weight: bold; text-transform: uppercase; margin-top: 20px; border-bottom: 1px solid #000; display: block; margin-bottom: 10px; }
+        
+        .live-field { background: #e0f2fe; border-bottom: 1px solid #0369a1; font-weight: bold; padding: 0 2px; }
+        .empty-field { color: #dc2626; border-bottom: 1px dashed #dc2626; background: #fef2f2; }
 
-        .app-container {
-            display: grid;
-            grid-template-columns: 420px 1fr;
-            height: 100vh;
-            position: relative;
-            z-index: 1;
+        .action-bar { position: sticky; bottom: 0; background: var(--sidebar-bg); padding: 20px; border-top: 1px solid rgba(0,242,255,0.1); display: grid; gap: 10px; }
+        .btn-primary { background: var(--neon-blue); color: #000; border: none; padding: 16px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-size: 12px; transition: 0.2s; }
+        .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+
+        @media print {
+            .sidebar { display: none; }
+            .canvas-area { background: #fff; padding: 0; display: block; }
+            .document-page { box-shadow: none; margin: 0; page-break-after: always; border: none; }
         }
-
-        .sidebar {
-            background: var(--sidebar);
-            border-right: 1px solid var(--border);
-            padding: 25px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            backdrop-filter: blur(40px);
-        }
-
-        .brand {
-            display: flex; align-items: center; gap: 15px;
-            padding: 15px; border: 1px solid var(--border);
-            border-radius: 12px; background: rgba(0,242,255,0.05);
-            margin-bottom: 5px;
-        }
-
-        .nav-label {
-            font-family: 'Space Mono'; font-size: 10px; color: var(--accent);
-            text-transform: uppercase; letter-spacing: 2px; margin-top: 10px;
-        }
-
-        .dropdown, .legal-input, .search-bar {
-            width: 100%; background: #0c111a; border: 1px solid var(--border);
-            padding: 12px; border-radius: 8px; color: #fff; 
-            font-family: 'Space Mono'; font-size: 12px; outline: none;
-        }
-
-        .search-bar { margin-bottom: 5px; border-color: rgba(255,255,255,0.1); }
-
-        .preview-area {
-            padding: 40px; overflow-y: auto;
-            display: flex; justify-content: center;
-            background: rgba(0,0,0,0.5);
-        }
-
-        .document-paper {
-            width: 100%; max-width: 800px;
-            background: #fff; color: #1a1a1a;
-            min-height: 1056px; padding: 80px 90px;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.7);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 11pt; line-height: 1.5;
-            text-align: justify; position: relative;
-        }
-
-        .document-paper h1 { text-align: center; font-size: 16pt; margin-bottom: 40px; border-bottom: 2px solid #000; padding-bottom: 10px; text-transform: uppercase; }
-        .document-paper h2 { font-size: 12pt; margin-top: 25px; border-bottom: 1px solid #eee; margin-bottom: 8px; font-weight: bold; }
-
-        .auth-seal {
-            position: absolute; top: 40px; right: 40px;
-            width: 110px; height: 110px;
-            border: 2px dashed #2563eb; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; color: #2563eb; font-family: 'Space Mono';
-            font-size: 7px; font-weight: bold; opacity: 0.4;
-            transform: rotate(15deg); pointer-events: none;
-        }
-
-        .toolbar {
-            position: fixed; bottom: 30px; right: 30px;
-            display: flex; gap: 10px;
-        }
-
-        .action-btn {
-            background: var(--accent); color: #000; border: none;
-            padding: 12px 20px; border-radius: 4px; font-family: 'Space Mono';
-            font-weight: 700; cursor: pointer; transition: 0.3s;
-            font-size: 11px; text-transform: uppercase;
-        }
-        .action-btn:hover { background: #fff; box-shadow: 0 0 20px var(--accent); }
     </style>
 </head>
 <body>
-    <canvas id="particlesCanvas"></canvas>
-    <div class="app-container">
-        <aside class="sidebar">
-            <div class="brand">
-                <div style="font-weight: 900; font-size: 1.1rem;">LADY LEGALZ</div>
-                <div style="font-family: 'Space Mono'; font-size: 8px; color: var(--accent);">V.50-PREMIUM</div>
-            </div>
 
-            <div class="nav-label">1. Venue</div>
-            <select class="dropdown" id="state-selector" onchange="generateContract()">
-                </select>
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="branding">
+            <h1>LADY LEGALZ</h1>
+            <span>CONTRACTGEN 2026 // PRODUCTION</span>
+        </div>
 
-            <div class="nav-label">2. Search 50 Protocols</div>
-            <input type="text" class="search-bar" id="protocol-search" placeholder="Type to filter..." oninput="filterProtocols()">
-            <select class="dropdown" id="practice-selector" onchange="initPracticeArea()">
-                <option value="">-- Select Protocol --</option>
-                </select>
+        <div class="input-group">
+            <label class="input-label">Jurisdiction</label>
+            <select id="jurisdiction" class="select-input" onchange="renderDoc()">
+                <option value="United States District Court, Southern District of New York">Federal (SDNY)</option>
+                <option value="Superior Court of California, County of Los Angeles">California Superior</option>
+                <option value="In the Court of Chancery of the State of Delaware">Delaware Chancery</option>
+                <option value="State of Texas, County of Harris">Texas District Court</option>
+            </select>
+        </div>
 
-            <div id="input-zone" style="display:none;">
-                <div class="nav-label">3. Intelligence Variables</div>
-                <div id="dynamic-inputs" style="display: flex; flex-direction: column; gap: 8px;"></div>
-                <div class="nav-label" style="margin-top:20px;">Drafting Guidance</div>
-                <div id="protocol-help" style="font-size: 11px; color: #94a3b8; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 6px;"></div>
-            </div>
-        </aside>
+        <div class="input-group">
+            <label class="input-label">Document Protocol</label>
+            <select id="protocol" class="select-input" onchange="initFields()">
+                <option value="">-- Select Legal Protocol --</option>
+                <optgroup label="Litigation Packets">
+                    <option value="LIT_FULL">Summons, Complaint & Service</option>
+                </optgroup>
+                <optgroup label="Corporate Actions">
+                    <option value="CORP_RES">Board Resolution to Authorize Litigation</option>
+                    <option value="CORP_MERGE">Agreement and Plan of Merger</option>
+                </optgroup>
+                <optgroup label="Technology & Employment">
+                    <option value="TECH_SAAS">Master SaaS Services Agreement</option>
+                    <option value="EMP_EXEC">Executive Employment (IP & Clawback)</option>
+                </optgroup>
+            </select>
+        </div>
 
-        <main class="preview-area">
-            <div class="document-paper" id="legal-canvas">
-                <h1>Lady Legalz Intelligence</h1>
-                <p style="text-align: center; color: #888; font-family: 'Space Mono'; margin-top: 100px;">SYSTEM READY. SELECT PROTOCOL.</p>
-            </div>
-        </main>
-    </div>
+        <div id="dynamic-fields"></div>
 
-    <div class="toolbar">
-        <button class="action-btn" onclick="exportToWord()">Export DOCX</button>
-        <button class="action-btn" onclick="exportToPDF()">Export PDF</button>
-        <button class="action-btn" style="background:#fff" onclick="window.print()">Print</button>
-    </div>
+        <div class="action-bar">
+            <button class="btn-primary" onclick="window.print()">Print / Export Final PDF</button>
+        </div>
+    </aside>
 
-    <script>
-        const STATES = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "District of Columbia"];
-        
-        const ENGINE = {
-            // TECHNOLOGY & AI
-            SAAS: { title: "SaaS Master Services Agreement", help: "Focus on Uptime SLAs and Data Processing Addendums (DPA).", fields: ["Provider", "Customer", "Platform_Name", "Uptime_Percentage"], content: [{h: "Service Level", p: "Provider guarantees a [[Uptime_Percentage]] uptime for [[Platform_Name]]."}]},
-            AI_TRAIN: { title: "AI Model Training License", help: "Defines usage of proprietary data for LLM refinement.", fields: ["Data_Owner", "AI_Developer", "Dataset_Scope"], content: [{h: "License Scope", p: "[[Data_Owner]] grants [[AI_Developer]] rights to ingest [[Dataset_Scope]]."}]},
-            BLOCKCHAIN: { title: "Smart Contract Audit Agreement", help: "Limited liability for 'code as law' vulnerabilities.", fields: ["Auditor", "Project_Name", "Network_Chain"], content: [{h: "Scope", p: "Audit limited to [[Project_Name]] on [[Network_Chain]]."}]},
-            DAO: { title: "DAO Constitution & Governance", help: "Defines proposal thresholds and treasury voting.", fields: ["DAO_Name", "Governance_Token", "Vote_Quorum"], content: [{h: "Voting", p: "Decisions regarding [[DAO_Name]] require [[Vote_Quorum]] of [[Governance_Token]]."}]},
-            SPACE: { title: "Satellite Launch & Payload Agreement", help: "Complies with International Outer Space Treaty.", fields: ["Launch_Provider", "Satellite_Owner", "Orbit_Slot"], content: [{h: "Liability", p: "Liability for [[Satellite_Owner]] begins at orbital insertion in [[Orbit_Slot]]."}]},
-            
-            // CORPORATE
-            MERGER: { title: "Agreement and Plan of Merger", help: "Requires board approval and shareholder filings.", fields: ["Acquiror", "Target_Company", "Purchase_Price"], content: [{h: "Closing", p: "[[Acquiror]] shall acquire all shares of [[Target_Company]] for [[Purchase_Price]]."}]},
-            SAFE: { title: "Simple Agreement for Future Equity", help: "Standard Y-Combinator style investment note.", fields: ["Investor", "Startup_Name", "Valuation_Cap"], content: [{h: "Equity Conversion", p: "Upon financing, [[Investor]] converts at a [[Valuation_Cap]] cap."}]},
-            NDA: { title: "Mutual Confidentiality Agreement", help: "Standard protection for trade secrets.", fields: ["Party_A", "Party_B", "Term_Years"], content: [{h: "Confidentiality", p: "Parties shall protect data for [[Term_Years]] years."}]},
-            
-            // EMPLOYMENT & HR
-            EXEC_EMPLOY: { title: "Executive Employment Agreement", help: "Includes Golden Parachute and restrictive covenants.", fields: ["Company", "Executive_Name", "Job_Title", "Signing_Bonus"], content: [{h: "Role", p: "[[Executive_Name]] is hired as [[Job_Title]] with a [[Signing_Bonus]] bonus."}]},
-            NON_COMPETE: { title: "Non-Competition Covenant", help: "Ensure duration is 'reasonable' under state law.", fields: ["Employer", "Restricted_Party", "Duration_Months"], content: [{h: "Restraint", p: "[[Restricted_Party]] shall not compete for [[Duration_Months]] months."}]},
-            INDEPENDENT: { title: "Contractor Services Agreement", help: "Clarifies tax status and ownership of deliverables.", fields: ["Client", "Contractor", "Deliverable_Description"], content: [{h: "Work for Hire", p: "[[Contractor]] assigns all rights for [[Deliverable_Description]] to [[Client]]."}]},
+    <main class="canvas-area" id="main-canvas">
+        <div style="text-align:center; padding-top:200px; opacity:0.2;">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <h2 style="font-family:'Playfair Display';">PROTOCOL INJECTION PENDING</h2>
+            <p style="font-family:'Fira Code';">System Status: 200 OK</p>
+        </div>
+    </main>
+</div>
 
-            // PRIVATE CLIENT
-            PRENUP: { title: "Antenuptial Agreement", help: "Requires full financial disclosure and separate counsel.", fields: ["Spouse_A", "Spouse_B", "Separate_Assets"], content: [{h: "Property", p: "[[Separate_Assets]] shall remain separate property."}]},
-            WILL: { title: "Last Will and Testament", help: "Must be witnessed and notarized per state probate code.", fields: ["Testator", "Executor", "Primary_Beneficiary"], content: [{h: "Distribution", p: "I, [[Testator]], leave my estate to [[Primary_Beneficiary]]."}]},
-            TRUST: { title: "Revocable Living Trust", help: "Avoids probate; requires funding of assets.", fields: ["Grantor", "Trustee", "Trust_Name"], content: [{h: "Powers", p: "[[Trustee]] shall manage assets under the [[Trust_Name]]."}]},
-            
-            // REAL ESTATE
-            LEASE: { title: "Commercial Lease Agreement", help: "Focus on Triple Net (NNN) or Gross lease terms.", fields: ["Landlord", "Tenant", "Square_Footage", "Monthly_Rent"], content: [{h: "Premises", p: "Landlord leases [[Square_Footage]] sqft to [[Tenant]] for [[Monthly_Rent]]."}]},
-            AIRBNB: { title: "Short-Term Rental License", help: "Address local ordinance compliance and noise.", fields: ["Host", "Guest", "Property_Address"], content: [{h: "House Rules", p: "Guest agrees to vacate [[Property_Address]] by check-out time."}]},
-            
-            // ENTERTAINMENT & IP
-            MUSIC: { title: "Master Recording License", help: "Sync rights for film/TV/commercial use.", fields: ["Label", "Artist", "Song_Title"], content: [{h: "Grant", p: "[[Label]] licenses [[Song_Title]] performed by [[Artist]]."}]},
-            FILM: { title: "Location Release Form", help: "Standard for production crews on private property.", fields: ["Production_Co", "Owner", "Location_Name"], content: [{h: "Usage", p: "[[Production_Co]] may film at [[Location_Name]] in perpetuity."}]},
-            IP_PURCHASE: { title: "Intellectual Property Purchase", help: "Full transfer of patents, trademarks, or copyrights.", fields: ["Seller", "Buyer", "Patent_Number"], content: [{h: "Transfer", p: "[[Seller]] assigns all rights to [[Patent_Number]] to [[Buyer]]."}]},
-
-            // ADVERTISING & MEDIA
-            INFLUENCER: { title: "Influencer Marketing Agreement", help: "Must include FTC disclosure requirements.", fields: ["Brand", "Influencer", "Social_Platform"], content: [{h: "Content", p: "[[Influencer]] shall post 3 times on [[Social_Platform]] for [[Brand]]."}]},
-            
-            // MORE (Condensed for space - usually you'd define all 50)
-            SPONSOR: { title: "Corporate Sponsorship Agreement", fields: ["Sponsor", "Event", "Tier"], help: "Define logo placement and exclusivity.", content: [{h: "Benefits", p: "[[Sponsor]] receives [[Tier]] benefits at [[Event]]."}]},
-            LOAN: { title: "Unsecured Promissory Note", fields: ["Lender", "Borrower", "Principal", "Interest_Rate"], help: "Subject to state usury laws.", content: [{h: "Repayment", p: "[[Borrower]] shall pay [[Principal]] at [[Interest_Rate]] interest."}]},
-            FRANCHISE: { title: "Franchise Disclosure (FDD)", fields: ["Franchisor", "Franchisee", "Initial_Fee"], help: "Governed by FTC Rule 436.", content: [{h: "Fees", p: "[[Franchisee]] pays an initial fee of [[Initial_Fee]]."}]},
-            CONSTRUCTION: { title: "Fixed-Price Construction Contract", fields: ["Owner", "General_Contractor", "Budget"], help: "Include change order procedures.", content: [{h: "Scope", p: "[[General_Contractor]] shall build for a total sum of [[Budget]]."}]},
-            CYBER: { title: "Cybersecurity Response Retainer", fields: ["Firm", "Client", "Response_Hours"], help: "Defines 'p1' emergency response times.", content: [{h: "SLA", p: "[[Firm]] shall respond to breaches within [[Response_Hours]]."}]},
-            DIVORCE: { title: "Marital Settlement Agreement", fields: ["Petitioner", "Respondent", "Support_Amount"], help: "Subject to court approval.", content: [{h: "Support", p: "Petitioner pays [[Support_Amount]] monthly support."}]},
-            EQUITY: { title: "Equity Incentive Plan", fields: ["Company", "Pool_Size", "Vesting_Years"], help: "Standard 4-year vest / 1-year cliff.", content: [{h: "Vesting", p: "Awards vest over [[Vesting_Years]] years."}]},
-            JOINT_VENTURE: { title: "Joint Venture Agreement", fields: ["Partner_A", "Partner_B", "Project_Goal"], help: "Define profit sharing split.", content: [{h: "Purpose", p: "Partners collaborate on [[Project_Goal]]."}]},
-            WHITE_LABEL: { title: "White Label Manufacturing", fields: ["Manufacturer", "Brand_Owner", "MOQ"], help: "Minimum Order Quantities (MOQ).", content: [{h: "Production", p: "[[Manufacturer]] produces for [[Brand_Owner]] at [[MOQ]] MOQ."}]},
-            ESCROW: { title: "Software Escrow Agreement", fields: ["Developer", "User", "Escrow_Agent"], help: "Protects user if developer goes defunct.", content: [{h: "Trigger", p: "Source code released if [[Developer]] ceases ops."}]},
-            DATA_BREACH: { title: "Privacy Incident Settlement", fields: ["Entity", "Claimant", "Settlement_Fund"], help: "Includes HIPAA/GDPR release.", content: [{h: "Release", p: "[[Claimant]] releases [[Entity]] for [[Settlement_Fund]]."}]},
-            POWER_OF_ATTY: { title: "Durable Power of Attorney", fields: ["Principal", "Agent", "Effective_Date"], help: "Remains valid during incapacity.", content: [{h: "Authority", p: "[[Agent]] acts for [[Principal]] from [[Effective_Date]]."}]},
-            ADOPTION: { title: "Open Adoption Agreement", fields: ["Birth_Parents", "Adoptive_Parents", "Visitation"], help: "Focus on 'Best Interest of the Child'.", content: [{h: "Contact", p: "Parties agree to [[Visitation]] contact."}]},
-            EASEMENT: { title: "Utility Easement Agreement", fields: ["Landowner", "Utility_Co", "Parcel_ID"], help: "Recorded against property title.", content: [{h: "Rights", p: "[[Utility_Co]] may access [[Parcel_ID]]."}]},
-            CROWDFUND: { title: "Crowdfunding Terms of Use", fields: ["Platform", "Project_Lead", "Refund_Policy"], help: "Complies with JOBS Act.", content: [{h: "Refunds", p: "[[Refund_Policy]] applies to all backers."}]},
-            BIO_TECH: { title: "Clinical Trial Material Transfer", fields: ["Lab", "Hospital", "Specimen_Type"], help: "Informed consent protocols.", content: [{h: "Usage", p: "[[Hospital]] provides [[Specimen_Type]] for research."}]},
-            SPORTS: { title: "Athlete Representation Agreement", fields: ["Agent", "Athlete", "Commission_Rate"], help: "Complies with League regulations.", content: [{h: "Fees", p: "[[Agent]] earns [[Commission_Rate]] of contracts."}]},
-            RETAIL: { title: "Vendor Supply Agreement", fields: ["Retailer", "Vendor", "Net_Terms"], help: "Standard 'Net 30' or 'Net 60' terms.", content: [{h: "Payment", p: "[[Retailer]] pays [[Vendor]] on [[Net_Terms]]."}]},
-            EXPORT: { title: "Export Compliance Protocol", fields: ["Exporter", "Recipient", "Country"], help: "Complies with EAR/ITAR.", content: [{h: "Restriction", p: "No re-export to prohibited [[Country]]."}]},
-            RETAINER: { title: "Legal Services Retainer", fields: ["Attorney", "Client", "Hourly_Rate"], help: "Includes evergreen replenishment.", content: [{h: "Fees", p: "[[Attorney]] bills at [[Hourly_Rate]]."}]},
-            SETTLEMENT: { title: "General Release of Claims", fields: ["Releasor", "Releasee", "Consideration"], help: "Full and final waiver.", content: [{h: "Release", p: "[[Releasor]] waives claims for [[Consideration]]."}]},
-            LOBBYING: { title: "Government Affairs Agreement", fields: ["Lobbyist", "Client", "Target_Agency"], help: "Requires public disclosure.", content: [{h: "Scope", p: "Lobbyist engages [[Target_Agency]] for [[Client]]."}]},
-            SOLAR: { title: "Solar Power Purchase (PPA)", fields: ["Provider", "Host", "kWh_Rate"], help: "20-year term typical.", content: [{h: "Pricing", p: "Host pays [[kWh_Rate]] per kWh."}]},
-            WEB3: { title: "NFT Minting Terms", fields: ["Creator", "Platform", "Royalty_Percent"], help: "On-chain vs. Off-chain rights.", content: [{h: "Royalties", p: "[[Creator]] receives [[Royalty_Percent]] on secondary."}]},
-            CANNA: { title: "Cannabis Distribution License", fields: ["Distributor", "Retailer", "Testing_Lab"], help: "Complies with State CCB rules.", content: [{h: "Testing", p: "Product must clear [[Testing_Lab]] results."}]},
-            MARITIME: { title: "Vessel Charter Agreement", fields: ["Owner", "Charterer", "Cargo_Limit"], help: "Jones Act compliance.", content: [{h: "Liability", p: "Charterer accepts risk for [[Cargo_Limit]]."}]},
-            CHARITY: { title: "Fiscal Sponsorship Agreement", fields: ["Nonprofit", "Project", "Admin_Fee"], help: "501(c)(3) oversight.", content: [{h: "Funds", p: "[[Nonprofit]] takes [[Admin_Fee]] to manage [[Project]]."}]},
-            ART: { title: "Consignment Agreement", fields: ["Gallery", "Artist", "Commission_Split"], help: "Insurance for works on-site.", content: [{h: "Sales", p: "[[Gallery]] takes [[Commission_Split]] of sales."}]},
-            HEALTH: { title: "Telemedicine Services Agreement", fields: ["Clinic", "Patient", "Platform"], help: "Informed consent and HIPAA.", content: [{h: "Virtual Care", p: "Care provided via [[Platform]] to [[Patient]]."}]}
-        };
-
-        let activeKey = null;
-        let userData = {};
-
-        function populateUI() {
-            const stateSel = document.getElementById('state-selector');
-            STATES.forEach(s => stateSel.add(new Option(s, s)));
-            stateSel.value = "Delaware";
-
-            const pracSel = document.getElementById('practice-selector');
-            Object.keys(ENGINE).sort().forEach(k => {
-                pracSel.add(new Option(ENGINE[k].title, k));
-            });
+<script>
+    const PROTOCOLS = {
+        LIT_FULL: {
+            fields: ["Plaintiff_Name", "Plaintiff_Address", "Defendant_Name", "Defendant_Address", "Case_Number", "Amount_Claimed"],
+            render: (f, j) => `
+                <div class="document-page">
+                    <div class="court-header">${j}</div>
+                    <table class="caption-table">
+                        <tr>
+                            <td>${f.Plaintiff_Name}, Plaintiff<br>v.<br>${f.Defendant_Name}, Defendant</td>
+                            <td><b>SUMMONS</b><br>Case No: ${f.Case_Number}</td>
+                        </tr>
+                    </table>
+                    <p><b>TO: ${f.Defendant_Name}</b><br>${f.Defendant_Address}</p>
+                    <p>A lawsuit has been filed against you. You are hereby summoned to serve an Answer to the attached Complaint or a motion under Rule 12 within 21 days of service. Failure to respond will result in a default judgment for the relief demanded.</p>
+                    <div style="margin-top:100px; display:flex; justify-content:space-between;">
+                        <div style="width:200px; border-top:1px solid #000; text-align:center;">Date</div>
+                        <div style="width:200px; border-top:1px solid #000; text-align:center;">Clerk of Court</div>
+                    </div>
+                </div>
+                <div class="document-page">
+                    <div class="court-header">${j}</div>
+                    <div class="doc-title">Complaint for Breach of Contract</div>
+                    <span class="section-header">1. Jurisdiction</span>
+                    <p>This Court has subject matter jurisdiction pursuant to the laws of ${j}. The Amount in Controversy exceeds ${f.Amount_Claimed}.</p>
+                    <span class="section-header">2. Statement of Claim</span>
+                    <p>Plaintiff ${f.Plaintiff_Name} alleges that Defendant ${f.Defendant_Name} failed to perform under written agreement, causing direct damages.</p>
+                    <span class="section-header">3. Prayer for Relief</span>
+                    <p>WHEREFORE, Plaintiff prays for judgment in the amount of ${f.Amount_Claimed} plus interest and costs.</p>
+                </div>
+            `
+        },
+        CORP_RES: {
+            fields: ["Corporation_Name", "Secretary_Name", "Meeting_Date", "Defendant_Name"],
+            render: (f, j) => `
+                <div class="document-page">
+                    <div class="doc-title">CORPORATE RESOLUTION OF ${f.Corporation_Name}</div>
+                    <p>The undersigned, ${f.Secretary_Name}, Secretary of ${f.Corporation_Name}, hereby certifies that at a meeting of the Board of Directors held on ${f.Meeting_Date}, the following resolution was adopted:</p>
+                    <span class="section-header">Resolution to Initiate Litigation</span>
+                    <p>RESOLVED, that the officers of the Corporation are authorized to initiate a legal action against ${f.Defendant_Name} in the courts of ${j} for breach of contract and all other applicable claims.</p>
+                    <p>FURTHER RESOLVED, that the Corporation is authorized to retain legal counsel and incur necessary expenses to prosecute said action.</p>
+                    <div style="margin-top:100px; width:300px; border-top:1px solid #000;">
+                        Certified By: ${f.Secretary_Name}, Secretary
+                    </div>
+                </div>
+            `
+        },
+        EMP_EXEC: {
+            fields: ["Company_Name", "Executive_Name", "Salary", "Clawback_Months", "IP_Scope"],
+            render: (f, j) => `
+                <div class="document-page">
+                    <div class="doc-title">EXECUTIVE EMPLOYMENT AGREEMENT</div>
+                    <span class="section-header">1. Intellectual Property</span>
+                    <p>Executive agrees that all work concerning ${f.IP_Scope} is a "Work Made for Hire." Executive hereby assigns all right, title, and interest in such IP to ${f.Company_Name}.</p>
+                    <span class="section-header">2. Performance Clawback</span>
+                    <p>In the event of termination for Cause, ${f.Company_Name} shall recover any performance bonuses paid within the preceding ${f.Clawback_Months} months.</p>
+                    <span class="section-header">3. Governing Law</span>
+                    <p>This Agreement shall be governed by the laws of the ${j}.</p>
+                </div>
+            `
         }
+    };
 
-        function filterProtocols() {
-            const search = document.getElementById('protocol-search').value.toLowerCase();
-            const pracSel = document.getElementById('practice-selector');
-            pracSel.innerHTML = '<option value="">-- Select Protocol --</option>';
-            Object.keys(ENGINE).sort().forEach(k => {
-                if (ENGINE[k].title.toLowerCase().includes(search)) {
-                    pracSel.add(new Option(ENGINE[k].title, k));
-                }
-            });
-        }
+    function initFields() {
+        const p = document.getElementById('protocol').value;
+        const container = document.getElementById('dynamic-fields');
+        container.innerHTML = '';
+        if(!p) return;
+        PROTOCOLS[p].fields.forEach(f => {
+            const wrap = document.createElement('div');
+            wrap.className = 'input-group';
+            wrap.innerHTML = `<label class="input-label">${f.replace(/_/g, ' ')}</label>
+                              <input type="text" id="f_${f}" class="field-input" oninput="renderDoc()" placeholder="Enter ${f.toLowerCase()}...">`;
+            container.appendChild(wrap);
+        });
+        renderDoc();
+    }
 
-        function initPracticeArea() {
-            activeKey = document.getElementById('practice-selector').value;
-            if(!activeKey) return;
-            document.getElementById('input-zone').style.display = 'block';
-            const container = document.getElementById('dynamic-inputs');
-            const help = document.getElementById('protocol-help');
-            container.innerHTML = '';
-            help.innerText = ENGINE[activeKey].help.replace('[[State]]', document.getElementById('state-selector').value);
-            userData = {};
-
-            ENGINE[activeKey].fields.forEach(f => {
-                const input = document.createElement('input');
-                input.className = 'legal-input';
-                input.placeholder = f.replace(/_/g, ' ');
-                input.oninput = (e) => { userData[f] = e.target.value; generateContract(); };
-                container.appendChild(input);
-            });
-            generateContract();
-        }
-
-        function generateContract() {
-            if(!activeKey) return;
-            const state = document.getElementById('state-selector').value;
-            const config = ENGINE[activeKey];
-            const canvas = document.getElementById('legal-canvas');
-            const hash = 'LADY-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-            
-            let html = `<div class="auth-seal">AUTHENTICITY VERIFIED<br>ID: ${hash}<br>STATE: ${state.toUpperCase()}</div>
-                <h1>${config.title}</h1>
-                <p>Governed by the statutes of the State of <b>${state}</b>.</p>`;
-
-            config.content.forEach((sec, i) => {
-                let p = sec.p;
-                config.fields.forEach(f => {
-                    const val = userData[f] ? `<b>${userData[f]}</b>` : `<span style="color:red; border-bottom:1px dotted">[${f.replace(/_/g, ' ')}]</span>`;
-                    p = p.split(`[[${f}]]`).join(val);
-                });
-                html += `<h2>Article ${i + 1}. ${sec.h}</h2><p>${p}</p>`;
-            });
-
-            html += `<h2>Article ${config.content.length + 1}. Choice of Law</h2><p>This agreement shall be strictly interpreted under the laws of ${state}.</p>
-                <div style="margin-top:100px; display:grid; grid-template-columns:1fr 1fr; gap:50px;">
-                    <div style="border-top:1px solid #000; padding-top:10px; font-size:9pt;">AUTHORIZED SIGNATURE</div>
-                    <div style="border-top:1px solid #000; padding-top:10px; font-size:9pt;">AUTHORIZED SIGNATURE</div>
-                </div>`;
-            canvas.innerHTML = html;
-        }
-
-        function exportToPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'pt', 'a4');
-            const element = document.getElementById('legal-canvas');
-            doc.html(element, { callback: (doc) => doc.save('Legalz-Contract.pdf'), x: 40, y: 40, width: 520, windowWidth: 800 });
-        }
-
-        function exportToWord() {
-            const html = document.getElementById('legal-canvas').innerHTML;
-            const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url; link.download = 'Legalz-Contract.doc'; link.click();
-        }
-
-        const canvas = document.getElementById('particlesCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particles = Array.from({length: 40}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: Math.random()-0.5, vy: Math.random()-0.5 }));
-        function animate() {
-            ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = '#00f2ff';
-            particles.forEach(p => { p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>canvas.width)p.vx*=-1; if(p.y<0||p.y>canvas.height)p.vy*=-1; ctx.beginPath(); ctx.arc(p.x,p.y,1,0,Math.PI*2); ctx.fill(); });
-            requestAnimationFrame(animate);
-        }
-        populateUI();
-        animate();
-    </script>
+    function renderDoc() {
+        const p = document.getElementById('protocol').value;
+        if(!p) return;
+        const jur = document.getElementById('jurisdiction').value;
+        const fData = {};
+        PROTOCOLS[p].fields.forEach(f => {
+            const val = document.getElementById(`f_${f}`).value;
+            fData[f] = val ? `<span class="live-field">${val}</span>` : `<span class="empty-field">[${f.replace(/_/g, ' ')}]</span>`;
+        });
+        document.getElementById('main-canvas').innerHTML = PROTOCOLS[p].render(fData, jur);
+    }
+</script>
 </body>
 </html>
