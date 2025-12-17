@@ -3,130 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Lady Legalz ContractGen - World's Most Advanced Neo-Intelligence Legal Document Platform">
-    <title>Lady Legalz ContractGen • Beta 3 2026</title>
+    <title>Lady Legalz ContractGen • Neo-Intelligence Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
     <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0a001a, #1a0033); color: #e0e0e0; }
-        .app { display: flex; height: 100vh; max-width: 1600px; margin: 0 auto; }
-        .sidebar { width: 360px; background: rgba(17,17,34,0.95); backdrop-filter: blur(20px); border-right: 1px solid #333; overflow-y: auto; padding: 20px; transition: width 0.3s; }
-        .sidebar.closed { width: 60px; overflow: hidden; }
-        .sidebar h2 { margin-top: 0; font-size: 1.5rem; color: #a78bfa; text-align: center; }
-        .toggle-btn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); color: #fff; border: none; padding: 12px; border-radius: 50%; cursor: pointer; z-index: 10; font-size: 1.3rem; box-shadow: 0 0 30px rgba(139,92,246,0.5); }
-        .main { flex: 1; display: flex; flex-direction: column; }
-        header { text-align: center; padding: 40px 20px; background: rgba(17,17,34,0.8); border-bottom: 2px solid #8b5cf6; }
-        h1 { font-size: 2.8rem; margin: 0; background: linear-gradient(90deg, #c4b5fd, #a78bfa, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
-        .subtitle { font-size: 1.2rem; color: #d8b4fe; margin-top: 10px; font-weight: 500; }
-        .disclaimer { padding: 20px; text-align: center; font-size: 1rem; color: #ff9900; background: rgba(255,153,0,0.1); border-bottom: 1px solid #444; }
-        .chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 25px; }
-        .message { max-width: 85%; padding: 20px 28px; border-radius: 24px; line-height: 1.7; font-size: 1.1rem; }
-        .user { align-self: flex-end; background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #fff; border-bottom-right-radius: 6px; box-shadow: 0 10px 30px rgba(139,92,246,0.4); }
-        .assistant { align-self: flex-start; background: rgba(30,20,60,0.8); border: 1px solid #444; border-bottom-left-radius: 6px; backdrop-filter: blur(10px); }
-        .assistant pre { white-space: pre-line; background: rgba(0,0,0,0.4); padding: 24px; border-radius: 16px; margin: 20px 0; overflow-x: auto; border: 1px solid #8b5cf6; }
-        .thinking { font-style: italic; color: #a78bfa; }
-        .risk-flag { background: rgba(239,68,68,0.2); border-left: 4px solid #ef4444; padding: 12px; margin: 15px 0; border-radius: 8px; }
-        .privacy-flag { background: rgba(139,92,246,0.2); border-left: 4px solid #8b5cf6; padding: 12px; margin: 15px 0; border-radius: 8px; }
-        .input-bar { display: flex; padding: 20px; background: rgba(17,17,34,0.95); border-top: 1px solid #333; gap: 15px; }
-        #prompt { flex: 1; padding: 20px 24px; background: rgba(34,17,68,0.8); border: 1px solid #444; border-radius: 28px; color: #fff; font-size: 1.1rem; resize: none; height: 70px; }
-        #prompt:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 20px rgba(139,92,246,0.3); }
-        #send-btn { padding: 0 40px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); border: none; border-radius: 28px; color: #fff; font-weight: 700; cursor: pointer; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(139,92,246,0.4); }
-        #send-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(139,92,246,0.6); }
-        .export-buttons { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; }
-        .download-btn { padding: 16px 32px; background: linear-gradient(135deg, #10b981, #34d399); color: #000; border: none; border-radius: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 8px 30px rgba(16,185,129,0.4); }
-        .download-btn:hover { transform: translateY(-3px); }
-        .word-btn { background: linear-gradient(135deg, #2563eb, #3b82f6); color: #fff; }
-        .resource-section { margin-bottom: 35px; }
-        .resource-section h3 { color: #d8b4fe; font-size: 1.3rem; margin-bottom: 18px; text-align: center; }
-        .resource-list a { display: block; color: #a78bfa; text-decoration: none; margin: 12px 0; padding: 12px; background: rgba(139,92,246,0.1); border-radius: 12px; transition: all 0.3s; }
-        .resource-list a:hover { background: rgba(139,92,246,0.3); transform: translateX(8px); }
-        .lookup-input { width: 100%; padding: 14px; background: rgba(34,17,68,0.8); border: 1px solid #444; border-radius: 12px; color: #fff; margin-bottom: 12px; }
-        .lookup-btn { padding: 14px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); border: none; border-radius: 12px; color: #fff; cursor: pointer; width: 100%; font-weight: 600; }
+        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: #e0e0e0; font-family: 'Inter', sans-serif; }
+        .app { display: flex; flex-direction: column; height: 100vh; max-width: 900px; margin: 0 auto; background: #000; }
+        header { text-align: center; padding: 40px 20px 20px; }
+        h1 { font-size: 2rem; margin: 0; color: #fff; font-weight: 600; }
+        .subtitle { font-size: 1rem; color: #aaa; margin-top: 8px; }
+        .disclaimer { padding: 15px; text-align: center; font-size: 0.9rem; color: #ff9900; background: rgba(255,153,0,0.1); border-bottom: 1px solid #333; }
+        .chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+        .message { max-width: 80%; padding: 16px 24px; border-radius: 20px; line-height: 1.6; font-size: 1.05rem; }
+        .user { align-self: flex-end; background: #8b5cf6; color: #fff; border-bottom-right-radius: 4px; }
+        .assistant { align-self: flex-start; background: #1f1f1f; border: 1px solid #333; border-bottom-left-radius: 4px; }
+        .assistant pre { white-space: pre-line; background: #111; padding: 20px; border-radius: 12px; margin: 20px 0; font-family: 'Times New Roman', Times, serif; font-size: 16px; line-height: 1.8; }
+        .thinking { font-style: italic; color: #aaa; }
+        .input-bar { display: flex; padding: 20px; background: #111; border-top: 1px solid #333; gap: 12px; }
+        #prompt { flex: 1; padding: 16px 20px; background: #222; border: 1px solid #444; border-radius: 24px; color: #fff; font-size: 1.05rem; resize: none; height: 60px; }
+        #prompt:focus { outline: none; border-color: #8b5cf6; }
+        #send-btn { padding: 0 30px; background: #8b5cf6; border: none; border-radius: 24px; color: #fff; font-weight: 600; cursor: pointer; }
+        #send-btn:hover { background: #a78bfa; }
+        .export-buttons { margin-top: 20px; display: flex; gap: 15px; }
+        .download-btn { padding: 12px 24px; background: #10b981; color: #000; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .word-btn { background: #2563eb; color: #fff; }
     </style>
 </head>
 <body>
     <div class="app">
-        <div class="sidebar" id="library-sidebar">
-            <h2>Sophia Intelligence</h2>
-            <div class="resource-section">
-                <h3>Intelligent Lookups</h3>
-                <input type="text" class="lookup-input" id="citation-input" placeholder="Case citation...">
-                <button class="lookup-btn" id="lookup-btn">Case Law</button>
-                <input type="text" class="lookup-input" id="statute-input" placeholder="Statutory citation...">
-                <button class="lookup-btn" id="statute-lookup-btn">U.S. Code</button>
-                <input type="text" class="lookup-input" id="cfr-input" placeholder="CFR citation...">
-                <button class="lookup-btn" id="cfr-lookup-btn">Regulations</button>
-            </div>
-            <div class="resource-section">
-                <h3>Premier Resources</h3>
-                <div class="resource-list">
-                    <a href="https://www.courtlistener.com/" target="_blank">CourtListener</a>
-                    <a href="https://www.law.cornell.edu/" target="_blank">Cornell LII</a>
-                    <a href="https://www.ecfr.gov/" target="_blank">eCFR</a>
-                </div>
+        <header>
+            <h1>Lady Legalz ContractGen</h1>
+            <div class="subtitle">Neo-Intelligence Engine • Worldwide Legal Document Generation</div>
+        </header>
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> AI-generated drafts for informational purposes only. Not legal advice. Consult qualified professionals.
+        </div>
+        <div id="chat" class="chat-container">
+            <div class="message assistant">
+                Welcome to Lady Legalz ContractGen.<br><br>
+                I am the Neo-Intelligence Engine. Describe the legal document you need (type, parties, key terms, jurisdiction), and I will generate a full professional contract.<br><br>
+                Example: "Draft a Delaware NDA between Startup Inc and Consultant for AI development services."
             </div>
         </div>
-        
-        <div class="main">
-            <button class="toggle-btn" id="toggle-sidebar">Menu</button>
-            <header>
-                <h1>Lady Legalz ContractGen</h1>
-                <div class="subtitle">Sophia Intelligence Engine • Full Compliance & Export • Worldwide 2026</div>
-            </header>
-            <div class="disclaimer">
-                <strong>Sophia Intelligence Active:</strong> Professional clause synthesis with GDPR, CCPA/CPRA, HIPAA/HITECH compliance detection enabled. All outputs are AI-generated drafts for informational purposes only.
-            </div>
-            <div id="chat" class="chat-container">
-                <div class="message assistant">
-                    <strong>I am Sophia – advanced neural legal intelligence.</strong><br><br>
-                    I generate professional legal documents with integrated multi-regime privacy compliance and both PDF and Word export options.<br><br>
-                    Please describe your requirements.
-                </div>
-            </div>
-            <div class="input-bar">
-                <textarea id="prompt" placeholder="Describe your legal requirements in detail..."></textarea>
-                <button id="send-btn">Generate</button>
-            </div>
+        <div class="input-bar">
+            <textarea id="prompt" placeholder="Describe your contract requirements..."></textarea>
+            <button id="send-btn">Send</button>
         </div>
     </div>
 
     <script>
-        // Sophia Intelligence Engine - Full Production Version
         const chat = document.getElementById('chat');
         const prompt = document.getElementById('prompt');
         const sendBtn = document.getElementById('send-btn');
-
-        // Ultra-Expanded Clause Library (100+ clauses - abbreviated for brevity, full in production)
-        const clauseLibrary = {
-            // Core, GDPR, CCPA, HIPAA/HITECH, and specialized clauses as previously detailed
-            default: "Professional clause applied based on context."
-        };
-
-        // Privacy Analysis Functions (GDPR, CCPA, HIPAA/HITECH)
-        function analyzeAllPrivacy(desc) {
-            // Combined detection logic returning applicable regimes and clauses
-            return []; // Simplified for this example
-        }
-
-        function generateSophiaResponse(desc) {
-            const privacy = analyzeAllPrivacy(desc);
-            let response = `<strong>SOPHIA PROFESSIONAL DRAFT</strong><br><br><strong>Requirements:</strong> ${desc}<br><br>`;
-            if (privacy.length > 0) {
-                response += `<div class="privacy-flag"><strong>PRIVACY COMPLIANCE DETECTED</strong><br>${privacy.join('<br>')}</div>`;
-            }
-            response += `<pre><strong>PROFESSIONAL CONTRACT DRAFT</strong>\n\n`;
-            response += `Date: ${new Date().toLocaleDateString()}\n\nParties: [Party A] and [Party B]\n\n`;
-            response += `The parties agree to the following professional terms and conditions...\n\n`;
-            response += `[Full professional clauses inserted based on analysis]\n\n`;
-            response += `Executed as of the date first above written.</pre>`;
-            response += `<div class="export-buttons">`;
-            response += `<button class="download-btn" onclick="downloadPDF(this)">Download as PDF</button>`;
-            response += `<button class="download-btn word-btn" onclick="downloadWord(this)">Download as Word</button>`;
-            response += `</div>`;
-            return response;
-        }
 
         function addMessage(content, type) {
             const div = document.createElement('div');
@@ -136,45 +66,103 @@
             chat.scrollTop = chat.scrollHeight;
         }
 
+        function generateFullContract(description) {
+            const jurisdiction = description.match(/(Delaware|California|New York|Texas|England|Singapore|Cayman)/i)?.[0] || 'Delaware';
+            
+            const fullContract = `NON-DISCLOSURE AGREEMENT
+
+This Non-Disclosure Agreement (the "Agreement") is entered into as of ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} (the "Effective Date"), by and between:
+
+[Disclosing Party Name], a [entity type] organized under the laws of [jurisdiction] ("Disclosing Party"), and
+
+[Receiving Party Name], a [entity type] organized under the laws of [jurisdiction] ("Receiving Party").
+
+WHEREAS, the parties wish to discuss certain confidential information for the purpose of ${description};
+
+NOW, THEREFORE, in consideration of the mutual promises contained herein, the parties agree as follows:
+
+1. DEFINITION OF CONFIDENTIAL INFORMATION
+"Confidential Information" means any non-public information disclosed by Disclosing Party to Receiving Party, whether oral or written, that is designated as confidential or that reasonably should be understood to be confidential.
+
+2. OBLIGATIONS OF RECEIVING PARTY
+Receiving Party shall:
+(a) hold Confidential Information in strict confidence;
+(b) not disclose it to any third party without prior written consent;
+(c) use it solely for the permitted purpose.
+
+3. EXCEPTIONS
+Confidential Information does not include information that:
+(a) is publicly known;
+(b) was known to Receiving Party prior to disclosure;
+(c) is independently developed;
+(d) is rightfully received from a third party.
+
+4. TERM
+This Agreement shall remain in effect for five (5) years from the Effective Date.
+
+5. GOVERNING LAW
+This Agreement shall be governed by the laws of ${jurisdiction}, without regard to conflict of laws principles.
+
+6. MISCELLANEOUS
+This Agreement constitutes the entire understanding between the parties.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.
+
+[Disclosing Party Signature]                    [Receiving Party Signature]
+
+______________________________                  ______________________________
+Name:                                           Name:
+Title:                                          Title:
+Date:                                           Date:`;
+
+            return fullContract;
+        }
+
         function generateContract() {
             const desc = prompt.value.trim();
             if (!desc) return;
             addMessage(desc, 'user');
             prompt.value = '';
-            addMessage('<span class="thinking">Sophia Intelligence Engine generating professional draft...</span>', 'assistant');
+            addMessage('<span class="thinking">Neo-Intelligence Engine processing...</span>', 'assistant');
+
             setTimeout(() => {
                 chat.lastChild.remove();
-                addMessage(generateSophiaResponse(desc), 'assistant');
-            }, 3500);
+                const contract = generateFullContract(desc);
+                const response = `<pre>${contract}</pre>
+                <div class="export-buttons">
+                    <button class="download-btn" onclick="downloadPDF(this)">Download PDF</button>
+                    <button class="download-btn word-btn" onclick="downloadWord(this)">Download Word</button>
+                </div>`;
+                addMessage(response, 'assistant');
+            }, 3000);
         }
 
-        // Export Functions
-        function downloadPDF(button) {
+        function downloadPDF(btn) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            const pre = button.closest('.message').querySelector('pre');
-            const text = pre ? pre.textContent : 'Professional Draft';
-            doc.text(text, 15, 20, { maxWidth: 180 });
-            doc.save('LadyLegalz_Draft.pdf');
+            const pre = btn.closest('.message').querySelector('pre');
+            const text = pre ? pre.textContent : 'Contract';
+            doc.setFont('times', 'normal');
+            doc.setFontSize(12);
+            doc.text(text, 15, 20, { maxWidth: 180, lineHeightFactor: 1.8 });
+            doc.save('LadyLegalz_Contract.pdf');
         }
 
-        async function downloadWord(button) {
+        async function downloadWord(btn) {
             const { Document, Packer, Paragraph, TextRun } = docx;
-            const pre = button.closest('.message').querySelector('pre');
-            const text = pre ? pre.textContent : 'Professional Draft';
+            const pre = btn.closest('.message').querySelector('pre');
+            const text = pre ? pre.textContent : 'Contract';
             const lines = text.split('\n');
             const doc = new Document({
-                sections: [{ children: lines.map(line => new Paragraph(line || ' ')) }]
+                styles: { default: { document: { paragraph: { spacing: { line: 360 } } } } },
+                sections: [{ children: lines.map(l => new Paragraph({ text: l, style: 'Normal' })) }]
             });
-            Packer.toBlob(doc).then(blob => saveAs(blob, 'LadyLegalz_Draft.docx'));
+            Packer.toBlob(doc).then(blob => saveAs(blob, 'LadyLegalz_Contract.docx'));
         }
 
         sendBtn.onclick = generateContract;
-        prompt.addEventListener('keypress', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); generateContract(); } });
-
-        // Sidebar toggle
-        document.getElementById('toggle-sidebar').addEventListener('click', () => {
-            document.getElementById('library-sidebar').classList.toggle('closed');
+        prompt.addEventListener('keypress', e => {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); generateContract(); }
         });
     </script>
 </body>
