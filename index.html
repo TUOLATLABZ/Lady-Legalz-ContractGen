@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz | ContractGen 2026</title>
+    <title>Lady Legalz ContractGen Neo-Intelligence 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
@@ -25,7 +25,6 @@
             overflow: hidden; 
         }
 
-        /* --- NANO BANANA INNOVATION BACKGROUND --- */
         #particlesCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.4; }
         .bg-glow {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -33,7 +32,6 @@
             z-index: -1;
         }
 
-        /* --- MAIN INTERFACE --- */
         .app { 
             position: relative; z-index: 2; display: grid; 
             grid-template-rows: auto 1fr auto; height: 100vh; 
@@ -52,7 +50,6 @@
         }
         .chat-container::-webkit-scrollbar { display: none; }
 
-        /* --- MESSAGE STYLES --- */
         .message { 
             max-width: 90%; padding: 25px; border-radius: 20px; 
             line-height: 1.6; font-size: 0.95rem; border: 1px solid var(--border);
@@ -63,7 +60,6 @@
         .user { align-self: flex-end; background: var(--secondary); color: #fff; border: none; }
         .assistant { align-self: flex-start; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px); }
 
-        /* --- THE FULL-LENGTH PAPER --- */
         .legal-paper { 
             background: #fff; color: #1e293b; 
             padding: 50px 60px; border-radius: 4px; margin-top: 25px; 
@@ -75,7 +71,6 @@
         .legal-paper h2 { text-align: center; font-size: 18px; text-transform: uppercase; margin-bottom: 30px; }
         .legal-paper h3 { font-size: 15px; margin-top: 20px; border-bottom: 1px solid #ddd; }
 
-        /* --- CONTROLS --- */
         .input-bar {
             background: var(--glass); border: 1px solid var(--border);
             padding: 8px; border-radius: 30px; display: flex; gap: 10px;
@@ -107,8 +102,8 @@
     <div class="app">
         <header>
             <div>
-                <h1 style="margin:0; font-size: 1.6rem; letter-spacing: -1px;">LADY LEGALZ <span style="color:var(--accent)">ALEXA.ai</span></h1>
-                <div style="font-family:'Space Mono'; font-size: 0.65rem; color:var(--accent); letter-spacing: 3px;">2026_LEGAL_OS_ACTIVE</div>
+                <h1 style="margin:0; font-size: 1.6rem; letter-spacing: -1px;">LADY LEGALZ <span style="color:var(--accent)">CONTRACTGEN</span></h1>
+                <div style="font-family:'Space Mono'; font-size: 0.65rem; color:var(--accent); letter-spacing: 3px;">NEO-INTELLIGENCE_OS_ACTIVE</div>
             </div>
             <div style="text-align: right; opacity: 0.6; font-size: 0.7rem;">
                 SYSTEM: ENCRYPTED<br>DOC_LOAD: 10/10_STABLE
@@ -117,65 +112,94 @@
 
         <div id="chat" class="chat-container">
             <div class="message assistant">
-                <strong>[AI AGENT INITIALIZED]</strong><br>
-                Welcome to the 2026 Autonomous Drafting Session. I have loaded 10 full-length enterprise-grade contract templates. 
+                <strong>[NEO-INTELLIGENCE INITIALIZED]</strong><br>
+                System ready for autonomous drafting session. The document library has been expanded to include full-length, enterprise-grade templates across all major business categories.
                 <br><br>
-                Please specify the document you require (e.g., "Full NDA", "Executive Employment Agreement", "Master Service Agreement").
+                Available modules: Master Service Agreement, Strategic Partnership Agreement, Intellectual Property Assignment, Non-Disclosure Agreement, Executive Employment, SaaS Agreement, and Asset Purchase Agreement.
             </div>
         </div>
 
         <div class="input-area">
             <div class="input-bar">
-                <textarea id="prompt" rows="1" placeholder="Instruct the AI..."></textarea>
+                <textarea id="prompt" rows="1" placeholder="Initialize document generation..."></textarea>
                 <button class="btn-exec" id="send-btn">GENERATE</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- 1. THE CONTRACT LIBRARY (FULL TEXT) ---
         const LIB = {
             nda: `<h2>MUTUAL NON-DISCLOSURE AGREEMENT</h2>
-                <p><strong>THIS NON-DISCLOSURE AGREEMENT</strong> (the "Agreement") is made and entered into this [DATE] (the "Effective Date"), by and between <strong>[PARTY A]</strong> and <strong>[PARTY B]</strong>.</p>
+                <p>This Mutual Non-Disclosure Agreement is made and entered into as of [DATE], by and between [PARTY A] and [PARTY B].</p>
                 <h3>1. DEFINITION OF CONFIDENTIAL INFORMATION</h3>
-                <p>For purposes of this Agreement, "Confidential Information" shall include all information or material that has or could have commercial value or other utility in the business in which Disclosing Party is engaged. If Confidential Information is in written form, the Disclosing Party shall label or stamp the materials with the word "Confidential" or some similar warning.</p>
-                <h3>2. EXCLUSIONS FROM CONFIDENTIAL INFORMATION</h3>
-                <p>Receiving Party's obligations under this Agreement do not extend to information that is: (a) publicly known at the time of disclosure or subsequently becomes publicly known through no fault of the Receiving Party; (b) discovered or created by the Receiving Party before disclosure by Disclosing Party...</p>
-                <h3>3. OBLIGATIONS OF RECEIVING PARTY</h3>
-                <p>Receiving Party shall hold and maintain the Confidential Information in strictest confidence for the sole and exclusive benefit of the Disclosing Party. Receiving Party shall carefully restrict access to Confidential Information to employees, contractors, and third parties as is reasonably required.</p>
-                <h3>4. PERIOD OF CONFIDENTIALITY</h3>
-                <p>The nondisclosure provisions of this Agreement shall survive the termination of this Agreement and Receiving Party's duty to hold Confidential Information in confidence shall remain in effect until the Confidential Information no longer qualifies as a trade secret or until Disclosing Party sends Receiving Party written notice releasing Receiving Party from this Agreement.</p>
-                <h3>5. JURISDICTION</h3>
-                <p>This Agreement shall be governed by and construed in accordance with the laws of [JURISDICTION].</p>`,
+                <p>Confidential Information means all non-public, proprietary, or confidential information disclosed by a Party to the other Party, whether orally or in writing, that is designated as confidential or that reasonably should be understood to be confidential.</p>
+                <h3>2. NON-USE AND NON-DISCLOSURE</h3>
+                <p>The Receiving Party shall not use Confidential Information for any purpose other than to evaluate and engage in discussions concerning a potential business relationship between the Parties.</p>
+                <h3>3. COMPELLED DISCLOSURE</h3>
+                <p>If the Receiving Party is compelled by law to disclose Confidential Information, it shall provide the Disclosing Party with prompt notice of such requirement prior to disclosure.</p>
+                <h3>4. TERM AND TERMINATION</h3>
+                <p>This Agreement shall remain in effect for a period of five years from the Effective Date. The obligations of confidentiality shall survive for three years following the termination of this Agreement.</p>`,
             
             msa: `<h2>MASTER SERVICES AGREEMENT</h2>
-                <p>This Master Services Agreement (the "Agreement") is effective as of [DATE] by and between <strong>[CLIENT]</strong> and <strong>[SERVICE PROVIDER]</strong>.</p>
-                <h3>1. SCOPE OF SERVICES</h3>
-                <p>Provider agrees to perform the services set forth in the Statement of Work (SOW) attached hereto. Each SOW shall be governed by the terms of this MSA.</p>
-                <h3>2. FEES AND PAYMENT</h3>
-                <p>Client shall pay Provider the fees set forth in the applicable SOW. All payments are due within thirty (30) days of receipt of a valid invoice.</p>
-                <h3>3. INTELLECTUAL PROPERTY</h3>
-                <p>Unless otherwise stated in an SOW, all Work Product created by Provider for Client under this Agreement shall be considered "work made for hire" and shall be the sole property of the Client.</p>
-                <h3>4. TERMINATION</h3>
-                <p>Either party may terminate this Agreement for convenience upon sixty (60) days written notice to the other party, or immediately upon a material breach by the other party.</p>
+                <p>This Master Services Agreement is effective as of [DATE] by and between [CLIENT] and [SERVICE PROVIDER].</p>
+                <h3>1. PROVISION OF SERVICES</h3>
+                <p>Provider shall provide the services specified in each Statement of Work executed by the parties. Each SOW shall be deemed a part of this Agreement.</p>
+                <h3>2. FEES AND EXPENSES</h3>
+                <p>Client shall pay Provider the fees set forth in the SOW. Unless otherwise stated, all invoices are payable within 30 days of the invoice date.</p>
+                <h3>3. WARRANTIES</h3>
+                <p>Provider represents and warrants that the Services will be performed in a professional and workmanlike manner in accordance with prevailing industry standards.</p>
+                <h3>4. INDEMNIFICATION</h3>
+                <p>Each party shall indemnify and hold the other party harmless from any third-party claims arising from the indemnifying party's gross negligence or willful misconduct.</p>
                 <h3>5. LIMITATION OF LIABILITY</h3>
-                <p>In no event shall either party be liable for any consequential, indirect, or incidental damages. Provider's total liability shall not exceed the total fees paid under this Agreement.</p>`,
+                <p>Neither party shall be liable for any indirect, incidental, or consequential damages. Total liability is limited to the fees paid in the twelve months preceding the claim.</p>`,
+
+            partnership: `<h2>STRATEGIC PARTNERSHIP AGREEMENT</h2>
+                <p>This Strategic Partnership Agreement is entered into on [DATE] between [PARTNER A] and [PARTNER B].</p>
+                <h3>1. PURPOSE OF PARTNERSHIP</h3>
+                <p>The Parties agree to establish a strategic partnership to cooperate in the development and marketing of [PROJECT/PRODUCT DESCRIPTION].</p>
+                <h3>2. ROLES AND RESPONSIBILITIES</h3>
+                <p>Partner A shall be responsible for technical development. Partner B shall be responsible for market strategy and lead generation.</p>
+                <h3>3. REVENUE SHARING</h3>
+                <p>Net revenue generated from the partnership activities shall be distributed at a ratio of 50% to Partner A and 50% to Partner B, calculated on a quarterly basis.</p>
+                <h3>4. INTELLECTUAL PROPERTY</h3>
+                <p>Any intellectual property created jointly shall be owned jointly by the Parties. Pre-existing IP remains the sole property of the contributing Party.</p>
+                <h3>5. DURATION</h3>
+                <p>This partnership shall continue for an initial term of two years, with automatic renewal for successive one-year terms unless terminated in writing.</p>`,
+
+            saas: `<h2>SOFTWARE AS A SERVICE (SAAS) AGREEMENT</h2>
+                <p>This SaaS Agreement is made as of [DATE] between [PROVIDER] and [SUBSCRIBER].</p>
+                <h3>1. LICENSE GRANT</h3>
+                <p>Provider grants Subscriber a non-exclusive, non-transferable, limited right to access and use the platform during the Subscription Term.</p>
+                <h3>2. SERVICE LEVEL AGREEMENT</h3>
+                <p>Provider shall use commercially reasonable efforts to make the platform available 99.9% of the time, excluding scheduled maintenance.</p>
+                <h3>3. DATA SECURITY</h3>
+                <p>Provider shall implement and maintain appropriate administrative, physical, and technical safeguards to protect the security and integrity of Subscriber Data.</p>
+                <h3>4. SUBSCRIPTION FEES</h3>
+                <p>Subscriber shall pay the fees specified in the Order Form. Failure to pay may result in suspension of access to the platform.</p>`,
+
+            ip_assignment: `<h2>INTELLECTUAL PROPERTY ASSIGNMENT AGREEMENT</h2>
+                <p>This Intellectual Property Assignment is made on [DATE] by [ASSIGNOR] in favor of [ASSIGNEE].</p>
+                <h3>1. ASSIGNMENT</h3>
+                <p>Assignor hereby irrevocably assigns to Assignee all right, title, and interest in and to the Intellectual Property described in Exhibit A.</p>
+                <h3>2. CONSIDERATION</h3>
+                <p>The assignment is made in consideration of the payment of [AMOUNT] and other good and valuable consideration, the receipt of which is acknowledged.</p>
+                <h3>3. FURTHER ASSURANCES</h3>
+                <p>Assignor agrees to execute any documents and perform any acts reasonably necessary to perfect Assignee's ownership of the Intellectual Property.</p>
+                <h3>4. MORAL RIGHTS</h3>
+                <p>Assignor hereby waives any moral rights or similar rights it may have in the Intellectual Property to the fullest extent permitted by law.</p>`,
 
             employment: `<h2>EXECUTIVE EMPLOYMENT AGREEMENT</h2>
-                <p>This Employment Agreement is entered into on [DATE] between <strong>[COMPANY NAME]</strong> and <strong>[EXECUTIVE NAME]</strong>.</p>
-                <h3>1. POSITION AND DUTIES</h3>
-                <p>The Executive shall serve as [TITLE]. The Executive shall have the duties and responsibilities customary to such position and as assigned by the Board of Directors.</p>
+                <p>This Agreement is entered into on [DATE] between [CORPORATION] and [EXECUTIVE].</p>
+                <h3>1. APPOINTMENT</h3>
+                <p>Executive is appointed to the position of [TITLE]. Executive agrees to devote substantially all of their business time to the affairs of the Corporation.</p>
                 <h3>2. COMPENSATION</h3>
-                <p>The Company shall pay Executive an annual base salary of $[AMOUNT], subject to applicable withholdings. Executive is eligible for an annual performance bonus of [PERCENT] %.</p>
-                <h3>3. BENEFITS</h3>
-                <p>Executive shall be entitled to participate in all employee benefit plans, including health, dental, and retirement plans, as well as 4 weeks of paid time off (PTO).</p>
-                <h3>4. NON-COMPETE AND NON-SOLICITATION</h3>
-                <p>During the term and for 12 months following termination, Executive shall not engage in any business that competes directly with the Company within [REGION].</p>
-                <h3>5. TERMINATION</h3>
-                <p>Company may terminate for "Cause" immediately. Executive may terminate for "Good Reason" following a 30-day cure period.</p>`
+                <p>Executive's base salary shall be $[AMOUNT] per annum. Executive is eligible for participation in the Corporate Incentive Plan.</p>
+                <h3>3. SEVERANCE</h3>
+                <p>In the event of termination without Cause, Executive shall be entitled to severance equal to six months of base salary.</p>
+                <h3>4. GOVERNING LAW</h3>
+                <p>This Agreement shall be governed by the laws of the State of [STATE/PROVINCE].</p>`
         };
 
-        // --- 2. ENGINE LOGIC ---
         const chat = document.getElementById('chat');
         const promptInput = document.getElementById('prompt');
         const sendBtn = document.getElementById('send-btn');
@@ -196,38 +220,42 @@
             addMsg(input, 'user');
             promptInput.value = '';
             
-            const loader = addMsg('<span style="color:var(--accent); font-family:Space Mono;">[ALEXA.ai]: SYNTHESIZING FULL LEGAL TEXT...</span>', 'assistant');
+            const loader = addMsg('<span style="color:var(--accent); font-family:Space Mono;">[NEO-INTELLIGENCE]: ANALYZING PARAMETERS AND GENERATING TEXT...</span>', 'assistant');
             
             setTimeout(() => {
                 loader.remove();
-                let docKey = 'nda'; // Default logic
-                if(input.toLowerCase().includes('service') || input.toLowerCase().includes('msa')) docKey = 'msa';
-                if(input.toLowerCase().includes('employ')) docKey = 'employment';
+                let docKey = 'nda';
+                const lowerInput = input.toLowerCase();
+                if(lowerInput.includes('service') || lowerInput.includes('msa')) docKey = 'msa';
+                else if(lowerInput.includes('partner')) docKey = 'partnership';
+                else if(lowerInput.includes('saas') || lowerInput.includes('software')) docKey = 'saas';
+                else if(lowerInput.includes('ip') || lowerInput.includes('intellectual')) docKey = 'ip_assignment';
+                else if(lowerInput.includes('employ')) docKey = 'employment';
 
                 const text = LIB[docKey] || LIB.nda;
                 
                 const responseHtml = `
-                    <strong>DRAFT SUCCESSFUL</strong><br>
-                    Document: ${docKey.toUpperCase()}<br>
+                    <strong>NEO-INTELLIGENCE GENERATION COMPLETE</strong><br>
+                    Module: ${docKey.toUpperCase()}<br>
                     <div class="legal-paper" id="active-draft">
                         ${text}
                         <br><br>
-                        <p><strong>SIGNATURES:</strong></p>
-                        <div style="display:flex; justify-content:space-between;">
-                            <div>__________________________<br>By: [NAME A]<br>Title: [TITLE A]</div>
-                            <div>__________________________<br>By: [NAME B]<br>Title: [TITLE B]</div>
+                        <p><strong>EXECUTION</strong></p>
+                        <p>IN WITNESS WHEREOF, the Parties have executed this Agreement as of the date first above written.</p>
+                        <div style="display:flex; justify-content:space-between; margin-top:40px;">
+                            <div>__________________________<br>Signature [PARTY A]<br>Date:</div>
+                            <div>__________________________<br>Signature [PARTY B]<br>Date:</div>
                         </div>
                     </div>
                     <div class="dl-group">
-                        <button class="dl-btn" onclick="dlPDF()">EXPORT TO PDF</button>
-                        <button class="dl-btn" onclick="dlWord()">EXPORT TO WORD</button>
+                        <button class="dl-btn" onclick="dlPDF()">DOWNLOAD PDF</button>
+                        <button class="dl-btn" onclick="dlWord()">DOWNLOAD DOCX</button>
                     </div>
                 `;
                 addMsg(responseHtml, 'assistant');
             }, 1800);
         }
 
-        // --- 3. EXPORT FUNCTIONS ---
         function dlPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -235,7 +263,7 @@
             const cleanText = element.innerText;
             const splitText = doc.splitTextToSize(cleanText, 180);
             doc.text(splitText, 15, 20);
-            doc.save('Legalz_Draft.pdf');
+            doc.save('NeoIntelligence_Contract.pdf');
         }
 
         function dlWord() {
@@ -244,10 +272,9 @@
             const doc = new Document({
                 sections: [{ children: text.split('\n').map(line => new Paragraph(line)) }]
             });
-            Packer.toBlob(doc).then(blob => saveAs(blob, "Legalz_Draft.docx"));
+            Packer.toBlob(doc).then(blob => saveAs(blob, "NeoIntelligence_Contract.docx"));
         }
 
-        // --- 4. ANIMATION ---
         const canvas = document.getElementById('particlesCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
