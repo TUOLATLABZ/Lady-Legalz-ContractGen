@@ -30,7 +30,7 @@
         .doc-page {
             width: 8.5in; min-height: 11in; background: var(--paper-white); color: #000;
             padding: 1in; margin-bottom: 50px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.5;
+            font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.4;
         }
 
         .court-header { text-align: center; font-weight: bold; text-transform: uppercase; font-size: 14pt; margin-bottom: 20px; }
@@ -38,15 +38,16 @@
         .caption-table td { padding: 10px; border: 1px solid #000; vertical-align: top; width: 50%; }
         .doc-title { text-align: center; font-weight: bold; font-size: 15pt; margin: 20px 0; text-decoration: underline; text-transform: uppercase; }
         
+        .section-header { font-weight: bold; text-transform: uppercase; margin-top: 15px; border-bottom: 1px solid #000; display: block; }
         .var-field { background: #e0f2fe; border-bottom: 1px solid #0369a1; font-weight: bold; }
         .err-field { color: #dc2626; border-bottom: 1px dashed #dc2626; background: #fef2f2; }
 
-        .btn-gen { background: var(--neon-blue); color: #000; border: none; padding: 15px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
+        .btn-gen { background: var(--neon-blue); color: #000; border: none; padding: 15px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; width: 100%; margin-top: 10px; }
 
         @media print {
             .sidebar { display: none; }
             .canvas { background: #fff; padding: 0; display: block; }
-            .doc-page { box-shadow: none; margin: 0; page-break-after: always; }
+            .doc-page { box-shadow: none; margin: 0; page-break-after: always; border: none; }
         }
     </style>
 </head>
@@ -54,85 +55,110 @@
 
 <div class="app-shell">
     <aside class="sidebar">
-        <div class="branding"><h1>LADY LEGALZ</h1><span>2026 SUPER LEGAL BOT</span></div>
+        <div class="branding"><h1>LADY LEGALZ</h1><span>CONTRACTGEN 2026</span></div>
+        
         <div class="control-group">
-            <label class="label">Jurisdiction</label>
+            <label class="label">Jurisdiction (State & Federal)</label>
             <select id="jurisdiction" class="select-field" onchange="updateView()">
-                <option value="United States District Court, SDNY">Federal (SDNY)</option>
-                <option value="State of Delaware">Delaware Chancery</option>
-                <option value="State of New York">New York</option>
-                <option value="State of California">California</option>
+                <optgroup label="Federal Courts">
+                    <option value="U.S. District Court, Southern District of New York">Federal (SDNY)</option>
+                    <option value="U.S. District Court, Northern District of California">Federal (NDCA)</option>
+                    <option value="U.S. District Court, District of Delaware">Federal (D. Del)</option>
+                </optgroup>
+                <optgroup label="State Jurisdictions" id="state-list"></optgroup>
             </select>
         </div>
+
         <div class="control-group">
             <label class="label">Protocol Selection</label>
             <select id="protocol" class="select-field" onchange="initFields()">
                 <option value="">-- Choose Protocol --</option>
-                <option value="LIT_FULL">Full Litigation (Summons/Complaint)</option>
-                <option value="CORP_MERGE">Merger & Acquisition Plan</option>
-                <option value="EMP_EXEC">Executive Employment (IP/Clawback)</option>
-                <option value="TECH_SAAS">Master SaaS Agreement</option>
-                <option value="CORP_RES">Board Resolution</option>
+                <option value="LIT_FULL">Civil Complaint & Summons (Full Packet)</option>
+                <option value="CORP_MERGE">M&A: Agreement and Plan of Merger</option>
+                <option value="EMP_EXEC">Executive Employment (IP & Clawback)</option>
+                <option value="TECH_SAAS">Master SaaS Services Agreement</option>
+                <option value="REAL_LEASE">Commercial Real Estate Lease</option>
+                <option value="NDA_MUTUAL">Mutual Non-Disclosure Agreement</option>
             </select>
         </div>
+
         <div id="form-fields"></div>
-        <button class="btn-gen" onclick="window.print()">Export Final PDF</button>
+        <button class="btn-gen" onclick="window.print()">Print / Export Final PDF</button>
     </aside>
 
     <main class="canvas" id="doc-output"></main>
 </div>
 
 <script>
+    const STATES = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+
     const PROTOCOLS = {
         LIT_FULL: {
-            fields: ["Plaintiff", "Plaintiff_Address", "Defendant", "Defendant_Address", "Case_No", "Claim_Amount"],
+            fields: ["Plaintiff", "Defendant", "Plaintiff_Address", "Defendant_Address", "Amount_Claimed", "Case_No"],
             render: (f, j) => `
                 <div class="doc-page">
                     <div class="court-header">${j}</div>
                     <table class="caption-table">
-                        <tr><td>${f.Plaintiff}, Plaintiff vs. ${f.Defendant}, Defendant</td><td><b>SUMMONS</b><br>Case No: ${f.Case_No}</td></tr>
+                        <tr><td>${f.Plaintiff}, Plaintiff<br>v.<br>${f.Defendant}, Defendant</td><td><b>SUMMONS</b><br>Case No: ${f.Case_No}</td></tr>
                     </table>
-                    <p><b>TO: ${f.Defendant}</b>. You are summoned to answer the complaint within 21 days.</p>
+                    <p><b>TO THE ABOVE-NAMED DEFENDANT:</b> You are hereby summoned and required to serve upon the plaintiff’s attorney an answer to the complaint which is herewith served upon you within 21 days after service.</p>
                 </div>
                 <div class="doc-page">
-                    <div class="doc-title">Complaint for Damages</div>
-                    <p>Plaintiff seeks ${f.Claim_Amount} for breach of duty by ${f.Defendant}. Jurisdiction is proper in ${j}.</p>
+                    <div class="doc-title">Verified Complaint</div>
+                    <span class="section-header">I. Parties</span>
+                    <p>1. Plaintiff ${f.Plaintiff} resides at ${f.Plaintiff_Address}. 2. Defendant ${f.Defendant} is located at ${f.Defendant_Address}.</p>
+                    <span class="section-header">II. Jurisdiction</span>
+                    <p>Jurisdiction is proper in ${j} because the acts giving rise to this claim occurred herein and the amount in controversy exceeds ${f.Amount_Claimed}.</p>
+                </div>`
+        },
+        REAL_LEASE: {
+            fields: ["Landlord", "Tenant", "Premises_Address", "Monthly_Rent", "Security_Deposit", "Term_Months"],
+            render: (f, j) => `
+                <div class="doc-page">
+                    <div class="doc-title">Commercial Lease Agreement</div>
+                    <span class="section-header">1. Parties & Premises</span>
+                    <p>This lease is made between ${f.Landlord} ("Landlord") and ${f.Tenant} ("Tenant") for the premises at ${f.Premises_Address}.</p>
+                    <span class="section-header">2. Term and Rent</span>
+                    <p>The term shall be for ${f.Term_Months} months. Tenant shall pay ${f.Monthly_Rent} per month.</p>
+                    <span class="section-header">3. Governing Law</span>
+                    <p>This lease is governed by the laws of the State of ${j.includes('Court') ? 'Delaware' : j}.</p>
                 </div>`
         },
         CORP_MERGE: {
-            fields: ["Parent_Corp", "Target_Corp", "Price", "Closing_Date"],
+            fields: ["Acquiror", "Target", "Purchase_Price", "Closing_Date"],
             render: (f, j) => `
                 <div class="doc-page">
                     <div class="doc-title">Agreement and Plan of Merger</div>
-                    <p>This agreement by and between ${f.Parent_Corp} and ${f.Target_Corp} defines the purchase for ${f.Price} to close on ${f.Closing_Date}.</p>
-                    <p>Governed by the laws of ${j}.</p>
+                    <span class="section-header">Recitals</span>
+                    <p>WHEREAS, ${f.Acquiror} desires to acquire ${f.Target} via a statutory merger under the laws of ${j}.</p>
+                    <span class="section-header">Article I: Consideration</span>
+                    <p>The total consideration for the Target shares shall be ${f.Purchase_Price} payable on ${f.Closing_Date}.</p>
                 </div>`
         },
         EMP_EXEC: {
-            fields: ["Company", "Executive", "Salary", "Clawback_Period"],
+            fields: ["Employer", "Executive", "Base_Salary", "Clawback_Period"],
             render: (f, j) => `
                 <div class="doc-page">
                     <div class="doc-title">Executive Employment Agreement</div>
-                    <p>${f.Executive} shall serve ${f.Company} at a salary of ${f.Salary}. All IP is Work for Hire. Clawback applies for ${f.Clawback_Period} months.</p>
-                </div>`
-        },
-        TECH_SAAS: {
-            fields: ["Provider", "Client", "Uptime_SLA", "Annual_Fee"],
-            render: (f, j) => `
-                <div class="doc-page">
-                    <div class="doc-title">Master SaaS Agreement</div>
-                    <p>${f.Provider} grants ${f.Client} access to services for an annual fee of ${f.Annual_Fee}. Uptime is guaranteed at ${f.Uptime_SLA}%.</p>
-                </div>`
-        },
-        CORP_RES: {
-            fields: ["Corp_Name", "Action_Title", "Meeting_Date"],
-            render: (f, j) => `
-                <div class="doc-page">
-                    <div class="doc-title">Corporate Resolution</div>
-                    <p>The board of ${f.Corp_Name} on ${f.Meeting_Date} resolved to authorize ${f.Action_Title}.</p>
+                    <span class="section-header">1. Duties</span>
+                    <p>${f.Executive} shall serve as an officer of ${f.Employer}.</p>
+                    <span class="section-header">2. Intellectual Property</span>
+                    <p>All work product is "Work Made for Hire." All rights vest in ${f.Employer}.</p>
+                    <span class="section-header">3. Clawback</span>
+                    <p>Bonuses are subject to a ${f.Clawback_Period} month clawback period for cause.</p>
                 </div>`
         }
     };
+
+    function init() {
+        const list = document.getElementById('state-list');
+        STATES.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = "State of " + s;
+            opt.innerHTML = s;
+            list.appendChild(opt);
+        });
+    }
 
     function initFields() {
         const p = document.getElementById('protocol').value;
@@ -157,6 +183,8 @@
         });
         document.getElementById('doc-output').innerHTML = PROTOCOLS[p].render(data, jur);
     }
+
+    init();
 </script>
 </body>
 </html>
