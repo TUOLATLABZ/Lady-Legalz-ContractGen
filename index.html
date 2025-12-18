@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz ContractGen 2026 | NEO INTELLIGENCE</title>
+    <title>Lady Legalz ContractGen 2026 NEO INTELLIGENCE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;770&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -24,11 +24,10 @@
 
         .sidebar { background: var(--synth-purple); border-right: 1px solid var(--border-light); padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; box-shadow: 2px 0 15px rgba(0,242,255,0.1); }
         
-        /* Updated Branding Section with logo.png */
         .logo-panel { text-align: center; margin-bottom: 20px; padding: 20px; border: 1px solid var(--neural-glow); border-radius: 8px; background: rgba(0,242,255,0.05); }
         .brand-logo { max-width: 120px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 5px var(--neural-glow)); }
-        .logo-text { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 15px var(--neural-glow); margin: 0; }
-        .tagline { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--interface-text); opacity: 0.7; margin-top: 5px; }
+        .logo-text { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px var(--neural-glow); margin: 0; line-height: 1.2; }
+        .tagline { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--interface-text); opacity: 0.7; margin-top: 10px; display: block; }
 
         .control-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
         .control-label { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 1px; }
@@ -86,9 +85,9 @@
 <div class="app-container">
     <aside class="sidebar">
         <div class="logo-panel">
-            <img src="logo.png" alt="Lady Legalz Logo" class="brand-logo" onerror="this.style.display='none'">
-            <h1 class="logo-text">LADY LEGALZ</h1>
-            <span class="tagline">CONTRACTGEN 2026 // NEO INTELLIGENCE</span>
+            <img src="logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
+            <h1 class="logo-text">Lady Legalz ContractGen 2026</h1>
+            <span class="tagline">NEO INTELLIGENCE ENGINE</span>
         </div>
 
         <div class="control-group">
@@ -107,8 +106,8 @@
         <div class="control-group">
             <label class="control-label" for="protocol">Select Legal Protocol</label>
             <select id="protocol" class="select-field" onchange="initFields()">
-                <option value="">-- Choose High-Fidelity Protocol --</option>
-                <optgroup label="Civil Litigation Forms (US Courts)">
+                <option value="">-- Select Protocol --</option>
+                <optgroup label="Civil Litigation (US Courts)">
                     <option value="CIV_COMPLAINT_FED">Federal Civil Complaint (Form AO 21)</option>
                     <option value="CIV_SUMMONS_FED">Federal Summons (Form AO 440)</option>
                     <option value="CIV_ANSWER_STATE">State Civil Answer & Affirm. Defenses</option>
@@ -141,9 +140,9 @@
 
     <main class="doc-canvas" id="doc-output">
         <div style="text-align:center; padding-top:200px; opacity:0.1; color:var(--neural-glow);">
-            <h1 style="font-family:'Orbitron'; font-size:3rem; text-shadow: 0 0 20px var(--neural-glow);">LADY LEGALZ</h1>
-            <p style="font-family:'Share Tech Mono'; letter-spacing:4px; font-size:1rem;">AWAITING NEURAL PROTOCOL INJECTION</p>
-            <p style="font-family:'Share Tech Mono'; font-size:0.8rem; margin-top:20px;">SYSTEM STATUS: ONLINE // NANO BANANA MODULES READY</p>
+            <h1 style="font-family:'Orbitron'; font-size:2rem; text-shadow: 0 0 20px var(--neural-glow);">NEO INTELLIGENCE</h1>
+            <p style="font-family:'Share Tech Mono'; letter-spacing:4px; font-size:1rem;">LADY LEGALZ CONTRACTGEN 2026</p>
+            <p style="font-family:'Share Tech Mono'; font-size:0.8rem; margin-top:20px;">SYSTEM STATUS: ONLINE // PROTOCOLS LOADED</p>
         </div>
     </main>
 
@@ -204,20 +203,11 @@
             render: (f, j) => `
                 <div class="document-page">
                     <div class="doc-title">MUTUAL NON-DISCLOSURE AGREEMENT</div>
-                    <p>This Mutual Non-Disclosure Agreement (the "Agreement") is made effective as of <input type="text" class="fillable-input" placeholder="Effective Date"> (the "Effective Date"), by and between <b>${f.Party_One}</b>, located at <input type="text" class="fillable-input" placeholder="Address">, and <b>${f.Party_Two}</b>, located at <input type="text" class="fillable-input" placeholder="Address"> (collectively, the "Parties").</p>
+                    <p>This Mutual Non-Disclosure Agreement is made effective as of <input type="text" class="fillable-input" placeholder="Effective Date"> by and between <b>${f.Party_One}</b> and <b>${f.Party_Two}</b>.</p>
                     <span class="section-heading">1. PURPOSE</span>
-                    <p><span class="clause-num">1.1</span> The Parties wish to explore a potential business relationship concerning ${f.Purpose_of_Disclosure} (the "Permitted Purpose").</p>
-                    <span class="section-heading">2. CONFIDENTIAL INFORMATION</span>
-                    <p><span class="clause-num">2.1</span> "Confidential Information" means any non-public information disclosed by one Party to the other for the Permitted Purpose.</p>
-                    <span class="section-heading">3. OBLIGATIONS OF RECEIVING PARTY</span>
-                    <p><span class="clause-num">3.1</span> Each Party shall protect the other's Confidential Information with the same degree of care as it uses for its own.</p>
-                    <span class="section-heading">4. TERM</span>
-                    <p><span class="clause-num">4.1</span> The obligations of confidentiality hereunder shall survive for a period of ${f.Confidentiality_Term_Years} years from the Effective Date.</p>
-                    <p style="margin-top:50px;">IN WITNESS WHEREOF, the Parties have executed this Agreement as of the Effective Date.</p>
-                    <div style="display:flex; justify-content:space-between; margin-top:40px;">
-                        <div style="width:45%; border-top:1px solid var(--legal-black); padding-top:10px;">By: <input type="text" class="fillable-input" placeholder="Print Name"><br>Title: <input type="text" class="fillable-input" placeholder="Title"><br>Date: <input type="text" class="fillable-input" placeholder="Date"></div>
-                        <div style="width:45%; border-top:1px solid var(--legal-black); padding-top:10px;">By: <input type="text" class="fillable-input" placeholder="Print Name"><br>Title: <input type="text" class="fillable-input" placeholder="Title"><br>Date: <input type="text" class="fillable-input" placeholder="Date"></div>
-                    </div>
+                    <p><span class="clause-num">1.1</span> The Parties wish to explore a relationship concerning ${f.Purpose_of_Disclosure}.</p>
+                    <span class="section-heading">2. TERM</span>
+                    <p><span class="clause-num">2.1</span> This agreement remains in effect for ${f.Confidentiality_Term_Years} years.</p>
                 </div>`
         },
         REAL_LEASE_COMM: {
@@ -225,19 +215,11 @@
             render: (f, j) => `
                 <div class="document-page">
                     <div class="doc-title">COMMERCIAL TRIPLE-NET LEASE AGREEMENT</div>
-                    <p>This Lease Agreement ("Lease") is made this <input type="text" class="fillable-input" placeholder="Day"> day of <input type="text" class="fillable-input" placeholder="Month">, <input type="text" class="fillable-input" placeholder="Year">, between <b>${f.Landlord_Name}</b> ("Landlord"), and <b>${f.Tenant_Name}</b> ("Tenant").</p>
+                    <p>This Lease is made between <b>${f.Landlord_Name}</b> ("Landlord"), and <b>${f.Tenant_Name}</b> ("Tenant").</p>
                     <span class="section-heading">1. LEASED PREMISES</span>
-                    <p><span class="clause-num">1.1</span> Landlord hereby leases to Tenant, and Tenant hereby leases from Landlord, the premises located at ${f.Property_Address} (the "Premises").</p>
-                    <span class="section-heading">2. TERM OF LEASE</span>
-                    <p><span class="clause-num">2.1</span> The initial term of this Lease shall be for a period of ${f.Lease_Term_Years} years, commencing on <input type="text" class="fillable-input" placeholder="Start Date"> and expiring on <input type="text" class="fillable-input" placeholder="End Date">.</p>
-                    <span class="section-heading">3. RENT</span>
-                    <p><span class="clause-num">3.1</span> Tenant shall pay to Landlord a Monthly Base Rent of ${f.Monthly_Base_Rent}, payable on the first day of each calendar month.</p>
-                    <span class="section-heading">4. SECURITY DEPOSIT</span>
-                    <p><span class="clause-num">4.1</span> Tenant shall deposit with Landlord the sum of ${f.Security_Deposit_Amount} as a security deposit.</p>
-                    <span class="section-heading">5. TRIPLE-NET OBLIGATIONS</span>
-                    <p><span class="clause-num">5.1</span> Tenant shall be solely responsible for all real estate taxes, insurance, and maintenance costs related to the Premises.</p>
-                    <span class="section-heading">6. GOVERNING LAW</span>
-                    <p><span class="clause-num">6.1</span> This Lease shall be governed by the laws of the State of <input type="text" class="fillable-input" placeholder="State"></p>
+                    <p><span class="clause-num">1.1</span> Premises located at ${f.Property_Address}.</p>
+                    <span class="section-heading">2. RENT</span>
+                    <p><span class="clause-num">2.1</span> Monthly Base Rent shall be ${f.Monthly_Base_Rent}.</p>
                 </div>`
         }
     };
@@ -259,9 +241,8 @@
 
         if (!protocolKey) {
             document.getElementById('doc-output').innerHTML = `<div style="text-align:center; padding-top:200px; opacity:0.1; color:var(--neural-glow);">
-                <h1 style="font-family:'Orbitron'; font-size:3rem; text-shadow: 0 0 20px var(--neural-glow);">LADY LEGALZ</h1>
-                <p style="font-family:'Share Tech Mono'; letter-spacing:4px; font-size:1rem;">AWAITING NEURAL PROTOCOL INJECTION</p>
-                <p style="font-family:'Share Tech Mono'; font-size:0.8rem; margin-top:20px;">SYSTEM STATUS: ONLINE // NANO BANANA MODULES READY</p>
+                <h1 style="font-family:'Orbitron'; font-size:2rem; text-shadow: 0 0 20px var(--neural-glow);">NEO INTELLIGENCE</h1>
+                <p style="font-family:'Share Tech Mono'; letter-spacing:4px; font-size:1rem;">LADY LEGALZ CONTRACTGEN 2026</p>
             </div>`;
             return;
         }
@@ -272,7 +253,7 @@
                 const group = document.createElement('div');
                 group.className = 'control-group';
                 group.innerHTML = `
-                    <label class="control-label" for="field-${field}">${field.replace(/_/g, ' ')}</label>
+                    <label class="control-label">${field.replace(/_/g, ' ')}</label>
                     <input type="text" id="field-${field}" class="input-field" oninput="updateView()" placeholder="Enter ${field.replace(/_/g, ' ').toLowerCase()}">
                 `;
                 formFieldsContainer.appendChild(group);
@@ -284,28 +265,20 @@
     function updateView() {
         const protocolKey = document.getElementById('protocol').value;
         const docOutput = document.getElementById('doc-output');
-        
         if (!protocolKey) return;
-
         const protocol = PROTOCOLS[protocolKey];
         const jurisdiction = document.getElementById('jurisdiction').value;
         const fieldData = {};
-
         protocol.fields.forEach(field => {
             const inputElement = document.getElementById(`field-${field}`);
-            if (inputElement) {
-                fieldData[field] = `<span class="var-field">${inputElement.value || '[Missing ' + field.replace(/_/g, ' ') + ']'}</span>`;
-            } else {
-                fieldData[field] = `<span class="err-field">[Error: Field not found]</span>`;
-            }
+            fieldData[field] = inputElement ? `<span class="var-field">${inputElement.value || '[Missing ' + field.replace(/_/g, ' ') + ']'}</span>` : '';
         });
-
         docOutput.innerHTML = protocol.render(fieldData, jurisdiction);
     }
 
     async function generateFillablePdf() {
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'pt', 'letter');
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
         const docElement = document.getElementById('doc-output');
         const pages = docElement.querySelectorAll('.document-page');
 
@@ -313,33 +286,26 @@
             const page = pages[i];
             const canvas = await html2canvas(page, { scale: 2, useCORS: true, logging: false });
             const imgData = canvas.toDataURL('image/jpeg', 1.0);
-            const imgWidth = 8.5 * 72; 
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
             if (i > 0) pdf.addPage();
-            pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
-
+            pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
             const inputs = page.querySelectorAll('.fillable-input');
             inputs.forEach(input => {
                 const rect = input.getBoundingClientRect();
-                const docRect = docElement.getBoundingClientRect();
-                const x = rect.left - page.getBoundingClientRect().left + (1 * 72); 
-                const y = rect.top - page.getBoundingClientRect().top + (0.8 * 72); 
-                const inputWidth = rect.width;
-                const inputHeight = rect.height;
-                const scaleX = pdf.internal.pageSize.width / docRect.width;
-                const scaleY = pdf.internal.pageSize.height / docRect.height;
-                
+                const pageRect = page.getBoundingClientRect();
+                const x = (rect.left - pageRect.left) * (612 / pageRect.width);
+                const y = (rect.top - pageRect.top) * (792 / pageRect.height);
+                const inputWidth = rect.width * (612 / pageRect.width);
+                const inputHeight = rect.height * (792 / pageRect.height);
                 pdf.addField(new jsPDF.API.FormField({
                     type: 'text',
                     fieldName: input.placeholder.replace(/\s/g, '_') + '_' + i + '_' + Math.random().toString(36).substring(7),
-                    x: x * scaleX, y: y * scaleY, width: inputWidth * scaleX, height: inputHeight * scaleY,
+                    x: x, y: y, width: inputWidth, height: inputHeight,
                     value: input.value || '', font: 'Times', textSize: 11, textColor: [26, 26, 26], 
                     borderColor: [0, 123, 255], borderWidth: 1, borderStyle: 'dashed'
                 }));
             });
         }
-        pdf.save('Lady_Legalz_Fillable_Document.pdf');
+        pdf.save('Lady_Legalz_NeoIntelligence_Doc.pdf');
     }
 
     document.addEventListener('DOMContentLoaded', () => {
