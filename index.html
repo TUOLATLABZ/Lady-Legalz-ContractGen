@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz ContractGen 2026 NEO INTELLIGENCE</title>
+    <title>LADY LEGALZ CONTRACTGEN NEO-INTELLIGENCE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;770&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -79,14 +79,14 @@
         
         .document-page {
             width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
-            padding: 0.6in 0.8in; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            font-family: 'Times New Roman', serif; font-size: 10pt; line-height: 1.3;
+            padding: 0.8in 1in; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.5;
             animation: glitch-load 0.4s ease-out; position: relative;
         }
 
         .fillable-input { 
             border: none; border-bottom: 1px dashed #007bff; background-color: rgba(0,123,255,0.05); 
-            font-family: 'Times New Roman', serif; font-size: 10pt; color: var(--legal-black);
+            font-family: 'Times New Roman', serif; font-size: 11pt; color: var(--legal-black);
             padding: 1px 4px; margin: 0 2px;
         }
 
@@ -96,43 +96,37 @@
             font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; border-radius: 5px; 
             text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
         }
-        
-        .court-header-text { text-align: center; font-weight: bold; margin-bottom: 10px; }
-        .caption-box { display: flex; border-bottom: 1px solid black; margin-bottom: 15px; }
-        .caption-left { width: 50%; border-right: 1px solid black; padding: 5px; }
-        .caption-right { width: 50%; padding: 5px; }
     </style>
 </head>
 <body>
 
 <div id="boot-loader">
     <div class="boot-text">> INITIALIZING NEO-INTELLIGENCE CORE...</div>
-    <div class="boot-text" style="animation-delay: 1.2s;">> LOADING FEDERAL CIVIL PROTOCOLS...</div>
-    <div class="boot-text" style="animation-delay: 2.4s;">> LADY LEGALZ 2026 ONLINE.</div>
+    <div class="boot-text" style="animation-delay: 1.2s;">> LOADING....TUOLAT...LADY LEGALZ BETA v4.0.0....</div>
+    <div class="boot-text" style="animation-delay: 2.4s;">> CONTRACTGEN....</div>
 </div>
 
 <div class="app-container" id="main-ui">
     <aside class="sidebar">
         <div class="logo-panel">
-            <h1 class="logo-text">Lady Legalz</h1>
-            <span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">NEO-INTELLIGENCE ONLINE</span>
+            <h1 class="logo-text">LADY LEGALZ CONTRACTGEN</h1>
+            <span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">NEO-INTELLIGENCE</span>
         </div>
 
         <div class="db-panel">
-            <label class="db-header">U.S. CONTRACT DATABASE</label>
+            <label class="db-header">CONTRACTGEN AGREEMENTS</label>
             <select id="contract-db" class="select-field" style="border-color: var(--db-glow);" onchange="loadDatabaseContract()">
-                <option value="">-- SELECT FROM DATABASE --</option>
-                <option value="COMPLAINT">Complaint for a Civil Case</option>
-                <option value="SUMMONS">Summons in a Civil Action</option>
+                <option value="">-- LEGAL AGREEMENT DATABASE --</option>
+                <option value="ATTORNEY_CLIENT">Attorney Client Agreement</option>
             </select>
         </div>
 
         <div class="control-group">
-            <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">PROTOCOL GENERATOR</label>
+            <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">CONTRACTGEN PROTOCOLS</label>
             <select id="protocol" class="select-field" onchange="initFields()">
-                <option value="">-- SELECT PROTOCOL --</option>
-                <option value="COMPLAINT">Complaint for a Civil Case</option>
-                <option value="SUMMONS">Summons in a Civil Action</option>
+                <option value="">-- LEGAL PROTOCOL DATABASE --</option>
+                <option value="SUMMONS_CIVIL">SUMMONS_FEDERAL_CIVIL ACTION</option>
+                <option value="COMPLAINT_CIVIL">COMPLAINT_FEDERAL_CIVIL ACTION</option>
             </select>
         </div>
         <div id="form-fields"></div>
@@ -145,149 +139,146 @@
     </main>
 
     <div class="action-bar">
-        <button class="btn" onclick="generateFillablePdf()">Export as PDF</button>
-        <button class="btn" onclick="window.print()">Print Document</button>
-        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset Engine</button>
+        <button class="btn" onclick="generateFillablePdf()">PDF EXPORT</button>
+        <button class="btn" onclick="window.print()">PRINT</button>
+        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">RESETGEN</button>
     </div>
 </div>
 
 <script>
     const DATABASE = {
-        COMPLAINT: `
+        ATTORNEY_CLIENT: `
             <div class="document-page">
-                <div style="font-size: 8pt; float: right;">Pro Se 1 (Rev. 12/16) Complaint for a Civil Case</div>
-                <div style="clear: both;"></div>
-                <div class="court-header-text">UNITED STATES DISTRICT COURT</div>
-                <div style="text-align: center; margin-bottom: 10px;">
-                    for the <input type="text" class="fillable-input" placeholder="District" style="width:150px;"> District of <input type="text" class="fillable-input" placeholder="State" style="width:100px;">
-                </div>
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:14pt; margin-bottom:30px;">ATTORNEY-CLIENT FEE AGREEMENT</div>
+                <p>This Agreement is made between <b>Attorney</b> <input type="text" class="fillable-input" placeholder="Firm/Attorney Name" style="width:250px;"> ("Attorney") and <b>Client</b> <input type="text" class="fillable-input" placeholder="Full Client Name" style="width:250px;"> ("Client").</p>
                 
-                <div class="caption-box">
-                    <div class="caption-left">
-                        <input type="text" class="fillable-input" placeholder="Plaintiff Name(s)" style="width:90%;"><br>Plaintiff(s)
-                        <div style="text-align: center; margin: 10px 0;">-v-</div>
-                        <input type="text" class="fillable-input" placeholder="Defendant Name(s)" style="width:90%;"><br>Defendant(s)
-                    </div>
-                    <div class="caption-right">
-                        Case No. <input type="text" class="fillable-input" placeholder="To be filled by Clerk" style="width:100px;"><br><br>
-                        <b>Jury Trial:</b><br>
-                        <input type="checkbox"> Yes &nbsp;&nbsp; <input type="checkbox"> No
-                    </div>
+                <p><b>1. SCOPE OF SERVICES:</b> Attorney agrees to provide legal representation for the following matter: <br>
+                <input type="text" class="fillable-input" placeholder="Description of Legal Matter" style="width:100%; margin-top:10px;"></p>
+
+                <p><b>2. FEES:</b> Client agrees to pay Attorney for legal services as follows: <br>
+                <input type="text" class="fillable-input" placeholder="Fixed Fee / Hourly Rate" style="width:100%; margin-top:10px;"></p>
+
+                <p><b>3. COSTS:</b> Client shall be responsible for all out-of-pocket expenses including, but not limited to, filing fees, service of process, and expert fees.</p>
+
+                <p><b>4. CLIENT DUTIES:</b> Client agrees to be truthful, to cooperate, and to keep Attorney informed of any change in address or telephone number.</p>
+
+                <div style="margin-top:100px; display:flex; justify-content:space-between;">
+                    <div><hr style="width:200px; border:0; border-top:1px solid black;">Client Signature</div>
+                    <div><hr style="width:200px; border:0; border-top:1px solid black;">Attorney Signature</div>
+                </div>
+                <div style="margin-top:30px;">Dated: <input type="text" class="fillable-input" placeholder="MM/DD/YYYY" style="width:120px;"></div>
+            </div>`,
+        SUMMONS_CIVIL: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; font-size:14pt;">UNITED STATES DISTRICT COURT</div>
+                <div style="text-align:center; margin-bottom:20px;">for the <br> <input type="text" class="fillable-input" placeholder="District Court Name" style="width:300px;"></div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 100px 1fr; margin-bottom:30px;">
+                    <div><input type="text" class="fillable-input" placeholder="Plaintiff(s)" style="width:100%;"> <br> Plaintiff(s)</div>
+                    <div style="text-align:center;">v.</div>
+                    <div><input type="text" class="fillable-input" placeholder="Defendant(s)" style="width:100%;"> <br> Defendant(s)</div>
                 </div>
 
-                <div style="font-weight: bold; text-align: center; margin-bottom: 15px;">COMPLAINT FOR A CIVIL CASE</div>
+                <div style="font-weight:bold; text-align:center; font-size:16pt; margin-bottom:20px;">SUMMONS IN A CIVIL ACTION</div>
+                <p><b>To: (Defendant's name and address)</b><br>
+                <textarea class="fillable-input" style="width:100%; height:60px;"></textarea></p>
 
-                <p><b>I. The Parties to This Complaint</b></p>
-                <p><b>A. The Plaintiff(s)</b><br>
-                Name: <input type="text" class="fillable-input" style="width:80%;"><br>
-                Address: <input type="text" class="fillable-input" style="width:80%;"></p>
+                <p>A lawsuit has been filed against you. Within 21 days after service of this summons on you (not counting the day you received it)... you must serve on the plaintiff an answer to the attached complaint or a motion under Rule 12 of the Federal Rules of Civil Procedure.</p>
 
-                <p><b>B. The Defendant(s)</b><br>
-                Name: <input type="text" class="fillable-input" style="width:80%;"><br>
-                Job Title: <input type="text" class="fillable-input" style="width:80%;"></p>
-
-                <p><b>II. Basis for Jurisdiction</b><br>
-                <input type="checkbox"> Federal question (28 U.S.C. § 1331)<br>
-                <input type="checkbox"> Diversity of citizenship (28 U.S.C. § 1332)</p>
-
-                <p><b>III. Statement of Claim</b><br>
-                <textarea class="fillable-input" style="width:98%; height:100px;" placeholder="Briefly state the facts of your case..."></textarea></p>
-
-                <p><b>IV. Relief</b><br>
-                <textarea class="fillable-input" style="width:98%; height:60px;" placeholder="What do you want the court to order?"></textarea></p>
-
-                <p><b>V. Certification and Closing</b><br>
-                Under Federal Rule of Civil Procedure 11, I certify that this complaint is not being presented for an improper purpose.</p>
-                <div style="margin-top:20px;">
-                    Signature: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                <div style="margin-top:50px;">
+                    CLERK OF COURT: <input type="text" class="fillable-input" style="width:250px;"> <br>
+                    Date: <input type="text" class="fillable-input" style="width:150px;">
                 </div>
             </div>`,
-        SUMMONS: `
+        COMPLAINT_CIVIL: `
             <div class="document-page">
-                <div style="font-size: 8pt; float: right;">AO 440 (Rev. 06/12) Summons in a Civil Action</div>
-                <div style="clear: both;"></div>
-                <div class="court-header-text">UNITED STATES DISTRICT COURT</div>
-                <div style="text-align: center; margin-bottom: 20px;">
-                    for the <input type="text" class="fillable-input" placeholder="District" style="width:200px;">
+                 <div style="text-align:center; font-weight:bold; font-size:14pt;">UNITED STATES DISTRICT COURT</div>
+                <div style="text-align:center; margin-bottom:20px;">for the <br> <input type="text" class="fillable-input" placeholder="District Court Name" style="width:300px;"></div>
+
+                <div style="display:grid; grid-template-columns: 1fr 80px 1.5fr;">
+                    <div><input type="text" class="fillable-input" placeholder="Plaintiff Name" style="width:100%;">, Plaintiff</div>
+                    <div style="text-align:center;">vs.</div>
+                    <div>Case No: <input type="text" class="fillable-input" style="width:150px;"></div>
                 </div>
+                <div><input type="text" class="fillable-input" placeholder="Defendant Name" style="width:100%; margin-top:10px;">, Defendant</div>
 
-                <div class="caption-box">
-                    <div class="caption-left">
-                        <input type="text" class="fillable-input" placeholder="Plaintiff Name" style="width:90%;"><br>Plaintiff(s)
-                        <div style="text-align: center; margin: 10px 0;">V.</div>
-                        <input type="text" class="fillable-input" placeholder="Defendant Name" style="width:90%;"><br>Defendant(s)
-                    </div>
-                    <div class="caption-right">
-                        Civil Action No. <input type="text" class="fillable-input" style="width:150px;">
-                    </div>
-                </div>
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin:40px 0;">COMPLAINT FOR A CIVIL CASE</div>
 
-                <div style="font-weight: bold; text-align: center; margin: 20px 0; font-size: 14pt;">SUMMONS IN A CIVIL ACTION</div>
+                <p><b>I. Basis for Jurisdiction:</b><br>
+                <input type="text" class="fillable-input" placeholder="e.g., Federal Question / Diversity" style="width:100%;"></p>
 
-                <p><b>To: (Defendant's name and address)</b><br>
-                <textarea class="fillable-input" style="width:95%; height:60px;"></textarea></p>
+                <p><b>II. Statement of Claim:</b><br>
+                <textarea class="fillable-input" style="width:100%; height:200px;" placeholder="Write the facts of your case here..."></textarea></p>
 
-                <p><b>A lawsuit has been filed against you.</b></p>
-                <p>Within 21 days after service of this summons on you (not counting the day you received it) — or 60 days if you are the United States or a United States agency — you must serve on the plaintiff an answer to the attached complaint or a motion under Rule 12 of the Federal Rules of Civil Procedure.</p>
-                
-                <p>The answer or motion must be served on the plaintiff or plaintiff's attorney, whose name and address are:<br>
-                <textarea class="fillable-input" style="width:95%; height:60px;"></textarea></p>
+                <p><b>III. Relief:</b><br>
+                <textarea class="fillable-input" style="width:100%; height:100px;" placeholder="What do you want the court to do?"></textarea></p>
 
-                <p>If you fail to respond, judgment by default will be entered against you for the relief demanded in the complaint. You also must file your answer or motion with the court.</p>
-                
-                <div style="margin-top:40px; display:flex; justify-content:space-between; align-items:flex-end;">
-                    <div>Date: <input type="text" class="fillable-input" style="width:120px;"></div>
-                    <div style="text-align:center;">
-                        __________________________<br>Signature of Clerk or Deputy Clerk
-                    </div>
+                <div style="margin-top:50px;">
+                    Respectfully submitted,<br><br>
+                    <input type="text" class="fillable-input" placeholder="Your Name" style="width:250px;"><br>
+                    Date: <input type="text" class="fillable-input" style="width:150px;">
                 </div>
             </div>`
     };
+
+    function scrambleEffect() {
+        const titles = document.querySelectorAll('.doc-title, b, h1, h3');
+        titles.forEach(el => {
+            const originalText = el.innerText;
+            const chars = "!<>-_\\/[]{}—=+*^?#________";
+            let iteration = 0;
+            const interval = setInterval(() => {
+                el.innerText = originalText.split("").map((l, i) => (i < iteration ? originalText[i] : chars[Math.floor(Math.random() * chars.length)])).join("");
+                if(iteration >= originalText.length) clearInterval(interval);
+                iteration += 1/3;
+            }, 30);
+        });
+    }
 
     function loadDatabaseContract() {
         const key = document.getElementById('contract-db').value;
         const output = document.getElementById('doc-output');
         if (key && DATABASE[key]) {
             output.innerHTML = DATABASE[key];
+            scrambleEffect();
         }
     }
 
     function initFields() {
         const key = document.getElementById('protocol').value;
-        const container = document.getElementById('form-fields');
-        container.innerHTML = ''; 
-        if (!key) return;
-        document.getElementById('contract-db').value = "";
-        
-        // Auto-load document into viewer
-        document.getElementById('doc-output').innerHTML = DATABASE[key];
-        
-        // Add specific quick-edit sidebar fields
-        const commonFields = ["Case_Number", "Plaintiff_Main", "Defendant_Main"];
-        commonFields.forEach(field => {
-            const group = document.createElement('div');
-            group.innerHTML = `<label style="color:var(--neural-glow); font-size:0.7rem; display:block; margin-top:10px;">${field.replace(/_/g,' ')}</label>
-            <input type="text" class="input-field" placeholder="Quick Sync...">`;
-            container.appendChild(group);
-        });
+        const output = document.getElementById('doc-output');
+        if (key && DATABASE[key]) {
+            output.innerHTML = DATABASE[key];
+            document.getElementById('contract-db').value = "";
+            scrambleEffect();
+        }
     }
 
     async function generateFillablePdf() {
-        const key = document.getElementById('protocol').value || document.getElementById('contract-db').value;
-        const fileName = key ? `Lady_Legalz_${key}.pdf` : 'Lady_Legalz_Document.pdf';
-        
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
         const page = document.querySelector('.document-page');
-        
         if(!page) {
-            alert("Please select a document protocol first.");
+            alert("Please select a document first.");
             return;
         }
         
-        const canvas = await html2canvas(page, { scale: 2 });
+        // Capture canvas including input values
+        const canvas = await html2canvas(page, { 
+            scale: 2,
+            useCORS: true,
+            onclone: (clonedDoc) => {
+                // Ensure text areas and inputs are visible in the capture
+                const inputs = clonedDoc.querySelectorAll('.fillable-input');
+                inputs.forEach(input => {
+                    input.style.border = "none";
+                    input.style.backgroundColor = "transparent";
+                });
+            }
+        });
+        
         pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
-        pdf.save(fileName);
+        pdf.save('Lady_Legalz_System_Export.pdf');
     }
 
     window.onload = () => {
