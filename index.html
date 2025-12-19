@@ -62,7 +62,6 @@
         }
         .logo-text { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 2px; }
 
-        /* Legal Database UI Styling */
         .db-panel {
             border: 1px solid var(--db-glow); border-radius: 8px;
             padding: 15px; background: rgba(0, 136, 255, 0.05);
@@ -80,9 +79,15 @@
         
         .document-page {
             width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
-            padding: 0.8in 1in; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            font-family: 'Times New Roman', serif; font-size: 10.5pt; line-height: 1.5;
+            padding: 0.6in 0.8in; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            font-family: 'Times New Roman', serif; font-size: 10pt; line-height: 1.3;
             animation: glitch-load 0.4s ease-out; position: relative;
+        }
+
+        .fillable-input { 
+            border: none; border-bottom: 1px dashed #007bff; background-color: rgba(0,123,255,0.05); 
+            font-family: 'Times New Roman', serif; font-size: 10pt; color: var(--legal-black);
+            padding: 1px 4px; margin: 0 2px;
         }
 
         .action-bar { padding: 20px; border-top: 1px solid var(--border-light); background: rgba(5, 10, 15, 0.95); display: flex; gap: 15px; justify-content: center; }
@@ -91,13 +96,18 @@
             font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; border-radius: 5px; 
             text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
         }
+        
+        .court-header-text { text-align: center; font-weight: bold; margin-bottom: 10px; }
+        .caption-box { display: flex; border-bottom: 1px solid black; margin-bottom: 15px; }
+        .caption-left { width: 50%; border-right: 1px solid black; padding: 5px; }
+        .caption-right { width: 50%; padding: 5px; }
     </style>
 </head>
 <body>
 
 <div id="boot-loader">
     <div class="boot-text">> INITIALIZING NEO-INTELLIGENCE CORE...</div>
-    <div class="boot-text" style="animation-delay: 1.2s;">> ACCESSING U.S. LEGAL DATABASE...</div>
+    <div class="boot-text" style="animation-delay: 1.2s;">> LOADING FEDERAL CIVIL PROTOCOLS...</div>
     <div class="boot-text" style="animation-delay: 2.4s;">> LADY LEGALZ 2026 ONLINE.</div>
 </div>
 
@@ -108,36 +118,21 @@
             <span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">NEO-INTELLIGENCE ONLINE</span>
         </div>
 
-        <div class="control-group">
-            <label style="color:var(--neural-glow); font-size:0.8rem;">JURISDICTION</label>
-            <select id="jurisdiction" class="select-field" onchange="updateView()">
-                <optgroup label="Federal Courts" id="fed-list">
-                    <option value="United States District Court, SDNY">Federal (SDNY)</option>
-                </optgroup>
-                <optgroup label="State Jurisdictions" id="state-list"></optgroup>
-            </select>
-        </div>
-
         <div class="db-panel">
             <label class="db-header">U.S. CONTRACT DATABASE</label>
             <select id="contract-db" class="select-field" style="border-color: var(--db-glow);" onchange="loadDatabaseContract()">
                 <option value="">-- SELECT FROM DATABASE --</option>
-                <option value="FULL_SAAS">Master SaaS Agreement (Full-Length)</option>
-                <option value="ASSET_PURCHASE">Asset Purchase Agreement (APA)</option>
-                <option value="COMM_LEASE">Standard Commercial Lease (NNN)</option>
-                <option value="EXEC_EMP">Executive Employment Contract</option>
+                <option value="COMPLAINT">Complaint for a Civil Case</option>
+                <option value="SUMMONS">Summons in a Civil Action</option>
             </select>
-            <p style="font-family:'Share Tech Mono'; font-size:0.65rem; color: var(--db-glow); margin-top:5px;">Source: SEC EDGAR / Public Filings Analysis</p>
         </div>
 
         <div class="control-group">
             <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">PROTOCOL GENERATOR</label>
             <select id="protocol" class="select-field" onchange="initFields()">
                 <option value="">-- SELECT PROTOCOL --</option>
-                <option value="CIV_COMPLAINT_FED">Federal Civil Complaint</option>
-                <option value="CRIM_MOTION_SUPPRESS">Motion to Suppress</option>
-                <option value="BANKRUPT_CH7_VOL">Chapter 7 Petition</option>
-                <option value="NDA_MUTUAL">Mutual NDA</option>
+                <option value="COMPLAINT">Complaint for a Civil Case</option>
+                <option value="SUMMONS">Summons in a Civil Action</option>
             </select>
         </div>
         <div id="form-fields"></div>
@@ -150,76 +145,111 @@
     </main>
 
     <div class="action-bar">
-        <button class="btn" onclick="generateFillablePdf()">Generate PDF</button>
-        <button class="btn" onclick="window.print()">Print</button>
-        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset</button>
+        <button class="btn" onclick="generateFillablePdf()">Export as PDF</button>
+        <button class="btn" onclick="window.print()">Print Document</button>
+        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset Engine</button>
     </div>
 </div>
 
 <script>
-    const STATES = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
-
-    const PROTOCOLS = {
-        CIV_COMPLAINT_FED: {
-            fields: ["Plaintiff_Name", "Defendant_Name", "Cause_of_Action"],
-            render: (f, j) => `<div class="document-page"><div class="court-header">${j}</div><p><b>${f.Plaintiff_Name}</b> v. <b>${f.Defendant_Name}</b></p><p>CLAIM: ${f.Cause_of_Action}</p></div>`
-        },
-        NDA_MUTUAL: {
-            fields: ["Party_One", "Party_Two"],
-            render: (f, j) => `<div class="document-page"><div class="doc-title">MUTUAL NDA</div><p>This agreement is entered into by ${f.Party_One} and ${f.Party_Two}.</p></div>`
-        }
-    };
-
-    // FULL TEXT DATABASE CONTENT
     const DATABASE = {
-        FULL_SAAS: `
+        COMPLAINT: `
             <div class="document-page">
-                <div class="doc-title">MASTER SOFTWARE AS A SERVICE AGREEMENT</div>
-                <p><b>1. SERVICES AND SUPPORT.</b> Subject to the terms of this Agreement, Company will use commercially reasonable efforts to provide Customer the Services. As part of the registration process, Customer will identify an administrative user name and password for Customer’s Company account.</p>
-                <p><b>2. RESTRICTIONS AND RESPONSIBILITIES.</b> Customer will not, directly or indirectly: reverse engineer, decompile, disassemble or otherwise attempt to discover the source code, object code or underlying structure, ideas, know-how or algorithms relevant to the Services or any software, documentation or data related to the Services.</p>
-                <p><b>3. CONFIDENTIALITY; PROPRIETARY RIGHTS.</b> Each party (the “Receiving Party”) understands that the other party (the “Disclosing Party”) has disclosed or may disclose business, technical or financial information relating to the Disclosing Party’s business.</p>
-                <p><b>4. PAYMENT OF FEES.</b> Customer will pay Company the then applicable fees described in the Order Form for the Services in accordance with the terms therein.</p>
+                <div style="font-size: 8pt; float: right;">Pro Se 1 (Rev. 12/16) Complaint for a Civil Case</div>
+                <div style="clear: both;"></div>
+                <div class="court-header-text">UNITED STATES DISTRICT COURT</div>
+                <div style="text-align: center; margin-bottom: 10px;">
+                    for the <input type="text" class="fillable-input" placeholder="District" style="width:150px;"> District of <input type="text" class="fillable-input" placeholder="State" style="width:100px;">
+                </div>
+                
+                <div class="caption-box">
+                    <div class="caption-left">
+                        <input type="text" class="fillable-input" placeholder="Plaintiff Name(s)" style="width:90%;"><br>Plaintiff(s)
+                        <div style="text-align: center; margin: 10px 0;">-v-</div>
+                        <input type="text" class="fillable-input" placeholder="Defendant Name(s)" style="width:90%;"><br>Defendant(s)
+                    </div>
+                    <div class="caption-right">
+                        Case No. <input type="text" class="fillable-input" placeholder="To be filled by Clerk" style="width:100px;"><br><br>
+                        <b>Jury Trial:</b><br>
+                        <input type="checkbox"> Yes &nbsp;&nbsp; <input type="checkbox"> No
+                    </div>
+                </div>
+
+                <div style="font-weight: bold; text-align: center; margin-bottom: 15px;">COMPLAINT FOR A CIVIL CASE</div>
+
+                <p><b>I. The Parties to This Complaint</b></p>
+                <p><b>A. The Plaintiff(s)</b><br>
+                Name: <input type="text" class="fillable-input" style="width:80%;"><br>
+                Address: <input type="text" class="fillable-input" style="width:80%;"></p>
+
+                <p><b>B. The Defendant(s)</b><br>
+                Name: <input type="text" class="fillable-input" style="width:80%;"><br>
+                Job Title: <input type="text" class="fillable-input" style="width:80%;"></p>
+
+                <p><b>II. Basis for Jurisdiction</b><br>
+                <input type="checkbox"> Federal question (28 U.S.C. § 1331)<br>
+                <input type="checkbox"> Diversity of citizenship (28 U.S.C. § 1332)</p>
+
+                <p><b>III. Statement of Claim</b><br>
+                <textarea class="fillable-input" style="width:98%; height:100px;" placeholder="Briefly state the facts of your case..."></textarea></p>
+
+                <p><b>IV. Relief</b><br>
+                <textarea class="fillable-input" style="width:98%; height:60px;" placeholder="What do you want the court to order?"></textarea></p>
+
+                <p><b>V. Certification and Closing</b><br>
+                Under Federal Rule of Civil Procedure 11, I certify that this complaint is not being presented for an improper purpose.</p>
+                <div style="margin-top:20px;">
+                    Signature: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                </div>
             </div>`,
-        COMM_LEASE: `
+        SUMMONS: `
             <div class="document-page">
-                <div class="doc-title">COMMERCIAL LEASE AGREEMENT (TRIPLE NET)</div>
-                <p><b>ARTICLE 1: DEMISED PREMISES.</b> Landlord hereby leases to Tenant, and Tenant hereby leases from Landlord, those certain premises situated in the City of [INSERT], State of [INSERT].</p>
-                <p><b>ARTICLE 2: TERM.</b> The term of this Lease shall be for a period of [X] years, commencing on the Commencement Date as defined herein.</p>
-                <p><b>ARTICLE 3: RENT.</b> Tenant shall pay to Landlord as Base Rent the sum of $ [AMOUNT] per month, payable in advance on the first day of each calendar month.</p>
+                <div style="font-size: 8pt; float: right;">AO 440 (Rev. 06/12) Summons in a Civil Action</div>
+                <div style="clear: both;"></div>
+                <div class="court-header-text">UNITED STATES DISTRICT COURT</div>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    for the <input type="text" class="fillable-input" placeholder="District" style="width:200px;">
+                </div>
+
+                <div class="caption-box">
+                    <div class="caption-left">
+                        <input type="text" class="fillable-input" placeholder="Plaintiff Name" style="width:90%;"><br>Plaintiff(s)
+                        <div style="text-align: center; margin: 10px 0;">V.</div>
+                        <input type="text" class="fillable-input" placeholder="Defendant Name" style="width:90%;"><br>Defendant(s)
+                    </div>
+                    <div class="caption-right">
+                        Civil Action No. <input type="text" class="fillable-input" style="width:150px;">
+                    </div>
+                </div>
+
+                <div style="font-weight: bold; text-align: center; margin: 20px 0; font-size: 14pt;">SUMMONS IN A CIVIL ACTION</div>
+
+                <p><b>To: (Defendant's name and address)</b><br>
+                <textarea class="fillable-input" style="width:95%; height:60px;"></textarea></p>
+
+                <p><b>A lawsuit has been filed against you.</b></p>
+                <p>Within 21 days after service of this summons on you (not counting the day you received it) — or 60 days if you are the United States or a United States agency — you must serve on the plaintiff an answer to the attached complaint or a motion under Rule 12 of the Federal Rules of Civil Procedure.</p>
+                
+                <p>The answer or motion must be served on the plaintiff or plaintiff's attorney, whose name and address are:<br>
+                <textarea class="fillable-input" style="width:95%; height:60px;"></textarea></p>
+
+                <p>If you fail to respond, judgment by default will be entered against you for the relief demanded in the complaint. You also must file your answer or motion with the court.</p>
+                
+                <div style="margin-top:40px; display:flex; justify-content:space-between; align-items:flex-end;">
+                    <div>Date: <input type="text" class="fillable-input" style="width:120px;"></div>
+                    <div style="text-align:center;">
+                        __________________________<br>Signature of Clerk or Deputy Clerk
+                    </div>
+                </div>
             </div>`
     };
-
-    function scrambleEffect() {
-        const titles = document.querySelectorAll('.court-header, .doc-title');
-        titles.forEach(el => {
-            const originalText = el.innerText;
-            const chars = "!<>-_\\/[]{}—=+*^?#________";
-            let iteration = 0;
-            const interval = setInterval(() => {
-                el.innerText = originalText.split("").map((l, i) => (i < iteration ? originalText[i] : chars[Math.floor(Math.random() * chars.length)])).join("");
-                if(iteration >= originalText.length) clearInterval(interval);
-                iteration += 1/3;
-            }, 30);
-        });
-    }
 
     function loadDatabaseContract() {
         const key = document.getElementById('contract-db').value;
         const output = document.getElementById('doc-output');
         if (key && DATABASE[key]) {
-            document.getElementById('protocol').value = ""; // Clear generator
             output.innerHTML = DATABASE[key];
-            scrambleEffect();
         }
-    }
-
-    function initStates() {
-        const list = document.getElementById('state-list');
-        STATES.forEach(s => {
-            const opt = document.createElement('option');
-            opt.value = `State of ${s}`; opt.textContent = s;
-            list.appendChild(opt);
-        });
     }
 
     function initFields() {
@@ -227,46 +257,43 @@
         const container = document.getElementById('form-fields');
         container.innerHTML = ''; 
         if (!key) return;
-        document.getElementById('contract-db').value = ""; // Clear database select
-        PROTOCOLS[key].fields.forEach(field => {
+        document.getElementById('contract-db').value = "";
+        
+        // Auto-load document into viewer
+        document.getElementById('doc-output').innerHTML = DATABASE[key];
+        
+        // Add specific quick-edit sidebar fields
+        const commonFields = ["Case_Number", "Plaintiff_Main", "Defendant_Main"];
+        commonFields.forEach(field => {
             const group = document.createElement('div');
             group.innerHTML = `<label style="color:var(--neural-glow); font-size:0.7rem; display:block; margin-top:10px;">${field.replace(/_/g,' ')}</label>
-            <input type="text" id="field-${field}" class="input-field" oninput="updateView()">`;
+            <input type="text" class="input-field" placeholder="Quick Sync...">`;
             container.appendChild(group);
         });
-        updateView();
-    }
-
-    function updateView() {
-        const key = document.getElementById('protocol').value;
-        const output = document.getElementById('doc-output');
-        if (!key) return;
-        const fieldData = {};
-        PROTOCOLS[key].fields.forEach(f => {
-            const val = document.getElementById(`field-${f}`).value;
-            fieldData[f] = val || `[${f}]`;
-        });
-        output.innerHTML = PROTOCOLS[key].render(fieldData, document.getElementById('jurisdiction').value);
-        scrambleEffect();
     }
 
     async function generateFillablePdf() {
+        const key = document.getElementById('protocol').value || document.getElementById('contract-db').value;
+        const fileName = key ? `Lady_Legalz_${key}.pdf` : 'Lady_Legalz_Document.pdf';
+        
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
-        const pages = document.querySelectorAll('.document-page');
-        for (let i = 0; i < pages.length; i++) {
-            const canvas = await html2canvas(pages[i], { scale: 2 });
-            if (i > 0) pdf.addPage();
-            pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
+        const page = document.querySelector('.document-page');
+        
+        if(!page) {
+            alert("Please select a document protocol first.");
+            return;
         }
-        pdf.save('Neo_Legal_Doc.pdf');
+        
+        const canvas = await html2canvas(page, { scale: 2 });
+        pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
+        pdf.save(fileName);
     }
 
     window.onload = () => {
         setTimeout(() => {
             document.getElementById('boot-loader').style.display = 'none';
             document.getElementById('main-ui').style.opacity = '1';
-            initStates();
         }, 3500);
     };
 </script>
