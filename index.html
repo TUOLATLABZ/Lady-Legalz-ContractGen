@@ -9,147 +9,150 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --neural-glow: #00f2ff;
+            --neural-glow: #00ffcc; 
             --deep-void: #0a001a;
-            --synth-purple: #1a0033;
+            --synth-purple: rgba(10, 15, 25, 0.85); 
             --interface-text: #e0e0e0;
-            --control-bg: #2a004d;
-            --border-light: rgba(0, 242, 255, 0.2);
+            --control-bg: rgba(0, 40, 40, 0.4);
+            --border-light: rgba(0, 255, 204, 0.3);
             --paper-bg: #f8faff; 
             --legal-black: #1a1a1a;
+            --db-glow: #0088ff;
         }
 
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Rajdhani', sans-serif; color: var(--interface-text); background: var(--deep-void); }
-        .app-container { display: grid; grid-template-columns: 480px 1fr; height: 100vh; position: relative; }
+        #boot-loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; 
+            flex-direction: column; align-items: center; justify-content: center;
+            font-family: 'Share Tech Mono', monospace; color: var(--neural-glow);
+        }
 
-        .sidebar { background: var(--synth-purple); border-right: 1px solid var(--border-light); padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; box-shadow: 2px 0 15px rgba(0,242,255,0.1); }
+        .boot-text { overflow: hidden; white-space: nowrap; border-right: 2px solid var(--neural-glow); width: 0; animation: typing 1s steps(30, end) forwards; }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+
+        body, html { 
+            margin: 0; padding: 0; height: 100%; overflow: hidden; 
+            font-family: 'Rajdhani', sans-serif; color: var(--interface-text); 
+            background: url('https://r.jina.ai/i/65d956973e974e30a57e3f4384b6f19a') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        @keyframes scanline { 0% { opacity: 0.95; } 5% { opacity: 1; } 10% { opacity: 0.9; } 100% { opacity: 1; } }
+        @keyframes glitch-load {
+            0% { clip-path: inset(100% 0 0 0); filter: brightness(2) contrast(2); }
+            100% { clip-path: inset(0 0 0 0); filter: brightness(1) contrast(1); }
+        }
+
+        .app-container { 
+            display: grid; grid-template-columns: 480px 1fr; height: 100vh; position: relative; 
+            backdrop-filter: blur(4px); opacity: 0; transition: opacity 1.5s ease;
+        }
+
+        .sidebar { 
+            background: var(--synth-purple); border-right: 1px solid var(--border-light); 
+            padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; 
+            animation: scanline 4s infinite;
+        }
         
-        .logo-panel { text-align: center; margin-bottom: 20px; padding: 20px; border: 1px solid var(--neural-glow); border-radius: 8px; background: rgba(0,242,255,0.05); }
-        .brand-logo { max-width: 120px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 5px var(--neural-glow)); }
-        .logo-text { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px var(--neural-glow); margin: 0; line-height: 1.2; }
-        .tagline { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--interface-text); opacity: 0.7; margin-top: 10px; display: block; }
+        .logo-panel { 
+            text-align: center; margin-bottom: 20px; padding: 20px; 
+            border: 1px solid var(--neural-glow); border-radius: 8px; 
+            background: rgba(0, 255, 204, 0.08);
+            box-shadow: inset 0 0 15px rgba(0, 255, 204, 0.2);
+        }
+        .logo-text { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 2px; }
 
-        .control-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-        .control-label { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 1px; }
+        /* Legal Database UI Styling */
+        .db-panel {
+            border: 1px solid var(--db-glow); border-radius: 8px;
+            padding: 15px; background: rgba(0, 136, 255, 0.05);
+            margin-top: 10px;
+        }
+        .db-header { font-family: 'Orbitron'; font-size: 0.8rem; color: var(--db-glow); margin-bottom: 10px; display: block; text-shadow: 0 0 10px var(--db-glow); }
+
         .input-field, .select-field { 
             background: var(--control-bg); border: 1px solid var(--border-light); padding: 12px; 
-            color: var(--interface-text); font-family: 'Rajdhani', sans-serif; font-size: 1rem; 
-            border-radius: 5px; transition: all 0.2s ease-in-out;
+            color: var(--interface-text); border-radius: 5px; backdrop-filter: blur(10px); width: 100%; box-sizing: border-box;
         }
-        .input-field:focus, .select-field:focus { border-color: var(--neural-glow); outline: none; box-shadow: 0 0 10px rgba(0,242,255,0.4); }
+        .input-field:focus { border-color: var(--neural-glow); box-shadow: 0 0 15px rgba(0, 255, 204, 0.5); }
 
-        .doc-canvas { background: #000; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        .doc-canvas { background: rgba(0,0,0,0.3); overflow-y: auto; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        
         .document-page {
             width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
-            padding: 0.8in 1in; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.6;
-            border-radius: 2px;
+            padding: 0.8in 1in; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            font-family: 'Times New Roman', serif; font-size: 10.5pt; line-height: 1.5;
+            animation: glitch-load 0.4s ease-out; position: relative;
         }
 
-        .court-header { text-align: center; font-weight: bold; text-transform: uppercase; font-size: 14pt; margin-bottom: 25px; line-height: 1.3; }
-        .caption-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; border: 2px solid var(--legal-black); }
-        .caption-table td { padding: 12px; border: 1px solid var(--legal-black); vertical-align: top; width: 50%; }
-        .doc-title { text-align: center; font-weight: bold; font-size: 16pt; margin: 25px 0; text-decoration: underline; text-transform: uppercase; }
-        .section-heading { font-weight: bold; text-transform: uppercase; margin-top: 20px; border-bottom: 1px solid var(--legal-black); padding-bottom: 5px; display: block; font-size: 11.5pt; }
-        .clause-num { font-weight: bold; margin-right: 5px; }
-
-        .var-field { background: #e0f2fe; border-bottom: 1px solid #0369a1; font-weight: 600; padding: 0 4px; border-radius: 2px; }
-        .fillable-input { 
-            border: none; border-bottom: 1px dashed #007bff; background-color: rgba(0,123,255,0.05); 
-            font-family: 'Times New Roman', serif; font-size: 11pt; color: var(--legal-black);
-            padding: 2px 4px; margin: 0 2px; width: auto; min-width: 80px; 
-            display: inline-block; 
-        }
-        .fillable-input:focus { background-color: rgba(0,123,255,0.15); border-bottom: 1px solid #007bff; outline: none; }
-        .err-field { color: #dc2626; border-bottom: 1px dashed #dc2626; background: #fef2f2; padding: 0 4px; border-radius: 2px; }
-
-        .action-bar { padding: 20px; border-top: 1px solid var(--border-light); background: var(--synth-purple); display: flex; gap: 15px; justify-content: center; }
+        .action-bar { padding: 20px; border-top: 1px solid var(--border-light); background: rgba(5, 10, 15, 0.95); display: flex; gap: 15px; justify-content: center; }
         .btn { 
-            background: var(--neural-glow); color: var(--deep-void); border: none; padding: 14px 25px; 
+            background: var(--neural-glow); color: #002211; border: none; padding: 14px 25px; 
             font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; border-radius: 5px; 
-            text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(0,242,255,0.3);
-        }
-        .btn:hover { background: #fff; color: var(--deep-void); transform: translateY(-2px); box-shadow: 0 0 25px rgba(255,255,255,0.5); }
-
-        @media print {
-            .sidebar, .action-bar { display: none; }
-            .doc-canvas { background: #fff; padding: 0; display: block; }
-            .document-page { box-shadow: none; margin: 0; page-break-after: always; border-radius: 0; border: none; }
-            .fillable-input { border-bottom: 1px solid var(--legal-black); background: none; }
+            text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
         }
     </style>
 </head>
 <body>
 
-<div class="app-container">
+<div id="boot-loader">
+    <div class="boot-text">> INITIALIZING NEO-INTELLIGENCE CORE...</div>
+    <div class="boot-text" style="animation-delay: 1.2s;">> ACCESSING U.S. LEGAL DATABASE...</div>
+    <div class="boot-text" style="animation-delay: 2.4s;">> LADY LEGALZ 2026 ONLINE.</div>
+</div>
+
+<div class="app-container" id="main-ui">
     <aside class="sidebar">
         <div class="logo-panel">
-            <img src="logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
-            <h1 class="logo-text">Lady Legalz ContractGen 2026</h1>
-            <span class="tagline">NEO INTELLIGENCE ENGINE</span>
+            <h1 class="logo-text">Lady Legalz</h1>
+            <span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">NEO-INTELLIGENCE ONLINE</span>
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="jurisdiction">Target Jurisdiction</label>
+            <label style="color:var(--neural-glow); font-size:0.8rem;">JURISDICTION</label>
             <select id="jurisdiction" class="select-field" onchange="updateView()">
-                <optgroup label="Federal Courts">
-                    <option value="United States District Court, Southern District of New York">Federal (SDNY)</option>
-                    <option value="United States District Court, Northern District of California">Federal (NDCA)</option>
-                    <option value="United States District Court, District of Delaware">Federal (D. Del)</option>
-                    <option value="United States Bankruptcy Court, District of Arizona">Federal (AZ Bankruptcy)</option>
+                <optgroup label="Federal Courts" id="fed-list">
+                    <option value="United States District Court, SDNY">Federal (SDNY)</option>
                 </optgroup>
-                <optgroup label="State Courts (All 50)" id="state-list"></optgroup>
+                <optgroup label="State Jurisdictions" id="state-list"></optgroup>
             </select>
+        </div>
+
+        <div class="db-panel">
+            <label class="db-header">U.S. CONTRACT DATABASE</label>
+            <select id="contract-db" class="select-field" style="border-color: var(--db-glow);" onchange="loadDatabaseContract()">
+                <option value="">-- SELECT FROM DATABASE --</option>
+                <option value="FULL_SAAS">Master SaaS Agreement (Full-Length)</option>
+                <option value="ASSET_PURCHASE">Asset Purchase Agreement (APA)</option>
+                <option value="COMM_LEASE">Standard Commercial Lease (NNN)</option>
+                <option value="EXEC_EMP">Executive Employment Contract</option>
+            </select>
+            <p style="font-family:'Share Tech Mono'; font-size:0.65rem; color: var(--db-glow); margin-top:5px;">Source: SEC EDGAR / Public Filings Analysis</p>
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="protocol">Select Legal Protocol</label>
+            <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">PROTOCOL GENERATOR</label>
             <select id="protocol" class="select-field" onchange="initFields()">
-                <option value="">-- Select Protocol --</option>
-                <optgroup label="Civil Litigation (US Courts)">
-                    <option value="CIV_COMPLAINT_FED">Federal Civil Complaint (Form AO 21)</option>
-                    <option value="CIV_SUMMONS_FED">Federal Summons (Form AO 440)</option>
-                    <option value="CIV_ANSWER_STATE">State Civil Answer & Affirm. Defenses</option>
-                    <option value="CIV_DISCOVERY_INTERROG">State Interrogatories (Basic Set)</option>
-                    <option value="CRIM_INDICTMENT_FED">Federal Indictment (Simplified)</option>
-                    <option value="FAMILY_PETITION_DIVORCE">State Petition for Dissolution of Marriage</option>
-                    <option value="PROBATE_WILL">Simple Last Will and Testament</option>
-                </optgroup>
-                <optgroup label="Corporate & Transactional">
-                    <option value="CORP_MERGE">Agreement and Plan of Merger</option>
-                    <option value="CORP_RES">Board Resolution (General Purpose)</option>
-                    <option value="TECH_SAAS">Master SaaS Services Agreement</option>
-                    <option value="NDA_MUTUAL">Mutual Non-Disclosure Agreement</option>
-                    <option value="LOI_ACQUISITION">Letter of Intent (Acquisition)</option>
-                </optgroup>
-                <optgroup label="Employment & IP">
-                    <option value="EMP_EXEC">Executive Employment Agreement (IP/Clawback)</option>
-                    <option value="IP_ASSIGN">Intellectual Property Assignment Agreement</option>
-                    <option value="CONSULTING_AGR">Independent Consulting Agreement</option>
-                </optgroup>
-                <optgroup label="Real Estate">
-                    <option value="REAL_LEASE_COMM">Commercial Triple-Net Lease (NNN)</option>
-                    <option value="REAL_PURCHASE">Real Estate Purchase & Sale Agreement</option>
-                </optgroup>
+                <option value="">-- SELECT PROTOCOL --</option>
+                <option value="CIV_COMPLAINT_FED">Federal Civil Complaint</option>
+                <option value="CRIM_MOTION_SUPPRESS">Motion to Suppress</option>
+                <option value="BANKRUPT_CH7_VOL">Chapter 7 Petition</option>
+                <option value="NDA_MUTUAL">Mutual NDA</option>
             </select>
         </div>
-
         <div id="form-fields"></div>
     </aside>
 
     <main class="doc-canvas" id="doc-output">
-        <div style="text-align:center; padding-top:200px; opacity:0.1; color:var(--neural-glow);">
-            <h1 style="font-family:'Orbitron'; font-size:2rem; text-shadow: 0 0 20px var(--neural-glow);">NEO INTELLIGENCE</h1>
-            <p style="font-family:'Share Tech Mono'; letter-spacing:4px; font-size:1rem;">LADY LEGALZ CONTRACTGEN 2026</p>
-            <p style="font-family:'Share Tech Mono'; font-size:0.8rem; margin-top:20px;">SYSTEM STATUS: ONLINE // PROTOCOLS LOADED</p>
+        <div style="text-align:center; padding-top:200px; opacity:0.8;">
+            <h1 style="font-family:'Orbitron'; font-size:2.5rem; color:var(--neural-glow); text-shadow: 0 0 30px var(--neural-glow);">SYSTEM READY</h1>
         </div>
     </main>
 
     <div class="action-bar">
-        <button class="btn" onclick="generateFillablePdf()">Generate Fillable PDF</button>
-        <button class="btn" onclick="window.print()">Print / Export Static PDF</button>
-        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset Engine</button>
+        <button class="btn" onclick="generateFillablePdf()">Generate PDF</button>
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset</button>
     </div>
 </div>
 
@@ -158,160 +161,114 @@
 
     const PROTOCOLS = {
         CIV_COMPLAINT_FED: {
-            fields: ["Plaintiff_Name", "Defendant_Name", "Court_District", "Cause_of_Action", "Relief_Sought", "Jury_Demand"],
-            render: (f, j) => `
-                <div class="document-page">
-                    <div class="court-header">${j}</div>
-                    <table class="caption-table">
-                        <tr>
-                            <td><b>${f.Plaintiff_Name}</b>,<br>Plaintiff,<br><br>v.<br><br><b>${f.Defendant_Name}</b>,<br>Defendant.</td>
-                            <td>Civil Action No. <input type="text" class="fillable-input" placeholder="Case No."><br><br><b>COMPLAINT</b><br>JURY TRIAL DEMANDED: ${f.Jury_Demand}</td>
-                        </tr>
-                    </table>
-                    <span class="section-heading">I. JURISDICTION AND VENUE</span>
-                    <p><span class="clause-num">1.</span> This is an action for ${f.Cause_of_Action}. This Court has subject matter jurisdiction pursuant to 28 U.S.C. § 1332 (Diversity).</p>
-                    <span class="section-heading">II. PARTIES</span>
-                    <p><span class="clause-num">2.</span> Plaintiff ${f.Plaintiff_Name} is a citizen of <input type="text" class="fillable-input" placeholder="State/Country">. Defendant ${f.Defendant_Name} is a citizen of <input type="text" class="fillable-input" placeholder="State/Country">.</p>
-                    <span class="section-heading">III. CLAIMS FOR RELIEF</span>
-                    <p><span class="clause-num">3.</span> Defendant engaged in conduct constituting ${f.Cause_of_Action}, causing damage to Plaintiff.</p>
-                    <span class="section-heading">IV. PRAYER FOR RELIEF</span>
-                    <p><span class="clause-num">4.</span> WHEREFORE, Plaintiff respectfully requests that the Court enter judgment against Defendant for ${f.Relief_Sought}.</p>
-                </div>`
-        },
-        CIV_SUMMONS_FED: {
-            fields: ["Plaintiff_Name", "Defendant_Name", "Court_District", "Attorney_Name", "Attorney_Address"],
-            render: (f, j) => `
-                <div class="document-page">
-                    <div class="court-header">${j}</div>
-                    <table class="caption-table">
-                        <tr>
-                            <td><b>${f.Plaintiff_Name}</b>,<br>Plaintiff,<br><br>v.<br><br><b>${f.Defendant_Name}</b>,<br>Defendant.</td>
-                            <td>Civil Action No. <input type="text" class="fillable-input" placeholder="Case No."><br><br><b>SUMMONS IN A CIVIL ACTION</b></td>
-                        </tr>
-                    </table>
-                    <p><b>TO: ${f.Defendant_Name}</b><br><input type="text" class="fillable-input" style="width:90%;" placeholder="Defendant's Address"></p>
-                    <p>A lawsuit has been filed against you. Within 21 days after receiving this summons, you must serve an answer to the attached complaint.</p>
-                    <div style="margin-top:80px;">
-                        <p>Date: <input type="text" class="fillable-input" placeholder="MM/DD/YYYY"></p>
-                        <p>Clerk of Court: __________________________</p>
-                        <p style="margin-top:30px;">Attorney for Plaintiff:<br><b>${f.Attorney_Name}</b><br><input type="text" class="fillable-input" style="width:90%;" placeholder="Attorney Address"><br><input type="text" class="fillable-input" placeholder="Phone"> Fax: <input type="text" class="fillable-input" placeholder="Fax"></p>
-                    </div>
-                </div>`
+            fields: ["Plaintiff_Name", "Defendant_Name", "Cause_of_Action"],
+            render: (f, j) => `<div class="document-page"><div class="court-header">${j}</div><p><b>${f.Plaintiff_Name}</b> v. <b>${f.Defendant_Name}</b></p><p>CLAIM: ${f.Cause_of_Action}</p></div>`
         },
         NDA_MUTUAL: {
-            fields: ["Party_One", "Party_Two", "Purpose_of_Disclosure", "Confidentiality_Term_Years"],
-            render: (f, j) => `
-                <div class="document-page">
-                    <div class="doc-title">MUTUAL NON-DISCLOSURE AGREEMENT</div>
-                    <p>This Mutual Non-Disclosure Agreement is made effective as of <input type="text" class="fillable-input" placeholder="Effective Date"> by and between <b>${f.Party_One}</b> and <b>${f.Party_Two}</b>.</p>
-                    <span class="section-heading">1. PURPOSE</span>
-                    <p><span class="clause-num">1.1</span> The Parties wish to explore a relationship concerning ${f.Purpose_of_Disclosure}.</p>
-                    <span class="section-heading">2. TERM</span>
-                    <p><span class="clause-num">2.1</span> This agreement remains in effect for ${f.Confidentiality_Term_Years} years.</p>
-                </div>`
-        },
-        REAL_LEASE_COMM: {
-            fields: ["Landlord_Name", "Tenant_Name", "Property_Address", "Monthly_Base_Rent", "Lease_Term_Years", "Security_Deposit_Amount"],
-            render: (f, j) => `
-                <div class="document-page">
-                    <div class="doc-title">COMMERCIAL TRIPLE-NET LEASE AGREEMENT</div>
-                    <p>This Lease is made between <b>${f.Landlord_Name}</b> ("Landlord"), and <b>${f.Tenant_Name}</b> ("Tenant").</p>
-                    <span class="section-heading">1. LEASED PREMISES</span>
-                    <p><span class="clause-num">1.1</span> Premises located at ${f.Property_Address}.</p>
-                    <span class="section-heading">2. RENT</span>
-                    <p><span class="clause-num">2.1</span> Monthly Base Rent shall be ${f.Monthly_Base_Rent}.</p>
-                </div>`
+            fields: ["Party_One", "Party_Two"],
+            render: (f, j) => `<div class="document-page"><div class="doc-title">MUTUAL NDA</div><p>This agreement is entered into by ${f.Party_One} and ${f.Party_Two}.</p></div>`
         }
     };
 
+    // FULL TEXT DATABASE CONTENT
+    const DATABASE = {
+        FULL_SAAS: `
+            <div class="document-page">
+                <div class="doc-title">MASTER SOFTWARE AS A SERVICE AGREEMENT</div>
+                <p><b>1. SERVICES AND SUPPORT.</b> Subject to the terms of this Agreement, Company will use commercially reasonable efforts to provide Customer the Services. As part of the registration process, Customer will identify an administrative user name and password for Customer’s Company account.</p>
+                <p><b>2. RESTRICTIONS AND RESPONSIBILITIES.</b> Customer will not, directly or indirectly: reverse engineer, decompile, disassemble or otherwise attempt to discover the source code, object code or underlying structure, ideas, know-how or algorithms relevant to the Services or any software, documentation or data related to the Services.</p>
+                <p><b>3. CONFIDENTIALITY; PROPRIETARY RIGHTS.</b> Each party (the “Receiving Party”) understands that the other party (the “Disclosing Party”) has disclosed or may disclose business, technical or financial information relating to the Disclosing Party’s business.</p>
+                <p><b>4. PAYMENT OF FEES.</b> Customer will pay Company the then applicable fees described in the Order Form for the Services in accordance with the terms therein.</p>
+            </div>`,
+        COMM_LEASE: `
+            <div class="document-page">
+                <div class="doc-title">COMMERCIAL LEASE AGREEMENT (TRIPLE NET)</div>
+                <p><b>ARTICLE 1: DEMISED PREMISES.</b> Landlord hereby leases to Tenant, and Tenant hereby leases from Landlord, those certain premises situated in the City of [INSERT], State of [INSERT].</p>
+                <p><b>ARTICLE 2: TERM.</b> The term of this Lease shall be for a period of [X] years, commencing on the Commencement Date as defined herein.</p>
+                <p><b>ARTICLE 3: RENT.</b> Tenant shall pay to Landlord as Base Rent the sum of $ [AMOUNT] per month, payable in advance on the first day of each calendar month.</p>
+            </div>`
+    };
+
+    function scrambleEffect() {
+        const titles = document.querySelectorAll('.court-header, .doc-title');
+        titles.forEach(el => {
+            const originalText = el.innerText;
+            const chars = "!<>-_\\/[]{}—=+*^?#________";
+            let iteration = 0;
+            const interval = setInterval(() => {
+                el.innerText = originalText.split("").map((l, i) => (i < iteration ? originalText[i] : chars[Math.floor(Math.random() * chars.length)])).join("");
+                if(iteration >= originalText.length) clearInterval(interval);
+                iteration += 1/3;
+            }, 30);
+        });
+    }
+
+    function loadDatabaseContract() {
+        const key = document.getElementById('contract-db').value;
+        const output = document.getElementById('doc-output');
+        if (key && DATABASE[key]) {
+            document.getElementById('protocol').value = ""; // Clear generator
+            output.innerHTML = DATABASE[key];
+            scrambleEffect();
+        }
+    }
+
     function initStates() {
-        const stateList = document.getElementById('state-list');
+        const list = document.getElementById('state-list');
         STATES.forEach(s => {
-            const option = document.createElement('option');
-            option.value = `State of ${s}`;
-            option.textContent = s;
-            stateList.appendChild(option);
+            const opt = document.createElement('option');
+            opt.value = `State of ${s}`; opt.textContent = s;
+            list.appendChild(opt);
         });
     }
 
     function initFields() {
-        const protocolKey = document.getElementById('protocol').value;
-        const formFieldsContainer = document.getElementById('form-fields');
-        formFieldsContainer.innerHTML = ''; 
-
-        if (!protocolKey) {
-            document.getElementById('doc-output').innerHTML = `<div style="text-align:center; padding-top:200px; opacity:0.1; color:var(--neural-glow);">
-                <h1 style="font-family:'Orbitron'; font-size:2rem; text-shadow: 0 0 20px var(--neural-glow);">NEO INTELLIGENCE</h1>
-                <p style="font-family:'Share Tech Mono'; letter-spacing:4px; font-size:1rem;">LADY LEGALZ CONTRACTGEN 2026</p>
-            </div>`;
-            return;
-        }
-
-        const protocol = PROTOCOLS[protocolKey];
-        if (protocol) {
-            protocol.fields.forEach(field => {
-                const group = document.createElement('div');
-                group.className = 'control-group';
-                group.innerHTML = `
-                    <label class="control-label">${field.replace(/_/g, ' ')}</label>
-                    <input type="text" id="field-${field}" class="input-field" oninput="updateView()" placeholder="Enter ${field.replace(/_/g, ' ').toLowerCase()}">
-                `;
-                formFieldsContainer.appendChild(group);
-            });
-        }
+        const key = document.getElementById('protocol').value;
+        const container = document.getElementById('form-fields');
+        container.innerHTML = ''; 
+        if (!key) return;
+        document.getElementById('contract-db').value = ""; // Clear database select
+        PROTOCOLS[key].fields.forEach(field => {
+            const group = document.createElement('div');
+            group.innerHTML = `<label style="color:var(--neural-glow); font-size:0.7rem; display:block; margin-top:10px;">${field.replace(/_/g,' ')}</label>
+            <input type="text" id="field-${field}" class="input-field" oninput="updateView()">`;
+            container.appendChild(group);
+        });
         updateView();
     }
 
     function updateView() {
-        const protocolKey = document.getElementById('protocol').value;
-        const docOutput = document.getElementById('doc-output');
-        if (!protocolKey) return;
-        const protocol = PROTOCOLS[protocolKey];
-        const jurisdiction = document.getElementById('jurisdiction').value;
+        const key = document.getElementById('protocol').value;
+        const output = document.getElementById('doc-output');
+        if (!key) return;
         const fieldData = {};
-        protocol.fields.forEach(field => {
-            const inputElement = document.getElementById(`field-${field}`);
-            fieldData[field] = inputElement ? `<span class="var-field">${inputElement.value || '[Missing ' + field.replace(/_/g, ' ') + ']'}</span>` : '';
+        PROTOCOLS[key].fields.forEach(f => {
+            const val = document.getElementById(`field-${f}`).value;
+            fieldData[f] = val || `[${f}]`;
         });
-        docOutput.innerHTML = protocol.render(fieldData, jurisdiction);
+        output.innerHTML = PROTOCOLS[key].render(fieldData, document.getElementById('jurisdiction').value);
+        scrambleEffect();
     }
 
     async function generateFillablePdf() {
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
-        const docElement = document.getElementById('doc-output');
-        const pages = docElement.querySelectorAll('.document-page');
-
+        const pages = document.querySelectorAll('.document-page');
         for (let i = 0; i < pages.length; i++) {
-            const page = pages[i];
-            const canvas = await html2canvas(page, { scale: 2, useCORS: true, logging: false });
-            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            const canvas = await html2canvas(pages[i], { scale: 2 });
             if (i > 0) pdf.addPage();
-            pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
-            const inputs = page.querySelectorAll('.fillable-input');
-            inputs.forEach(input => {
-                const rect = input.getBoundingClientRect();
-                const pageRect = page.getBoundingClientRect();
-                const x = (rect.left - pageRect.left) * (612 / pageRect.width);
-                const y = (rect.top - pageRect.top) * (792 / pageRect.height);
-                const inputWidth = rect.width * (612 / pageRect.width);
-                const inputHeight = rect.height * (792 / pageRect.height);
-                pdf.addField(new jsPDF.API.FormField({
-                    type: 'text',
-                    fieldName: input.placeholder.replace(/\s/g, '_') + '_' + i + '_' + Math.random().toString(36).substring(7),
-                    x: x, y: y, width: inputWidth, height: inputHeight,
-                    value: input.value || '', font: 'Times', textSize: 11, textColor: [26, 26, 26], 
-                    borderColor: [0, 123, 255], borderWidth: 1, borderStyle: 'dashed'
-                }));
-            });
+            pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
         }
-        pdf.save('Lady_Legalz_NeoIntelligence_Doc.pdf');
+        pdf.save('Neo_Legal_Doc.pdf');
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        initStates();
-        initFields(); 
-    });
+    window.onload = () => {
+        setTimeout(() => {
+            document.getElementById('boot-loader').style.display = 'none';
+            document.getElementById('main-ui').style.opacity = '1';
+            initStates();
+        }, 3500);
+    };
 </script>
 </body>
 </html>
