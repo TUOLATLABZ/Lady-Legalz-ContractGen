@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ CONTRACTGEN NEO-INTELLIGENCE</title>
+    <title>Lady Legalz ContractGen 2026 NEO INTELLIGENCE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;770&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -80,13 +80,13 @@
         .document-page {
             width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
             padding: 0.8in 1in; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.5;
+            font-family: 'Times New Roman', serif; font-size: 10.5pt; line-height: 1.5;
             animation: glitch-load 0.4s ease-out; position: relative;
         }
 
         .fillable-input { 
             border: none; border-bottom: 1px dashed #007bff; background-color: rgba(0,123,255,0.05); 
-            font-family: 'Times New Roman', serif; font-size: 11pt; color: var(--legal-black);
+            font-family: 'Times New Roman', serif; font-size: 10.5pt; color: var(--legal-black);
             padding: 1px 4px; margin: 0 2px;
         }
 
@@ -102,31 +102,41 @@
 
 <div id="boot-loader">
     <div class="boot-text">> INITIALIZING NEO-INTELLIGENCE CORE...</div>
-    <div class="boot-text" style="animation-delay: 1.2s;">> LOADING....TUOLAT...LADY LEGALZ BETA v4.0.0....</div>
-    <div class="boot-text" style="animation-delay: 2.4s;">> CONTRACTGEN....</div>
+    <div class="boot-text" style="animation-delay: 1.2s;">> LOADING ATTORNEY-CLIENT DATABASE...</div>
+    <div class="boot-text" style="animation-delay: 2.4s;">> LADY LEGALZ 2026 ONLINE.</div>
 </div>
 
 <div class="app-container" id="main-ui">
     <aside class="sidebar">
         <div class="logo-panel">
-            <h1 class="logo-text">LADY LEGALZ CONTRACTGEN</h1>
-            <span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">NEO-INTELLIGENCE</span>
+            <h1 class="logo-text">Lady Legalz</h1>
+            <span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">NEO-INTELLIGENCE ONLINE</span>
         </div>
 
         <div class="db-panel">
-            <label class="db-header">CONTRACTGEN AGREEMENTS</label>
+            <label class="db-header">U.S. CONTRACT DATABASE</label>
             <select id="contract-db" class="select-field" style="border-color: var(--db-glow);" onchange="loadDatabaseContract()">
-                <option value="">-- LEGAL AGREEMENT DATABASE --</option>
+                <option value="">-- SELECT FROM DATABASE --</option>
                 <option value="ATTORNEY_CLIENT">Attorney Client Agreement</option>
+                <option value="DIVORCE">Divorce Settlement Agreement</option>
+                <option value="ESTATE_PLAN">Estate Plan Agreement</option>
+                <option value="HOLD_HARMLESS">Hold Harmless Agreement</option>
+                <option value="LAND_PURCHASE">Land Purchase Agreement</option>
+                <option value="LANDLORD_TENANT">Landlord Tenant Agreement</option>
+                <option value="INTENT_TO_SUE">Letter of Intent to Sue</option>
+                <option value="LLC_ARTICLES">LLC Articles of Organization</option>
+                <option value="LS_REP">Limited Scope Representation Agreement</option>
+                <option value="MOU">Memorandum of Understanding</option>
+                <option value="SOFTWARE_DEV">Software Development Agreement</option>
             </select>
         </div>
 
         <div class="control-group">
-            <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">CONTRACTGEN PROTOCOLS</label>
+            <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">PROTOCOL GENERATOR</label>
             <select id="protocol" class="select-field" onchange="initFields()">
-                <option value="">-- LEGAL PROTOCOL DATABASE --</option>
-                <option value="SUMMONS_CIVIL">SUMMONS_FEDERAL_CIVIL ACTION</option>
-                <option value="COMPLAINT_CIVIL">COMPLAINT_FEDERAL_CIVIL ACTION</option>
+                <option value="">-- SELECT PROTOCOL --</option>
+                <option value="SUMMONS_CIVIL">Summons in a Civil Action</option>
+                <option value="COMPLAINT_CIVIL">Complaint in a Civil Action</option>
             </select>
         </div>
         <div id="form-fields"></div>
@@ -139,9 +149,9 @@
     </main>
 
     <div class="action-bar">
-        <button class="btn" onclick="generateFillablePdf()">PDF EXPORT</button>
-        <button class="btn" onclick="window.print()">PRINT</button>
-        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">RESETGEN</button>
+        <button class="btn" onclick="generateFillablePdf()">Export as PDF</button>
+        <button class="btn" onclick="window.print()">Print Document</button>
+        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset Engine</button>
     </div>
 </div>
 
@@ -149,80 +159,184 @@
     const DATABASE = {
         ATTORNEY_CLIENT: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:14pt; margin-bottom:30px;">ATTORNEY-CLIENT FEE AGREEMENT</div>
-                <p>This Agreement is made between <b>Attorney</b> <input type="text" class="fillable-input" placeholder="Firm/Attorney Name" style="width:250px;"> ("Attorney") and <b>Client</b> <input type="text" class="fillable-input" placeholder="Full Client Name" style="width:250px;"> ("Client").</p>
-                
-                <p><b>1. SCOPE OF SERVICES:</b> Attorney agrees to provide legal representation for the following matter: <br>
-                <input type="text" class="fillable-input" placeholder="Description of Legal Matter" style="width:100%; margin-top:10px;"></p>
-
-                <p><b>2. FEES:</b> Client agrees to pay Attorney for legal services as follows: <br>
-                <input type="text" class="fillable-input" placeholder="Fixed Fee / Hourly Rate" style="width:100%; margin-top:10px;"></p>
-
-                <p><b>3. COSTS:</b> Client shall be responsible for all out-of-pocket expenses including, but not limited to, filing fees, service of process, and expert fees.</p>
-
-                <p><b>4. CLIENT DUTIES:</b> Client agrees to be truthful, to cooperate, and to keep Attorney informed of any change in address or telephone number.</p>
-
-                <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                    <div><hr style="width:200px; border:0; border-top:1px solid black;">Client Signature</div>
-                    <div><hr style="width:200px; border:0; border-top:1px solid black;">Attorney Signature</div>
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">LEGAL REPRESENTATION AGREEMENT</div>
+                <p><b>Name and Address of Attorney:</b><br>
+                <input type="text" class="fillable-input" placeholder="Attorney Name" style="width:300px;"><br>
+                <input type="text" class="fillable-input" placeholder="Attorney Address" style="width:300px; margin-top:5px;"></p>
+                <p><b>Name and Address of Client(s):</b><br>
+                <input type="text" class="fillable-input" placeholder="Client Name" style="width:300px;"><br>
+                <input type="text" class="fillable-input" placeholder="Client Address" style="width:300px; margin-top:5px;"><br>
+                A#: <input type="text" class="fillable-input" placeholder="Client A Number" style="width:150px; margin-top:5px;"></p>
+                <p>Attorney and Client hereby agree that Attorney will provide legal services to Client on the terms set forth below.</p>
+                <p><b>Legal Services:</b> This Representation Agreement concerns the following matter(s):<br>
+                <input type="text" class="fillable-input" value="Application for Asylum before the Immigration Court" style="width:400px;"></p>
+                <p><b>1. Scope of Work:</b> Services in any matter not described above will require a separate written agreement. This Agreement does not cover representation on appeal.</p>
+                <p><b>2. Fees and Costs:</b> We will not charge you for attorney's fees. Client will be responsible for paying costs associated with the case, if any, including government filing fees and expert witness fees.</p>
+                <p><b>3. Duties of Attorney:</b> We will provide legal services reasonably required to represent you and keep you informed of case progress.</p>
+                <p><b>4. Staffing:</b> <input type="text" class="fillable-input" placeholder="Responsible Attorney"> will be primarily responsible. Contact Attorney directly at: <input type="text" class="fillable-input" placeholder="Phone Number">.</p>
+                <p><b>5. No Guarantee:</b> We do not guarantee particular results or the amount of time it will take to complete your case.</p>
+                <div style="margin-top:40px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Client Signature</div>
+                    <div>__________________________<br>Attorney Signature</div>
                 </div>
-                <div style="margin-top:30px;">Dated: <input type="text" class="fillable-input" placeholder="MM/DD/YYYY" style="width:120px;"></div>
+                <div style="margin-top:20px;">Date: <input type="text" class="fillable-input" style="width:100px;"></div>
             </div>`,
+
+        DIVORCE: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">DIVORCE CONTRACTUAL AGREEMENT</div>
+                <p>This Agreement is entered into on <input type="text" class="fillable-input" placeholder="Effective Date"> by and between <input type="text" class="fillable-input" placeholder="Husband Name"> ("Husband") and <input type="text" class="fillable-input" placeholder="Wife Name"> ("Wife").</p>
+                <p><b>PURPOSE:</b> The Parties agree that the purpose of this Agreement is to make a final settlement related to their divorce.</p>
+                <p><b>MINOR CHILDREN:</b> <br> 1. <input type="text" class="fillable-input" style="width:250px;"> <br> 2. <input type="text" class="fillable-input" style="width:250px;"></p>
+                <p><b>CUSTODY:</b> The <input type="text" class="fillable-input" placeholder="Mother/Father"> will have full custody of the children.</p>
+                <p><b>ALIMONY:</b> The husband will pay alimony to the wife amounting to $<input type="text" class="fillable-input" style="width:100px;"> for a period of <input type="text" class="fillable-input" style="width:150px;">.</p>
+                <div style="margin-top:40px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Husband Signature</div>
+                    <div>__________________________<br>Wife Signature</div>
+                </div>
+            </div>`,
+
+        ESTATE_PLAN: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">LEGAL SERVICES AGREEMENT (Estate Plan)</div>
+                <p>This agreement is made between <input type="text" class="fillable-input" placeholder="Law Firm"> ("Law Firm") and <input type="text" class="fillable-input" placeholder="Client Name"> ("Client").</p>
+                <p><b>SERVICES:</b> Preparation of Revocable Living Trust, Pour-Over Wills, and Advance Health Care Directives.</p>
+                <p><b>FEES:</b> Client agrees to pay by the hour as set forth in the attached Rate Schedule.</p>
+                <div style="margin-top:100px;">
+                    Date: <input type="text" class="fillable-input" style="width:150px;"><br><br>
+                    Client Signature: __________________________
+                </div>
+            </div>`,
+
+        HOLD_HARMLESS: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">HOLD HARMLESS CONTRACTUAL AGREEMENT</div>
+                <p>Dated: <input type="text" class="fillable-input" placeholder="Date"></p>
+                <p><b>Supplier:</b> <input type="text" class="fillable-input" style="width:250px;"> Address: <input type="text" class="fillable-input" style="width:250px;"></p>
+                <p><b>Buyer:</b> <input type="text" class="fillable-input" style="width:250px;"> Address: <input type="text" class="fillable-input" style="width:250px;"></p>
+                <p><b>INDEMNITY:</b> The Supplier shall indemnify and hold harmless the Buyer from and against any and all claims and expenses arising out of the Supplier's products or services.</p>
+                <div style="margin-top:50px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Supplier Signature</div>
+                    <div>__________________________<br>Buyer Signature</div>
+                </div>
+            </div>`,
+
+        LAND_PURCHASE: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">LAND PURCHASE AGREEMENT</div>
+                <p><b>Seller:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Buyer:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
+                <p><b>PROPERTY:</b> Legal Description: <input type="text" class="fillable-input" style="width:400px;"> <br>Address: <input type="text" class="fillable-input" style="width:400px;"></p>
+                <p><b>PURCHASE PRICE:</b> $<input type="text" class="fillable-input" style="width:150px;"> <br>Deposit: $<input type="text" class="fillable-input" style="width:150px;"></p>
+                <div style="margin-top:50px;">
+                    Seller: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;"><br>
+                    Buyer: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                </div>
+            </div>`,
+
+        LANDLORD_TENANT: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">RESIDENTIAL TENANT-LANDLORD AGREEMENT</div>
+                <p><b>Landlord:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Tenant:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
+                <p><b>PREMISES:</b> <input type="text" class="fillable-input" placeholder="Full Property Address" style="width:100%;"></p>
+                <p><b>RENT:</b> The Tenant shall pay a monthly rent of $<input type="text" class="fillable-input" style="width:100px;"> due on the <input type="text" class="fillable-input" style="width:50px;"> day of each month.</p>
+                <div style="margin-top:50px;">
+                    Landlord: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;"><br>
+                    Tenant: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                </div>
+            </div>`,
+
+        INTENT_TO_SUE: `
+            <div class="document-page">
+                <div style="text-align:right;">
+                    <input type="text" class="fillable-input" placeholder="Your Name"><br>
+                    <input type="text" class="fillable-input" placeholder="Your Address"><br>
+                    Date: <input type="text" class="fillable-input" style="width:100px;">
+                </div>
+                <p><b>TO:</b> <input type="text" class="fillable-input" placeholder="Recipient Name"><br><input type="text" class="fillable-input" placeholder="Recipient Address"></p>
+                <p><b>SUBJECT: FORMAL NOTICE OF INTENT TO SUE</b></p>
+                <p>Dear <input type="text" class="fillable-input" placeholder="Name">,</p>
+                <p>I am writing to formally notify you of my intent to pursue legal action concerning: <br> <textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
+                <p>Unless this matter is resolved within <input type="text" class="fillable-input" style="width:50px;"> days, I will initiate proceedings.</p>
+                <div style="margin-top:30px;">Sincerely, <br><br> __________________________</div>
+            </div>`,
+
+        LLC_ARTICLES: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">ARTICLES OF ORGANIZATION</div>
+                <p><b>ENTITY NAME:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
+                <p><b>STATE OF FORMATION:</b> <input type="text" class="fillable-input" style="width:200px;"></p>
+                <p><b>REGISTERED AGENT:</b> Name: <input type="text" class="fillable-input" style="width:200px;"> Address: <input type="text" class="fillable-input" style="width:300px;"></p>
+                <p><b>PURPOSE:</b> <textarea class="fillable-input" style="width:100%; height:80px;"></textarea></p>
+                <div style="margin-top:50px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Organizer</div>
+                    <div>__________________________<br>Organizer</div>
+                </div>
+            </div>`,
+
+        LS_REP: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">LIMITED SCOPE REPRESENTATION AGREEMENT</div>
+                <p><b>Client:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Lawyer:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
+                <p><b>LIMITED SERVICES:</b> Lawyer is retained only for the following specific tasks: <br> <textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
+                <p>Client understands that Lawyer is NOT representing them for any other purpose.</p>
+                <div style="margin-top:50px;">
+                    Client: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;"><br>
+                    Lawyer: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                </div>
+            </div>`,
+
+        MOU: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">MEMORANDUM OF UNDERSTANDING</div>
+                <p><b>Party A:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Party B:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
+                <p><b>PURPOSE:</b> The purpose of this MOU is to establish a framework for cooperation to: <br> <textarea class="fillable-input" style="width:100%; height:80px;"></textarea></p>
+                <p>This MOU is a statement of intent and is not legally binding.</p>
+                <div style="margin-top:50px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Party A</div>
+                    <div>__________________________<br>Party B</div>
+                </div>
+            </div>`,
+
+        SOFTWARE_DEV: `
+            <div class="document-page">
+                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">SOFTWARE DEVELOPMENT AGREEMENT</div>
+                <p><b>Client:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Developer:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
+                <p><b>SERVICES:</b> Developer agrees to provide the following coding services: <br> <textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
+                <p><b>FEE:</b> Client agrees to pay $<input type="text" class="fillable-input" style="width:150px;"> upon completion.</p>
+                <div style="margin-top:50px;">
+                    Client: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;"><br>
+                    Developer: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                </div>
+            </div>`,
+        
         SUMMONS_CIVIL: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt;">UNITED STATES DISTRICT COURT</div>
-                <div style="text-align:center; margin-bottom:20px;">for the <br> <input type="text" class="fillable-input" placeholder="District Court Name" style="width:300px;"></div>
-                
-                <div style="display:grid; grid-template-columns: 1fr 100px 1fr; margin-bottom:30px;">
-                    <div><input type="text" class="fillable-input" placeholder="Plaintiff(s)" style="width:100%;"> <br> Plaintiff(s)</div>
-                    <div style="text-align:center;">v.</div>
-                    <div><input type="text" class="fillable-input" placeholder="Defendant(s)" style="width:100%;"> <br> Defendant(s)</div>
+                <div style="text-align:center; font-weight:bold; font-size:12pt;">UNITED STATES DISTRICT COURT</div>
+                <div style="text-align:center;">District of <input type="text" class="fillable-input" style="width:200px;"></div>
+                <div style="margin-top:40px; display:flex; justify-content:space-between;">
+                    <div><input type="text" class="fillable-input" placeholder="Plaintiff">, Plaintiff</div>
+                    <div>Civil Action No. <input type="text" class="fillable-input" style="width:100px;"></div>
                 </div>
-
-                <div style="font-weight:bold; text-align:center; font-size:16pt; margin-bottom:20px;">SUMMONS IN A CIVIL ACTION</div>
-                <p><b>To: (Defendant's name and address)</b><br>
-                <textarea class="fillable-input" style="width:100%; height:60px;"></textarea></p>
-
-                <p>A lawsuit has been filed against you. Within 21 days after service of this summons on you (not counting the day you received it)... you must serve on the plaintiff an answer to the attached complaint or a motion under Rule 12 of the Federal Rules of Civil Procedure.</p>
-
-                <div style="margin-top:50px;">
-                    CLERK OF COURT: <input type="text" class="fillable-input" style="width:250px;"> <br>
-                    Date: <input type="text" class="fillable-input" style="width:150px;">
-                </div>
+                <div style="margin-top:10px;">v.</div>
+                <div style="margin-top:10px;"><input type="text" class="fillable-input" placeholder="Defendant">, Defendant</div>
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-top:40px;">SUMMONS IN A CIVIL ACTION</div>
+                <p>To: <input type="text" class="fillable-input" placeholder="Defendant Name" style="width:300px;"></p>
+                <p>A lawsuit has been filed against you. Within 21 days after service of this summons, you must serve on the plaintiff an answer.</p>
             </div>`,
+
         COMPLAINT_CIVIL: `
             <div class="document-page">
-                 <div style="text-align:center; font-weight:bold; font-size:14pt;">UNITED STATES DISTRICT COURT</div>
-                <div style="text-align:center; margin-bottom:20px;">for the <br> <input type="text" class="fillable-input" placeholder="District Court Name" style="width:300px;"></div>
-
-                <div style="display:grid; grid-template-columns: 1fr 80px 1.5fr;">
-                    <div><input type="text" class="fillable-input" placeholder="Plaintiff Name" style="width:100%;">, Plaintiff</div>
-                    <div style="text-align:center;">vs.</div>
-                    <div>Case No: <input type="text" class="fillable-input" style="width:150px;"></div>
-                </div>
-                <div><input type="text" class="fillable-input" placeholder="Defendant Name" style="width:100%; margin-top:10px;">, Defendant</div>
-
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin:40px 0;">COMPLAINT FOR A CIVIL CASE</div>
-
-                <p><b>I. Basis for Jurisdiction:</b><br>
-                <input type="text" class="fillable-input" placeholder="e.g., Federal Question / Diversity" style="width:100%;"></p>
-
-                <p><b>II. Statement of Claim:</b><br>
-                <textarea class="fillable-input" style="width:100%; height:200px;" placeholder="Write the facts of your case here..."></textarea></p>
-
-                <p><b>III. Relief:</b><br>
-                <textarea class="fillable-input" style="width:100%; height:100px;" placeholder="What do you want the court to do?"></textarea></p>
-
-                <div style="margin-top:50px;">
-                    Respectfully submitted,<br><br>
-                    <input type="text" class="fillable-input" placeholder="Your Name" style="width:250px;"><br>
-                    Date: <input type="text" class="fillable-input" style="width:150px;">
-                </div>
+                <div style="text-align:center; font-weight:bold; font-size:12pt;">UNITED STATES DISTRICT COURT</div>
+                <div style="margin-top:40px;"><input type="text" class="fillable-input" placeholder="Plaintiff Name">, Plaintiff</div>
+                <p>v. Case No: <input type="text" class="fillable-input" style="width:100px;"></p>
+                <div style="margin-top:10px;"><input type="text" class="fillable-input" placeholder="Defendant Name">, Defendant</div>
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-top:40px;">COMPLAINT</div>
+                <p><b>Statement of Claim:</b><br><textarea class="fillable-input" style="width:100%; height:200px;"></textarea></p>
             </div>`
     };
 
     function scrambleEffect() {
-        const titles = document.querySelectorAll('.doc-title, b, h1, h3');
+        const titles = document.querySelectorAll('.doc-title, b');
         titles.forEach(el => {
             const originalText = el.innerText;
             const chars = "!<>-_\\/[]{}—=+*^?#________";
@@ -240,6 +354,7 @@
         const output = document.getElementById('doc-output');
         if (key && DATABASE[key]) {
             output.innerHTML = DATABASE[key];
+            document.getElementById('protocol').value = "";
             scrambleEffect();
         }
     }
@@ -258,27 +373,10 @@
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
         const page = document.querySelector('.document-page');
-        if(!page) {
-            alert("Please select a document first.");
-            return;
-        }
-        
-        // Capture canvas including input values
-        const canvas = await html2canvas(page, { 
-            scale: 2,
-            useCORS: true,
-            onclone: (clonedDoc) => {
-                // Ensure text areas and inputs are visible in the capture
-                const inputs = clonedDoc.querySelectorAll('.fillable-input');
-                inputs.forEach(input => {
-                    input.style.border = "none";
-                    input.style.backgroundColor = "transparent";
-                });
-            }
-        });
-        
+        if(!page) return;
+        const canvas = await html2canvas(page, { scale: 2 });
         pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
-        pdf.save('Lady_Legalz_System_Export.pdf');
+        pdf.save('Lady_Legalz_Contract.pdf');
     }
 
     window.onload = () => {
