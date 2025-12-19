@@ -33,15 +33,8 @@
         body, html { 
             margin: 0; padding: 0; height: 100%; overflow: hidden; 
             font-family: 'Rajdhani', sans-serif; color: var(--interface-text); 
-            /* Background updated to contractgen beta.png */
             background: url('contractgen beta.png') no-repeat center center fixed;
             background-size: cover;
-        }
-
-        @keyframes scanline { 0% { opacity: 0.95; } 5% { opacity: 1; } 10% { opacity: 0.9; } 100% { opacity: 1; } }
-        @keyframes glitch-load {
-            0% { clip-path: inset(100% 0 0 0); filter: brightness(2) contrast(2); }
-            100% { clip-path: inset(0 0 0 0); filter: brightness(1) contrast(1); }
         }
 
         .app-container { 
@@ -52,7 +45,6 @@
         .sidebar { 
             background: var(--synth-purple); border-right: 1px solid var(--border-light); 
             padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; 
-            animation: scanline 4s infinite;
         }
         
         .logo-panel { 
@@ -63,18 +55,10 @@
         }
         .logo-text { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: var(--neural-glow); text-transform: uppercase; letter-spacing: 2px; }
 
-        .db-panel {
-            border: 1px solid var(--db-glow); border-radius: 8px;
-            padding: 15px; background: rgba(0, 136, 255, 0.05);
-            margin-top: 10px;
-        }
-        .db-header { font-family: 'Orbitron'; font-size: 0.8rem; color: var(--db-glow); margin-bottom: 10px; display: block; text-shadow: 0 0 10px var(--db-glow); }
-
-        .input-field, .select-field { 
+        .select-field { 
             background: var(--control-bg); border: 1px solid var(--border-light); padding: 12px; 
             color: var(--interface-text); border-radius: 5px; backdrop-filter: blur(10px); width: 100%; box-sizing: border-box;
         }
-        .input-field:focus { border-color: var(--neural-glow); box-shadow: 0 0 15px rgba(0, 255, 204, 0.5); }
 
         .doc-canvas { background: rgba(0,0,0,0.3); overflow-y: auto; padding: 40px; display: flex; flex-direction: column; align-items: center; }
         
@@ -82,7 +66,7 @@
             width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
             padding: 0.8in 1in; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             font-family: 'Times New Roman', serif; font-size: 10.5pt; line-height: 1.5;
-            animation: glitch-load 0.4s ease-out; position: relative;
+            position: relative;
         }
 
         .fillable-input { 
@@ -103,7 +87,7 @@
 
 <div id="boot-loader">
     <div class="boot-text">> INITIALIZING NEO-INTELLIGENCE CORE...</div>
-    <div class="boot-text" style="animation-delay: 1.2s;">> LOADING ATTORNEY-CLIENT DATABASE...</div>
+    <div class="boot-text" style="animation-delay: 1.2s;">> LOADING FEDERAL COURT DATABASE...</div>
     <div class="boot-text" style="animation-delay: 2.4s;">> LADY LEGALZ 2026 ONLINE.</div>
 </div>
 
@@ -114,32 +98,22 @@
             <span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">NEO-INTELLIGENCE ONLINE</span>
         </div>
 
-        <div class="db-panel">
-            <label class="db-header">U.S. CONTRACT DATABASE</label>
-            <select id="contract-db" class="select-field" style="border-color: var(--db-glow);" onchange="loadDatabaseContract()">
-                <option value="">-- SELECT AGREEMENT --</option>
-                <option value="DIVORCE">Divorce Settlement Agreement</option>
-                <option value="ESTATE_PLAN">Estate Plan Agreement</option>
-                <option value="HOLD_HARMLESS">Hold Harmless Agreement</option>
-                <option value="LAND_PURCHASE">Land Purchase Agreement</option>
-                <option value="LANDLORD_TENANT">Landlord Tenant Agreement</option>
-                <option value="INTENT_TO_SUE">Letter of Intent to Sue</option>
-                <option value="LLC_ARTICLES">LLC Articles of Organization</option>
-                <option value="LS_REP">LS Representation Agreement</option>
-                <option value="MOU">Memo Of Understanding</option>
-                <option value="SOFTWARE_DEV">Software Development Agreement</option>
-            </select>
-        </div>
-
         <div class="control-group">
-            <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">PROTOCOL GENERATOR</label>
-            <select id="protocol" class="select-field" onchange="initFields()">
-                <option value="">-- SELECT PROTOCOL --</option>
-                <option value="SUMMONS_CIVIL">Summons in a Civil Action</option>
-                <option value="COMPLAINT_CIVIL">Complaint in a Civil Action</option>
+            <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">CONTRACTGEN PROTOCOLS</label>
+            <select id="protocol" class="select-field" onchange="loadProtocol()">
+                <option value="">-- LEGAL PROTOCOLS --</option>
+                <option value="IFP_APP">Application to Proceed Without Prepaying Fees [cite: 1]</option>
+                <option value="CIV_COMP">Complaint for a Civil Case [cite: 2]</option>
+                <option value="CIV_COV_LTR">Civil Action Cover Letter [cite: 3]</option>
+                <option value="CIV_COV_SHT">Civil Action Cover Sheet [cite: 4]</option>
+                <option value="CIV_RGHTS_NON">Civil Rights Complaint (Non-Prisoner) [cite: 5]</option>
+                <option value="CIV_RGHTS_PRIS">Civil Rights Complaint (Prisoner) [cite: 6]</option>
+                <option value="JUD_MISC">Complaint of Judicial Misconduct [cite: 7]</option>
+                <option value="DEF_ANS">Defendant Answer to Civil Complaint [cite: 8]</option>
+                <option value="EMP_DISC">Employment Discrimination Complaint [cite: 9]</option>
+                <option value="WAIV_SERV">Request to Waive Service of Summons [cite: 10]</option>
             </select>
         </div>
-        <div id="form-fields"></div>
     </aside>
 
     <main class="doc-canvas" id="doc-output">
@@ -149,206 +123,124 @@
     </main>
 
     <div class="action-bar">
-        <button class="btn" onclick="generateFillablePdf()">Export as PDF</button>
-        <button class="btn" onclick="window.print()">Print Document</button>
-        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset Engine</button>
+        <button class="btn" onclick="generatePdf()">Export PDF</button>
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset</button>
     </div>
 </div>
 
 <script>
-    const DATABASE = {
-        DIVORCE: `
+    const PROTOCOLS = {
+        IFP_APP: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">DIVORCE SETTLEMENT AGREEMENT</div>
-                <p>This Agreement is entered into on <input type="text" class="fillable-input" placeholder="Effective Date"> by and between <input type="text" class="fillable-input" placeholder="Husband Name"> ("Husband") with address <input type="text" class="fillable-input" placeholder="Husband Address"> and <input type="text" class="fillable-input" placeholder="Wife Name"> ("Wife") with address <input type="text" class="fillable-input" placeholder="Wife Address">.</p>
-                <p><b>PURPOSE:</b> To make final settlement related to divorce rights and obligations.</p>
-                <p><b>DATES:</b> Married on <input type="text" class="fillable-input" placeholder="Marriage Date">. Divorced/Separated on <input type="text" class="fillable-input" placeholder="Separation Date">.</p>
-                <p><b>MINOR CHILDREN:</b><br> 1. <input type="text" class="fillable-input" style="width:300px;"><br> 2. <input type="text" class="fillable-input" style="width:300px;"></p>
-                <p><b>CUSTODY:</b> <input type="text" class="fillable-input" placeholder="Mother/Father"> shall have full custody.</p>
-                <p><b>CHILD SUPPORT:</b> <input type="text" class="fillable-input" placeholder="Father/Mother"> will provide $<input type="text" class="fillable-input"> monthly.</p>
-                <p><b>ALIMONY:</b> Husband will pay wife $<input type="text" class="fillable-input"> for a period of <input type="text" class="fillable-input" placeholder="Duration">.</p>
-                <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Husband Signature</div>
-                    <div>__________________________<br>Wife Signature</div>
+                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
+                <div style="display:flex; justify-content:space-between; margin-top:30px;">
+                    <div><input type="text" class="fillable-input" placeholder="Plaintiff/Petitioner"></div>
+                    <div>Case No. <input type="text" class="fillable-input"></div>
                 </div>
+                <div style="text-align:center; font-weight:bold; margin-top:40px;">APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS</div>
+                <p>I am a plaintiff or petitioner in this case and declare that I am unable to pay the costs of these proceedings. [cite: 1]</p>
+                <p>1. If incarcerated, I am being held at: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>2. Gross monthly wages: $<input type="text" class="fillable-input"> Take-home wages: $<input type="text" class="fillable-input"></p>
+                <p>3. Other Income: <input type="checkbox"> Business <input type="checkbox"> Rent <input type="checkbox"> Pension [cite: 1]</p>
+                <p>4. Cash on hand or in accounts: $<input type="text" class="fillable-input"></p>
+                <div style="margin-top:100px;">Signature: __________________________ Date: <input type="text" class="fillable-input"></div>
             </div>`,
-        ESTATE_PLAN: `
+        CIV_COMP: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">ESTATE PLAN LEGAL SERVICES AGREEMENT</div>
-                <p><b>IDENTIFICATION:</b> This agreement is made between <input type="text" class="fillable-input" placeholder="Law Firm Name"> ("Law Firm") and <input type="text" class="fillable-input" placeholder="Client Name"> ("Client").</p>
-                <p><b>SCOPE:</b> Law Firm will perform legal services including: <textarea class="fillable-input" style="width:100%; height:80px;"></textarea></p>
-                <p><b>FEE:</b> Client agrees to pay $<input type="text" class="fillable-input"> as a <input type="text" class="fillable-input" placeholder="Flat Fee/Hourly">.</p>
-                <div style="margin-top:100px;">
-                    Date: <input type="text" class="fillable-input"><br>
-                    Client Signature: __________________________
-                </div>
+                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
+                <div style="text-align:center;">District of <input type="text" class="fillable-input"></div>
+                <p>Plaintiff(s): <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>v. Case No: <input type="text" class="fillable-input"></p>
+                <p>Defendant(s): <input type="text" class="fillable-input" style="width:100%;"></p>
+                <div style="text-align:center; font-weight:bold; margin-top:20px;">COMPLAINT FOR A CIVIL CASE [cite: 2]</div>
+                <p><b>I. Basis for Jurisdiction:</b> <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p><b>II. Statement of Claim:</b><br><textarea class="fillable-input" style="width:100%; height:300px;"></textarea></p>
+                <p><b>III. Relief Requested:</b><br><textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
             </div>`,
-        HOLD_HARMLESS: `
+        CIV_COV_LTR: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">HOLD HARMLESS AGREEMENT</div>
-                <p>Entered on <input type="text" class="fillable-input" placeholder="Effective Date">.</p>
-                <p><b>Supplier:</b> <input type="text" class="fillable-input" style="width:300px;"> at <input type="text" class="fillable-input" placeholder="Address"></p>
-                <p><b>Buyer:</b> <input type="text" class="fillable-input" style="width:300px;"> at <input type="text" class="fillable-input" placeholder="Address"></p>
-                <p><b>INDEMNITY:</b> Supplier shall indemnify and hold harmless Buyer from all claims arising from products/services under this Agreement.</p>
-                <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Supplier Signature</div>
-                    <div>__________________________<br>Buyer Signature</div>
-                </div>
+                <div style="text-align:center; font-weight:bold;">SUMMONS IN A CIVIL ACTION [cite: 3]</div>
+                <p>To: <input type="text" class="fillable-input" placeholder="Defendant Name and Address" style="width:100%;"></p>
+                <p>A lawsuit has been filed against you. Within 21 days after service of this summons, you must serve on the plaintiff an answer to the attached complaint. [cite: 3]</p>
+                <p>Plaintiff's Attorney: <input type="text" class="fillable-input" style="width:300px;"></p>
+                <div style="margin-top:200px;">CLERK OF COURT Signature: __________________________</div>
             </div>`,
-        LAND_PURCHASE: `
+        CIV_COV_SHT: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">LAND PURCHASE AGREEMENT</div>
-                <p>Date: <input type="text" class="fillable-input" placeholder="Date"></p>
-                <p><b>Seller:</b> <input type="text" class="fillable-input" style="width:250px;"> Address: <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>Buyer:</b> <input type="text" class="fillable-input" style="width:250px;"> Address: <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>PROPERTY:</b> Legal Description: <input type="text" class="fillable-input" style="width:100%;"><br>Parcel Number: <input type="text" class="fillable-input"></p>
-                <p><b>PRICE:</b> Total Price $<input type="text" class="fillable-input">. Deposit: $<input type="text" class="fillable-input">.</p>
-                <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Seller</div>
-                    <div>__________________________<br>Buyer</div>
-                </div>
+                <div style="text-align:center; font-weight:bold;">CIVIL COVER SHEET [cite: 4]</div>
+                <p>I. (a) PLAINTIFFS: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>DEFENDANTS: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>II. BASIS OF JURISDICTION: <input type="checkbox"> US Govt Plaintiff <input type="checkbox"> Federal Question <input type="checkbox"> Diversity [cite: 4]</p>
+                <p>III. CAUSE OF ACTION: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>IV. DEMAND: $<input type="text" class="fillable-input"> JURY DEMAND: <input type="checkbox"> Yes <input type="checkbox"> No [cite: 4]</p>
             </div>`,
-        LANDLORD_TENANT: `
+        CIV_RGHTS_NON: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">RESIDENTIAL TENANT-LANDLORD AGREEMENT</div>
-                <p>Commencement Date: <input type="text" class="fillable-input"></p>
-                <p><b>Landlord:</b> <input type="text" class="fillable-input" placeholder="Name"> residing at <input type="text" class="fillable-input" placeholder="Address"></p>
-                <p><b>Tenant:</b> <input type="text" class="fillable-input" placeholder="Name"> residing at <input type="text" class="fillable-input" placeholder="Address"></p>
-                <p><b>PREMISES:</b> Located at <input type="text" class="fillable-input" style="width:100%;"></p>
-                <p><b>RENT:</b> Monthly rent of $<input type="text" class="fillable-input"> due on the <input type="text" class="fillable-input" style="width:40px;"> day of the month.</p>
-                <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Landlord Signature</div>
-                    <div>__________________________<br>Tenant Signature</div>
-                </div>
+                <div style="text-align:center; font-weight:bold;">COMPLAINT FOR VIOLATION OF CIVIL RIGHTS (Non-Prisoner) [cite: 5]</div>
+                <p>Plaintiff: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>v. Case No: <input type="text" class="fillable-input"></p>
+                <p>Defendant: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p><b>Statement of Claim:</b> Describe how your rights were violated: [cite: 5]<br><textarea class="fillable-input" style="width:100%; height:400px;"></textarea></p>
             </div>`,
-        INTENT_TO_SUE: `
+        CIV_RGHTS_PRIS: `
             <div class="document-page">
-                <div style="text-align:right;">
-                    <input type="text" class="fillable-input" placeholder="Your Name"><br>
-                    <input type="text" class="fillable-input" placeholder="Your Address"><br>
-                    Date: <input type="text" class="fillable-input">
-                </div>
-                <p><b>TO:</b> <input type="text" class="fillable-input" placeholder="Recipient Name"><br><input type="text" class="fillable-input" placeholder="Recipient Address"></p>
-                <p><b>SUBJECT: FORMAL NOTICE OF INTENT TO SUE</b></p>
-                <p>Dear <input type="text" class="fillable-input" placeholder="Name">,</p>
-                <p>I am notifying you of intent to pursue legal action regarding: <br><textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
-                <p>Resolve within <input type="text" class="fillable-input" style="width:50px;"> days or proceedings will initiate.</p>
-                <div style="margin-top:50px;">Sincerely,<br><br>__________________________</div>
+                <div style="text-align:center; font-weight:bold;">COMPLAINT FOR VIOLATION OF CIVIL RIGHTS (Prisoner) [cite: 6]</div>
+                <p>Plaintiff Name & ID: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>Prison Address: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p><b>I. Grievance Procedure:</b> Have you exhausted all administrative remedies? <input type="checkbox"> Yes <input type="checkbox"> No [cite: 6]</p>
+                <p><b>II. Facts:</b><br><textarea class="fillable-input" style="width:100%; height:300px;"></textarea></p>
             </div>`,
-        LLC_ARTICLES: `
+        JUD_MISC: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">ARTICLES OF ORGANIZATION</div>
-                <p><b>STATE:</b> <input type="text" class="fillable-input" placeholder="State of Formation"></p>
-                <p><b>ENTITY NAME:</b> <input type="text" class="fillable-input" style="width:100%;"></p>
-                <p><b>PURPOSE:</b> <input type="text" class="fillable-input" style="width:100%;"></p>
-                <p><b>REGISTERED AGENT:</b> Name: <input type="text" class="fillable-input"> Address: <input type="text" class="fillable-input"></p>
-                <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Organizer</div>
-                    <div>__________________________<br>Organizer</div>
-                </div>
+                <div style="text-align:center; font-weight:bold;">COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY [cite: 7]</div>
+                <p>1. Complainant Name: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>2. Judge(s) Complained Of: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>3. Brief Statement of Facts: [cite: 7]<br><textarea class="fillable-input" style="width:100%; height:400px;"></textarea></p>
+                <p>I declare under penalty of perjury that the above is true. [cite: 7]</p>
+                <div style="margin-top:50px;">Signature: __________________________ Date: <input type="text" class="fillable-input"></div>
             </div>`,
-        LS_REP: `
+        DEF_ANS: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">LIMITED SCOPE REPRESENTATION AGREEMENT</div>
-                <p>Date: <input type="text" class="fillable-input"></p>
-                <p><b>Client:</b> <input type="text" class="fillable-input" style="width:300px;"><br><b>Lawyer:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
-                <p><b>SERVICES:</b> Lawyer will perform ONLY the following: <br><textarea class="fillable-input" style="width:100%; height:120px;"></textarea></p>
-                <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Client</div>
-                    <div>__________________________<br>Lawyer</div>
-                </div>
+                <div style="text-align:center; font-weight:bold;">THE DEFENDANT'S ANSWER TO THE COMPLAINT [cite: 8]</div>
+                <p>Defendant(s) Filing Answer: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p><b>II. Answer and Defenses:</b> Respond to each numbered paragraph of the complaint. [cite: 8]<br><textarea class="fillable-input" style="width:100%; height:400px;"></textarea></p>
+                <p><b>III. Counterclaims:</b><br><textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
             </div>`,
-        MOU: `
+        EMP_DISC: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">MEMORANDUM OF UNDERSTANDING</div>
-                <p>Effective Date: <input type="text" class="fillable-input"></p>
-                <p><b>Party A:</b> <input type="text" class="fillable-input" style="width:250px;"> Address: <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>Party B:</b> <input type="text" class="fillable-input" style="width:250px;"> Address: <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>PURPOSE:</b> Framework for collaboration to: <br><textarea class="fillable-input" style="width:100%; height:80px;"></textarea></p>
-                <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Party A</div>
-                    <div>__________________________<br>Party B</div>
-                </div>
+                <div style="text-align:center; font-weight:bold;">COMPLAINT FOR EMPLOYMENT DISCRIMINATION [cite: 9]</div>
+                <p>Plaintiff: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>Employer Defendant: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p><b>Nature of Discrimination:</b> <input type="checkbox"> Race <input type="checkbox"> Gender <input type="checkbox"> Age <input type="checkbox"> Disability [cite: 9]</p>
+                <p><b>Facts of the Case:</b><br><textarea class="fillable-input" style="width:100%; height:300px;"></textarea></p>
             </div>`,
-        SOFTWARE_DEV: `
+        WAIV_SERV: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">SOFTWARE DEVELOPMENT AGREEMENT</div>
-                <p>Effective Date: <input type="text" class="fillable-input"></p>
-                <p><b>Client:</b> <input type="text" class="fillable-input" style="width:300px;"><br><b>Developer:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
-                <p><b>SERVICES:</b> <textarea class="fillable-input" style="width:100%; height:100px;" placeholder="Scope of Work"></textarea></p>
-                <p><b>FEES:</b> Client agrees to pay $<input type="text" class="fillable-input"> payable as follows: <input type="text" class="fillable-input"></p>
-                <div style="margin-top:100px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Client</div>
-                    <div>__________________________<br>Developer</div>
-                </div>
-            </div>`,
-        SUMMONS_CIVIL: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:12pt;">UNITED STATES DISTRICT COURT</div>
-                <div style="text-align:center;">District of <input type="text" class="fillable-input" style="width:200px;"></div>
-                <div style="margin-top:40px; display:flex; justify-content:space-between;">
-                    <div><input type="text" class="fillable-input" placeholder="Plaintiff">, Plaintiff</div>
-                    <div>Civil Action No. <input type="text" class="fillable-input" style="width:100px;"></div>
-                </div>
-                <div style="margin-top:10px;">v.</div>
-                <div style="margin-top:10px;"><input type="text" class="fillable-input" placeholder="Defendant">, Defendant</div>
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-top:40px;">SUMMONS IN A CIVIL ACTION</div>
-                <p>To: <input type="text" class="fillable-input" placeholder="Defendant Name" style="width:300px;"></p>
-                <p>A lawsuit has been filed against you. Within 21 days after service of this summons, you must serve on the plaintiff an answer.</p>
-            </div>`,
-        COMPLAINT_CIVIL: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold; font-size:12pt;">UNITED STATES DISTRICT COURT</div>
-                <div style="margin-top:40px;"><input type="text" class="fillable-input" placeholder="Plaintiff Name">, Plaintiff</div>
-                <p>v. Case No: <input type="text" class="fillable-input" style="width:100px;"></p>
-                <div style="margin-top:10px;"><input type="text" class="fillable-input" placeholder="Defendant Name">, Defendant</div>
-                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-top:40px;">COMPLAINT</div>
-                <p><b>Statement of Claim:</b><br><textarea class="fillable-input" style="width:100%; height:200px;"></textarea></p>
+                <div style="text-align:center; font-weight:bold;">NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE [cite: 10]</div>
+                <p>To: <input type="text" class="fillable-input" style="width:100%;"></p>
+                <p>Why are you getting this? A lawsuit has been filed against you. I am requesting that you avoid the cost of service by signing a waiver. [cite: 10]</p>
+                <p>Date this request was sent: <input type="text" class="fillable-input"></p>
+                <div style="margin-top:100px;">Signature: __________________________</div>
             </div>`
     };
 
-    function scrambleEffect() {
-        const titles = document.querySelectorAll('.doc-title, b');
-        titles.forEach(el => {
-            const originalText = el.innerText;
-            const chars = "!<>-_\\/[]{}—=+*^?#________";
-            let iteration = 0;
-            const interval = setInterval(() => {
-                el.innerText = originalText.split("").map((l, i) => (i < iteration ? originalText[i] : chars[Math.floor(Math.random() * chars.length)])).join("");
-                if(iteration >= originalText.length) clearInterval(interval);
-                iteration += 1/3;
-            }, 30);
-        });
-    }
-
-    function loadDatabaseContract() {
-        const key = document.getElementById('contract-db').value;
-        const output = document.getElementById('doc-output');
-        if (key && DATABASE[key]) {
-            output.innerHTML = DATABASE[key];
-            document.getElementById('protocol').value = "";
-            scrambleEffect();
-        }
-    }
-
-    function initFields() {
+    function loadProtocol() {
         const key = document.getElementById('protocol').value;
         const output = document.getElementById('doc-output');
-        if (key && DATABASE[key]) {
-            output.innerHTML = DATABASE[key];
-            document.getElementById('contract-db').value = "";
-            scrambleEffect();
+        if (key && PROTOCOLS[key]) {
+            output.innerHTML = PROTOCOLS[key];
         }
     }
 
-    async function generateFillablePdf() {
+    async function generatePdf() {
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
         const page = document.querySelector('.document-page');
         if(!page) return;
         const canvas = await html2canvas(page, { scale: 2 });
         pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
-        pdf.save('Lady_Legalz_Contract.pdf');
+        pdf.save('Federal_Protocol_Doc.pdf');
     }
 
     window.onload = () => {
