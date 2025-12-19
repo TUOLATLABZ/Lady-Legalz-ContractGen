@@ -116,8 +116,7 @@
         <div class="db-panel">
             <label class="db-header">U.S. CONTRACT DATABASE</label>
             <select id="contract-db" class="select-field" style="border-color: var(--db-glow);" onchange="loadDatabaseContract()">
-                <option value="">-- SELECT FROM DATABASE --</option>
-                <option value="ATTORNEY_CLIENT">Attorney Client Agreement</option>
+                <option value="">-- SELECT AGREEMENT --</option>
                 <option value="DIVORCE">Divorce Settlement Agreement</option>
                 <option value="ESTATE_PLAN">Estate Plan Agreement</option>
                 <option value="HOLD_HARMLESS">Hold Harmless Agreement</option>
@@ -125,8 +124,8 @@
                 <option value="LANDLORD_TENANT">Landlord Tenant Agreement</option>
                 <option value="INTENT_TO_SUE">Letter of Intent to Sue</option>
                 <option value="LLC_ARTICLES">LLC Articles of Organization</option>
-                <option value="LS_REP">Limited Scope Representation Agreement</option>
-                <option value="MOU">Memorandum of Understanding</option>
+                <option value="LS_REP">LS Representation Agreement</option>
+                <option value="MOU">Memo Of Understanding</option>
                 <option value="SOFTWARE_DEV">Software Development Agreement</option>
             </select>
         </div>
@@ -157,158 +156,107 @@
 
 <script>
     const DATABASE = {
-        ATTORNEY_CLIENT: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">LEGAL REPRESENTATION AGREEMENT</div>
-                <p><b>Name and Address of Attorney:</b><br>
-                <input type="text" class="fillable-input" placeholder="Attorney Name" style="width:300px;"><br>
-                <input type="text" class="fillable-input" placeholder="Attorney Address" style="width:300px; margin-top:5px;"></p>
-                <p><b>Name and Address of Client(s):</b><br>
-                <input type="text" class="fillable-input" placeholder="Client Name" style="width:300px;"><br>
-                <input type="text" class="fillable-input" placeholder="Client Address" style="width:300px; margin-top:5px;"><br>
-                A#: <input type="text" class="fillable-input" placeholder="Client A Number" style="width:150px; margin-top:5px;"></p>
-                <p>Attorney and Client hereby agree that Attorney will provide legal services to Client on the terms set forth below.</p>
-                <p><b>Legal Services:</b> This Representation Agreement concerns the following matter(s):<br>
-                <input type="text" class="fillable-input" value="Application for Asylum before the Immigration Court" style="width:400px;"></p>
-                <p><b>1. Scope of Work:</b> Services in any matter not described above will require a separate written agreement. This Agreement does not cover representation on appeal.</p>
-                <p><b>2. Fees and Costs:</b> We will not charge you for attorney's fees. Client will be responsible for paying costs associated with the case, if any, including government filing fees and expert witness fees.</p>
-                <p><b>3. Duties of Attorney:</b> We will provide legal services reasonably required to represent you and keep you informed of case progress.</p>
-                <p><b>4. Staffing:</b> <input type="text" class="fillable-input" placeholder="Responsible Attorney"> will be primarily responsible. Contact Attorney directly at: <input type="text" class="fillable-input" placeholder="Phone Number">.</p>
-                <p><b>5. No Guarantee:</b> We do not guarantee particular results or the amount of time it will take to complete your case.</p>
-                <div style="margin-top:40px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Client Signature</div>
-                    <div>__________________________<br>Attorney Signature</div>
-                </div>
-                <div style="margin-top:20px;">Date: <input type="text" class="fillable-input" style="width:100px;"></div>
-            </div>`,
-
         DIVORCE: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">DIVORCE CONTRACTUAL AGREEMENT</div>
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">DIVORCE SETTLEMENT AGREEMENT</div>
                 <p>This Agreement is entered into on <input type="text" class="fillable-input" placeholder="Effective Date"> by and between <input type="text" class="fillable-input" placeholder="Husband Name"> ("Husband") and <input type="text" class="fillable-input" placeholder="Wife Name"> ("Wife").</p>
-                <p><b>PURPOSE:</b> The Parties agree that the purpose of this Agreement is to make a final settlement related to their divorce.</p>
-                <p><b>MINOR CHILDREN:</b> <br> 1. <input type="text" class="fillable-input" style="width:250px;"> <br> 2. <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>CUSTODY:</b> The <input type="text" class="fillable-input" placeholder="Mother/Father"> will have full custody of the children.</p>
-                <p><b>ALIMONY:</b> The husband will pay alimony to the wife amounting to $<input type="text" class="fillable-input" style="width:100px;"> for a period of <input type="text" class="fillable-input" style="width:150px;">.</p>
-                <div style="margin-top:40px; display:flex; justify-content:space-between;">
+                <p><b>MINOR CHILDREN:</b><br> 1. <input type="text" class="fillable-input" style="width:300px;"><br> 2. <input type="text" class="fillable-input" style="width:300px;"></p>
+                <p><b>CUSTODY:</b> <input type="text" class="fillable-input" placeholder="Mother/Father"> shall have full custody.</p>
+                <p><b>ALIMONY:</b> Monthly payment of $<input type="text" class="fillable-input"> for <input type="text" class="fillable-input" placeholder="Duration">.</p>
+                <div style="margin-top:100px; display:flex; justify-content:space-between;">
                     <div>__________________________<br>Husband Signature</div>
                     <div>__________________________<br>Wife Signature</div>
                 </div>
             </div>`,
-
         ESTATE_PLAN: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">LEGAL SERVICES AGREEMENT (Estate Plan)</div>
-                <p>This agreement is made between <input type="text" class="fillable-input" placeholder="Law Firm"> ("Law Firm") and <input type="text" class="fillable-input" placeholder="Client Name"> ("Client").</p>
-                <p><b>SERVICES:</b> Preparation of Revocable Living Trust, Pour-Over Wills, and Advance Health Care Directives.</p>
-                <p><b>FEES:</b> Client agrees to pay by the hour as set forth in the attached Rate Schedule.</p>
-                <div style="margin-top:100px;">
-                    Date: <input type="text" class="fillable-input" style="width:150px;"><br><br>
-                    Client Signature: __________________________
-                </div>
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">ESTATE PLAN LEGAL SERVICES AGREEMENT</div>
+                <p><b>Identification of Parties:</b> This agreement is made between <input type="text" class="fillable-input" placeholder="Law Firm Name"> ("Law Firm") and <input type="text" class="fillable-input" placeholder="Client Name"> ("Client").</p>
+                <p><b>Scope of Services:</b> Law Firm will provide estate planning services including:<br><textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
+                <p><b>Fee Structure:</b> Client agrees to pay $<input type="text" class="fillable-input"> as a <input type="text" class="fillable-input" placeholder="Flat Fee/Hourly Rate">.</p>
+                <div style="margin-top:100px;">Dated: <input type="text" class="fillable-input"><br>Client Signature: __________________________</div>
             </div>`,
-
         HOLD_HARMLESS: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">HOLD HARMLESS CONTRACTUAL AGREEMENT</div>
-                <p>Dated: <input type="text" class="fillable-input" placeholder="Date"></p>
-                <p><b>Supplier:</b> <input type="text" class="fillable-input" style="width:250px;"> Address: <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>Buyer:</b> <input type="text" class="fillable-input" style="width:250px;"> Address: <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>INDEMNITY:</b> The Supplier shall indemnify and hold harmless the Buyer from and against any and all claims and expenses arising out of the Supplier's products or services.</p>
-                <div style="margin-top:50px; display:flex; justify-content:space-between;">
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">HOLD HARMLESS AGREEMENT</div>
+                <p><b>Supplier:</b> <input type="text" class="fillable-input" style="width:300px;"> at <input type="text" class="fillable-input" placeholder="Address"></p>
+                <p><b>Buyer:</b> <input type="text" class="fillable-input" style="width:300px;"> at <input type="text" class="fillable-input" placeholder="Address"></p>
+                <p><b>Indemnity:</b> The Supplier shall indemnify, defend, and hold harmless the Buyer from and against any and all claims, liabilities, and damages.</p>
+                <div style="margin-top:100px; display:flex; justify-content:space-between;">
                     <div>__________________________<br>Supplier Signature</div>
                     <div>__________________________<br>Buyer Signature</div>
                 </div>
             </div>`,
-
         LAND_PURCHASE: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">LAND PURCHASE AGREEMENT</div>
-                <p><b>Seller:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Buyer:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>PROPERTY:</b> Legal Description: <input type="text" class="fillable-input" style="width:400px;"> <br>Address: <input type="text" class="fillable-input" style="width:400px;"></p>
-                <p><b>PURCHASE PRICE:</b> $<input type="text" class="fillable-input" style="width:150px;"> <br>Deposit: $<input type="text" class="fillable-input" style="width:150px;"></p>
-                <div style="margin-top:50px;">
-                    Seller: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;"><br>
-                    Buyer: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">LAND PURCHASE AGREEMENT</div>
+                <p><b>Seller:</b> <input type="text" class="fillable-input" style="width:300px;"><br><b>Buyer:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
+                <p><b>Property:</b> <input type="text" class="fillable-input" placeholder="Legal Description" style="width:100%;"></p>
+                <p><b>Purchase Price:</b> $<input type="text" class="fillable-input"> with a Deposit of $<input type="text" class="fillable-input">.</p>
+                <div style="margin-top:100px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Seller Date: <input type="text" class="fillable-input" style="width:80px;"></div>
+                    <div>__________________________<br>Buyer Date: <input type="text" class="fillable-input" style="width:80px;"></div>
                 </div>
             </div>`,
-
         LANDLORD_TENANT: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">RESIDENTIAL TENANT-LANDLORD AGREEMENT</div>
-                <p><b>Landlord:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Tenant:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>PREMISES:</b> <input type="text" class="fillable-input" placeholder="Full Property Address" style="width:100%;"></p>
-                <p><b>RENT:</b> The Tenant shall pay a monthly rent of $<input type="text" class="fillable-input" style="width:100px;"> due on the <input type="text" class="fillable-input" style="width:50px;"> day of each month.</p>
-                <div style="margin-top:50px;">
-                    Landlord: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;"><br>
-                    Tenant: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">RESIDENTIAL TENANT-LANDLORD AGREEMENT</div>
+                <p><b>Landlord:</b> <input type="text" class="fillable-input" style="width:300px;"><br><b>Tenant:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
+                <p><b>Premises:</b> <input type="text" class="fillable-input" placeholder="Full Property Address" style="width:100%;"></p>
+                <p><b>Rent:</b> $<input type="text" class="fillable-input"> per month, due on the <input type="text" class="fillable-input" style="width:50px;"> day of each month.</p>
+                <div style="margin-top:100px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Landlord Signature</div>
+                    <div>__________________________<br>Tenant Signature</div>
                 </div>
             </div>`,
-
         INTENT_TO_SUE: `
             <div class="document-page">
-                <div style="text-align:right;">
-                    <input type="text" class="fillable-input" placeholder="Your Name"><br>
-                    <input type="text" class="fillable-input" placeholder="Your Address"><br>
-                    Date: <input type="text" class="fillable-input" style="width:100px;">
-                </div>
-                <p><b>TO:</b> <input type="text" class="fillable-input" placeholder="Recipient Name"><br><input type="text" class="fillable-input" placeholder="Recipient Address"></p>
-                <p><b>SUBJECT: FORMAL NOTICE OF INTENT TO SUE</b></p>
-                <p>Dear <input type="text" class="fillable-input" placeholder="Name">,</p>
-                <p>I am writing to formally notify you of my intent to pursue legal action concerning: <br> <textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
-                <p>Unless this matter is resolved within <input type="text" class="fillable-input" style="width:50px;"> days, I will initiate proceedings.</p>
-                <div style="margin-top:30px;">Sincerely, <br><br> __________________________</div>
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">LETTER OF INTENT TO SUE</div>
+                <p><b>From:</b> <input type="text" class="fillable-input" placeholder="Your Name"><br><b>To:</b> <input type="text" class="fillable-input" placeholder="Recipient Name"></p>
+                <p><b>Notice:</b> I am writing to formally notify you of my intent to pursue legal action concerning:<br><textarea class="fillable-input" style="width:100%; height:150px;"></textarea></p>
+                <p>Resolution requested within <input type="text" class="fillable-input" style="width:50px;"> days before initiation of proceedings.</p>
+                <div style="margin-top:50px;">Signed: __________________________</div>
             </div>`,
-
         LLC_ARTICLES: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">ARTICLES OF ORGANIZATION</div>
-                <p><b>ENTITY NAME:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
-                <p><b>STATE OF FORMATION:</b> <input type="text" class="fillable-input" style="width:200px;"></p>
-                <p><b>REGISTERED AGENT:</b> Name: <input type="text" class="fillable-input" style="width:200px;"> Address: <input type="text" class="fillable-input" style="width:300px;"></p>
-                <p><b>PURPOSE:</b> <textarea class="fillable-input" style="width:100%; height:80px;"></textarea></p>
-                <div style="margin-top:50px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Organizer</div>
-                    <div>__________________________<br>Organizer</div>
-                </div>
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">LLC ARTICLES OF ORGANIZATION</div>
+                <p><b>Entity Name:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
+                <p><b>State:</b> <input type="text" class="fillable-input" style="width:150px;"></p>
+                <p><b>Registered Agent:</b> <input type="text" class="fillable-input" placeholder="Name"> at <input type="text" class="fillable-input" placeholder="Address"></p>
+                <p><b>Purpose:</b> <input type="text" class="fillable-input" style="width:100%;"></p>
+                <div style="margin-top:100px;">Organizer Signature: __________________________</div>
             </div>`,
-
         LS_REP: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">LIMITED SCOPE REPRESENTATION AGREEMENT</div>
-                <p><b>Client:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Lawyer:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>LIMITED SERVICES:</b> Lawyer is retained only for the following specific tasks: <br> <textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
-                <p>Client understands that Lawyer is NOT representing them for any other purpose.</p>
-                <div style="margin-top:50px;">
-                    Client: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;"><br>
-                    Lawyer: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">LIMITED SCOPE REPRESENTATION AGREEMENT</div>
+                <p><b>Client:</b> <input type="text" class="fillable-input" style="width:300px;"><br><b>Lawyer:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
+                <p><b>Services:</b> Lawyer will perform ONLY the following services:<br><textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
+                <div style="margin-top:100px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Client</div>
+                    <div>__________________________<br>Lawyer</div>
                 </div>
             </div>`,
-
         MOU: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">MEMORANDUM OF UNDERSTANDING</div>
-                <p><b>Party A:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Party B:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>PURPOSE:</b> The purpose of this MOU is to establish a framework for cooperation to: <br> <textarea class="fillable-input" style="width:100%; height:80px;"></textarea></p>
-                <p>This MOU is a statement of intent and is not legally binding.</p>
-                <div style="margin-top:50px; display:flex; justify-content:space-between;">
-                    <div>__________________________<br>Party A</div>
-                    <div>__________________________<br>Party B</div>
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">MEMORANDUM OF UNDERSTANDING</div>
+                <p><b>Party A:</b> <input type="text" class="fillable-input" style="width:300px;"><br><b>Party B:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
+                <p><b>Purpose:</b> This framework establishes collaboration for:<br><textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
+                <div style="margin-top:100px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Party A Date: <input type="text" class="fillable-input" style="width:80px;"></div>
+                    <div>__________________________<br>Party B Date: <input type="text" class="fillable-input" style="width:80px;"></div>
                 </div>
             </div>`,
-
         SOFTWARE_DEV: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold; text-transform:uppercase; font-size:12pt; margin-bottom:20px;">SOFTWARE DEVELOPMENT AGREEMENT</div>
-                <p><b>Client:</b> <input type="text" class="fillable-input" style="width:250px;"> <br><b>Developer:</b> <input type="text" class="fillable-input" style="width:250px;"></p>
-                <p><b>SERVICES:</b> Developer agrees to provide the following coding services: <br> <textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
-                <p><b>FEE:</b> Client agrees to pay $<input type="text" class="fillable-input" style="width:150px;"> upon completion.</p>
-                <div style="margin-top:50px;">
-                    Client: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;"><br>
-                    Developer: __________________________ Date: <input type="text" class="fillable-input" style="width:100px;">
+                <div style="text-align:center; font-weight:bold; font-size:14pt; margin-bottom:20px;">SOFTWARE DEVELOPMENT AGREEMENT</div>
+                <p><b>Client:</b> <input type="text" class="fillable-input" style="width:300px;"><br><b>Developer:</b> <input type="text" class="fillable-input" style="width:300px;"></p>
+                <p><b>Project:</b> <textarea class="fillable-input" style="width:100%; height:100px;" placeholder="Scope of Work"></textarea></p>
+                <p><b>Payment:</b> $<input type="text" class="fillable-input"> payable <input type="text" class="fillable-input" placeholder="Terms"></p>
+                <div style="margin-top:100px; display:flex; justify-content:space-between;">
+                    <div>__________________________<br>Client</div>
+                    <div>__________________________<br>Developer</div>
                 </div>
             </div>`,
-        
         SUMMONS_CIVIL: `
             <div class="document-page">
                 <div style="text-align:center; font-weight:bold; font-size:12pt;">UNITED STATES DISTRICT COURT</div>
@@ -323,7 +271,6 @@
                 <p>To: <input type="text" class="fillable-input" placeholder="Defendant Name" style="width:300px;"></p>
                 <p>A lawsuit has been filed against you. Within 21 days after service of this summons, you must serve on the plaintiff an answer.</p>
             </div>`,
-
         COMPLAINT_CIVIL: `
             <div class="document-page">
                 <div style="text-align:center; font-weight:bold; font-size:12pt;">UNITED STATES DISTRICT COURT</div>
