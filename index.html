@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lady Legalz ContractGen 2026 NEO INTELLIGENCE - Legal Agreement Portal</title>
+    <title>LADY LEGALZ CONTRACTGEN BETA v3.8.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;770&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -11,173 +11,164 @@
         :root {
             --neural-glow: #00ffcc;
             --deep-void: #0a001a;
-            --synth-purple: rgba(10, 15, 25, 0.75);
+            --synth-purple: rgba(10, 15, 25, 0.88); 
             --interface-text: #e0e0e0;
-            --control-bg: rgba(0, 40, 40, 0.4);
-            --border-light: rgba(0, 255, 204, 0.3);
+            --control-bg: rgba(0, 40, 40, 0.6);
+            --border-light: rgba(0, 255, 204, 0.4);
             --paper-bg: #f8faff;
             --legal-black: #1a1a1a;
-            --db-glow: #0088ff;
         }
+
+        /* Scanline Animation */
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
         #boot-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 9999; display: flex;
             flex-direction: column; align-items: center; justify-content: center;
             font-family: 'Share Tech Mono', monospace; color: var(--neural-glow);
         }
+
         .boot-text { overflow: hidden; white-space: nowrap; border-right: 2px solid var(--neural-glow); width: 0; animation: typing 1s steps(30, end) forwards; }
         @keyframes typing { from { width: 0 } to { width: 100% } }
-       
+        
         body, html {
             margin: 0; padding: 0; height: 100%; overflow: hidden;
             font-family: 'Rajdhani', sans-serif; color: var(--interface-text);
-            /* BACKGROUND IMAGE INTEGRATION */
             background: #000 url('contractgen beta.jpg') no-repeat center center fixed;
             background-size: cover;
         }
-       
+
+        /* The Moving Scanner Effect */
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 255, 204, 0.1), transparent);
+            z-index: 1; pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+        
         .app-container {
             display: grid; grid-template-columns: 380px 1fr; height: 100vh; position: relative;
-            backdrop-filter: blur(5px);
-            background: rgba(0, 0, 0, 0.1); /* Subtle darkening for readability */
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.5); 
             opacity: 0; transition: opacity 1.5s ease;
+            z-index: 2;
         }
-       
+        
         .sidebar {
             background: var(--synth-purple);
             border-right: 1px solid var(--neural-glow);
             padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px;
-            box-shadow: 10px 0 40px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(12px);
+            box-shadow: 15px 0 50px rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
         }
-       
+        
         .logo-panel {
             text-align: center; margin-bottom: 20px; padding: 20px;
             border: 1px solid var(--neural-glow); border-radius: 8px;
-            background: rgba(0, 255, 204, 0.05);
-            box-shadow: inset 0 0 15px rgba(0, 255, 204, 0.2);
+            background: rgba(0, 255, 204, 0.08);
+            box-shadow: inset 0 0 20px rgba(0, 255, 204, 0.2), 0 0 15px rgba(0, 255, 204, 0.1);
         }
-       
+        
         .logo-text {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.4rem; color: var(--neural-glow);
             text-transform: uppercase; letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--neural-glow);
+            text-shadow: 0 0 15px var(--neural-glow);
         }
-       
+        
         .select-field {
             background: var(--control-bg); border: 1px solid var(--border-light); padding: 12px;
             color: var(--interface-text); border-radius: 5px; backdrop-filter: blur(10px); width: 100%; box-sizing: border-box;
             outline: none; transition: 0.3s;
         }
-        .select-field:focus { border-color: var(--neural-glow); box-shadow: 0 0 10px var(--neural-glow); }
+        .select-field:focus { border-color: var(--neural-glow); box-shadow: 0 0 15px var(--neural-glow); }
+        
         .doc-canvas {
             background: transparent;
             overflow-y: auto; padding: 40px;
             display: flex; flex-direction: column; align-items: center;
         }
-       
+        
         .document-page {
             width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
-            padding: 0.8in 1in; margin-bottom: 40px; box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 20px rgba(0, 255, 204, 0.1);
+            padding: 0.8in 1in; margin-bottom: 40px; 
+            box-shadow: 0 0 80px rgba(0,0,0,0.9), 0 0 30px rgba(0, 255, 204, 0.2);
             font-family: 'Times New Roman', serif; font-size: 10.5pt; line-height: 1.5;
             position: relative; border-radius: 2px;
         }
-       
+        
         .fillable-input {
             border: none; border-bottom: 1px dashed #007bff; background-color: rgba(0,123,255,0.05);
             font-family: 'Times New Roman', serif; font-size: 10.5pt; color: var(--legal-black);
             padding: 1px 4px; margin: 0 2px;
         }
-       
+        
         .action-bar {
             padding: 20px; border-top: 1px solid var(--border-light);
-            background: rgba(5, 10, 15, 0.9); display: flex; gap: 15px; justify-content: center;
-            backdrop-filter: blur(10px);
+            background: rgba(5, 10, 15, 0.95); display: flex; gap: 15px; justify-content: center;
+            backdrop-filter: blur(15px);
         }
-       
+        
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 5px rgba(0, 255, 204, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(0, 255, 204, 0.7); }
+            100% { box-shadow: 0 0 5px rgba(0, 255, 204, 0.4); }
+        }
+
         .btn {
-            background: var(--neural-glow); color: #002211; border: none; padding: 14px 25px;
-            font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; border-radius: 5px;
-            text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
-            transition: 0.3s;
+            background: rgba(0, 255, 204, 0.1);
+            color: var(--neural-glow);
+            border: 1px solid var(--neural-glow);
+            padding: 14px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 4px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            animation: glow-pulse 3s infinite;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
         }
-        .btn:hover { background: #2980b9; color: white; box-shadow: 0 0 25px var(--neural-glow); transform: translateY(-2px); }
-        /* Review Styles */
+
+        .btn:hover {
+            background: var(--neural-glow);
+            color: #001a1a;
+            box-shadow: 0 0 40px var(--neural-glow);
+            transform: translateY(-2px);
+        }
+
+        .action-bar .btn { background: var(--neural-glow); color: #002211; }
         .form-group { margin-bottom: 15px; }
         .review-output { white-space: pre-wrap; word-wrap: break-word; }
-    /* ... existing root and base styles ... */
-   
-    /* NEW: Neon Glow Animations */
-    @keyframes glow-pulse {
-        0% { box-shadow: 0 0 5px rgba(0, 255, 204, 0.4); }
-        50% { box-shadow: 0 0 20px rgba(0, 255, 204, 0.6); }
-        100% { box-shadow: 0 0 5px rgba(0, 255, 204, 0.4); }
-    }
-    .btn {
-        background: rgba(0, 255, 204, 0.15);
-        color: var(--neural-glow);
-        border: 1px solid var(--neural-glow);
-        padding: 14px 25px;
-        font-family: 'Orbitron', sans-serif;
-        font-weight: 700;
-        cursor: pointer;
-        border-radius: 4px;
-        text-transform: uppercase;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: glow-pulse 3s infinite;
-        letter-spacing: 1px;
-        position: relative;
-        overflow: hidden;
-    }
-    .btn:hover {
-        background: var(--neural-glow);
-        color: #001a1a;
-        box-shadow: 0 0 30px var(--neural-glow);
-        transform: translateY(-2px);
-    }
-    /* Button Scanline Effect on Hover */
-    .btn::after {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(rgba(255,255,255,0.1) 0%, transparent 20%);
-        transform: rotate(30deg);
-        transition: 0.5s;
-        pointer-events: none;
-    }
-    .btn:hover::after {
-        top: 100%;
-        left: 100%;
-    }
-    /* Special style for the Export/Action Bar */
-    .action-bar .btn {
-        background: var(--neural-glow);
-        color: #002211;
-    }
-    /* ... rest of the CSS ... */
     </style>
 </head>
 <body>
 <div id="boot-loader">
-    <div class="boot-text">> INITIALIZING NEO-INTELLIGENCE CORE...</div>
-    <div class="boot-text" style="animation-delay: 1.2s;">> LOADING FEDERAL COURT DATABASE...</div>
-    <div class="boot-text" style="animation-delay: 2.4s;">> LADY LEGALZ 2026 ONLINE.</div>
+    <div class="boot-text">> INITIALIZING........</div>
+    <div class="boot-text" style="animation-delay: 1.0s;">> TUOLAT.......</div>
+    <div class="boot-text" style="animation-delay: 1.9s;">> INITIALIZING.....................NEO-INTELLIGENCE.......</div>
+    <div class="boot-text" style="animation-delay: 2.4s;">> LADY LEGALZ BETA 4..........</div>
+    <div class="boot-text" style="animation-delay: 2.9s;">> CONTRACTGEN BETA v3.8.0</div>
 </div>
+
 <div class="app-container" id="main-ui">
     <aside class="sidebar">
         <div class="logo-panel">
-            <h1 class="logo-text">Lady Legalz</h1>
-            <span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">NEO-INTELLIGENCE ONLINE</span>
+            <h1 class="logo-text">LADY LEGALZ</h1>
+            <span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">CONTRACTGEN BETA v3.8.0</span>
         </div>
         <div class="control-group">
             <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">CONTRACTGEN PROTOCOLS & AGREEMENTS</label>
             <select id="protocol" class="select-field" onchange="loadProtocol()">
-                <option value="">-- SELECT PROTOCOL OR AGREEMENT --</option>
-                <optgroup label="Federal Protocols">
+                <option value="">-- SELECT PROTOCOLS OR AGREEMENTS --</option>
+                <optgroup label="FEDERAL PROTOCOLS">
                     <option value="IFP_APP">Application to Proceed Without Prepaying Fees</option>
                     <option value="CIV_COMP">Complaint for a Civil Case</option>
                     <option value="CIV_COV_LTR">Civil Action Cover Letter</option>
@@ -189,7 +180,7 @@
                     <option value="EMP_DISC">Employment Discrimination Complaint</option>
                     <option value="WAIV_SERV">Request to Waive Service of Summons</option>
                 </optgroup>
-                <optgroup label="General Agreements">
+                <optgroup label="AGREEMENTS">
                     <option value="ATTORNEY_CLIENT">Attorney Client Agreement</option>
                     <option value="DIVORCE_SETTLEMENT">Divorce Settlement Agreement</option>
                     <option value="ESTATE_PLAN">Estate Plan Agreement</option>
@@ -204,36 +195,38 @@
             </select>
         </div>
         <div class="control-group" id="ai-review-section">
-            <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">AI CONTRACT REVIEW</label>
+            <label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">CONTRACTGEN REVIEW</label>
             <div class="form-group">
                 <label style="color:var(--interface-text);">xAI API Key:</label>
                 <input type="text" id="api-key" class="select-field" placeholder="Enter your xAI API Key">
             </div>
             <div class="form-group">
-                <label style="color:var(--interface-text);">Contract Text:</label>
-                <textarea id="contract-text" class="select-field" rows="10" placeholder="Paste your contract here for AI review"></textarea>
+                <label style="color:var(--interface-text);">TEXT REVIEW:</label>
+                <textarea id="contract-text" class="select-field" rows="10" placeholder="PASTE HERE!"></textarea>
             </div>
-            <button class="btn" onclick="reviewContract()">Review with AI</button>
+            <button class="btn" onclick="reviewContract()">LEGALITY REVIEWER</button>
         </div>
     </aside>
+
     <main class="doc-canvas" id="doc-output">
         <div style="text-align:center; padding-top:200px; opacity:0.8;">
-            <h1 style="font-family:'Orbitron'; font-size:2.5rem; color:var(--neural-glow); text-shadow: 0 0 30px var(--neural-glow);">SYSTEM READY</h1>
+            <h1 style="font-family:'Orbitron'; font-size:2.5rem; color:var(--neural-glow); text-shadow: 0 0 30px var(--neural-glow);">LADY LEGALZ SYSTEM READY</h1>
         </div>
     </main>
+
     <div class="action-bar">
         <button class="btn" onclick="generatePdf()">Export PDF</button>
-        <button class="btn" onclick="window.print()">Print</button>
-        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset</button>
+        <button class="btn" onclick="window.print()">PRINT</button>
+        <button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">RESET</button>
     </div>
 </div>
+
 <script>
-    // Logic remains identical to your original provided file to maintain functionality
     const PROTOCOLS = {
         IFP_APP: `<div class="document-page"><div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div><div style="display:flex; justify-content:space-between; margin-top:30px;"><div><input type="text" class="fillable-input" placeholder="Plaintiff/Petitioner"></div><div>Case No. <input type="text" class="fillable-input"></div></div><div style="text-align:center; font-weight:bold; margin-top:40px;">APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS</div><p>I am a plaintiff or petitioner in this case and declare that I am unable to pay the costs of these proceedings.</p><p>1. If incarcerated, I am being held at: <input type="text" class="fillable-input" style="width:100%;"></p><p>2. Gross monthly wages: $<input type="text" class="fillable-input"> Take-home wages: $<input type="text" class="fillable-input"></p><p>3. Other Income: <input type="checkbox"> Business <input type="checkbox"> Rent <input type="checkbox"> Pension</p><p>4. Cash on hand or in accounts: $<input type="text" class="fillable-input"></p><div style="margin-top:100px;">Signature: __________________________ Date: <input type="text" class="fillable-input"></div></div>`,
         CIV_COMP: `<div class="document-page"><div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div><div style="text-align:center;">District of <input type="text" class="fillable-input"></div><p>Plaintiff(s): <input type="text" class="fillable-input" style="width:100%;"></p><p>v. Case No: <input type="text" class="fillable-input"></p><p>Defendant(s): <input type="text" class="fillable-input" style="width:100%;"></p><div style="text-align:center; font-weight:bold; margin-top:20px;">COMPLAINT FOR A CIVIL CASE</div><p><b>I. Basis for Jurisdiction:</b> <input type="text" class="fillable-input" style="width:100%;"></p><p><b>II. Statement of Claim:</b><br><textarea class="fillable-input" style="width:100%; height:300px;"></textarea></p><p><b>III. Relief Requested:</b><br><textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p></div>`,
-        // ... (remaining objects in PROTOCOLS minimized for brevity, functionality preserved)
     };
+
     function loadProtocol() {
         const key = document.getElementById('protocol').value;
         const output = document.getElementById('doc-output');
@@ -243,6 +236,7 @@
             output.innerHTML = '<div style="text-align:center; padding-top:200px; opacity:0.8;"><h1 style="font-family:\'Orbitron\'; font-size:2.5rem; color:var(--neural-glow); text-shadow: 0 0 30px var(--neural-glow);">SYSTEM READY</h1></div>';
         }
     }
+
     async function reviewContract() {
         const apiKey = document.getElementById('api-key').value;
         const contractText = document.getElementById('contract-text').value;
@@ -255,7 +249,7 @@
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                 body: JSON.stringify({
                     messages: [
-                        { role: 'system', content: 'You are Lady Legalz, an expert AI legal assistant. Review the following contract for potential issues, risks, ambiguities, and suggestions for improvement.' },
+                        { role: 'system', content: 'You are Lady Legalz, an expert AI legal document analyzer. Review the following contract for potential issues, risks, ambiguities, and suggestions for improvement.' },
                         { role: 'user', content: contractText }
                     ],
                     model: 'grok-4',
@@ -265,11 +259,12 @@
             if (!response.ok) { throw new Error('API request failed'); }
             const data = await response.json();
             const review = data.choices[0].message.content;
-            output.innerHTML = `<div class="document-page"><div style="text-align:center; font-weight:bold;">AI CONTRACT REVIEW</div><p class="review-output">${review.replace(/\n/g, '<br>')}</p></div>`;
+            output.innerHTML = `<div class="document-page"><div style="text-align:center; font-weight:bold;">CONTRACTGEN REVIEW</div><p class="review-output">${review.replace(/\n/g, '<br>')}</p></div>`;
         } catch (error) {
             output.innerHTML = '<div style="text-align:center; padding-top:200px; opacity:0.8;"><h1 style="font-family:\'Orbitron\'; font-size:2.5rem; color:var(--neural-glow); text-shadow: 0 0 30px var(--neural-glow);">ERROR: ' + error.message + '</h1></div>';
         }
     }
+
     async function generatePdf() {
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
@@ -279,6 +274,7 @@
         pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
         pdf.save('Legal_Document.pdf');
     }
+
     window.onload = () => {
         setTimeout(() => {
             document.getElementById('boot-loader').style.display = 'none';
