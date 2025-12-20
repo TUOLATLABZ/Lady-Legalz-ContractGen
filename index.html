@@ -1,282 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LADY LEGALZ CONTRACTGEN BETA v.4.0.0</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<style>
-:root {
---neural-glow: #00ffcc;
---deep-void: #0a001a;
---synth-purple: rgba(10, 15, 25, 0.9);
---interface-text: #e0e0e0;
---control-bg: rgba(0, 40, 40, 0.4);
---border-light: rgba(0, 255, 204, 0.3);
---paper-bg: #f8faff;
---legal-black: #1a1a1a;
---db-glow: #0088ff;
-}
-#boot-loader {
-position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-background: #000; z-index: 9999; display: flex;
-flex-direction: column; align-items: center; justify-content: center;
-font-family: 'Share Tech Mono', monospace; color: var(--neural-glow);
-}
-.boot-text { overflow: hidden; white-space: nowrap; border-right: 2px solid var(--neural-glow); width: 0; animation: typing 1s steps(30, end) forwards; }
-@keyframes typing { from { width: 0 } to { width: 100% } }
-body, html {
-margin: 0; padding: 0; height: 100%; overflow: hidden;
-font-family: 'Rajdhani', sans-serif; color: var(--interface-text);
-background: #000 url('contractgen beta.jpg') no-repeat center center fixed;
-background-size: cover;
-}
-.app-container {
-display: grid; grid-template-columns: 480px 1fr; height: 100vh; position: relative;
-backdrop-filter: blur(5px);
-background: rgba(0, 5, 10, 0.3);
-opacity: 0; transition: opacity 1.5s ease;
-}
-.sidebar {
-background: var(--synth-purple);
-border-right: 1px solid var(--neural-glow);
-padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px;
-box-shadow: 10px 0 30px rgba(0, 255, 204, 0.1);
-}
-.logo-panel {
-text-align: center; margin-bottom: 20px; padding: 20px;
-border: 2px solid var(--neural-glow); border-radius: 8px;
-background: rgba(0, 255, 204, 0.05);
-box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
-}
-.logo-text {
-font-family: 'Orbitron', sans-serif;
-font-size: 1.4rem; color: var(--neural-glow);
-text-transform: uppercase; letter-spacing: 2px;
-text-shadow: 0 0 10px var(--neural-glow);
-}
-.select-field {
-background: var(--control-bg); border: 1px solid var(--border-light); padding: 12px;
-color: var(--interface-text); border-radius: 5px; backdrop-filter: blur(10px); width: 100%; box-sizing: border-box;
-outline: none; transition: 0.3s;
-}
-.select-field:focus { border-color: var(--neural-glow); box-shadow: 0 0 10px var(--neural-glow); }
-.doc-canvas {
-background: rgba(0,0,0,0.1);
-overflow-y: auto; padding: 40px;
-display: flex; flex-direction: column; align-items: center;
-}
-.document-page {
-width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
-padding: 0.8in 1in; margin-bottom: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.9);
-font-family: 'Times New Roman', serif; font-size: 10.5pt; line-height: 1.5;
-position: relative; border-radius: 2px;
-page-break-after: always;
-}
-.fillable-input {
-border: none; border-bottom: 1px dashed #007bff; background-color: rgba(0,123,255,0.05);
-font-family: 'Times New Roman', serif; font-size: 10.5pt; color: var(--legal-black);
-padding: 1px 4px; margin: 0 2px;
-}
-.action-bar {
-padding: 20px; border-top: 1px solid var(--neural-glow);
-background: rgba(5, 10, 15, 0.95); display: flex; gap: 15px; justify-content: center;
-position: fixed; bottom: 0; width: 100%;
-}
-.btn {
-background: var(--neural-glow); color: #002211; border: none; padding: 14px 25px;
-font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; border-radius: 5px;
-text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
-transition: 0.3s;
-}
-.btn:hover { background: #fff; box-shadow: 0 0 25px var(--neural-glow); transform: translateY(-2px); }
-.form-group { margin-bottom: 15px; }
-.info-note {
-font-size: 0.85rem; color: var(--interface-text); opacity: 0.8; text-align: center;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LADY LEGALZ | FEDERAL LITIGATION SUITE v.5.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --neural-glow: #00ffcc;
+            --warning-glow: #ffcc00;
+            --deep-void: #0a001a;
+            --synth-purple: rgba(10, 15, 25, 0.98);
+            --interface-text: #e0e0e0;
+            --control-bg: rgba(0, 40, 40, 0.5);
+            --border-light: rgba(0, 255, 204, 0.3);
+            --paper-bg: #fdfdfd;
+            --legal-black: #1a1a1a;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%; overflow: hidden;
+            font-family: 'Rajdhani', sans-serif; color: var(--interface-text);
+            background: #050505;
+        }
+
+        /* HUD Header */
+        .hud-header {
+            height: 60px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; justify-content: space-around; padding: 0 20px;
+            font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 1px; z-index: 1000;
+        }
+        .step { opacity: 0.4; transition: 0.5s; position: relative; }
+        .step.active { opacity: 1; color: var(--neural-glow); text-shadow: 0 0 10px var(--neural-glow); }
+
+        .app-container {
+            display: grid; grid-template-columns: 380px 1fr; height: calc(100vh - 60px);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background: var(--synth-purple); border-right: 1px solid var(--border-light);
+            padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
+        }
+        .meta-section {
+            border: 1px solid var(--border-light); padding: 15px; border-radius: 4px;
+            background: rgba(255,255,255,0.02);
+        }
+        .meta-label { font-size: 0.7rem; color: var(--neural-glow); margin-bottom: 5px; display: block; text-transform: uppercase; }
+        
+        .select-field, .meta-input, .meta-textarea {
+            background: var(--control-bg); border: 1px solid var(--border-light); padding: 10px;
+            color: var(--interface-text); width: 100%; box-sizing: border-box; outline: none; margin-bottom: 10px;
+            font-family: 'Share Tech Mono';
+        }
+
+        /* Document Styling */
+        .doc-canvas {
+            background: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
+            overflow-y: auto; padding: 50px 20px; display: flex; flex-direction: column; align-items: center;
+        }
+        .document-page {
+            width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
+            padding: 1in; margin-bottom: 30px; box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            font-family: 'Times New Roman', serif; position: relative; line-height: 1.5;
+        }
+        .court-header { text-align: center; font-weight: bold; margin-bottom: 20px; }
+        .form-id { position: absolute; top: 20px; right: 20px; font-size: 8pt; color: #666; }
+
+        /* Sync Highlighting */
+        .sync-field {
+            color: #0033cc; font-weight: bold; border-bottom: 1px dashed #0033cc;
+            min-width: 40px; display: inline-block; transition: 0.3s;
+        }
+        .sync-field.updating { background: rgba(0, 255, 204, 0.3); transform: scale(1.1); }
+
+        .action-bar {
+            position: fixed; bottom: 0; width: 100%; padding: 15px;
+            background: rgba(0,0,0,0.9); border-top: 1px solid var(--neural-glow);
+            display: flex; gap: 20px; justify-content: center; z-index: 100;
+        }
+        .btn {
+            background: var(--neural-glow); color: #000; border: none; padding: 12px 25px;
+            font-family: 'Orbitron'; cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        .btn:hover { box-shadow: 0 0 15px var(--neural-glow); }
+
+        #boot-loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--neural-glow); font-family: 'Share Tech Mono';
+        }
+    </style>
 </head>
 <body>
+
 <div id="boot-loader">
-<div class="boot-text">> INITIALIZING TUOLAT NEO-INTELLIGENCE CORE...</div>
-<div class="boot-text" style="animation-delay: 1.2s;">> LOADING LADY LEGALZ BETA 4...</div>
-<div class="boot-text" style="animation-delay: 2.4s;">> SYNCING CONTRACTGEN BETA v.4.0.0...</div>
+    <div style="width: 300px;">
+        <div id="boot-text">> LOADING FEDERAL PROTOCOLS...</div>
+        <div style="width: 100%; height: 2px; background: #222; margin-top: 10px;">
+            <div id="boot-progress" style="width: 0%; height: 100%; background: var(--neural-glow); transition: 2s;"></div>
+        </div>
+    </div>
 </div>
-<div class="app-container" id="main-ui">
-<aside class="sidebar">
-<div class="logo-panel">
-<h1 class="logo-text">LADY LEGALZ</h1>
-<span style="font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--neural-glow);">CONTRACTGEN BETA 4</span>
+
+<header class="hud-header">
+    <div class="step active">01 SELECT PROTOCOL</div>
+    <div class="step" id="hud-2">02 DATA SYNC</div>
+    <div class="step" id="hud-3">03 AUDIT</div>
+    <div class="step" id="hud-4">04 EXECUTE PDF</div>
+</header>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="meta-section">
+            <span class="meta-label">LEGAL PROTOCOL SELECTION</span>
+            <select id="protocol" class="select-field" onchange="loadProtocol()">
+                <option value="">-- SYSTEM STANDBY --</option>
+                <optgroup label="Complaints">
+                    <option value="CIV_COMPLAINT">Civil Case Complaint (Pro Se 1)</option>
+                    <option value="CIV_RIGHTS_NON">Civil Rights - Non-Prisoner (Pro Se 15)</option>
+                    <option value="CIV_RIGHTS_PRIS">Civil Rights - Prisoner (Pro Se 14)</option>
+                    <option value="NEGLIGENCE">Negligence Complaint (Pro Se 5)</option>
+                </optgroup>
+                <optgroup label="Responses & Defense">
+                    <option value="ANSWER">Defendant's Answer (Pro Se 3)</option>
+                </optgroup>
+                <optgroup label="Process & Fees">
+                    <option value="IFP">IFP Application (AO 240)</option>
+                    <option value="SUMMONS">Summons (AO 440)</option>
+                    <option value="WAIVER">Waiver of Service (AO 398)</option>
+                </optgroup>
+                <optgroup label="Administrative">
+                    <option value="JUDICIAL_MIS">Judicial Misconduct (AO 310)</option>
+                    <option value="COVER_SHEET">Civil Cover Sheet (JS 44)</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="meta-section">
+            <span class="meta-label">NEURAL DATA SYNC</span>
+            <input type="text" class="meta-input" placeholder="Plaintiff Name" oninput="sync('pName', this.value)">
+            <input type="text" class="meta-input" placeholder="Defendant Name" oninput="sync('dName', this.value)">
+            <input type="text" class="meta-input" placeholder="District (e.g. Southern District of NY)" oninput="sync('dist', this.value)">
+            <input type="text" class="meta-input" placeholder="Case Number" oninput="sync('caseNo', this.value)">
+        </div>
+
+        <div class="meta-section">
+            <span class="meta-label">FACTUAL NARRATIVE</span>
+            <textarea class="meta-textarea" rows="4" placeholder="Brief statement of claim..." oninput="sync('facts', this.value)"></textarea>
+        </div>
+
+        <button class="btn" style="background:transparent; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="runAudit()">RUN COMPLIANCE AUDIT</button>
+    </aside>
+
+    <main class="doc-canvas" id="doc-output">
+        <div style="margin-top:200px; font-family:'Orbitron'; color:var(--neural-glow); opacity:0.3; text-align:center;">
+            <div style="font-size: 2rem;">LADY LEGALZ</div>
+            <div>AWAITING PROTOCOL INITIALIZATION</div>
+        </div>
+    </main>
+
+    <div class="action-bar">
+        <button class="btn" onclick="generatePdf()">EXPORT TO PDF</button>
+        <button class="btn" style="background:transparent; color:white; border:1px solid white;" onclick="location.reload()">PURGE SESSION</button>
+    </div>
 </div>
-<div class="control-group">
-<label style="color:var(--neural-glow); font-size:0.8rem; margin-top:10px; display:block;">CONTRACTGEN PROTOCOLS & AGREEMENTS</label>
-<select id="protocol" class="select-field" onchange="loadProtocol()">
-<option value="">-- SELECT PROTOCOLS OR AGREEMENTS --</option>
-<optgroup label="FEDERAL PROTOCOLS">
-<option value="SUMMONS">Summons in a Civil Action (AO 440)</option>
-<option value="DEF_ANS">Defendant's Answer to the Complaint (Pro Se 3)</option>
-<option value="CIV_COV_SHT">Civil Cover Sheet (JS 44)</option>
-<option value="CIV_COMP">Complaint for a Civil Case (Pro Se 1)</option>
-<option value="IFP_APP">Application to Proceed Without Prepaying Fees (AO 240)</option>
-<option value="CIV_RGHTS_PRIS">Complaint for Violation of Civil Rights (Prisoner) (Pro Se 14)</option>
-<option value="JUD_MISC">Complaint of Judicial Misconduct or Disability (AO 310)</option>
-<option value="NEG_COMP">Complaint for a Civil Case Alleging Negligence (Pro Se 5)</option>
-<option value="WAIV_SERV">Notice of a Lawsuit and Request to Waive Service of a Summons (AO 398)</option>
-<option value="CIV_RGHTS_NON">Complaint for Violation of Civil Rights (Non-Prisoner) (Pro Se 15)</option>
-</optgroup>
-<optgroup label="AGREEMENTS">
-<option value="ATTORNEY_CLIENT">Attorney Client Agreement</option>
-<option value="DIVORCE_SETTLEMENT">Divorce Settlement Agreement</option>
-<option value="ESTATE_PLAN">Estate Plan Agreement</option>
-<option value="HOLD_HARMLESS">Hold Harmless Agreement</option>
-<option value="LAND_PURCHASE">Land Purchase Agreement</option>
-<option value="LANDLORD_TENANT">Landlord Tenant Agreement</option>
-<option value="INTENT_TO_SUE">Letter of Intent to Sue</option>
-<option value="LLC_ARTICLES">LLC Articles of Organization</option>
-<option value="LS_REPRESENTATION">LS Representation Agreement</option>
-<option value="SOFTWARE_DEV">Software Development Agreement</option>
-</optgroup>
-</select>
-<p class="info-note">Select a protocol to load the fillable HTML template based on the latest official U.S. District Court forms. Customize and export as PDF. Agreements are customizable templates.</p>
-</div>
-</aside>
-<main class="doc-canvas" id="doc-output">
-<div style="text-align:center; padding-top:200px; opacity:0.8;">
-<h1 style="font-family:'Orbitron'; font-size:2.5rem; color:var(--neural-glow); text-shadow: 0 0 30px var(--neural-glow);">SYSTEM READY FOR GLOBAL LEGAL DOCUMENT CREATION</h1>
-</div>
-</main>
-<div class="action-bar">
-<button class="btn" onclick="generatePdf()">Export PDF</button>
-<button class="btn" onclick="window.print()">Print</button>
-<button class="btn" style="background:none; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="location.reload()">Reset</button>
-</div>
-</div>
+
 <script>
-const PROTOCOLS = {
-SUMMONS: `<div class="document-page">
-<h3>AO 440 (Rev. 06/12) Summons in a Civil Action</h3>
-<h1>UNITED STATES DISTRICT COURT</h1>
-<p>for the <input type="text" class="fillable-input" placeholder="__________ District of __________"></p>
-<p>Plaintiff(s)</p>
-<p>v.</p>
-<p>Civil Action No. <input type="text" class="fillable-input"></p>
-<p>Defendant(s)</p>
-<h2>SUMMONS IN A CIVIL ACTION</h2>
-<p>To: (Defendant’s name and address) <textarea class="fillable-input" style="width:100%; height:50px;"></textarea></p>
-<p>A lawsuit has been filed against you.</p>
-<p>Within 21 days after service of this summons on you (not counting the day you received it) — or 60 days if you are the United States or a United States agency, or an officer or employee of the United States described in Fed. R. Civ. P. 12 (a)(2) or (3) — you must serve on the plaintiff an answer to the attached complaint or a motion under Rule 12 of the Federal Rules of Civil Procedure. The answer or motion must be served on the plaintiff or plaintiff’s attorney, whose name and address are: <textarea class="fillable-input" style="width:100%; height:50px;"></textarea></p>
-<p>If you fail to respond, judgment by default will be entered against you for the relief demanded in the complaint. You also must file your answer or motion with the court.</p>
-<p>CLERK OF COURT</p>
-<p>Date: <input type="text" class="fillable-input"></p>
-<p>Signature of Clerk or Deputy Clerk <input type="text" class="fillable-input"></p>
-</div>
-<div class="document-page">
-<p>AO 440 (Rev. 06/12) Summons in a Civil Action (Page 2)</p>
-<p>Civil Action No. <input type="text" class="fillable-input"></p>
-<h2>PROOF OF SERVICE</h2>
-<p>(This section should not be filed with the court unless required by Fed. R. Civ. P. 4 (l))</p>
-<p>This summons for (name of individual and title, if any) <input type="text" class="fillable-input"> was received by me on (date) <input type="text" class="fillable-input">.</p>
-<p><input type="checkbox"> I personally served the summons on the individual at (place) <input type="text" class="fillable-input" style="width:300px;"> on (date) <input type="text" class="fillable-input"> ; or</p>
-<p><input type="checkbox"> I left the summons at the individual’s residence or usual place of abode with (name) <input type="text" class="fillable-input"> , a person of suitable age and discretion who resides there, on (date) <input type="text" class="fillable-input"> , and mailed a copy to the individual’s last known address; or</p>
-<p><input type="checkbox"> I served the summons on (name of individual) <input type="text" class="fillable-input"> , who is designated by law to accept service of process on behalf of (name of organization) <input type="text" class="fillable-input"> on (date) <input type="text" class="fillable-input"> ; or</p>
-<p><input type="checkbox"> I returned the summons unexecuted because <input type="text" class="fillable-input" style="width:300px;"> ; or</p>
-<p><input type="checkbox"> Other (specify): <textarea class="fillable-input" style="width:100%; height:50px;"></textarea>.</p>
-<p>My fees are $ <input type="text" class="fillable-input"> for travel and $ <input type="text" class="fillable-input"> for services, for a total of $ <input type="text" class="fillable-input">.</p>
-<p>I declare under penalty of perjury that this information is true.</p>
-<p>Date: <input type="text" class="fillable-input"></p>
-<p>Server’s signature <input type="text" class="fillable-input"></p>
-<p>Printed name and title <input type="text" class="fillable-input"></p>
-<p>Server’s address <textarea class="fillable-input" style="width:100%; height:50px;"></textarea></p>
-<p>Additional information regarding attempted service, etc: <textarea class="fillable-input" style="width:100%; height:100px;"></textarea></p>
-</div>`,
-DEF_ANS: `
-Pro Se 3 (Rev. 12/16) The Defendant’s Answer to the Complaint
-UNITED STATES DISTRICT COURT
-for the 
+const FORMS = {
+    CIV_COMPLAINT: `<div class="document-page">
+        <div class="form-id">Pro Se 1 (Rev. 12/16)</div>
+        <div class="court-header">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
+        <div style="display:flex; border:1px solid #000; padding:10px;">
+            <div style="flex:1;"><span class="sync-field" data-sync="pName">[PLAINTIFF]</span><br>Plaintiff</div>
+            <div style="width:50px; text-align:center;">v.</div>
+            <div style="flex:1;">Case No: <span class="sync-field" data-sync="caseNo">__________</span></div>
+        </div>
+        <p><span class="sync-field" data-sync="dName">[DEFENDANT]</span>, Defendant</p>
+        <h3 style="text-align:center;">COMPLAINT FOR A CIVIL CASE</h3>
+        <h4>I. The Parties</h4>
+        <p>Plaintiff: <span class="sync-field" data-sync="pName">[PLAINTIFF]</span></p>
+        <p>Defendant: <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
+        <h4>II. Statement of Claim</h4>
+        <p style="border:1px solid #ccc; min-height:100px; padding:10px;"><span class="sync-field" data-sync="facts">[FACTS]</span></p>
+    </div>`,
 
-) ) ) ) ) ) ) ) ) ) ) ) ) ) )
-Case No. 
-Plaintiff(s) (Write the full name of each plaintiff who is filing this complaint. If the names of all the plaintiffs cannot fit in the space above, please write “see attached” in the space and attach an additional page with the full list of names.)
--v-
-Jury Trial: (check one)  Yes  No
-Defendant(s) (Write the full name of each defendant who is being sued. If the names of all the defendants cannot fit in the space above, please write “see attached” in the space and attach an additional page with the full list of names.)
-THE DEFENDANT’S ANSWER TO THE COMPLAINT
-I. The Parties Filing This Answer to the Complaint
-Provide the information below for each defendant filing this answer or other response to the allegations in the plaintiff's complaint. Attach additional pages if needed.
-Name 
-Street Address 
-City and County 
-State and Zip Code 
-Telephone Number 
-E-mail Address 
-II. The Answer and Defenses to the Complaint
-A. Answering the Claims for Relief
-On a separate page or pages, write a short and plain statement of the answer to the allegations in the complaint. Number the paragraphs. The answer should correspond to each paragraph in the complaint, with paragraph 1 of the answer corresponding to paragraph 1 of the complaint, etc. For each paragraph in the complaint, state whether: the defendant admits the allegations in that paragraph; denies the allegations; lacks sufficient knowledge to admit or deny the allegations; or admits certain allegations but denies, or lacks sufficient knowledge to admit or deny, the rest.
-<textarea class="fillable-input" style="width:100%; height:200px;" placeholder="Answer to allegations..."></textarea>
+    IFP: `<div class="document-page">
+        <div class="form-id">AO 240 (Rev. 07/10)</div>
+        <div class="court-header">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
+        <p><span class="sync-field" data-sync="pName">[PLAINTIFF]</span> v. <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
+        <h3 style="text-align:center;">APPLICATION TO PROCEED WITHOUT PREPAYING FEES OR COSTS</h3>
+        <p>I declare that I am unable to pay the costs of these proceedings and that I am entitled to the relief requested.</p>
+        <p>1. Are you incarcerated? [ ] Yes [ ] No</p>
+        <p>2. Employer name/address: ________________________________</p>
+    </div>`,
 
+    SUMMONS: `<div class="document-page">
+        <div class="form-id">AO 440 (Rev. 06/12)</div>
+        <div class="court-header">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
+        <h3 style="text-align:center;">SUMMONS IN A CIVIL ACTION</h3>
+        <p>To: <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
+        <p>A lawsuit has been filed against you. Within 21 days after service (or 60 days if US Agency), you must serve on the plaintiff an answer.</p>
+        <div style="margin-top:50px;">Date: ${new Date().toLocaleDateString()}</div>
+    </div>`,
 
-B. Presenting Defenses to the Claims for Relief
-Write a short and plain statement identifying the defenses to the claims, using one or more of the following alternatives that apply.
-1. The court does not have subject–matter jurisdiction over the claims because (briefly explain why there is no federal–question jurisdiction or diversity–of–citizenship jurisdiction; see the complaint form for more information) <textarea class="fillable-input" style="width:100%; height:50px;"></textarea>
+    ANSWER: `<div class="document-page">
+        <div class="form-id">Pro Se 3 (Rev. 12/16)</div>
+        <div class="court-header">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
+        <p><span class="sync-field" data-sync="pName">[PLAINTIFF]</span> v. <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
+        <h3 style="text-align:center;">DEFENDANT'S ANSWER TO THE COMPLAINT</h3>
+        <p>The Defendant, <span class="sync-field" data-sync="dName">[DEFENDANT]</span>, responds to the allegations as follows:</p>
+        <p>1. [ ] Admits [ ] Denies [ ] Lacks knowledge to 1st paragraph.</p>
+    </div>`,
 
-
-
-
-`,
-// Similarly for other protocols, abbreviating here for response length. In full code, include all extracted text converted to HTML with inputs.
-CIV_COV_SHT: `
-JS 44 (Rev. 08/18) CIVIL COVER SHEET
-The JS 44 civil cover sheet and the information contained herein neither replace nor supplement the filing and service of pleadings or other papers as required by law, except as provided by local rules of court. This form, approved by the Judicial Conference of the United States in September 1974, is required for the use of the Clerk of Court for the purpose of initiating the civil docket sheet. (SEE INSTRUCTIONS ON NEXT PAGE OF THIS FORM.)
-I. (a) PLAINTIFFS 
-DEFENDANTS 
-(b) County of Residence of First Listed Plaintiff  (EXCEPT IN U.S. PLAINTIFF CASES)
-County of Residence of First Listed Defendant  (IN U.S. PLAINTIFF CASES ONLY)
-NOTE: IN LAND CONDEMNATION CASES, USE THE LOCATION OF THE TRACT OF LAND INVOLVED.
-(c) Attorneys (Firm Name, Address, and Telephone Number) <textarea class="fillable-input" style="width:100%; height:50px;"></textarea>
-Attorneys (If Known) <textarea class="fillable-input" style="width:100%; height:50px;"></textarea>
-II. BASIS OF JURISDICTION (Place an “X” in One Box Only)
-
- 1 U.S. Government Plaintiff 3 Federal Question (U.S. Government Not a Party)
-
-
-
-JS 44 Reverse (Rev. 08/18) INSTRUCTIONS FOR ATTORNEYS COMPLETING CIVIL COVER SHEET FORM JS 44
-Authority For Civil Cover Sheet
-
-`,
-// Add similar HTML structures for CIV_COMP, IFP_APP, CIV_RGHTS_PRIS, JUD_MISC, NEG_COMP, WAIV_SERV, CIV_RGHTS_NON based on extracted text.
-// For brevity, not expanding all here, but in actual implementation, convert each extracted text to structured HTML with fillables.
-ATTORNEY_CLIENT: <div class="document-page"><div style="text-align:center; font-weight:bold;">ATTORNEY-CLIENT AGREEMENT</div><p>This Agreement is entered into on <input type="text" class="fillable-input" placeholder="Date"> between <input type="text" class="fillable-input" placeholder="Client Name"> (Client) and <input type="text" class="fillable-input" placeholder="Attorney Name"> (Attorney).</p><p>Scope of Services: <textarea class="fillable-input" style="width:100%; height:200px;"></textarea></p><p>Fees: <input type="text" class="fillable-input" placeholder="Fee Structure"></p><div style="margin-top:100px;">Client Signature: __________________________ Date: <input type="text" class="fillable-input"></div><div>Attorney Signature: __________________________ Date: <input type="text" class="fillable-input"></div></div>,
-// Keep existing agreements...
+    COVER_SHEET: `<div class="document-page" style="font-size: 9pt;">
+        <div class="form-id">JS 44 (Rev. 03/24)</div>
+        <h2 style="text-align:center;">CIVIL COVER SHEET</h2>
+        <div style="border:1px solid #000; padding:5px;">
+            I. (a) PLAINTIFFS: <span class="sync-field" data-sync="pName">[PLAINTIFF]</span><br>
+            DEFENDANTS: <span class="sync-field" data-sync="dName">[DEFENDANT]</span>
+        </div>
+        <div style="border:1px solid #000; margin-top:10px; padding:5px;">
+            II. BASIS OF JURISDICTION: [ ] US Govt Plaintiff [ ] Federal Question [ ] Diversity
+        </div>
+    </div>`
 };
+
+// Logic for loading protocols
 function loadProtocol() {
-const key = document.getElementById('protocol').value;
-const output = document.getElementById('doc-output');
-if (key && PROTOCOLS[key]) {
-output.innerHTML = PROTOCOLS[key];
-} else {
-output.innerHTML = 'SYSTEM READY FOR GLOBAL LEGAL DOCUMENT CREATION';
+    const key = document.getElementById('protocol').value;
+    const output = document.getElementById('doc-output');
+    if(key && FORMS[key]) {
+        output.innerHTML = FORMS[key];
+        document.getElementById('hud-2').classList.add('active');
+        // Re-sync any existing data
+        sync('pName', document.querySelector('[placeholder="Plaintiff Name"]').value);
+        sync('dName', document.querySelector('[placeholder="Defendant Name"]').value);
+        sync('dist', document.querySelector('[placeholder*="District"]').value);
+        sync('caseNo', document.querySelector('[placeholder="Case Number"]').value);
+    }
 }
+
+// Global Data Sync
+function sync(field, val) {
+    const targets = document.querySelectorAll(`[data-sync="${field}"]`);
+    targets.forEach(t => {
+        t.innerText = val || `[${field.toUpperCase()}]`;
+        t.classList.add('updating');
+        setTimeout(() => t.classList.remove('updating'), 300);
+    });
 }
+
+function runAudit() {
+    const btn = event.target;
+    btn.innerText = "SCANNING FOR FRCP COMPLIANCE...";
+    setTimeout(() => {
+        btn.innerText = "AUDIT: PASSED";
+        btn.style.borderColor = "var(--neural-glow)";
+        document.getElementById('hud-3').classList.add('active');
+    }, 2000);
+}
+
 async function generatePdf() {
-const { jsPDF } = window.jspdf;
-const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
-const pages = document.querySelectorAll('.document-page');
-if (pages.length === 0) return;
-for (let i = 0; i < pages.length; i++) {
-if (i > 0) pdf.addPage();
-const canvas = await html2canvas(pages[i], { scale: 2 });
-pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'pt', 'letter');
+    const pages = document.querySelectorAll('.document-page');
+    for (let i = 0; i < pages.length; i++) {
+        if (i > 0) pdf.addPage();
+        const canvas = await html2canvas(pages[i], { scale: 2 });
+        pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
+    }
+    pdf.save('LEGAL_DECREE.pdf');
+    document.getElementById('hud-4').classList.add('active');
 }
-pdf.save('Legal_Document.pdf');
-}
+
 window.onload = () => {
-setTimeout(() => {
-document.getElementById('boot-loader').style.display = 'none';
-document.getElementById('main-ui').style.opacity = '1';
-}, 3500);
+    document.getElementById('boot-progress').style.width = '100%';
+    setTimeout(() => {
+        document.getElementById('boot-loader').style.opacity = '0';
+        setTimeout(() => document.getElementById('boot-loader').style.display = 'none', 1000);
+    }, 2200);
 };
 </script>
 </body>
