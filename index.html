@@ -3,20 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ | FEDERAL LITIGATION SUITE v.5.2</title>
+    <title>LADY LEGALZ | CONTRACTUAL COMMAND</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --neural-glow: #00ffcc;
             --warning-glow: #ffcc00;
             --synth-purple: rgba(10, 15, 25, 0.98);
             --interface-text: #e0e0e0;
-            --control-bg: rgba(0, 40, 40, 0.5);
+            --control-bg: rgba(0, 40, 40, 0.7);
             --border-light: rgba(0, 255, 204, 0.3);
-            --paper-bg: #fdfdfd;
-            --legal-black: #1a1a1a;
+            --active-tab: #003333;
         }
 
         body, html {
@@ -25,22 +22,21 @@
             background: #050505;
         }
 
-        /* HUD Header */
+        /* Top Navigation Header */
         .hud-header {
-            height: 60px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border-light);
-            display: flex; align-items: center; justify-content: space-around; padding: 0 20px;
-            font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 1px;
+            height: 50px; background: #000; border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
+            font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 2px;
         }
-        .step { opacity: 0.4; transition: 0.5s; }
-        .step.active { opacity: 1; color: var(--neural-glow); text-shadow: 0 0 10px var(--neural-glow); }
 
         .app-container {
-            display: grid; grid-template-columns: 380px 1fr; height: calc(100vh - 60px);
+            display: grid; grid-template-columns: 350px 1fr; height: calc(100vh - 50px);
         }
 
+        /* Sidebar: Protocol Management */
         .sidebar {
             background: var(--synth-purple); border-right: 1px solid var(--border-light);
-            padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
+            padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px;
         }
 
         .meta-section {
@@ -48,213 +44,119 @@
             background: rgba(255,255,255,0.02);
         }
 
-        .meta-label { font-size: 0.7rem; color: var(--neural-glow); margin-bottom: 5px; display: block; text-transform: uppercase; }
+        .meta-label { font-size: 0.7rem; color: var(--neural-glow); margin-bottom: 10px; display: block; text-transform: uppercase; font-weight: bold;}
 
-        .select-field, .meta-input, .meta-textarea {
-            background: var(--control-bg); border: 1px solid var(--border-light); padding: 10px;
-            color: var(--interface-text); width: 100%; box-sizing: border-box; outline: none; margin-bottom: 10px;
-            font-family: 'Share Tech Mono'; font-size: 0.85rem;
+        select {
+            background: var(--control-bg); border: 1px solid var(--neural-glow); padding: 12px;
+            color: white; width: 100%; cursor: pointer; font-family: 'Share Tech Mono';
         }
 
-        .doc-canvas {
-            background: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
-            overflow-y: auto; padding: 50px 20px; display: flex; flex-direction: column; align-items: center;
+        /* Main Viewport */
+        .viewport { background: #111; position: relative; display: flex; flex-direction: column; }
+
+        .tab-bar {
+            background: #000; height: 40px; display: flex; border-bottom: 1px solid #333;
         }
 
-        .document-page {
-            width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
-            padding: 1in; margin-bottom: 30px; box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            font-family: 'Times New Roman', serif; position: relative; line-height: 1.4;
+        .tab {
+            padding: 10px 20px; font-size: 0.7rem; border-right: 1px solid #222; 
+            cursor: pointer; background: #0a0a0a; font-family: 'Orbitron';
+        }
+        .tab.active { background: var(--active-tab); border-bottom: 2px solid var(--neural-glow); color: var(--neural-glow); }
+
+        /* The PDF Frame */
+        iframe {
+            flex: 1; border: none; background: #222; width: 100%;
         }
 
-        .sync-field {
-            color: #0033cc; font-weight: bold; border-bottom: 1px dashed #0033cc;
-            min-width: 40px; display: inline-block; transition: 0.3s;
-        }
-
-        .action-bar {
-            position: fixed; bottom: 0; width: 100%; padding: 15px;
-            background: rgba(0,0,0,0.9); border-top: 1px solid var(--neural-glow);
-            display: flex; gap: 20px; justify-content: center;
-        }
-
-        .btn {
-            background: var(--neural-glow); color: #000; border: none; padding: 12px 25px;
-            font-family: 'Orbitron'; cursor: pointer; font-weight: bold;
-        }
-
-        /* Failsafe Boot Loader */
-        #boot-loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: var(--neural-glow); font-family: 'Share Tech Mono'; transition: opacity 0.8s;
+        .status-footer {
+            height: 25px; background: #000; font-size: 10px; display: flex; align-items: center;
+            padding: 0 20px; color: var(--neural-glow); border-top: 1px solid #333;
         }
     </style>
 </head>
 <body>
 
-<div id="boot-loader" onclick="bypassBoot()">
-    <div style="width: 300px; text-align:center;">
-        <div id="boot-text">> INITIALIZING FEDERAL ASSETS...</div>
-        <div style="font-size: 0.6rem; margin-top: 10px; opacity: 0.5;">(CLICK TO BYPASS)</div>
-    </div>
-</div>
-
 <header class="hud-header">
-    <div class="step active">01 SELECT FORM</div>
-    <div class="step" id="hud-2">02 DATA SYNC</div>
-    <div class="step" id="hud-3">03 AUDIT</div>
-    <div class="step" id="hud-4">04 EXPORT</div>
+    <div style="color: var(--neural-glow);">LADY LEGALZ // ENGINE v.7.0</div>
+    <div id="clock">00:00:00</div>
 </header>
 
 <div class="app-container">
     <aside class="sidebar">
         <div class="meta-section">
-            <span class="meta-label">FEDERAL PROTOCOL SELECTION</span>
-            <select id="protocol" class="select-field" onchange="loadProtocol()">
-                <option value="">-- SELECT FORM --</option>
-                <optgroup label="Complaints (Pro Se)">
-                    <option value="CIV_COMP">Civil Case Complaint (Pro Se 1)</option>
-                    <option value="NEG_COMP">Negligence Complaint (Pro Se 5)</option>
-                    <option value="CR_NON">Civil Rights - Non-Prisoner (Pro Se 15)</option>
-                    <option value="CR_PRIS">Civil Rights - Prisoner (Pro Se 14)</option>
-                </optgroup>
-                <optgroup label="Official Court Forms">
-                    <option value="SUMMONS">Summons in Civil Action (AO 440)</option>
-                    <option value="IFP">IFP Application (AO 240)</option>
-                    <option value="WAIVER">Waiver of Service (AO 398)</option>
-                    <option value="COVER">Civil Cover Sheet (JS 44)</option>
-                </optgroup>
+            <span class="meta-label">PRIVATE AGREEMENT PROTOCOLS</span>
+            <select id="agreement-select" onchange="loadDoc(this.value, 'agreement')">
+                <option value="">-- SELECT AGREEMENT --</option>
+                <option value="Attorney Client Agreement.pdf">Attorney Client Agreement</option>
+                <option value="LS Representation Agreement.pdf">Limited Scope Agreement</option>
+                <option value="Estate Plan Agreement.pdf">Estate Plan Agreement</option>
+                <option value="Divorce Settlement Agreement.pdf">Divorce Settlement Agreement</option>
+                <option value="LLC Articles of Organization.pdf">LLC Articles of Org</option>
+                <option value="Land Purchase Agreement.pdf">Land Purchase Agreement</option>
+                <option value="Vehicle Purchase Agreement.pdf">Vehicle Purchase Agreement</option>
+                <option value="Software Development Agreement.pdf">Software Development Contract</option>
+                <option value="Hold Harmless Agreement.pdf">Hold Harmless Agreement</option>
+                <option value="Memo Of Understanding.pdf">Memorandum of Understanding (MOU)</option>
             </select>
         </div>
 
         <div class="meta-section">
-            <span class="meta-label">NEURAL SYNC DATA</span>
-            <input type="text" class="meta-input" placeholder="Plaintiff Full Name" oninput="sync('pName', this.value)">
-            <input type="text" class="meta-input" placeholder="Defendant Full Name" oninput="sync('dName', this.value)">
-            <input type="text" class="meta-input" placeholder="District Court (e.g. S.D.N.Y.)" oninput="sync('dist', this.value)">
-            <input type="text" class="meta-input" placeholder="Case Number" oninput="sync('caseNo', this.value)">
+            <span class="meta-label">FEDERAL LITIGATION PROTOCOLS</span>
+            <select id="federal-select" onchange="loadDoc(this.value, 'federal')">
+                <option value="">-- SELECT FEDERAL FORM --</option>
+                <option value="Civil Action Complaint Federal.pdf">Civil Complaint (Pro Se 1)</option>
+                <option value="Civil Rights Civil Action Complaint (Non-Prisoner).pdf">Civil Rights (Non-Prisoner)</option>
+                <option value="Negligence Civil Action Complaint.pdf">Negligence Complaint</option>
+                <option value="Defendant Answer to Civil Action Complaint.pdf">Defendant's Answer</option>
+                <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf">IFP Fee Waiver</option>
+                <option value="Civil Action Cover Sheet Federal.pdf">Civil Cover Sheet (JS 44)</option>
+            </select>
         </div>
 
-        <div class="meta-section">
-            <span class="meta-label">CLAIM SUMMARY</span>
-            <textarea class="meta-textarea" rows="3" placeholder="Brief statement of facts..." oninput="sync('facts', this.value)"></textarea>
+        <div class="meta-section" style="margin-top: auto;">
+            <button onclick="location.reload()" style="width:100%; padding:10px; background:transparent; border:1px solid var(--warning-glow); color:var(--warning-glow); font-family:'Orbitron'; cursor:pointer;">PURGE SYSTEM CACHE</button>
         </div>
-
-        <button class="btn" style="background:transparent; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="runAudit()">RUN COMPLIANCE SCAN</button>
     </aside>
 
-    <main class="doc-canvas" id="doc-output">
-        <div style="margin-top:200px; font-family:'Orbitron'; color:var(--neural-glow); opacity:0.3; text-align:center;">
-            <div style="font-size: 2rem;">LADY LEGALZ</div>
-            <div>SELECT A FEDERAL PROTOCOL TO BEGIN</div>
+    <main class="viewport">
+        <div class="tab-bar">
+            <div id="tab-title" class="tab active">AWAITING_INPUT.EXE</div>
+        </div>
+        
+        <iframe id="pdf-viewer" src=""></iframe>
+
+        <div class="status-footer">
+            SECURE FILE_SERVER: CONNECTED // ENCRYPTION: ACTIVE // READY FOR EXECUTION
         </div>
     </main>
-
-    <div class="action-bar">
-        <button class="btn" onclick="generatePdf()">EXECUTE PDF</button>
-        <button class="btn" style="background:transparent; color:white; border:1px solid white;" onclick="location.reload()">CLEAR SYSTEM</button>
-    </div>
 </div>
 
 <script>
-const FORMS = {
-    CIV_COMP: `<div class="document-page">
-        <div style="text-align:right; font-size:8pt;">Pro Se 1 (Rev. 12/16)</div>
-        <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
-        <div style="display:flex; border:1px solid #000; margin: 20px 0; padding:10px;">
-            <div style="flex:1;"><span class="sync-field" data-sync="pName">[PLAINTIFF]</span><br>Plaintiff</div>
-            <div style="width:40px; text-align:center;">v.</div>
-            <div style="flex:1;">Case No: <span class="sync-field" data-sync="caseNo">__________</span></div>
-        </div>
-        <p><span class="sync-field" data-sync="dName">[DEFENDANT]</span>, Defendant</p>
-        <h3 style="text-align:center;">COMPLAINT FOR A CIVIL CASE</h3>
-        <h4>I. The Parties</h4>
-        <p><strong>Plaintiff:</strong> <span class="sync-field" data-sync="pName">[PLAINTIFF]</span></p>
-        <p><strong>Defendant:</strong> <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
-        <h4>II. Statement of Claim</h4>
-        <div style="border:1px solid #eee; padding:15px; min-height:150px;"><span class="sync-field" data-sync="facts">[FACTS]</span></div>
-    </div>`,
-
-    SUMMONS: `<div class="document-page">
-        <div style="text-align:right; font-size:8pt;">AO 440 (Rev. 06/12)</div>
-        <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
-        <h3 style="text-align:center;">SUMMONS IN A CIVIL ACTION</h3>
-        <p><strong>To:</strong> <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
-        <p>A lawsuit has been filed against you. Within 21 days after service of this summons on you (not counting the day you received it) you must serve on the plaintiff an answer.</p>
-        <div style="margin-top:50px;">Date: ${new Date().toLocaleDateString()}</div>
-    </div>`,
-
-    COVER: `<div class="document-page" style="font-size:9pt;">
-        <div style="text-align:right;">JS 44 (Rev. 03/24)</div>
-        <h2 style="text-align:center;">CIVIL COVER SHEET</h2>
-        <div style="border:1px solid #000; padding:10px;">
-            I. (a) PLAINTIFFS: <span class="sync-field" data-sync="pName">[PLAINTIFF]</span><br>
-            (b) DEFENDANTS: <span class="sync-field" data-sync="dName">[DEFENDANT]</span>
-        </div>
-        <div style="border:1px solid #000; margin-top:10px; padding:10px;">
-            II. BASIS OF JURISDICTION: [ ] Federal Question [ ] Diversity
-        </div>
-    </div>`,
-
-    IFP: `<div class="document-page">
-        <div style="text-align:right; font-size:8pt;">AO 240 (Rev. 07/10)</div>
-        <h3 style="text-align:center;">APPLICATION TO PROCEED WITHOUT PREPAYING FEES OR COSTS</h3>
-        <p>I, <span class="sync-field" data-sync="pName">[PLAINTIFF]</span>, declare I am unable to pay the costs of these proceedings.</p>
-        <p>Case No: <span class="sync-field" data-sync="caseNo">__________</span></p>
-    </div>`
-};
-
-function bypassBoot() {
-    const loader = document.getElementById('boot-loader');
-    loader.style.opacity = '0';
-    setTimeout(() => loader.style.display = 'none', 800);
-}
-
-function loadProtocol() {
-    const key = document.getElementById('protocol').value;
-    const output = document.getElementById('doc-output');
-    if(key && FORMS[key]) {
-        output.innerHTML = FORMS[key];
-        document.getElementById('hud-2').classList.add('active');
-        refreshSync();
+    function loadDoc(fileName, type) {
+        const viewer = document.getElementById('pdf-viewer');
+        const tabTitle = document.getElementById('tab-title');
+        
+        if (fileName) {
+            // Loading PDF with a fit-to-width parameter
+            viewer.src = fileName + "#toolbar=1&view=FitH";
+            tabTitle.innerText = fileName.toUpperCase();
+            
+            // Clear the other select so only one is active
+            if (type === 'agreement') {
+                document.getElementById('federal-select').value = "";
+            } else {
+                document.getElementById('agreement-select').value = "";
+            }
+        }
     }
-}
 
-function sync(field, val) {
-    document.querySelectorAll(`[data-sync="${field}"]`).forEach(t => {
-        t.innerText = val || `[${field.toUpperCase()}]`;
-    });
-}
-
-function refreshSync() {
-    sync('pName', document.querySelector('[placeholder*="Plaintiff"]').value);
-    sync('dName', document.querySelector('[placeholder*="Defendant"]').value);
-    sync('dist', document.querySelector('[placeholder*="District"]').value);
-    sync('caseNo', document.querySelector('[placeholder*="Case Number"]').value);
-    sync('facts', document.querySelector('[placeholder*="facts"]').value);
-}
-
-function runAudit() {
-    const btn = event.target;
-    btn.innerText = "SCANNING FEDERAL RULES...";
-    setTimeout(() => {
-        btn.innerText = "FRCP COMPLIANT";
-        document.getElementById('hud-3').classList.add('active');
-    }, 1500);
-}
-
-async function generatePdf() {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF('p', 'pt', 'letter');
-    const canvas = await html2canvas(document.querySelector('.document-page'), { scale: 2 });
-    pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
-    pdf.save('LADY_LEGALZ_DOC.pdf');
-    document.getElementById('hud-4').classList.add('active');
-}
-
-// Auto-bypass after 3 seconds if not clicked
-setTimeout(bypassBoot, 3000);
+    // System Clock
+    setInterval(() => {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toLocaleTimeString();
+    }, 1000);
 </script>
+
 </body>
 </html>
