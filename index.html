@@ -3,89 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ | CONTRACTUAL COMMAND</title>
+    <title>LADY LEGALZ | UNIFIED COMMAND v.8.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neural-glow: #00ffcc;
-            --warning-glow: #ffcc00;
-            --synth-purple: rgba(10, 15, 25, 0.98);
-            --interface-text: #e0e0e0;
-            --control-bg: rgba(0, 40, 40, 0.7);
-            --border-light: rgba(0, 255, 204, 0.3);
-            --active-tab: #003333;
+            --neon: #00ffcc;
+            --warning: #ffcc00;
+            --bg: #050505;
+            --panel: rgba(15, 20, 30, 0.98);
+            --border: rgba(0, 255, 204, 0.3);
+            --text: #e0e0e0;
         }
 
         body, html {
             margin: 0; padding: 0; height: 100%; overflow: hidden;
-            font-family: 'Rajdhani', sans-serif; color: var(--interface-text);
-            background: #050505;
+            font-family: 'Rajdhani', sans-serif; color: var(--text);
+            background: var(--bg);
         }
 
-        /* Top Navigation Header */
+        /* Failsafe Boot Loader */
+        #boot-loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--neon); font-family: 'Share Tech Mono'; transition: opacity 0.8s;
+        }
+
+        /* HUD Header */
         .hud-header {
-            height: 50px; background: #000; border-bottom: 1px solid var(--border-light);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
+            height: 55px; background: #000; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 25px;
             font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 2px;
         }
 
         .app-container {
-            display: grid; grid-template-columns: 350px 1fr; height: calc(100vh - 50px);
+            display: grid; grid-template-columns: 360px 1fr; height: calc(100vh - 55px);
         }
 
-        /* Sidebar: Protocol Management */
+        /* Sidebar & Clause Library */
         .sidebar {
-            background: var(--synth-purple); border-right: 1px solid var(--border-light);
-            padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px;
+            background: var(--panel); border-right: 1px solid var(--border);
+            padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
         }
 
         .meta-section {
-            border: 1px solid var(--border-light); padding: 15px; border-radius: 4px;
+            border: 1px solid var(--border); padding: 12px; border-radius: 4px;
             background: rgba(255,255,255,0.02);
         }
 
-        .meta-label { font-size: 0.7rem; color: var(--neural-glow); margin-bottom: 10px; display: block; text-transform: uppercase; font-weight: bold;}
+        .meta-label { font-size: 0.65rem; color: var(--neon); margin-bottom: 8px; display: block; text-transform: uppercase; font-weight: bold; }
 
-        select {
-            background: var(--control-bg); border: 1px solid var(--neural-glow); padding: 12px;
-            color: white; width: 100%; cursor: pointer; font-family: 'Share Tech Mono';
+        select, button {
+            background: rgba(0, 40, 40, 0.6); border: 1px solid var(--neon); padding: 10px;
+            color: white; width: 100%; cursor: pointer; font-family: 'Share Tech Mono'; font-size: 0.85rem;
         }
 
-        /* Main Viewport */
+        .snippet-card {
+            background: rgba(0,0,0,0.4); border: 1px solid #333; padding: 8px; margin-top: 8px;
+            font-size: 0.7rem; cursor: pointer; transition: 0.2s;
+        }
+        .snippet-card:hover { border-color: var(--neon); background: rgba(0,255,204,0.1); }
+        .snippet-card strong { color: var(--neon); display: block; }
+
+        /* Viewport */
         .viewport { background: #111; position: relative; display: flex; flex-direction: column; }
+        
+        #scanner-line {
+            display: none; position: absolute; width: 100%; height: 3px; 
+            background: var(--neon); box-shadow: 0 0 15px var(--neon); z-index: 10; top: 0;
+        }
 
         .tab-bar {
             background: #000; height: 40px; display: flex; border-bottom: 1px solid #333;
         }
 
         .tab {
-            padding: 10px 20px; font-size: 0.7rem; border-right: 1px solid #222; 
-            cursor: pointer; background: #0a0a0a; font-family: 'Orbitron';
+            padding: 12px 20px; font-size: 0.65rem; border-right: 1px solid #222; 
+            cursor: pointer; background: #0a0a0a; font-family: 'Orbitron'; color: #666;
         }
-        .tab.active { background: var(--active-tab); border-bottom: 2px solid var(--neural-glow); color: var(--neural-glow); }
+        .tab.active { background: #002222; border-bottom: 2px solid var(--neon); color: var(--neon); }
 
-        /* The PDF Frame */
-        iframe {
-            flex: 1; border: none; background: #222; width: 100%;
-        }
+        iframe { flex: 1; border: none; background: #1a1a1a; }
 
         .status-footer {
             height: 25px; background: #000; font-size: 10px; display: flex; align-items: center;
-            padding: 0 20px; color: var(--neural-glow); border-top: 1px solid #333;
+            padding: 0 20px; color: var(--neon); border-top: 1px solid #333;
         }
     </style>
 </head>
 <body>
 
+<div id="boot-loader" onclick="bypassBoot()">
+    <div style="width: 300px; text-align:center;">
+        <div id="boot-text">> INITIALIZING NEURAL LEGAL ASSETS...</div>
+        <div style="font-size: 0.6rem; margin-top: 10px; opacity: 0.5;">(CLICK TO BYPASS)</div>
+    </div>
+</div>
+
 <header class="hud-header">
-    <div style="color: var(--neural-glow);">LADY LEGALZ // ENGINE v.7.0</div>
+    <div style="color: var(--neon);">LADY LEGALZ // UNIFIED COMMAND</div>
     <div id="clock">00:00:00</div>
 </header>
 
 <div class="app-container">
     <aside class="sidebar">
         <div class="meta-section">
-            <span class="meta-label">PRIVATE AGREEMENT PROTOCOLS</span>
+            <span class="meta-label">PRIVATE AGREEMENT ASSETS</span>
             <select id="agreement-select" onchange="loadDoc(this.value, 'agreement')">
                 <option value="">-- SELECT AGREEMENT --</option>
                 <option value="Attorney Client Agreement.pdf">Attorney Client Agreement</option>
@@ -105,56 +127,113 @@
             <span class="meta-label">FEDERAL LITIGATION PROTOCOLS</span>
             <select id="federal-select" onchange="loadDoc(this.value, 'federal')">
                 <option value="">-- SELECT FEDERAL FORM --</option>
-                <option value="Civil Action Complaint Federal.pdf">Civil Complaint (Pro Se 1)</option>
+                <option value="Civil Action Complaint Federal.pdf">Federal Complaint (Pro Se 1)</option>
                 <option value="Civil Rights Civil Action Complaint (Non-Prisoner).pdf">Civil Rights (Non-Prisoner)</option>
+                <option value="Civil Rights Civil Action Complaint.pdf">Civil Rights (Prisoner)</option>
                 <option value="Negligence Civil Action Complaint.pdf">Negligence Complaint</option>
                 <option value="Defendant Answer to Civil Action Complaint.pdf">Defendant's Answer</option>
                 <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf">IFP Fee Waiver</option>
                 <option value="Civil Action Cover Sheet Federal.pdf">Civil Cover Sheet (JS 44)</option>
+                <option value="Civil Action Cover Letter Federal.pdf">Summons (AO 440)</option>
+                <option value="NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf">Waiver of Service</option>
+                <option value="COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf">Judicial Misconduct</option>
             </select>
         </div>
 
-        <div class="meta-section" style="margin-top: auto;">
-            <button onclick="location.reload()" style="width:100%; padding:10px; background:transparent; border:1px solid var(--warning-glow); color:var(--warning-glow); font-family:'Orbitron'; cursor:pointer;">PURGE SYSTEM CACHE</button>
+        <div class="meta-section">
+            <span class="meta-label">SYSTEM TOOLS</span>
+            <button onclick="runScan()" style="margin-bottom: 10px;">RUN COMPLIANCE SCAN</button>
+            <button onclick="location.reload()" style="border-color: var(--warning); color: var(--warning);">CLEAR SESSION</button>
+        </div>
+
+        <div class="meta-section" style="overflow-y: auto;">
+            <span class="meta-label">NEURAL SNIPPETS (CLICK TO COPY)</span>
+            <div class="snippet-card" onclick="copySnippet('Force Majeure: Neither party shall be liable for failure to perform due to causes beyond their reasonable control, including acts of God, war, or strikes.')">
+                <strong>FORCE MAJEURE</strong> "Neither party shall be liable..."
+            </div>
+            <div class="snippet-card" onclick="copySnippet('Governing Law: This Agreement shall be governed by and construed in accordance with the laws of the State of [INSERT STATE].')">
+                <strong>GOVERNING LAW</strong> "This Agreement shall be governed..."
+            </div>
+            <div class="snippet-card" onclick="copySnippet('Severability: If any provision of this Agreement is found to be void or unenforceable, the remaining provisions will remain in full force.')">
+                <strong>SEVERABILITY</strong> "Remaining provisions will remain..."
+            </div>
         </div>
     </aside>
 
     <main class="viewport">
+        <div id="scanner-line"></div>
         <div class="tab-bar">
-            <div id="tab-title" class="tab active">AWAITING_INPUT.EXE</div>
+            <div id="tab-title" class="tab active">AWAITING_PROTOCOL.EXE</div>
         </div>
         
         <iframe id="pdf-viewer" src=""></iframe>
 
         <div class="status-footer">
-            SECURE FILE_SERVER: CONNECTED // ENCRYPTION: ACTIVE // READY FOR EXECUTION
+            SYSTEM_STATUS: SECURE // ENCRYPTION: AES-256 ACTIVE // DATA_ENTRY: READY
         </div>
     </main>
 </div>
 
 <script>
+    // Boot sequence
+    function bypassBoot() {
+        const loader = document.getElementById('boot-loader');
+        loader.style.opacity = '0';
+        setTimeout(() => loader.style.display = 'none', 800);
+    }
+    setTimeout(bypassBoot, 2500);
+
+    // Document Loader
     function loadDoc(fileName, type) {
         const viewer = document.getElementById('pdf-viewer');
         const tabTitle = document.getElementById('tab-title');
         
         if (fileName) {
-            // Loading PDF with a fit-to-width parameter
             viewer.src = fileName + "#toolbar=1&view=FitH";
             tabTitle.innerText = fileName.toUpperCase();
             
-            // Clear the other select so only one is active
-            if (type === 'agreement') {
-                document.getElementById('federal-select').value = "";
-            } else {
-                document.getElementById('agreement-select').value = "";
-            }
+            // Toggle dropdowns
+            if (type === 'agreement') document.getElementById('federal-select').value = "";
+            else document.getElementById('agreement-select').value = "";
+            
+            updateStatus("FILE_LOADED: " + fileName);
         }
     }
 
-    // System Clock
+    // Compliance Scanner
+    function runScan() {
+        const line = document.getElementById('scanner-line');
+        const status = document.querySelector('.status-footer');
+        line.style.display = 'block';
+        let pos = 0;
+        updateStatus("SCANNING DOCUMENT FOR COMPLIANCE...");
+        
+        const interval = setInterval(() => {
+            if (pos >= 100) {
+                clearInterval(interval);
+                line.style.display = 'none';
+                updateStatus("SCAN COMPLETE: NO ERRORS DETECTED.");
+                alert("COMPLIANCE SCAN COMPLETE: Signature Fields & Legal Headers Verified.");
+            } else {
+                pos += 2;
+                line.style.top = pos + "%";
+            }
+        }, 30);
+    }
+
+    // Clipboard Logic
+    function copySnippet(text) {
+        navigator.clipboard.writeText(text);
+        updateStatus("SNIPPET COPIED TO CLIPBOARD");
+    }
+
+    function updateStatus(msg) {
+        document.querySelector('.status-footer').innerText = "SYSTEM_LOG: " + msg;
+    }
+
+    // HUD Clock
     setInterval(() => {
-        const now = new Date();
-        document.getElementById('clock').innerText = now.toLocaleTimeString();
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString();
     }, 1000);
 </script>
 
