@@ -1,13 +1,31 @@
-This folder contains the Federal Protocol PDF assets for LADY LEGALZ CASE COMMAND.
+LADY LEGALZ // SYSTEM MANIFEST
+-------------------------------
+Location: /pdfs/
+Purpose: This directory stores all binary PDF assets for the Agreement Engine 
+and Federal Protocols.
 
-Files Required:
-1. APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf
-2. Civil Action Complaint Federal.pdf
-3. Civil Action Cover Letter Federal.pdf
-4. Civil Action Cover Sheet Federal.pdf
-5. Civil Rights Civil Action Complaint (Non-Prisoner).pdf
-6. Civil Rights Civil Action Complaint.pdf
-7. COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf
-8. Defendant Answer to Civil Action Complaint.pdf
-9. NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf
-10. Waiver of Service.pdf
+CURRENT FILE LIST (UPLOADED):
+1.  APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf
+2.  Attorney Client Agreement.pdf
+3.  Civil Action Complaint Federal.pdf
+4.  Civil Action Cover Letter Federal.pdf
+5.  Civil Action Cover Sheet Federal.pdf
+6.  Civil Rights Civil Action Complaint (Non-Prisoner).pdf
+7.  Civil Rights Civil Action Complaint.pdf
+8.  COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf
+9.  Defendant Answer to Civil Action Complaint.pdf
+10. Divorce Settlement Agreement.pdf
+11. Employment Discrimination Civil Action Complaint.pdf
+12. Estate Plan Agreement.pdf
+13. Hold Harmless Agreement.pdf
+14. Land Purchase Agreement.pdf
+15. Landlord Tenant Agreement.pdf
+16. LLC Articles of Organization.pdf
+17. LS Representation Agreement.pdf
+18. NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf
+19. Software Development Agreement.pdf
+20. Waiver of Service.pdf
+
+INSTRUCTIONS: 
+GitHub is case-sensitive. Filenames must match these entries exactly for 
+the dropdown selectors to function.
