@@ -1,0 +1,13 @@
+This folder contains the Federal Protocol PDF assets for LADY LEGALZ CASE COMMAND.
+
+Files Required:
+1. APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf
+2. Civil Action Complaint Federal.pdf
+3. Civil Action Cover Letter Federal.pdf
+4. Civil Action Cover Sheet Federal.pdf
+5. Civil Rights Civil Action Complaint (Non-Prisoner).pdf
+6. Civil Rights Civil Action Complaint.pdf
+7. COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf
+8. Defendant Answer to Civil Action Complaint.pdf
+9. NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf
+10. Waiver of Service.pdf
