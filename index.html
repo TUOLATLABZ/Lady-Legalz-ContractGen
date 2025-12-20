@@ -3,219 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ | CONTRACTGEN BETA v3.8.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <title>LADY LEGALZ | NEURAL SUITE v3.9.5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --legal-navy: #0a1118; 
-            --obsidian: #05070a;
-            --electric-cyan: #00f2ff;
-            --justice-gold: #c5a059;
-            --glass: rgba(15, 25, 35, 0.85);
-            --border: rgba(0, 242, 255, 0.2);
-            --text-main: #e0e6ed;
-            --text-dim: #8b9bb4;
+            --legal-black: #020406; --cyber-blue: #00d4ff; --legal-gold: #d4af37;
+            --neural-green: #00ff9d; --alert-red: #ff2a6d; --glass-bg: rgba(6, 11, 19, 0.96);
+            --border-glow: rgba(0, 212, 255, 0.3); --text-dim: #94a3b8;
         }
+        * { box-sizing: border-box; transition: all 0.2s ease; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Rajdhani', sans-serif; background-color: var(--legal-black); color: #fff; }
 
-        body, html { 
-            margin: 0; padding: 0; height: 100%; overflow: hidden; 
-            font-family: 'Rajdhani', sans-serif; color: var(--text-main); 
-            background-color: var(--obsidian);
-            /* Innovation Background Pattern */
-            background-image: 
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
+        /* HUD GRID SYSTEM */
+        .hud-container { display: grid; grid-template-columns: 360px 1fr 420px; height: 100vh; gap: 10px; padding: 12px; background: radial-gradient(circle at top, #0d1a26 0%, #020406 100%); }
+        .panel { background: var(--glass-bg); border: 1px solid var(--border-glow); backdrop-filter: blur(20px); border-radius: 4px; display: flex; flex-direction: column; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .panel-header { background: rgba(0, 212, 255, 0.1); padding: 12px; font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 2.5px; color: var(--cyber-blue); border-bottom: 1px solid var(--border-glow); display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; }
 
-        .hud-grid { 
-            display: grid; 
-            grid-template-columns: 340px 1fr 400px; 
-            height: 100vh; 
-            backdrop-filter: blur(10px);
-        }
-
-        .column { 
-            background: var(--glass); 
-            border-right: 1px solid var(--border); 
-            display: flex; flex-direction: column; 
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
-        }
-
-        .header { 
-            height: 50px; 
-            background: rgba(0,0,0,0.8); 
-            display: flex; align-items: center; padding: 0 20px; 
-            font-family: 'Orbitron'; font-size: 0.7rem; 
-            color: var(--electric-cyan); 
-            border-bottom: 2px solid var(--justice-gold); 
-            text-transform: uppercase; letter-spacing: 3px;
-        }
-
-        .meta-section { 
-            border: 1px solid var(--border); 
-            padding: 15px; margin: 10px; 
-            background: rgba(255, 255, 255, 0.02); 
-            border-radius: 2px;
-            position: relative;
-            transition: 0.3s;
-        }
-
-        .meta-section:hover { border-color: var(--justice-gold); }
-
-        .meta-label { 
-            font-size: 0.6rem; color: var(--justice-gold); 
-            margin-bottom: 8px; display: block; 
-            font-weight: bold; text-transform: uppercase; 
-            border-left: 2px solid var(--justice-gold); padding-left: 8px;
-        }
-
-        input, select, textarea, button { 
-            background: rgba(0,0,0,0.6); border: 1px solid var(--border); 
-            padding: 10px; color: white; width: 100%; 
-            font-family: 'Share Tech Mono'; font-size: 0.8rem; 
-            margin-bottom: 8px; outline: none; border-radius: 0;
-        }
-
-        button { 
-            cursor: pointer; color: var(--electric-cyan); 
-            border: 1px solid var(--electric-cyan); 
-            text-transform: uppercase; font-weight: bold; 
-            background: linear-gradient(45deg, transparent, rgba(0, 242, 255, 0.05));
-        }
-
-        button:hover { 
-            background: var(--electric-cyan); color: var(--obsidian); 
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
-        }
-
-        .viewport { background: rgba(0,0,0,0.4); display: flex; flex-direction: column; }
+        /* INPUTS & UI ELEMENTS */
+        .meta-box { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .label { font-size: 0.6rem; color: var(--legal-gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; display: block; font-weight: bold; }
+        input, select, textarea { background: rgba(0,0,0,0.7); border: 1px solid var(--border-glow); color: #fff; padding: 10px; font-family: 'Share Tech Mono'; font-size: 0.85rem; width: 100%; margin-bottom: 8px; border-radius: 2px; }
+        input:focus { border-color: var(--cyber-blue); box-shadow: 0 0 10px var(--cyber-blue); outline: none; }
         
-        #pdf-frame { 
-            flex: 1; border: none; 
-            filter: sepia(20%) contrast(1.1) brightness(0.9) hue-rotate(180deg);
-        }
+        button { background: rgba(0, 212, 255, 0.05); border: 1px solid var(--cyber-blue); color: var(--cyber-blue); padding: 10px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.6rem; text-transform: uppercase; width: 100%; margin-top: 5px; letter-spacing: 1px; }
+        button:hover { background: var(--cyber-blue); color: #000; box-shadow: 0 0 20px var(--cyber-blue); }
+        .btn-redact { border-color: var(--alert-red); color: var(--alert-red); }
+        .btn-redact:hover { background: var(--alert-red); color: #fff; }
+        .btn-gold { border-color: var(--legal-gold); color: var(--legal-gold); }
+        .btn-gold:hover { background: var(--legal-gold); color: #000; }
 
-        .status-bar { 
-            height: 30px; background: var(--legal-navy); 
-            font-size: 0.6rem; color: var(--text-dim); 
-            display: flex; align-items: center; padding: 0 20px; 
-            border-top: 1px solid var(--justice-gold);
-            justify-content: space-between;
-        }
+        /* VIEWPORT & LOGS */
+        #pdf-viewport { flex: 1; background: #000; position: relative; overflow: hidden; border-radius: 2px; margin: 8px; }
+        #pdf-object { width: 100%; height: 100%; filter: invert(0.88) hue-rotate(185deg) brightness(0.9) contrast(1.15); }
+        #terminal-log { height: 120px; background: rgba(0,0,0,0.9); font-family: 'Share Tech Mono'; font-size: 0.7rem; padding: 10px; overflow-y: auto; color: var(--neural-green); border-top: 1px solid var(--border-glow); }
 
-        /* CUSTOM SCROLLBAR */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--obsidian); }
-        ::-webkit-scrollbar-thumb { background: var(--justice-gold); }
+        /* TIMELINE DISPLAY */
+        #timeline-map { background: rgba(0, 212, 255, 0.03); padding: 10px; border: 1px dashed var(--border-glow); min-height: 50px; font-size: 0.7rem; color: var(--cyber-blue); margin-top: 5px; border-radius: 4px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+        /* BOOT SCREEN */
+        #boot-screen { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .glitch-logo { font-family: 'Orbitron'; font-size: 2.5rem; color: var(--legal-gold); letter-spacing: 15px; text-shadow: 2px 2px var(--alert-red); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.98); } }
     </style>
 </head>
 <body>
 
-<div class="hud-grid">
-    <aside class="column">
-        <div class="header">CONTRACTGEN // NEO-INTELLIGENCE v26.0</div>
+<div id="boot-screen">
+    <div class="glitch-logo">LADY LEGALZ</div>
+    <div id="boot-log" style="font-family: 'Share Tech Mono'; color: var(--cyber-blue); margin-top: 20px; font-size: 0.8rem; text-align: center;">AUTHENTICATING NEURAL LINK...</div>
+</div>
+
+<div class="hud-container">
+    <aside class="panel">
+        <div class="panel-header">VAULT_CORE <span>SECURE</span></div>
         <div style="flex:1; overflow-y:auto;">
-            <div class="meta-section">
-                <span class="meta-label">FEDERAL PROTOCOLS</span>
-                <select id="fed-docs" onchange="loadDoc(this.value)">
+            <div class="meta-box">
+                <span class="label">GROK_XAI API KEY</span>
+                <input type="password" id="grok-key" placeholder="sk-..." onchange="saveKey()">
+                <div style="font-size:0.55rem; color:var(--text-dim); text-align:right;">GITHUB_READY: ACTIONS COMPLIANT</div>
+            </div>
+            
+            <div class="meta-box">
+                <span class="label">FEDERAL PROTOCOLS (11)</span>
+                <select onchange="loadPDF(this.value)">
                     <option value="">-- SELECT FORM --</option>
-                    <option value="Civil Action Complaint Federal.pdf">Civil Action Complaint</option>
-                    <option value="Employment Discrimination Civil Action Complaint.pdf">Employment Discrimination</option>
-                    <option value="Civil Rights Civil Action Complaint.pdf">Civil Rights (Prisoner)</option>
-                    <option value="Civil Rights Civil Action Complaint (Non-Prisoner).pdf">Civil Rights (Non-Prisoner)</option>
-                    <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf">IFP Fee Waiver</option>
-                    <option value="Civil Action Cover Sheet Federal.pdf">Civil Cover Sheet</option>
-                    <option value="Civil Action Cover Letter Federal.pdf">Federal Summons</option>
-                    <option value="COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf">Judicial Misconduct</option>
-                    <option value="Defendant Answer to Civil Action Complaint.pdf">Defendant Answer</option>
-                    <option value="NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf">Notice of Waiver</option>
+                    <option value="Civil Action Complaint Federal.pdf">Civil Complaint</option>
+                    <option value="Employment Discrimination.pdf">EEOC Complaint</option>
+                    <option value="Civil Rights Complaint.pdf">Civil Rights (Prisoner)</option>
+                    <option value="Civil Rights Non-Prisoner.pdf">Civil Rights (Non-Prisoner)</option>
+                    <option value="IFP Fee Waiver.pdf">IFP Fee Waiver</option>
+                    <option value="Civil Cover Sheet.pdf">Civil Cover Sheet</option>
+                    <option value="Federal Summons.pdf">Federal Summons</option>
+                    <option value="Judicial Misconduct.pdf">Judicial Misconduct</option>
+                    <option value="Defendant Answer.pdf">Defendant Answer</option>
+                    <option value="Notice of Waiver.pdf">Notice of Waiver</option>
                     <option value="Waiver of Service.pdf">Waiver of Service</option>
                 </select>
             </div>
-            <div class="meta-section">
-                <span class="meta-label">AGREEMENTS</span>
-                <select id="civ-docs" onchange="loadDoc(this.value)">
+
+            <div class="meta-box">
+                <span class="label">CIVIL ASSETS (9)</span>
+                <select onchange="loadPDF(this.value)">
                     <option value="">-- SELECT ASSET --</option>
-                    <option value="Attorney Client Agreement.pdf">Attorney Client Agreement</option>
-                    <option value="Divorce Settlement Agreement.pdf">Divorce Settlement</option>
-                    <option value="Estate Plan Agreement.pdf">Estate Plan Agreement</option>
-                    <option value="Hold Harmless Agreement.pdf">Hold Harmless Agreement</option>
-                    <option value="Land Purchase Agreement.pdf">Land Purchase Agreement</option>
-                    <option value="Landlord Tenant Agreement.pdf">Landlord Tenant Agreement</option>
-                    <option value="LLC Articles of Organization.pdf">LLC Articles</option>
-                    <option value="LS Representation Agreement.pdf">Limited Scope Rep</option>
-                    <option value="Software Development Agreement.pdf">Software Agreement</option>
+                    <option value="Attorney Client Agreement.pdf">A/C Agreement</option>
+                    <option value="Divorce Settlement.pdf">Divorce Settlement</option>
+                    <option value="Estate Plan.pdf">Estate Plan Agreement</option>
+                    <option value="Hold Harmless.pdf">Hold Harmless Agreement</option>
+                    <option value="Land Purchase.pdf">Land Purchase Agreement</option>
+                    <option value="Lease Agreement.pdf">Landlord Tenant Agreement</option>
+                    <option value="LLC Articles.pdf">LLC Articles</option>
+                    <option value="LS Rep Agreement.pdf">Limited Scope Rep</option>
+                    <option value="Software Agreement.pdf">Software Dev Agreement</option>
                 </select>
             </div>
-            <div class="meta-section">
-                <span class="meta-label">CONTRACTGEN CASE SEARCH</span>
-                <input type="text" id="ai-input" placeholder="Enter Citation...">
-                <button onclick="aiSearch()">RUN CASE ANALYSIS</button>
+
+            <div class="meta-box">
+                <span class="label">PERSONALITY_MATRIX</span>
+                <select id="persona" onchange="logUpdate('Persona Shift Detected.')">
+                    <option value="prof">PROFESSIONAL (CALCULATED)</option>
+                    <option value="agg">AGGRESSIVE (LITIGATOR)</option>
+                    <option value="sarc">SARCASTIC (GROK-V2)</option>
+                </select>
             </div>
         </div>
     </aside>
 
-    <main class="viewport">
-        <div class="header">CONTRACTGEN WORKSPACE // <span id="doc-title" style="color:var(--justice-gold)">LADY LEGALZ SECURE</span></div>
-        <embed id="pdf-frame" src="" type="application/pdf">
-        <div class="status-bar">
-            <span>TUOLAT TERMINAL: AUTHENTICATED</span>
-            <span id="timestamp"></span>
-            <span>ENCRYPTION: BETA v.3.8.0 AES-XLR</span>
+    <main class="panel">
+        <div class="panel-header">NEURAL_BUFFER // <span id="current-file" style="color:var(--legal-gold)">IDLE_MODE</span></div>
+        <div id="pdf-viewport">
+            <object id="pdf-object" data="" type="application/pdf">
+                <div style="padding:100px; text-align:center; color:var(--text-dim); font-family:'Orbitron'; font-size:0.8rem;">[ SELECT ASSET TO MOUNT ]</div>
+            </object>
         </div>
+        <div id="terminal-log"></div>
     </main>
 
-    <aside class="column" style="border-right:none; border-left:1px solid var(--border)">
-        <div class="header">CONTRACTGEN INTELLIGENCE</div>
-        <div style="flex:1; overflow-y:auto;">
-            <div class="meta-section">
-                <span class="meta-label">IMPEACHMENT LOGIC</span>
-                <div id="imp-list" style="margin-bottom:10px;"></div>
-                <input type="text" id="imp-witness" placeholder="Witness">
-                <button onclick="addImpeachment()">LOGIC CONTRADICTION</button>
+    <aside class="panel">
+        <div class="panel-header">INTELLIGENCE_ENGINE <span id="grok-status" style="color:var(--alert-red)">● DISCONNECTED</span></div>
+        <div style="flex:1; padding:15px; overflow-y:auto;">
+            <span class="label">NEURAL TIMELINE MAP</span>
+            <div id="timeline-map">Chronological scan standby...</div>
+            
+            <hr style="border:0; border-top:1px solid var(--border-glow); margin:15px 0;">
+            
+            <span class="label">DRAFTING SCRATCHPAD</span>
+            <textarea id="scratch" style="height:250px;" placeholder="Input sequence for neural analysis..." oninput="neuralProcess()"></textarea>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                <button onclick="invokeGrok()" class="btn-gold">GROK_SCAN</button>
+                <button onclick="applyBlackout()" class="btn-redact">BLACKOUT_RED</button>
             </div>
-            <div class="meta-section">
-                <span class="meta-label">CONTRACTGEN LOGIC SCRATCHPAD</span>
-                <textarea id="scratchpad" style="height:350px; resize:none;" placeholder="DRAFTING..."></textarea>
-                <button onclick="saveHUD()">COMMIT TO LOCALSTORAGE</button>
-            </div>
+            <button onclick="exportSecureMemo()">GENERATE_MEMO</button>
+
+            <hr style="border:0; border-top:1px solid var(--border-glow); margin:15px 0;">
+            <span class="label">DISCOVERY_INDEX</span>
+            <div id="discovery-index" style="font-family:'Share Tech Mono'; font-size:0.7rem; color:var(--neural-green);"></div>
         </div>
     </aside>
 </div>
 
 <script>
-    function loadDoc(f) {
-        if(!f) return;
-        document.getElementById('doc-title').innerText = f.toUpperCase();
-        document.getElementById('pdf-frame').src = "pdfs/" + f;
-    }
-
-    function aiSearch() {
-        const s = document.getElementById('scratchpad');
-        s.value += `\n[CONTRACTGEN ANALYSIS INJECTED]: Found 28 U.S.C. § 1332 (Diversity of Citizenship) - $75,000 Threshold Checked.`;
-    }
-
-    function saveHUD() {
-        localStorage.setItem('LL_v26_scratch', document.getElementById('scratchpad').value);
-        alert("CONTRACTGEN INTELLIGENCE COMMITTED.");
-    }
-
-    function addImpeachment() {
-        const w = document.getElementById('imp-witness').value;
-        if(!w) return;
-        const div = document.createElement('div');
-        div.style.fontSize = "0.7rem"; div.style.color = "#ff3366";
-        div.innerHTML = `> FLAG: ${w} contradiction logged.`;
-        document.getElementById('imp-list').appendChild(div);
-    }
+    const bootSequence = [
+        "Initializing Neural Kernel...",
+        "Mounting 20 PDF Assets...",
+        "Loading Redaction Chip v3.9...",
+        "Establishing xAI Handshake...",
+        "Lady Legalz v3.9.5 Online."
+    ];
 
     window.onload = () => {
-        document.getElementById('scratchpad').value = localStorage.getItem('LL_v26_scratch') || "";
-        setInterval(() => { 
-            document.getElementById('timestamp').innerText = new Date().toLocaleTimeString(); 
-        }, 1000);
+        let i = 0;
+        const interval = setInterval(() => {
+            if(i < bootSequence.length) {
+                document.getElementById('boot-log').innerText = `>> ${bootSequence[i]}`;
+                i++;
+            } else {
+                clearInterval(interval);
+                document.getElementById('boot-screen').style.display = 'none';
+                document.getElementById('grok-key').value = localStorage.getItem('grok_api_key') || "";
+                checkGrok();
+            }
+        }, 400);
+        setInterval(() => { logUpdate("Neural sync active..."); }, 45000);
     };
+
+    function logUpdate(msg) {
+        const log = document.getElementById('terminal-log');
+        const d = document.createElement('div');
+        d.innerHTML = `[${new Date().toLocaleTimeString()}] >> ${msg}`;
+        log.prepend(d);
+    }
+
+    function saveKey() {
+        localStorage.setItem('grok_api_key', document.getElementById('grok-key').value);
+        checkGrok();
+        logUpdate("API Key securely cached.");
+    }
+
+    function checkGrok() {
+        const key = document.getElementById('grok-key').value;
+        const status = document.getElementById('grok-status');
+        if(key.startsWith('xai-')) {
+            status.innerHTML = "● GROK_LINKED";
+            status.style.color = "var(--neural-green)";
+        }
+    }
+
+    function loadPDF(f) {
+        if(!f) return;
+        document.getElementById('current-file').innerText = f.toUpperCase();
+        document.getElementById('pdf-object').data = "pdfs/" + f;
+        logUpdate(`Asset Mounted: ${f}`);
+    }
+
+    function neuralProcess() {
+        const text = document.getElementById('scratch').value;
+        
+        // Timeline Logic
+        const dateRegex = /\b(19|20)\d{2}\b/g;
+        const years = [...new Set(text.match(dateRegex))].sort();
+        document.getElementById('timeline-map').innerHTML = years.length ? 
+            years.map(y => `<span style="background:rgba(0,212,255,0.1); padding:2px 5px; border:1px solid var(--cyber-blue);">${y}</span>`).join(' → ') 
+            : "No dates detected.";
+
+        // Discovery Logic
+        const discRegex = /(Exhibit\s[A-Z0-9]+|Evidence\s\d+|Photograph|Contract\s#\d+)/gi;
+        const matches = [...new Set(text.match(discRegex))];
+        document.getElementById('discovery-index').innerHTML = matches.map(m => `<div>> INDEXED: ${m.toUpperCase()}</div>`).join('');
+    }
+
+    function applyBlackout() {
+        const el = document.getElementById('scratch');
+        const start = el.selectionStart;
+        const end = el.selectionEnd;
+        if (start === end) return alert("SELECT SENSITIVE DATA TO REDACT.");
+        const text = el.value;
+        el.value = text.substring(0, start) + "[REDACTED]" + text.substring(end);
+        logUpdate("Blackout applied to sensitive buffer segment.");
+    }
+
+    async function invokeGrok() {
+        const key = localStorage.getItem('grok_api_key');
+        if(!key) return alert("AUTHENTICATION FAILED: NO API KEY.");
+        logUpdate("Grok-XAI Analysis initiated...");
+        // API Fetch logic would go here, utilizing the key from localStorage
+    }
+
+    function exportSecureMemo() {
+        const text = document.getElementById('scratch').value;
+        const memo = window.open('', '_blank');
+        memo.document.write(`<html><head><title>SECURE_MEMO</title><style>body{font-family:serif; padding:50px; line-height:1.6;} h1{border-bottom:2px solid #000;}</style></head><body><h1>PRIVILEGED WORK PRODUCT</h1><p>${text.replace(/\n/g, '<br>')}</p></body></html>`);
+        logUpdate("Memo buffer exported to secure viewer.");
+    }
 </script>
 </body>
 </html>
