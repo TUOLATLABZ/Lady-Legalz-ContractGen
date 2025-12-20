@@ -17,24 +17,29 @@
             --border-light: rgba(0, 255, 204, 0.5);
             --paper-bg: #ffffff;
         }
+
         body, html {
             margin: 0; padding: 0; height: 100%; overflow: hidden;
             font-family: 'Rajdhani', sans-serif; color: var(--interface-text);
-            background: #000 url('contractgen beta.png') no-repeat center center fixed;
+            background: #000 url('contractgen beta.jpg') no-repeat center center fixed;
             background-size: cover;
         }
+
         .app-container {
             display: grid; grid-template-columns: 380px 1fr; height: 100vh;
             backdrop-filter: blur(12px); background: rgba(0, 0, 0, 0.65);
         }
+
         .sidebar {
             background: var(--synth-purple); border-right: 1px solid var(--neural-glow);
             padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
         }
+
         .doc-canvas {
             overflow-y: auto; padding: 50px; display: flex; flex-direction: column; align-items: center;
             background: rgba(0,0,0,0.3);
         }
+
         /* Standardized Legal Page */
         .document-page {
             width: 8.5in; min-height: 11in; background: var(--paper-bg); color: #000;
@@ -42,6 +47,7 @@
             font-family: "Times New Roman", Times, serif; font-size: 11pt; line-height: 1.5;
             position: relative; box-sizing: border-box;
         }
+
         /* Unified Fillable Components */
         .fill {
             border: none; border-bottom: 1px solid #aaa; background: #f8faff;
@@ -49,43 +55,39 @@
             margin: 0 2px; vertical-align: baseline;
         }
         .fill:focus { background: #eef2ff; outline: 1px solid var(--neural-glow); border-bottom-color: var(--neural-glow); }
-       
+        
         textarea.fill { width: 100%; min-height: 60px; display: block; margin: 10px 0; border: 1px solid #ccc; resize: vertical; }
-       
+        
         .header-box { text-align: center; font-weight: bold; text-decoration: underline; margin-bottom: 25px; font-size: 14pt; }
         .section-title { font-weight: bold; text-transform: uppercase; margin-top: 20px; border-bottom: 1.5px solid #000; }
-       
+        
         /* UI Elements */
         .logo-panel { text-align: center; padding: 15px; border: 1px solid var(--neural-glow); margin-bottom: 15px; background: rgba(0,255,204,0.05); }
         .select-field { background: var(--control-bg); border: 1px solid var(--border-light); padding: 12px; color: white; width: 100%; border-radius: 4px; cursor: pointer; }
         .btn { background: var(--neural-glow); color: #000; border: none; padding: 14px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
         .btn:hover { background: #fff; box-shadow: 0 0 15px var(--neural-glow); }
+
         /* Signature Line */
         .sig-line { display: inline-block; width: 250px; border-top: 1px solid #000; margin-top: 40px; text-align: center; font-size: 9pt; }
     </style>
 </head>
 <body>
+
 <div class="app-container">
     <aside class="sidebar">
         <div class="logo-panel">
             <h1 style="font-family:'Orbitron'; font-size:1.4rem; color:var(--neural-glow); margin:0; letter-spacing:2px;">LADY LEGALZ</h1>
-            <small style="letter-spacing:1px; opacity:0.8;">CONTRACTGEN BETA v.3.8.0</small>
+            <small style="letter-spacing:1px; opacity:0.8;">TUOLAT LABZ CONTRACTGEN BETA v.3.8.0</small>
         </div>
-       
-        <label style="color:var(--neural-glow); font-size:0.75rem; font-weight:bold;">CONTRACTGEN PROTOCOLS & AGREEMENTS</label>
+        
+        <label style="color:var(--neural-glow); font-size:0.75rem; font-weight:bold;">LOAD PROTOCOLS & AGREEMENTS</label>
         <select id="protocol" class="select-field" onchange="renderForm()">
             <option value="">-- SELECT --</option>
             <optgroup label="FEDERAL PROTOCOLS">
-                <option value="AO240">AO 240 - Application to Proceed Without Prepaying Fees</option>
-                <option value="AO398">AO 398 - Notice of Lawsuit and Request to Waive Service</option>
-                <option value="PROSE15NP">Pro Se 15 - Civil Rights Complaint (Non-Prisoner)</option>
-                <option value="PROSE15P">Pro Se 15 - Civil Rights Complaint (Prisoner)</option>
-                <option value="PROSE1">Pro Se 1 - General Civil Complaint</option>
-                <option value="PROSE5">Pro Se 5 - Negligence Complaint</option>
-                <option value="PROSE3">Pro Se 3 - Defendant's Answer</option>
-                <option value="JS44">JS 44 - Civil Cover Sheet</option>
-                <option value="JUDMIS">AO 310 - Judicial Misconduct Complaint</option>
-                <option value="AO440">AO 440 - Summons in a Civil Action</option>
+                <option value="AO240">FEDERAL FEE WAIVER</option>
+                <option value="PROSE1">FEDERAL CIVIL COMPLAINT</option>
+                <option value="AO440">SUMMONS</option>
+                <option value="JS44">FEDERAL CIVIL COMPLAINT COVERSHEET</option>
             </optgroup>
             <optgroup label="AGREEMENTS">
                 <option value="ATTORNEY">Attorney-Client Agreement</option>
@@ -97,16 +99,19 @@
                 <option value="SOFTWARE">Software Development Agreement</option>
             </optgroup>
         </select>
+
         <button class="btn" onclick="generatePdf()">GENERATE & DOWNLOAD PDF</button>
         <div style="font-size: 0.7rem; opacity: 0.6; text-align: center; margin-top: auto;">SECURE ENCRYPTION ACTIVE</div>
     </aside>
+
     <main class="doc-canvas" id="doc-output">
         <div style="margin-top:200px; text-align:center;">
             <h2 style="font-family:'Orbitron'; color:var(--neural-glow); text-shadow: 0 0 10px var(--neural-glow);">WAITING FOR INPUT...</h2>
-            <p style="opacity:0.6;">SELECT A CONTRACTGEN PROTOCOL TO BEGIN.</p>
+            <p style="opacity:0.6;">SELECT A PROTOCOL OR AGREEMENT BEGIN.</p>
         </div>
     </main>
 </div>
+
 <script>
     const TEMPLATES = {
         ATTORNEY: `
@@ -114,61 +119,64 @@
                 <div class="header-box">LEGAL REPRESENTATION AGREEMENT</div>
                 <p><b>Attorney:</b> <input class="fill" style="width:300px" placeholder="Name/Firm Address"></p>
                 <p><b>Client(s):</b> <input class="fill" style="width:300px" placeholder="Name/Address"></p>
-               
+                
                 <div class="section-title">1. Scope of Work</div>
                 <p>The Attorney will provide legal services concerning: <textarea class="fill"></textarea></p>
-               
+                
                 <div class="section-title">2. Fees and Costs</div>
                 <p>The Client agrees to the following fee structure: <input class="fill" style="width:400px"></p>
-               
+                
                 <div class="section-title">3. Termination</div>
                 <p>This agreement may be terminated by either party upon written notice.</p>
-               
+                
                 <div style="margin-top:50px; display:flex; justify-content:space-between;">
                     <div><div class="sig-line">Attorney Signature</div><br>Date: <input class="fill" style="width:100px"></div>
                     <div><div class="sig-line">Client Signature</div><br>Date: <input class="fill" style="width:100px"></div>
                 </div>
             </div>`,
+
         LAND: `
             <div class="document-page">
                 <div class="header-box">LAND PURCHASE AGREEMENT</div>
                 <p>Effective Date: <input class="fill" style="width:150px"></p>
                 <p><b>Seller:</b> <input class="fill" style="width:250px"> <b>Buyer:</b> <input class="fill" style="width:250px"></p>
-               
+                
                 <div class="section-title">1. Property Description</div>
                 <p>Address: <input class="fill" style="width:400px"></p>
                 <p>Legal Description: <textarea class="fill"></textarea></p>
-               
+                
                 <div class="section-title">2. Purchase Price</div>
                 <p>Total Price: $ <input class="fill" style="width:150px"> Deposit: $ <input class="fill" style="width:150px"></p>
-               
+                
                 <div class="section-title">3. Closing</div>
                 <p>The closing shall occur on or before: <input class="fill" style="width:150px"></p>
-               
+                
                 <div style="margin-top:60px;">
                     <div class="sig-line">Seller Signature</div><span style="margin: 0 40px;"></span><div class="sig-line">Buyer Signature</div>
                 </div>
             </div>`,
+
         DIVORCE: `
             <div class="document-page">
                 <div class="header-box">DIVORCE SETTLEMENT AGREEMENT</div>
                 <p>This agreement is entered into by <input class="fill" placeholder="Husband"> and <input class="fill" placeholder="Wife"> on <input class="fill" style="width:120px">.</p>
-               
+                
                 <div class="section-title">Marriage History</div>
                 <p>Date of Marriage: <input class="fill" style="width:120px"> Date of Separation: <input class="fill" style="width:120px"></p>
-               
+                
                 <div class="section-title">Child Custody & Support</div>
                 <p>Primary Custody to: <input class="fill" style="width:200px"></p>
                 <p>Monthly Support Amount: $ <input class="fill" style="width:100px"></p>
-               
+                
                 <div class="section-title">Asset Division</div>
                 <textarea class="fill" placeholder="List property/debts division here..."></textarea>
-               
+                
                 <div style="margin-top:50px;">
                     <div class="sig-line">Spouse 1 Signature</div><br><br>
                     <div class="sig-line">Spouse 2 Signature</div>
                 </div>
             </div>`,
+
         LLC: `
             <div class="document-page">
                 <div class="header-box">ARTICLES OF ORGANIZATION (LLC)</div>
@@ -176,269 +184,35 @@
                 <p><b>2. State of Formation:</b> <input class="fill" style="width:150px"></p>
                 <p><b>3. Registered Agent:</b> <input class="fill" style="width:350px"></p>
                 <p><b>4. Management:</b> <input type="checkbox"> Member-Managed <input type="checkbox"> Manager-Managed</p>
-               
+                
                 <div class="section-title">Purpose</div>
                 <textarea class="fill" placeholder="Describe the business purpose..."></textarea>
-               
+                
                 <div style="margin-top:100px;">
                     <div class="sig-line">Organizer Signature</div><br>
                     Printed Name: <input class="fill">
                 </div>
             </div>`,
+
         AO240: `
             <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
-                <p>for the</p>
-                <p><input class="fill" style="width:100%; text-align:center;" placeholder="District Name"></p>
-                <p><input class="fill" style="width:100%;" placeholder="Plaintiff/Petitioner"></p>
-                <p>v.</p>
-                <p><input class="fill" style="width:100%;" placeholder="Defendant/Respondent"></p>
-                <p>Civil Action No. <input class="fill"></p>
-                <div style="text-align:center; font-weight:bold;">APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS (Short Form)</div>
-                <p>I am a plaintiff or petitioner in this case and declare that I am unable to pay the costs of these proceedings and that I am entitled to the relief requested.</p>
-                <p>In support of this application, I answer the following questions under penalty of perjury:</p>
-                <p>1. If incarcerated. I am being held at: <input class="fill" style="width:70%;">. If employed there, or have an account in the institution, I have attached to this document a statement certified by the appropriate institutional officer showing all receipts, expenditures, and balances during the last six months for any institutional account in my name. I am also submitting a similar statement from any other institution where I was incarcerated during the last six months.</p>
-                <p>2. If not incarcerated. If I am employed, my employer's name and address are:</p>
-                <p><input class="fill" style="width:100%;"></p>
-                <p>My gross pay or wages are: $ <input class="fill">, and my take-home pay or wages are: $ <input class="fill"> per (specify pay period) <input class="fill">.</p>
-                <p>3. Other Income. In the past 12 months, I have received income from the following sources (check all that apply):</p>
-                <p>(a) Business, profession, or other self-employment <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>(b) Rent payments, interest, or dividends <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>(c) Pension, annuity, or life insurance payments <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>(d) Disability, or worker's compensation payments <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>(e) Gifts, or inheritances <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>(f) Any other sources <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>If you answered "Yes" to any question above, describe below or on separate pages each source of money and state the amount that you received and what you expect to receive in the future.</p>
-                <textarea class="fill"></textarea>
-            </div>`,
-        AO398: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
-                <p>for the</p>
-                <p><input class="fill" style="width:100%; text-align:center;" placeholder="District Name"></p>
-                <p><input class="fill" style="width:100%;" placeholder="Plaintiff"></p>
-                <p>v.</p>
-                <p><input class="fill" style="width:100%;" placeholder="Defendant"></p>
-                <p>Civil Action No. <input class="fill"></p>
-                <div style="text-align:center; font-weight:bold;">NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS</div>
-                <p>To: <input class="fill" style="width:100%;" placeholder="Name of the defendant or - if the defendant is a corporation, partnership, or association - an officer or agent authorized to receive service"></p>
-                <p>Why are you getting this?</p>
-                <p>A lawsuit has been filed against you, or the entity you represent, in this court under the number shown above. A copy of the complaint is attached.</p>
-                <p>This is not a summons, or an official notice from the court. It is a request that, to avoid expenses, you waive formal service of a summons by signing and returning the enclosed waiver. To avoid these expenses, you must return the signed waiver within <input class="fill" style="width:100px;" placeholder="give at least 30 days, or at least 60 days if the defendant is outside any judicial district of the United States"> days from the date shown below, which is the date this notice was sent. Two copies of the waiver form are enclosed, along with a stamped, self-addressed envelope or other prepaid means for returning one copy. You may keep the other copy.</p>
-                <p>What happens next?</p>
-                <p>If you return the signed waiver, I will file it with the court. The action will then proceed as if you had been served on the date the waiver is filed, but no summons will be served on you and you will have 60 days from the date this notice is sent (see the date below) to answer the complaint (or 90 days if this notice is sent to you outside any judicial district of the United States).</p>
-                <p>If you do not return the signed waiver within the time indicated, I will arrange to have the summons and complaint served on you. And I will ask the court to require you, or the entity you represent, to pay the expenses of making service.</p>
-                <p>Please read the enclosed statement about the duty to avoid unnecessary expenses.</p>
-                <p>I certify that this request is being sent to you on the date below.</p>
-                <p>Date: <input class="fill"></p>
-                <p>Signature of the attorney or unrepresented party: __________________</p>
-                <p>Printed name: <input class="fill"></p>
-                <p>Address: <input class="fill"></p>
-                <p>E-mail address: <input class="fill"></p>
-                <p>Telephone number: <input class="fill"></p>
-            </div>`,
-        PROSE15NP: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
-                <p>for the</p>
-                <p><input class="fill" style="width:200px;"> District of <input class="fill" style="width:200px;"></p>
-                <p><input class="fill" style="width:200px;"> Division</p>
-                <p>Case No. <input class="fill" style="width:200px;"> (to be filled in by the Clerk's Office)</p>
-                <p>Plaintiff(s)</p>
-                <p>(Write the full name of each plaintiff who is filing this complaint. If the names of all the plaintiffs cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names.)</p>
-                <textarea class="fill" placeholder="Plaintiff Names"></textarea>
-                <p>Jury Trial: (check one) <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>Defendant(s)</p>
-                <p>(Write the full name of each defendant who is being sued. If the names of all the defendants cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names. Do not include addresses here.)</p>
-                <textarea class="fill" placeholder="Defendant Names"></textarea>
-                <div style="text-align:center; font-weight:bold;">COMPLAINT FOR VIOLATION OF CIVIL RIGHTS (Non-Prisoner Complaint)</div>
-                <div style="border:1px solid #000; padding:10px;">
-                    <p>NOTICE</p>
-                    <p>Federal Rules of Civil Procedure 5.2 addresses the privacy and security concerns resulting from public access to electronic court files. Under this rule, papers filed with the court should not contain: an individual’s full social security number or full birth date; the full name of a person known to be a minor; or a complete financial account number. A filing may include only: the last four digits of a social security number; the year of an individual’s birth; a minor’s initials; and the last four digits of a financial account number.</p>
-                    <p>Except as noted in this form, plaintiff need not send exhibits, affidavits, grievance or witness statements, or any other materials to the Clerk’s Office with this complaint.</p>
-                    <p>In order for your complaint to be filed, it must be accompanied by the filing fee or an application to proceed in forma pauperis.</p>
+                <div style="font-size: 8pt; float:right;">AO 240 (Rev. 07/10)</div>
+                <div class="header-box" style="text-decoration:none;">UNITED STATES DISTRICT COURT</div>
+                <div style="text-align:center;">District of <input class="fill" style="width:250px"></div>
+                
+                <div style="display:flex; margin:20px 0; border:1px solid #000; padding:10px;">
+                    <div style="flex:1;"><textarea class="fill" placeholder="Plaintiff(s)"></textarea> v. <textarea class="fill" placeholder="Defendant(s)"></textarea></div>
+                    <div style="width:30px; text-align:center; font-size:24pt;">)</div>
+                    <div style="flex:1; padding-left:10px;">Case No. <input class="fill"></div>
                 </div>
-                <!-- Additional pages would be added as separate document-page divs if needed -->
-            </div>`,
-        PROSE15P: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
-                <p>for the</p>
-                <p><input class="fill" style="width:200px;"> District of <input class="fill" style="width:200px;"></p>
-                <p><input class="fill" style="width:200px;"> Division</p>
-                <p>Case No. <input class="fill" style="width:200px;"> (to be filled in by the Clerk's Office)</p>
-                <p>Plaintiff(s)</p>
-                <p>(Write the full name of each plaintiff who is filing this complaint. If the names of all the plaintiffs cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names.)</p>
-                <textarea class="fill" placeholder="Plaintiff Names"></textarea>
-                <p>-v-</p>
-                <p>Defendant(s)</p>
-                <p>(Write the full name of each defendant who is being sued. If the names of all the defendants cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names. Do not include addresses here.)</p>
-                <textarea class="fill" placeholder="Defendant Names"></textarea>
-                <div style="text-align:center; font-weight:bold;">COMPLAINT FOR VIOLATION OF CIVIL RIGHTS (Prisoner Complaint)</div>
-                <div style="border:1px solid #000; padding:10px;">
-                    <p>NOTICE</p>
-                    <p>Federal Rules of Civil Procedure 5.2 addresses the privacy and security concerns resulting from public access to electronic court files. Under this rule, papers filed with the court should not contain: an individual’s full social security number or full birth date; the full name of a person known to be a minor; or a complete financial account number. A filing may include only: the last four digits of a social security number; the year of an individual’s birth; a minor’s initials; and the last four digits of a financial account number.</p>
-                    <p>Except as noted in this form, plaintiff need not send exhibits, affidavits, grievance or witness statements, or any other materials to the Clerk’s Office with this complaint.</p>
-                    <p>In order for your complaint to be filed, it must be accompanied by the filing fee or an application to proceed in forma pauperis.</p>
-                </div>
-                <!-- Additional pages would be added as separate document-page divs if needed -->
-            </div>`,
-        PROSE1: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
-                <p>for the</p>
-                <p><input class="fill" style="width:200px;"> District of <input class="fill" style="width:200px;"></p>
-                <p><input class="fill" style="width:200px;"> Division</p>
-                <p>) Case No. <input class="fill" style="width:200px;"> (to be filled in by the Clerk's Office)</p>
-                <p>Plaintiff(s)</p>
-                <p>(Write the full name of each plaintiff who is filing this complaint. If the names of all the plaintiffs cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names.)</p>
-                <textarea class="fill" placeholder="Plaintiff Names"></textarea>
-                <p>Jury Trial: (check one) <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>Defendant(s)</p>
-                <p>(Write the full name of each defendant who is being sued. If the names of all the defendants cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names.)</p>
-                <textarea class="fill" placeholder="Defendant Names"></textarea>
-                <div style="text-align:center; font-weight:bold;">COMPLAINT FOR A CIVIL CASE</div>
-                <div class="section-title">I. The Parties to This Complaint</div>
-                <p>A. The Plaintiff(s)</p>
-                <p>Provide the information below for each plaintiff named in the complaint. Attach additional pages if needed.</p>
-                <p>Name <input class="fill"></p>
-                <p>Street Address <input class="fill"></p>
-                <p>City and County <input class="fill"></p>
-                <p>State and Zip Code <input class="fill"></p>
-                <p>Telephone Number <input class="fill"></p>
-                <p>E-mail Address <input class="fill"></p>
-                <p>B. The Defendant(s)</p>
-                <p>Provide the information below for each defendant named in the complaint, whether the defendant is an individual, a government agency, an organization, or a corporation. For an individual defendant, include the person's job or title (if known). Attach additional pages if needed.</p>
-                <!-- Additional fields for multiple defendants can be added dynamically if needed -->
-            </div>`,
-        PROSE5: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
-                <p>for the</p>
-                <p><input class="fill" style="width:200px;"> District of <input class="fill" style="width:200px;"></p>
-                <p><input class="fill" style="width:200px;"> Division</p>
-                <p>Case No. <input class="fill" style="width:200px;"> (to be filled in by the Clerk's Office)</p>
-                <p>Plaintiff(s)</p>
-                <p>(Write the full name of each plaintiff who is filing this complaint. If the names of all the plaintiffs cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names.)</p>
-                <textarea class="fill" placeholder="Plaintiff Names"></textarea>
-                <p>-v-</p>
-                <p>Defendant(s)</p>
-                <p>(Write the full name of each defendant who is being sued. If the names of all the defendants cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names.)</p>
-                <textarea class="fill" placeholder="Defendant Names"></textarea>
-                <p>Jury Trial: (check one) <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <div style="text-align:center; font-weight:bold;">COMPLAINT FOR A CIVIL CASE ALLEGING NEGLIGENCE (28 U.S.C. § 1332; Diversity of Citizenship)</div>
-                <div class="section-title">I. The Parties to This Complaint</div>
-                <p>A. The Plaintiff(s)</p>
-                <p>Provide the information below for each plaintiff named in the complaint. Attach additional pages if needed.</p>
-                <p>Name <input class="fill"></p>
-                <p>Street Address <input class="fill"></p>
-                <p>City and County <input class="fill"></p>
-                <p>State and Zip Code <input class="fill"></p>
-                <p>Telephone Number <input class="fill"></p>
-                <p>E-mail Address <input class="fill"></p>
-                <p>B. The Defendant(s)</p>
-                <p>Provide the information below for each defendant named in the complaint, whether the defendant is an individual, a government agency, an organization, or a corporation. For an individual defendant, include the person's job or title (if known). Attach additional pages if needed.</p>
-                <!-- Additional fields for multiple defendants -->
-            </div>`,
-        PROSE3: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
-                <p>for the</p>
-                <p><input class="fill" style="width:200px;"> District of <input class="fill" style="width:200px;"></p>
-                <p><input class="fill" style="width:200px;"> Division</p>
-                <p>) Case No. <input class="fill" style="width:200px;"> (to be filled in by the Clerk's Office)</p>
-                <p>Plaintiff(s)</p>
-                <p>(Write the full name of each plaintiff who is filing this complaint. If the names of all the plaintiffs cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names.)</p>
-                <textarea class="fill" placeholder="Plaintiff Names"></textarea>
-                <p>Jury Trial: (check one) <input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>Defendant(s)</p>
-                <p>(Write the full name of each defendant who is being sued. If the names of all the defendants cannot fit in the space above, please write "see attached" in the space and attach an additional page with the full list of names.)</p>
-                <textarea class="fill" placeholder="Defendant Names"></textarea>
-                <div style="text-align:center; font-weight:bold;">THE DEFENDANT'S ANSWER TO THE COMPLAINT</div>
-                <div class="section-title">I. The Parties Filing This Answer to the Complaint</div>
-                <p>Provide the information below for each defendant filing this answer or other response to the allegations in the plaintiff's complaint. Attach additional pages if needed.</p>
-                <p>Name <input class="fill"></p>
-                <p>Street Address <input class="fill"></p>
-                <p>City and County <input class="fill"></p>
-                <p>State and Zip Code <input class="fill"></p>
-                <p>Telephone Number <input class="fill"></p>
-                <p>E-mail Address <input class="fill"></p>
-                <div class="section-title">II. The Answer and Defenses to the Complaint</div>
-                <p>A. Answering the Claims for Relief</p>
-                <p>On a separate page or pages, write a short and plain statement of the answer to the allegations in the complaint. Number the paragraphs. The answer should correspond to each paragraph in the complaint, with paragraph 1 of the answer corresponding to paragraph 1 of the complaint, etc. For each paragraph in the complaint, state whether: the defendant admits the allegations in that paragraph; denies the allegations; lacks sufficient knowledge to admit or deny the allegations; or admits certain allegations but denies, or lacks sufficient knowledge to admit or deny, the rest.</p>
-                <textarea class="fill"></textarea>
-            </div>`,
-        JS44: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">CIVIL COVER SHEET</div>
-                <p>The JS 44 civil cover sheet and the information contained herein neither replace nor supplement the filing and service of pleadings or other papers as required by law, except as provided by local rules of court. This form, approved by the Judicial Conference of the United States in September 1974, is required for the use of the Clerk of Court for the purpose of initiating the civil docket sheet. (SEE INSTRUCTIONS ON NEXT PAGE OF THIS FORM)</p>
-                <div class="section-title">I. (a) PLAINTIFFS</div>
-                <textarea class="fill"></textarea>
-                <p>(b) County of Residence of First Listed Plaintiff <input class="fill"> (EXCEPT IN U.S. PLAINTIFF CASES)</p>
-                <p>(c) Attorneys (Firm Name, Address, and Telephone Number)</p>
-                <textarea class="fill"></textarea>
-                <div class="section-title">DEFENDANTS</div>
-                <textarea class="fill"></textarea>
-                <p>County of Residence of First Listed Defendant <input class="fill"> (IN U.S. PLAINTIFF CASES ONLY)</p>
-                <p>NOTE: IN LAND CONDEMNATION CASES, USE THE LOCATION OF THE TRACT OF LAND INVOLVED.</p>
-                <p>Attorneys (If Known)</p>
-                <textarea class="fill"></textarea>
-                <div class="section-title">II. BASIS OF JURISDICTION (Place an "X" in One Box Only)</div>
-                <!-- Add checkboxes for jurisdiction options -->
-                <p>1 U.S. Government Plaintiff <input type="checkbox"></p>
-                <p>3 Federal Question (U.S. Government Not a Party) <input type="checkbox"></p>
-                <p>2 U.S. Government Defendant <input type="checkbox"></p>
-                <p>4 Diversity (Indicate Citizenship of Parties in Item III) <input type="checkbox"></p>
-                <!-- Continue with other sections like III. CITIZENSHIP, IV. NATURE OF SUIT, etc., using tables or lists with checkboxes -->
-            </div>`,
-        JUDMIS: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">Judicial Council of the <input class="fill" style="width:200px;"> Circuit</div>
-                <div style="text-align:center; font-weight:bold;">COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY</div>
-                <p>To begin the complaint process, complete this form and prepare the brief statement of facts described in item 4 (below). The RULES FOR JUDICIAL-CONDUCT AND JUDICIAL-DISABILITY PROCEEDINGS, adopted by the Judicial Conference of the United States, contain information on what to include in a complaint (Rule 6), where to file a complaint (Rule 7), and other important matters. The Rules are available in federal court clerks' offices, on individual federal courts' websites, and on www.uscourts.gov.</p>
-                <p>Your complaint (this form and the statement of facts) should be typewritten and must be legible. For the number of copies to file, consult the local rules or clerk’s office of the court in which your complaint is required to be filed. Enclose each copy of the complaint in an envelope marked “COMPLAINT OF MISCONDUCT” or “COMPLAINT OF DISABILITY” and submit it to the appropriate clerk of court. Do not put the name of any judge on the envelope.</p>
-                <p>1. Name of Complainant: <input class="fill" style="width:70%;"></p>
-                <p>Contact Address: <input class="fill" style="width:70%;"></p>
-                <p>Daytime telephone: <input class="fill" style="width:70%;"></p>
-                <p>2. Name(s) of Judge(s): <input class="fill" style="width:70%;"></p>
-                <p>Court: <input class="fill" style="width:70%;"></p>
-                <p>3. Does this complaint concern the behavior of the judge(s) in a particular lawsuit or lawsuits?</p>
-                <p><input type="checkbox"> Yes <input type="checkbox"> No</p>
-                <p>If "yes," give the following information about each lawsuit:</p>
-                <p>Court: <input class="fill" style="width:70%;"></p>
-                <p>Case Number: <input class="fill" style="width:70%;"></p>
-                <p>Docket number of any appeal to the <input class="fill"> Circuit: <input class="fill"></p>
-                <p>Are (were) you a party or lawyer in the lawsuit? <input type="checkbox"> Party <input type="checkbox"> Lawyer <input type="checkbox"> Neither</p>
-                <p>If you are (were) a party and have (had) a lawyer, give the lawyer's name, address, and telephone number: <input class="fill" style="width:70%;"></p>
-                <p>4. Brief Statement of Facts. Attach a brief statement of the specific facts on which the claim of judicial misconduct or disability is based. Include what happened, when and where it happened, and any information that would help an investigator check the facts. If the complaint alleges judicial disability, also include any additional facts that form the basis of that allegation.</p>
-                <textarea class="fill"></textarea>
-                <p>5. Declaration and signature:</p>
-                <p>I declare under penalty of perjury that the statements made in this complaint are true and correct to the best of my knowledge.</p>
-                <p>Signature: _________________________ Date: <input class="fill"></p>
-            </div>`,
-        AO440: `
-            <div class="document-page">
-                <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT</div>
-                <p>for the</p>
-                <p><input class="fill" style="width:100%; text-align:center;" placeholder="District Name"></p>
-                <p>Plaintiff(s)</p>
-                <textarea class="fill" placeholder="Plaintiff Names"></textarea>
-                <p>v.</p>
-                <p>Civil Action No. <input class="fill"></p>
-                <p>Defendant(s)</p>
-                <textarea class="fill" placeholder="Defendant Names"></textarea>
-                <div style="text-align:center; font-weight:bold;">SUMMONS IN A CIVIL ACTION</div>
-                <p>To: (Defendant's name and address) <input class="fill" style="width:100%;"></p>
-                <p>A lawsuit has been filed against you.</p>
-                <p>Within 21 days after service of this summons on you (not counting the day you received it) — or 60 days if you are the United States or a United States agency, or an officer or employee of the United States described in Fed. R. Civ. P. 12 (a)(2) or (3) — you must serve on the plaintiff an answer to the attached complaint or a motion under Rule 12 of the Federal Rules of Civil Procedure. The answer or motion must be served on the plaintiff or plaintiff's attorney, whose name and address are:</p>
-                <input class="fill" style="width:100%;"></p>
-                <p>If you fail to respond, judgment by default will be entered against you for the relief demanded in the complaint. You also must file your answer or motion with the court.</p>
-                <p>CLERK OF COURT</p>
-                <p>Date: <input class="fill"></p>
-                <p>Signature of Clerk or Deputy Clerk: __________________</p>
-                <!-- Proof of Service on next page if needed -->
+                <div style="text-align:center; font-weight:bold;">APPLICATION TO PROCEED WITHOUT PREPAYING FEES</div>
+                <p>I declare I am unable to pay the costs of these proceedings. I support this with the following:</p>
+                <p>1. Income: <input class="fill"></p>
+                <p>2. Assets: <textarea class="fill"></textarea></p>
+                <p>Date: <input class="fill"> Signature: __________________</p>
             </div>`
     };
+
     function renderForm() {
         const val = document.getElementById('protocol').value;
         const out = document.getElementById('doc-output');
@@ -448,31 +222,37 @@
             out.innerHTML = `<div style="margin-top:200px; text-align:center;"><h2 style="color:var(--neural-glow);">SELECT A VALID PROTOCOL</h2></div>`;
         }
     }
+
     async function generatePdf() {
         const { jsPDF } = window.jspdf;
         const page = document.querySelector('.document-page');
-        if(!page) return alert("SELECT PROTOCOL OR AGREEMENT FIRST.");
+        if(!page) return alert("SELECT FIRST.");
+
         // Visual feedback during capture
         const btn = document.querySelector('.btn');
         btn.innerText = "CAPTURING DOCUMENT...";
-       
+        
         try {
-            const canvas = await html2canvas(page, {
-                scale: 2,
+            const canvas = await html2canvas(page, { 
+                scale: 2, 
                 backgroundColor: "#ffffff",
-                useCORS: true
+                useCORS: true 
             });
+
             const pdf = new jsPDF('p', 'pt', 'letter');
             const imgData = canvas.toDataURL('image/png');
             pdf.addImage(imgData, 'PNG', 0, 0, 612, 792);
-            pdf.save('LadyLegalz_Contract.pdf');
+            pdf.save('CONTRACTGEN_BETA.pdf');
         } catch (err) {
             console.error(err);
-            alert("Error generating PDF. Check console.");
+            alert("ERROR GENERATING PDF. CHECK LADY LEGALZ CONSOLE.");
         } finally {
             btn.innerText = "GENERATE & DOWNLOAD PDF";
         }
     }
 </script>
+
 </body>
 </html>
+          
+             
