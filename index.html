@@ -2,239 +2,99 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ | UNIFIED COMMAND v.8.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <title>LADY LEGALZ | SECURE PDF INTERFACE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --neon: #00ffcc;
-            --warning: #ffcc00;
-            --bg: #050505;
-            --panel: rgba(15, 20, 30, 0.98);
-            --border: rgba(0, 255, 204, 0.3);
-            --text: #e0e0e0;
-        }
-
-        body, html {
-            margin: 0; padding: 0; height: 100%; overflow: hidden;
-            font-family: 'Rajdhani', sans-serif; color: var(--text);
-            background: var(--bg);
-        }
-
-        /* Failsafe Boot Loader */
-        #boot-loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: var(--neon); font-family: 'Share Tech Mono'; transition: opacity 0.8s;
-        }
-
-        /* HUD Header */
-        .hud-header {
-            height: 55px; background: #000; border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 25px;
-            font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 2px;
-        }
-
-        .app-container {
-            display: grid; grid-template-columns: 360px 1fr; height: calc(100vh - 55px);
-        }
-
-        /* Sidebar & Clause Library */
-        .sidebar {
-            background: var(--panel); border-right: 1px solid var(--border);
-            padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
-        }
-
-        .meta-section {
-            border: 1px solid var(--border); padding: 12px; border-radius: 4px;
-            background: rgba(255,255,255,0.02);
-        }
-
-        .meta-label { font-size: 0.65rem; color: var(--neon); margin-bottom: 8px; display: block; text-transform: uppercase; font-weight: bold; }
-
-        select, button {
-            background: rgba(0, 40, 40, 0.6); border: 1px solid var(--neon); padding: 10px;
-            color: white; width: 100%; cursor: pointer; font-family: 'Share Tech Mono'; font-size: 0.85rem;
-        }
-
-        .snippet-card {
-            background: rgba(0,0,0,0.4); border: 1px solid #333; padding: 8px; margin-top: 8px;
-            font-size: 0.7rem; cursor: pointer; transition: 0.2s;
-        }
-        .snippet-card:hover { border-color: var(--neon); background: rgba(0,255,204,0.1); }
-        .snippet-card strong { color: var(--neon); display: block; }
-
-        /* Viewport */
-        .viewport { background: #111; position: relative; display: flex; flex-direction: column; }
+        :root { --neon: #00ffcc; --bg: #050505; --panel: #0f141e; --border: rgba(0, 255, 204, 0.3); }
         
-        #scanner-line {
-            display: none; position: absolute; width: 100%; height: 3px; 
-            background: var(--neon); box-shadow: 0 0 15px var(--neon); z-index: 10; top: 0;
+        body, html { margin: 0; padding: 0; height: 100%; background: var(--bg); color: white; font-family: 'Arial', sans-serif; overflow: hidden; }
+        
+        .container { display: grid; grid-template-columns: 350px 1fr; height: 100vh; }
+
+        /* Sidebar Styling */
+        .sidebar { background: var(--panel); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
+        
+        h1 { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid var(--neon); padding-bottom: 10px; }
+        
+        label { font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon); display: block; margin-bottom: 5px; }
+
+        select { 
+            background: #1a1a1a; border: 1px solid var(--neon); color: white; 
+            padding: 10px; width: 100%; cursor: pointer; font-family: 'Share Tech Mono';
+            margin-bottom: 20px;
         }
 
-        .tab-bar {
-            background: #000; height: 40px; display: flex; border-bottom: 1px solid #333;
-        }
+        /* Viewport Styling */
+        .viewport { background: #222; position: relative; }
+        
+        /* THE CRITICAL PIECE: The Iframe */
+        #pdf-frame { width: 100%; height: 100%; border: none; }
 
-        .tab {
-            padding: 12px 20px; font-size: 0.65rem; border-right: 1px solid #222; 
-            cursor: pointer; background: #0a0a0a; font-family: 'Orbitron'; color: #666;
-        }
-        .tab.active { background: #002222; border-bottom: 2px solid var(--neon); color: var(--neon); }
-
-        iframe { flex: 1; border: none; background: #1a1a1a; }
-
-        .status-footer {
-            height: 25px; background: #000; font-size: 10px; display: flex; align-items: center;
-            padding: 0 20px; color: var(--neon); border-top: 1px solid #333;
+        .status-bar { 
+            position: absolute; bottom: 0; width: 100%; background: black; 
+            color: var(--neon); font-size: 10px; padding: 5px 20px; font-family: 'Orbitron';
         }
     </style>
 </head>
 <body>
 
-<div id="boot-loader" onclick="bypassBoot()">
-    <div style="width: 300px; text-align:center;">
-        <div id="boot-text">> INITIALIZING NEURAL LEGAL ASSETS...</div>
-        <div style="font-size: 0.6rem; margin-top: 10px; opacity: 0.5;">(CLICK TO BYPASS)</div>
-    </div>
-</div>
-
-<header class="hud-header">
-    <div style="color: var(--neon);">LADY LEGALZ // UNIFIED COMMAND</div>
-    <div id="clock">00:00:00</div>
-</header>
-
-<div class="app-container">
+<div class="container">
     <aside class="sidebar">
-        <div class="meta-section">
-            <span class="meta-label">PRIVATE AGREEMENT ASSETS</span>
-            <select id="agreement-select" onchange="loadDoc(this.value, 'agreement')">
-                <option value="">-- SELECT AGREEMENT --</option>
-                <option value="Attorney Client Agreement.pdf">Attorney Client Agreement</option>
-                <option value="LS Representation Agreement.pdf">Limited Scope Agreement</option>
-                <option value="Estate Plan Agreement.pdf">Estate Plan Agreement</option>
-                <option value="Divorce Settlement Agreement.pdf">Divorce Settlement Agreement</option>
-                <option value="LLC Articles of Organization.pdf">LLC Articles of Org</option>
-                <option value="Land Purchase Agreement.pdf">Land Purchase Agreement</option>
-                <option value="Vehicle Purchase Agreement.pdf">Vehicle Purchase Agreement</option>
-                <option value="Software Development Agreement.pdf">Software Development Contract</option>
-                <option value="Hold Harmless Agreement.pdf">Hold Harmless Agreement</option>
-                <option value="Memo Of Understanding.pdf">Memorandum of Understanding (MOU)</option>
-            </select>
-        </div>
+        <h1>LADY LEGALZ</h1>
 
-        <div class="meta-section">
-            <span class="meta-label">FEDERAL LITIGATION PROTOCOLS</span>
-            <select id="federal-select" onchange="loadDoc(this.value, 'federal')">
-                <option value="">-- SELECT FEDERAL FORM --</option>
-                <option value="Civil Action Complaint Federal.pdf">Federal Complaint (Pro Se 1)</option>
-                <option value="Civil Rights Civil Action Complaint (Non-Prisoner).pdf">Civil Rights (Non-Prisoner)</option>
-                <option value="Civil Rights Civil Action Complaint.pdf">Civil Rights (Prisoner)</option>
-                <option value="Negligence Civil Action Complaint.pdf">Negligence Complaint</option>
-                <option value="Defendant Answer to Civil Action Complaint.pdf">Defendant's Answer</option>
-                <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf">IFP Fee Waiver</option>
-                <option value="Civil Action Cover Sheet Federal.pdf">Civil Cover Sheet (JS 44)</option>
-                <option value="Civil Action Cover Letter Federal.pdf">Summons (AO 440)</option>
-                <option value="NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf">Waiver of Service</option>
-                <option value="COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf">Judicial Misconduct</option>
-            </select>
-        </div>
+        <label>PRIVATE AGREEMENTS</label>
+        <select onchange="loadPDF(this.value)">
+            <option value="">-- Select Agreement --</option>
+            <option value="Attorney Client Agreement.pdf">Attorney Client Agreement</option>
+            <option value="Divorce Settlement Agreement.pdf">Divorce Settlement Agreement</option>
+            <option value="Estate Plan Agreement.pdf">Estate Plan Agreement</option>
+            <option value="Hold Harmless Agreement.pdf">Hold Harmless Agreement</option>
+            <option value="Land Purchase Agreement.pdf">Land Purchase Agreement</option>
+            <option value="LLC Articles of Organization.pdf">LLC Articles of Organization</option>
+            <option value="LS Representation Agreement.pdf">LS Representation Agreement</option>
+            <option value="Memo Of Understanding.pdf">Memo Of Understanding</option>
+            <option value="Software Development Agreement.pdf">Software Development Agreement</option>
+            <option value="Vehicle Purchase Agreement.pdf">Vehicle Purchase Agreement</option>
+        </select>
 
-        <div class="meta-section">
-            <span class="meta-label">SYSTEM TOOLS</span>
-            <button onclick="runScan()" style="margin-bottom: 10px;">RUN COMPLIANCE SCAN</button>
-            <button onclick="location.reload()" style="border-color: var(--warning); color: var(--warning);">CLEAR SESSION</button>
-        </div>
+        <label>FEDERAL PROTOCOLS</label>
+        <select onchange="loadPDF(this.value)">
+            <option value="">-- Select Federal Form --</option>
+            <option value="Civil Action Complaint Federal.pdf">Civil Action Complaint</option>
+            <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf">IFP Fee Waiver</option>
+            <option value="Civil Action Cover Sheet Federal.pdf">Civil Cover Sheet</option>
+            <option value="Civil Rights Civil Action Complaint (Non-Prisoner).pdf">Civil Rights (Non-Prisoner)</option>
+            <option value="Civil Rights Civil Action Complaint.pdf">Civil Rights (Prisoner)</option>
+            <option value="COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf">Judicial Misconduct</option>
+            <option value="Defendant Answer to Civil Action Complaint.pdf">Defendant Answer</option>
+            <option value="Negligence Civil Action Complaint.pdf">Negligence Complaint</option>
+            <option value="NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf">Waiver of Service</option>
+            <option value="Civil Action Cover Letter Federal.pdf">Federal Cover Letter</option>
+        </select>
 
-        <div class="meta-section" style="overflow-y: auto;">
-            <span class="meta-label">NEURAL SNIPPETS (CLICK TO COPY)</span>
-            <div class="snippet-card" onclick="copySnippet('Force Majeure: Neither party shall be liable for failure to perform due to causes beyond their reasonable control, including acts of God, war, or strikes.')">
-                <strong>FORCE MAJEURE</strong> "Neither party shall be liable..."
-            </div>
-            <div class="snippet-card" onclick="copySnippet('Governing Law: This Agreement shall be governed by and construed in accordance with the laws of the State of [INSERT STATE].')">
-                <strong>GOVERNING LAW</strong> "This Agreement shall be governed..."
-            </div>
-            <div class="snippet-card" onclick="copySnippet('Severability: If any provision of this Agreement is found to be void or unenforceable, the remaining provisions will remain in full force.')">
-                <strong>SEVERABILITY</strong> "Remaining provisions will remain..."
-            </div>
+        <div style="margin-top:auto; font-size: 11px; opacity: 0.6;">
+            <p>SYSTEM STATUS: SECURE</p>
+            <p>ENCRYPTION: ACTIVE</p>
         </div>
     </aside>
 
     <main class="viewport">
-        <div id="scanner-line"></div>
-        <div class="tab-bar">
-            <div id="tab-title" class="tab active">AWAITING_PROTOCOL.EXE</div>
-        </div>
-        
-        <iframe id="pdf-viewer" src=""></iframe>
-
-        <div class="status-footer">
-            SYSTEM_STATUS: SECURE // ENCRYPTION: AES-256 ACTIVE // DATA_ENTRY: READY
-        </div>
+        <iframe id="pdf-frame" src=""></iframe>
+        <div class="status-bar" id="status">AWAITING SELECTION...</div>
     </main>
 </div>
 
 <script>
-    // Boot sequence
-    function bypassBoot() {
-        const loader = document.getElementById('boot-loader');
-        loader.style.opacity = '0';
-        setTimeout(() => loader.style.display = 'none', 800);
-    }
-    setTimeout(bypassBoot, 2500);
-
-    // Document Loader
-    function loadDoc(fileName, type) {
-        const viewer = document.getElementById('pdf-viewer');
-        const tabTitle = document.getElementById('tab-title');
+    function loadPDF(fileName) {
+        if (!fileName) return;
         
-        if (fileName) {
-            viewer.src = fileName + "#toolbar=1&view=FitH";
-            tabTitle.innerText = fileName.toUpperCase();
-            
-            // Toggle dropdowns
-            if (type === 'agreement') document.getElementById('federal-select').value = "";
-            else document.getElementById('agreement-select').value = "";
-            
-            updateStatus("FILE_LOADED: " + fileName);
-        }
-    }
-
-    // Compliance Scanner
-    function runScan() {
-        const line = document.getElementById('scanner-line');
-        const status = document.querySelector('.status-footer');
-        line.style.display = 'block';
-        let pos = 0;
-        updateStatus("SCANNING DOCUMENT FOR COMPLIANCE...");
+        const frame = document.getElementById('pdf-frame');
+        const status = document.getElementById('status');
         
-        const interval = setInterval(() => {
-            if (pos >= 100) {
-                clearInterval(interval);
-                line.style.display = 'none';
-                updateStatus("SCAN COMPLETE: NO ERRORS DETECTED.");
-                alert("COMPLIANCE SCAN COMPLETE: Signature Fields & Legal Headers Verified.");
-            } else {
-                pos += 2;
-                line.style.top = pos + "%";
-            }
-        }, 30);
+        // We append #toolbar=1 to ensure the interactive tools are visible
+        frame.src = fileName + "#toolbar=1&view=FitH";
+        status.innerText = "LOADED: " + fileName.toUpperCase();
     }
-
-    // Clipboard Logic
-    function copySnippet(text) {
-        navigator.clipboard.writeText(text);
-        updateStatus("SNIPPET COPIED TO CLIPBOARD");
-    }
-
-    function updateStatus(msg) {
-        document.querySelector('.status-footer').innerText = "SYSTEM_LOG: " + msg;
-    }
-
-    // HUD Clock
-    setInterval(() => {
-        document.getElementById('clock').innerText = new Date().toLocaleTimeString();
-    }, 1000);
 </script>
 
 </body>
