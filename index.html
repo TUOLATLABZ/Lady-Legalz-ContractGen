@@ -2,99 +2,148 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LADY LEGALZ | SECURE PDF INTERFACE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LADY LEGALZ | FIXED COMMAND</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #00ffcc; --bg: #050505; --panel: #0f141e; --border: rgba(0, 255, 204, 0.3); }
-        
-        body, html { margin: 0; padding: 0; height: 100%; background: var(--bg); color: white; font-family: 'Arial', sans-serif; overflow: hidden; }
-        
-        .container { display: grid; grid-template-columns: 350px 1fr; height: 100vh; }
-
-        /* Sidebar Styling */
-        .sidebar { background: var(--panel); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
-        
-        h1 { font-family: 'Orbitron'; color: var(--neon); font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid var(--neon); padding-bottom: 10px; }
-        
-        label { font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon); display: block; margin-bottom: 5px; }
-
-        select { 
-            background: #1a1a1a; border: 1px solid var(--neon); color: white; 
-            padding: 10px; width: 100%; cursor: pointer; font-family: 'Share Tech Mono';
-            margin-bottom: 20px;
+        :root {
+            --neon: #00ffcc;
+            --bg: #050505;
+            --panel: rgba(15, 20, 30, 0.98);
+            --border: rgba(0, 255, 204, 0.4);
+            --text: #e0e0e0;
         }
 
-        /* Viewport Styling */
-        .viewport { background: #222; position: relative; }
-        
-        /* THE CRITICAL PIECE: The Iframe */
-        #pdf-frame { width: 100%; height: 100%; border: none; }
+        body, html {
+            margin: 0; padding: 0; height: 100%; overflow: hidden;
+            font-family: 'Rajdhani', sans-serif; color: var(--text);
+            background: var(--bg);
+        }
 
-        .status-bar { 
-            position: absolute; bottom: 0; width: 100%; background: black; 
-            color: var(--neon); font-size: 10px; padding: 5px 20px; font-family: 'Orbitron';
+        /* HUD Header */
+        .hud-header {
+            height: 55px; background: #000; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 25px;
+            font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 2px;
+        }
+
+        .app-container {
+            display: grid; grid-template-columns: 350px 1fr; height: calc(100vh - 55px);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background: var(--panel); border-right: 1px solid var(--border);
+            padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
+        }
+
+        .meta-section {
+            border: 1px solid var(--border); padding: 12px; border-radius: 4px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .meta-label { font-size: 0.7rem; color: var(--neon); margin-bottom: 8px; display: block; text-transform: uppercase; font-weight: bold; }
+
+        select, button {
+            background: rgba(0, 40, 40, 0.6); border: 1px solid var(--neon); padding: 10px;
+            color: white; width: 100%; cursor: pointer; font-family: 'Share Tech Mono'; font-size: 0.85rem;
+        }
+
+        /* Viewport */
+        .viewport { background: #111; position: relative; display: flex; flex-direction: column; }
+        
+        #pdf-frame { flex: 1; border: none; background: #1a1a1a; }
+
+        .status-footer {
+            height: 25px; background: #000; font-size: 10px; display: flex; align-items: center;
+            padding: 0 20px; color: var(--neon); border-top: 1px solid #333;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<header class="hud-header">
+    <div style="color: var(--neon);">LADY LEGALZ // CASE COMMAND v.9.0</div>
+    <div id="clock">00:00:00</div>
+</header>
+
+<div class="app-container">
     <aside class="sidebar">
-        <h1>LADY LEGALZ</h1>
+        <div class="meta-section">
+            <span class="meta-label">AGREEMENT ENGINE</span>
+            <select id="agreement-select" onchange="loadPDF(this.value, 'agreement')">
+                <option value="">-- SELECT ASSET --</option>
+                <option value="Attorney Client Agreement.pdf">Attorney Client Agreement</option>
+                <option value="Divorce Settlement Agreement.pdf">Divorce Settlement Agreement</option>
+                <option value="Estate Plan Agreement.pdf">Estate Plan Agreement</option>
+                <option value="Hold Harmless Agreement.pdf">Hold Harmless Agreement</option>
+                <option value="Land Purchase Agreement.pdf">Land Purchase Agreement</option>
+                <option value="LLC Articles of Organization.pdf">LLC Articles of Organization</option>
+                <option value="LS Representation Agreement.pdf">LS Representation Agreement</option>
+                <option value="Memo Of Understanding.pdf">Memo Of Understanding</option>
+                <option value="Software Development Agreement.pdf">Software Development Agreement</option>
+                <option value="Vehicle Purchase Agreement.pdf">Vehicle Purchase Agreement</option>
+            </select>
+        </div>
 
-        <label>PRIVATE AGREEMENTS</label>
-        <select onchange="loadPDF(this.value)">
-            <option value="">-- Select Agreement --</option>
-            <option value="Attorney Client Agreement.pdf">Attorney Client Agreement</option>
-            <option value="Divorce Settlement Agreement.pdf">Divorce Settlement Agreement</option>
-            <option value="Estate Plan Agreement.pdf">Estate Plan Agreement</option>
-            <option value="Hold Harmless Agreement.pdf">Hold Harmless Agreement</option>
-            <option value="Land Purchase Agreement.pdf">Land Purchase Agreement</option>
-            <option value="LLC Articles of Organization.pdf">LLC Articles of Organization</option>
-            <option value="LS Representation Agreement.pdf">LS Representation Agreement</option>
-            <option value="Memo Of Understanding.pdf">Memo Of Understanding</option>
-            <option value="Software Development Agreement.pdf">Software Development Agreement</option>
-            <option value="Vehicle Purchase Agreement.pdf">Vehicle Purchase Agreement</option>
-        </select>
+        <div class="meta-section">
+            <span class="meta-label">FEDERAL PROTOCOLS</span>
+            <select id="federal-select" onchange="loadPDF(this.value, 'federal')">
+                <option value="">-- SELECT FORM --</option>
+                <option value="Civil Action Complaint Federal.pdf">Civil Action Complaint</option>
+                <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf">IFP Fee Waiver</option>
+                <option value="Civil Action Cover Sheet Federal.pdf">Civil Cover Sheet</option>
+                <option value="Civil Rights Civil Action Complaint (Non-Prisoner).pdf">Civil Rights (Non-Prisoner)</option>
+                <option value="Civil Rights Civil Action Complaint.pdf">Civil Rights (Prisoner)</option>
+                <option value="COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf">Judicial Misconduct</option>
+                <option value="Defendant Answer to Civil Action Complaint.pdf">Defendant Answer</option>
+                <option value="Negligence Civil Action Complaint.pdf">Negligence Complaint</option>
+                <option value="NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf">Waiver of Service</option>
+                <option value="Civil Action Cover Letter Federal.pdf">Federal Cover Letter</option>
+            </select>
+        </div>
 
-        <label>FEDERAL PROTOCOLS</label>
-        <select onchange="loadPDF(this.value)">
-            <option value="">-- Select Federal Form --</option>
-            <option value="Civil Action Complaint Federal.pdf">Civil Action Complaint</option>
-            <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf">IFP Fee Waiver</option>
-            <option value="Civil Action Cover Sheet Federal.pdf">Civil Cover Sheet</option>
-            <option value="Civil Rights Civil Action Complaint (Non-Prisoner).pdf">Civil Rights (Non-Prisoner)</option>
-            <option value="Civil Rights Civil Action Complaint.pdf">Civil Rights (Prisoner)</option>
-            <option value="COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf">Judicial Misconduct</option>
-            <option value="Defendant Answer to Civil Action Complaint.pdf">Defendant Answer</option>
-            <option value="Negligence Civil Action Complaint.pdf">Negligence Complaint</option>
-            <option value="NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf">Waiver of Service</option>
-            <option value="Civil Action Cover Letter Federal.pdf">Federal Cover Letter</option>
-        </select>
-
-        <div style="margin-top:auto; font-size: 11px; opacity: 0.6;">
-            <p>SYSTEM STATUS: SECURE</p>
-            <p>ENCRYPTION: ACTIVE</p>
+        <div class="meta-section">
+            <button onclick="downloadCurrent()" style="border-color: var(--neon);">DOWNLOAD FILLED PDF</button>
         </div>
     </aside>
 
     <main class="viewport">
         <iframe id="pdf-frame" src=""></iframe>
-        <div class="status-bar" id="status">AWAITING SELECTION...</div>
+        <div class="status-footer" id="status-bar">AWAITING SELECTION // ENCRYPTION ACTIVE</div>
     </main>
 </div>
 
 <script>
-    function loadPDF(fileName) {
+    let currentFile = "";
+
+    function loadPDF(fileName, category) {
         if (!fileName) return;
-        
+        currentFile = fileName;
         const frame = document.getElementById('pdf-frame');
-        const status = document.getElementById('status');
         
-        // We append #toolbar=1 to ensure the interactive tools are visible
+        // Use relative pathing (no leading slash) for GitHub Pages compatibility
         frame.src = fileName + "#toolbar=1&view=FitH";
-        status.innerText = "LOADED: " + fileName.toUpperCase();
+        
+        // Toggle UI
+        if (category === 'agreement') document.getElementById('federal-select').value = "";
+        else document.getElementById('agreement-select').value = "";
+        
+        document.getElementById('status-bar').innerText = "LOADED: " + fileName.toUpperCase();
     }
+
+    function downloadCurrent() {
+        if (!currentFile) return alert("No document selected.");
+        const link = document.createElement('a');
+        link.href = currentFile;
+        link.download = currentFile;
+        link.click();
+    }
+
+    // HUD Clock
+    setInterval(() => {
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+    }, 1000);
 </script>
 
 </body>
