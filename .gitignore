@@ -1,0 +1,16 @@
+# Ignore API keys and environment variables
+.env
+*.env
+config.json
+secrets.txt
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
+
+# Optional: Ignore PDFs if they are too large for GitHub
+# (Remove the '#' below if you want to host PDFs elsewhere)
+# pdfs/*.pdf
+
+# Ignore Node.js modules (if you eventually use them)
+node_modules/
