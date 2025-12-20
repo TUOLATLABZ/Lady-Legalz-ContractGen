@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ | FEDERAL LITIGATION SUITE v.5.0</title>
+    <title>LADY LEGALZ | FEDERAL LITIGATION SUITE v.5.2</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -11,7 +11,6 @@
         :root {
             --neural-glow: #00ffcc;
             --warning-glow: #ffcc00;
-            --deep-void: #0a001a;
             --synth-purple: rgba(10, 15, 25, 0.98);
             --interface-text: #e0e0e0;
             --control-bg: rgba(0, 40, 40, 0.5);
@@ -30,259 +29,232 @@
         .hud-header {
             height: 60px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border-light);
             display: flex; align-items: center; justify-content: space-around; padding: 0 20px;
-            font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 1px; z-index: 1000;
+            font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 1px;
         }
-        .step { opacity: 0.4; transition: 0.5s; position: relative; }
+        .step { opacity: 0.4; transition: 0.5s; }
         .step.active { opacity: 1; color: var(--neural-glow); text-shadow: 0 0 10px var(--neural-glow); }
 
         .app-container {
             display: grid; grid-template-columns: 380px 1fr; height: calc(100vh - 60px);
         }
 
-        /* Sidebar Styling */
         .sidebar {
             background: var(--synth-purple); border-right: 1px solid var(--border-light);
             padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
         }
+
         .meta-section {
             border: 1px solid var(--border-light); padding: 15px; border-radius: 4px;
             background: rgba(255,255,255,0.02);
         }
+
         .meta-label { font-size: 0.7rem; color: var(--neural-glow); margin-bottom: 5px; display: block; text-transform: uppercase; }
-        
+
         .select-field, .meta-input, .meta-textarea {
             background: var(--control-bg); border: 1px solid var(--border-light); padding: 10px;
             color: var(--interface-text); width: 100%; box-sizing: border-box; outline: none; margin-bottom: 10px;
-            font-family: 'Share Tech Mono';
+            font-family: 'Share Tech Mono'; font-size: 0.85rem;
         }
 
-        /* Document Styling */
         .doc-canvas {
             background: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
             overflow-y: auto; padding: 50px 20px; display: flex; flex-direction: column; align-items: center;
         }
+
         .document-page {
             width: 8.5in; min-height: 11in; background: var(--paper-bg); color: var(--legal-black);
             padding: 1in; margin-bottom: 30px; box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            font-family: 'Times New Roman', serif; position: relative; line-height: 1.5;
+            font-family: 'Times New Roman', serif; position: relative; line-height: 1.4;
         }
-        .court-header { text-align: center; font-weight: bold; margin-bottom: 20px; }
-        .form-id { position: absolute; top: 20px; right: 20px; font-size: 8pt; color: #666; }
 
-        /* Sync Highlighting */
         .sync-field {
             color: #0033cc; font-weight: bold; border-bottom: 1px dashed #0033cc;
             min-width: 40px; display: inline-block; transition: 0.3s;
         }
-        .sync-field.updating { background: rgba(0, 255, 204, 0.3); transform: scale(1.1); }
 
         .action-bar {
             position: fixed; bottom: 0; width: 100%; padding: 15px;
             background: rgba(0,0,0,0.9); border-top: 1px solid var(--neural-glow);
-            display: flex; gap: 20px; justify-content: center; z-index: 100;
+            display: flex; gap: 20px; justify-content: center;
         }
+
         .btn {
             background: var(--neural-glow); color: #000; border: none; padding: 12px 25px;
-            font-family: 'Orbitron'; cursor: pointer; font-weight: bold; transition: 0.3s;
+            font-family: 'Orbitron'; cursor: pointer; font-weight: bold;
         }
-        .btn:hover { box-shadow: 0 0 15px var(--neural-glow); }
 
+        /* Failsafe Boot Loader */
         #boot-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: var(--neural-glow); font-family: 'Share Tech Mono';
+            color: var(--neural-glow); font-family: 'Share Tech Mono'; transition: opacity 0.8s;
         }
     </style>
 </head>
 <body>
 
-<div id="boot-loader">
-    <div style="width: 300px;">
-        <div id="boot-text">> LOADING FEDERAL PROTOCOLS...</div>
-        <div style="width: 100%; height: 2px; background: #222; margin-top: 10px;">
-            <div id="boot-progress" style="width: 0%; height: 100%; background: var(--neural-glow); transition: 2s;"></div>
-        </div>
+<div id="boot-loader" onclick="bypassBoot()">
+    <div style="width: 300px; text-align:center;">
+        <div id="boot-text">> INITIALIZING FEDERAL ASSETS...</div>
+        <div style="font-size: 0.6rem; margin-top: 10px; opacity: 0.5;">(CLICK TO BYPASS)</div>
     </div>
 </div>
 
 <header class="hud-header">
-    <div class="step active">01 SELECT PROTOCOL</div>
+    <div class="step active">01 SELECT FORM</div>
     <div class="step" id="hud-2">02 DATA SYNC</div>
     <div class="step" id="hud-3">03 AUDIT</div>
-    <div class="step" id="hud-4">04 EXECUTE PDF</div>
+    <div class="step" id="hud-4">04 EXPORT</div>
 </header>
 
 <div class="app-container">
     <aside class="sidebar">
         <div class="meta-section">
-            <span class="meta-label">LEGAL PROTOCOL SELECTION</span>
+            <span class="meta-label">FEDERAL PROTOCOL SELECTION</span>
             <select id="protocol" class="select-field" onchange="loadProtocol()">
-                <option value="">-- SYSTEM STANDBY --</option>
-                <optgroup label="Complaints">
-                    <option value="CIV_COMPLAINT">Civil Case Complaint (Pro Se 1)</option>
-                    <option value="CIV_RIGHTS_NON">Civil Rights - Non-Prisoner (Pro Se 15)</option>
-                    <option value="CIV_RIGHTS_PRIS">Civil Rights - Prisoner (Pro Se 14)</option>
-                    <option value="NEGLIGENCE">Negligence Complaint (Pro Se 5)</option>
+                <option value="">-- SELECT FORM --</option>
+                <optgroup label="Complaints (Pro Se)">
+                    <option value="CIV_COMP">Civil Case Complaint (Pro Se 1)</option>
+                    <option value="NEG_COMP">Negligence Complaint (Pro Se 5)</option>
+                    <option value="CR_NON">Civil Rights - Non-Prisoner (Pro Se 15)</option>
+                    <option value="CR_PRIS">Civil Rights - Prisoner (Pro Se 14)</option>
                 </optgroup>
-                <optgroup label="Responses & Defense">
-                    <option value="ANSWER">Defendant's Answer (Pro Se 3)</option>
-                </optgroup>
-                <optgroup label="Process & Fees">
+                <optgroup label="Official Court Forms">
+                    <option value="SUMMONS">Summons in Civil Action (AO 440)</option>
                     <option value="IFP">IFP Application (AO 240)</option>
-                    <option value="SUMMONS">Summons (AO 440)</option>
                     <option value="WAIVER">Waiver of Service (AO 398)</option>
-                </optgroup>
-                <optgroup label="Administrative">
-                    <option value="JUDICIAL_MIS">Judicial Misconduct (AO 310)</option>
-                    <option value="COVER_SHEET">Civil Cover Sheet (JS 44)</option>
+                    <option value="COVER">Civil Cover Sheet (JS 44)</option>
                 </optgroup>
             </select>
         </div>
 
         <div class="meta-section">
-            <span class="meta-label">NEURAL DATA SYNC</span>
-            <input type="text" class="meta-input" placeholder="Plaintiff Name" oninput="sync('pName', this.value)">
-            <input type="text" class="meta-input" placeholder="Defendant Name" oninput="sync('dName', this.value)">
-            <input type="text" class="meta-input" placeholder="District (e.g. Southern District of NY)" oninput="sync('dist', this.value)">
+            <span class="meta-label">NEURAL SYNC DATA</span>
+            <input type="text" class="meta-input" placeholder="Plaintiff Full Name" oninput="sync('pName', this.value)">
+            <input type="text" class="meta-input" placeholder="Defendant Full Name" oninput="sync('dName', this.value)">
+            <input type="text" class="meta-input" placeholder="District Court (e.g. S.D.N.Y.)" oninput="sync('dist', this.value)">
             <input type="text" class="meta-input" placeholder="Case Number" oninput="sync('caseNo', this.value)">
         </div>
 
         <div class="meta-section">
-            <span class="meta-label">FACTUAL NARRATIVE</span>
-            <textarea class="meta-textarea" rows="4" placeholder="Brief statement of claim..." oninput="sync('facts', this.value)"></textarea>
+            <span class="meta-label">CLAIM SUMMARY</span>
+            <textarea class="meta-textarea" rows="3" placeholder="Brief statement of facts..." oninput="sync('facts', this.value)"></textarea>
         </div>
 
-        <button class="btn" style="background:transparent; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="runAudit()">RUN COMPLIANCE AUDIT</button>
+        <button class="btn" style="background:transparent; border:1px solid var(--neural-glow); color:var(--neural-glow);" onclick="runAudit()">RUN COMPLIANCE SCAN</button>
     </aside>
 
     <main class="doc-canvas" id="doc-output">
         <div style="margin-top:200px; font-family:'Orbitron'; color:var(--neural-glow); opacity:0.3; text-align:center;">
             <div style="font-size: 2rem;">LADY LEGALZ</div>
-            <div>AWAITING PROTOCOL INITIALIZATION</div>
+            <div>SELECT A FEDERAL PROTOCOL TO BEGIN</div>
         </div>
     </main>
 
     <div class="action-bar">
-        <button class="btn" onclick="generatePdf()">EXPORT TO PDF</button>
-        <button class="btn" style="background:transparent; color:white; border:1px solid white;" onclick="location.reload()">PURGE SESSION</button>
+        <button class="btn" onclick="generatePdf()">EXECUTE PDF</button>
+        <button class="btn" style="background:transparent; color:white; border:1px solid white;" onclick="location.reload()">CLEAR SYSTEM</button>
     </div>
 </div>
 
 <script>
 const FORMS = {
-    CIV_COMPLAINT: `<div class="document-page">
-        <div class="form-id">Pro Se 1 (Rev. 12/16)</div>
-        <div class="court-header">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
-        <div style="display:flex; border:1px solid #000; padding:10px;">
+    CIV_COMP: `<div class="document-page">
+        <div style="text-align:right; font-size:8pt;">Pro Se 1 (Rev. 12/16)</div>
+        <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
+        <div style="display:flex; border:1px solid #000; margin: 20px 0; padding:10px;">
             <div style="flex:1;"><span class="sync-field" data-sync="pName">[PLAINTIFF]</span><br>Plaintiff</div>
-            <div style="width:50px; text-align:center;">v.</div>
+            <div style="width:40px; text-align:center;">v.</div>
             <div style="flex:1;">Case No: <span class="sync-field" data-sync="caseNo">__________</span></div>
         </div>
         <p><span class="sync-field" data-sync="dName">[DEFENDANT]</span>, Defendant</p>
         <h3 style="text-align:center;">COMPLAINT FOR A CIVIL CASE</h3>
         <h4>I. The Parties</h4>
-        <p>Plaintiff: <span class="sync-field" data-sync="pName">[PLAINTIFF]</span></p>
-        <p>Defendant: <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
+        <p><strong>Plaintiff:</strong> <span class="sync-field" data-sync="pName">[PLAINTIFF]</span></p>
+        <p><strong>Defendant:</strong> <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
         <h4>II. Statement of Claim</h4>
-        <p style="border:1px solid #ccc; min-height:100px; padding:10px;"><span class="sync-field" data-sync="facts">[FACTS]</span></p>
-    </div>`,
-
-    IFP: `<div class="document-page">
-        <div class="form-id">AO 240 (Rev. 07/10)</div>
-        <div class="court-header">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
-        <p><span class="sync-field" data-sync="pName">[PLAINTIFF]</span> v. <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
-        <h3 style="text-align:center;">APPLICATION TO PROCEED WITHOUT PREPAYING FEES OR COSTS</h3>
-        <p>I declare that I am unable to pay the costs of these proceedings and that I am entitled to the relief requested.</p>
-        <p>1. Are you incarcerated? [ ] Yes [ ] No</p>
-        <p>2. Employer name/address: ________________________________</p>
+        <div style="border:1px solid #eee; padding:15px; min-height:150px;"><span class="sync-field" data-sync="facts">[FACTS]</span></div>
     </div>`,
 
     SUMMONS: `<div class="document-page">
-        <div class="form-id">AO 440 (Rev. 06/12)</div>
-        <div class="court-header">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
+        <div style="text-align:right; font-size:8pt;">AO 440 (Rev. 06/12)</div>
+        <div style="text-align:center; font-weight:bold;">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
         <h3 style="text-align:center;">SUMMONS IN A CIVIL ACTION</h3>
-        <p>To: <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
-        <p>A lawsuit has been filed against you. Within 21 days after service (or 60 days if US Agency), you must serve on the plaintiff an answer.</p>
+        <p><strong>To:</strong> <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
+        <p>A lawsuit has been filed against you. Within 21 days after service of this summons on you (not counting the day you received it) you must serve on the plaintiff an answer.</p>
         <div style="margin-top:50px;">Date: ${new Date().toLocaleDateString()}</div>
     </div>`,
 
-    ANSWER: `<div class="document-page">
-        <div class="form-id">Pro Se 3 (Rev. 12/16)</div>
-        <div class="court-header">UNITED STATES DISTRICT COURT<br>for the <span class="sync-field" data-sync="dist">[DISTRICT]</span></div>
-        <p><span class="sync-field" data-sync="pName">[PLAINTIFF]</span> v. <span class="sync-field" data-sync="dName">[DEFENDANT]</span></p>
-        <h3 style="text-align:center;">DEFENDANT'S ANSWER TO THE COMPLAINT</h3>
-        <p>The Defendant, <span class="sync-field" data-sync="dName">[DEFENDANT]</span>, responds to the allegations as follows:</p>
-        <p>1. [ ] Admits [ ] Denies [ ] Lacks knowledge to 1st paragraph.</p>
+    COVER: `<div class="document-page" style="font-size:9pt;">
+        <div style="text-align:right;">JS 44 (Rev. 03/24)</div>
+        <h2 style="text-align:center;">CIVIL COVER SHEET</h2>
+        <div style="border:1px solid #000; padding:10px;">
+            I. (a) PLAINTIFFS: <span class="sync-field" data-sync="pName">[PLAINTIFF]</span><br>
+            (b) DEFENDANTS: <span class="sync-field" data-sync="dName">[DEFENDANT]</span>
+        </div>
+        <div style="border:1px solid #000; margin-top:10px; padding:10px;">
+            II. BASIS OF JURISDICTION: [ ] Federal Question [ ] Diversity
+        </div>
     </div>`,
 
-    COVER_SHEET: `<div class="document-page" style="font-size: 9pt;">
-        <div class="form-id">JS 44 (Rev. 03/24)</div>
-        <h2 style="text-align:center;">CIVIL COVER SHEET</h2>
-        <div style="border:1px solid #000; padding:5px;">
-            I. (a) PLAINTIFFS: <span class="sync-field" data-sync="pName">[PLAINTIFF]</span><br>
-            DEFENDANTS: <span class="sync-field" data-sync="dName">[DEFENDANT]</span>
-        </div>
-        <div style="border:1px solid #000; margin-top:10px; padding:5px;">
-            II. BASIS OF JURISDICTION: [ ] US Govt Plaintiff [ ] Federal Question [ ] Diversity
-        </div>
+    IFP: `<div class="document-page">
+        <div style="text-align:right; font-size:8pt;">AO 240 (Rev. 07/10)</div>
+        <h3 style="text-align:center;">APPLICATION TO PROCEED WITHOUT PREPAYING FEES OR COSTS</h3>
+        <p>I, <span class="sync-field" data-sync="pName">[PLAINTIFF]</span>, declare I am unable to pay the costs of these proceedings.</p>
+        <p>Case No: <span class="sync-field" data-sync="caseNo">__________</span></p>
     </div>`
 };
 
-// Logic for loading protocols
+function bypassBoot() {
+    const loader = document.getElementById('boot-loader');
+    loader.style.opacity = '0';
+    setTimeout(() => loader.style.display = 'none', 800);
+}
+
 function loadProtocol() {
     const key = document.getElementById('protocol').value;
     const output = document.getElementById('doc-output');
     if(key && FORMS[key]) {
         output.innerHTML = FORMS[key];
         document.getElementById('hud-2').classList.add('active');
-        // Re-sync any existing data
-        sync('pName', document.querySelector('[placeholder="Plaintiff Name"]').value);
-        sync('dName', document.querySelector('[placeholder="Defendant Name"]').value);
-        sync('dist', document.querySelector('[placeholder*="District"]').value);
-        sync('caseNo', document.querySelector('[placeholder="Case Number"]').value);
+        refreshSync();
     }
 }
 
-// Global Data Sync
 function sync(field, val) {
-    const targets = document.querySelectorAll(`[data-sync="${field}"]`);
-    targets.forEach(t => {
+    document.querySelectorAll(`[data-sync="${field}"]`).forEach(t => {
         t.innerText = val || `[${field.toUpperCase()}]`;
-        t.classList.add('updating');
-        setTimeout(() => t.classList.remove('updating'), 300);
     });
+}
+
+function refreshSync() {
+    sync('pName', document.querySelector('[placeholder*="Plaintiff"]').value);
+    sync('dName', document.querySelector('[placeholder*="Defendant"]').value);
+    sync('dist', document.querySelector('[placeholder*="District"]').value);
+    sync('caseNo', document.querySelector('[placeholder*="Case Number"]').value);
+    sync('facts', document.querySelector('[placeholder*="facts"]').value);
 }
 
 function runAudit() {
     const btn = event.target;
-    btn.innerText = "SCANNING FOR FRCP COMPLIANCE...";
+    btn.innerText = "SCANNING FEDERAL RULES...";
     setTimeout(() => {
-        btn.innerText = "AUDIT: PASSED";
-        btn.style.borderColor = "var(--neural-glow)";
+        btn.innerText = "FRCP COMPLIANT";
         document.getElementById('hud-3').classList.add('active');
-    }, 2000);
+    }, 1500);
 }
 
 async function generatePdf() {
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p', 'pt', 'letter');
-    const pages = document.querySelectorAll('.document-page');
-    for (let i = 0; i < pages.length; i++) {
-        if (i > 0) pdf.addPage();
-        const canvas = await html2canvas(pages[i], { scale: 2 });
-        pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
-    }
-    pdf.save('LEGAL_DECREE.pdf');
+    const canvas = await html2canvas(document.querySelector('.document-page'), { scale: 2 });
+    pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 612, 792);
+    pdf.save('LADY_LEGALZ_DOC.pdf');
     document.getElementById('hud-4').classList.add('active');
 }
 
-window.onload = () => {
-    document.getElementById('boot-progress').style.width = '100%';
-    setTimeout(() => {
-        document.getElementById('boot-loader').style.opacity = '0';
-        setTimeout(() => document.getElementById('boot-loader').style.display = 'none', 1000);
-    }, 2200);
-};
+// Auto-bypass after 3 seconds if not clicked
+setTimeout(bypassBoot, 3000);
 </script>
 </body>
 </html>
