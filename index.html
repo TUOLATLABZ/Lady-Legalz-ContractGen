@@ -3,151 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ | CONTRACTGEN v3.8.0</title>
+    <title>LADY LEGALZ | CONTRACTGEN BETA v3.8.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --obsidian: #020406; --cyan: #00f2ff; --gold: #c5a059;
-            --green: #00ff9d; --red: #ff0055; --glass: rgba(15, 25, 35, 0.9);
-            --border: rgba(0, 242, 255, 0.2);
+        :root {
+            --bg: #010508;
+            --neon-teal: #00ff9d;
+            --neon-cyan: #00f2ff;
+            --neon-purple: #bd00ff;
+            --neon-pink: #ff00b3;
+            --gold: #c5a059;
+            --glass: rgba(5, 12, 18, 0.96);
+            --panel-border: rgba(0, 255, 157, 0.2);
         }
-        * { box-sizing: border-box; transition: all 0.3s ease; }
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Rajdhani', sans-serif; background: var(--obsidian); color: #e0e6ed; }
-        .hud-grid { display: grid; grid-template-columns: 360px 1fr 420px; height: 100vh; gap: 12px; padding: 15px; }
-        .panel { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; }
-        .panel-header { background: rgba(0, 242, 255, 0.08); padding: 15px; font-family: 'Orbitron'; font-size: 0.7rem; color: var(--cyan); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
-        .section { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .label { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: block; font-weight: 700; }
-        select, textarea { background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: #fff; padding: 12px; font-family: 'Share Tech Mono'; width: 100%; border-radius: 4px; }
-        button { background: rgba(0, 242, 255, 0.05); border: 1px solid var(--cyan); color: var(--cyan); padding: 12px; border-radius: 4px; font-family: 'Orbitron'; font-size: 0.65rem; cursor: pointer; width: 100%; }
-        button:hover { background: var(--cyan); color: #000; box-shadow: 0 0 15px var(--cyan); }
-        #pdf-viewport { flex: 1; background: #000; margin: 10px; border-radius: 4px; overflow: hidden; }
-        #pdf-frame { width: 100%; height: 100%; filter: invert(0.9) hue-rotate(180deg) brightness(0.8); }
-        #terminal { height: 100px; background: rgba(0,0,0,0.8); font-family: 'Share Tech Mono'; font-size: 0.7rem; padding: 12px; color: var(--green); overflow-y: auto; }
-        #timeline-hud { background: rgba(0,242,255,0.03); padding: 12px; border-radius: 4px; min-height: 50px; font-size: 0.75rem; color: var(--cyan); display: flex; flex-wrap: wrap; gap: 8px; border: 1px dashed var(--border); }
+
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* MATRIX CANVAS */
+        #matrix-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.12; pointer-events: none; z-index: 1;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100vh;
+            background: #000; color: #e0e6ed;
+            font-family: 'Rajdhani', sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+        }
+
+        /* BOOT SCREEN */
+        #boot-screen {
+            position: fixed; inset: 0; background: var(--bg); z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1s ease;
+        }
+        .boot-glitch { font-family: 'Orbitron'; font-size: 1.8rem; letter-spacing: 15px; color: var(--neon-teal); text-shadow: 0 0 20px var(--neon-teal); margin-bottom: 25px; }
+        .boot-track { width: 350px; height: 2px; background: rgba(0, 255, 157, 0.1); position: relative; }
+        .boot-progress { position: absolute; height: 100%; width: 0%; background: var(--neon-teal); box-shadow: 0 0 20px var(--neon-teal); }
+
+        /* GLITCH PROTOCOL */
+        @keyframes glitch-anim {
+            0% { transform: translate(0); text-shadow: -3px 0 var(--neon-pink), 3px 0 var(--neon-cyan); }
+            20% { transform: translate(-4px, 2px); }
+            40% { transform: translate(-4px, -2px); text-shadow: 3px 0 var(--neon-pink), -3px 0 var(--neon-cyan); }
+            100% { transform: translate(0); }
+        }
+        .glitch-active { animation: glitch-anim 0.15s infinite; color: var(--neon-pink) !important; filter: brightness(1.5); }
+
+        /* NEURAL PULSE */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0px rgba(0, 242, 255, 0); }
+            50% { box-shadow: 0 0 25px rgba(0, 242, 255, 0.2); border-color: var(--neon-cyan); }
+            100% { box-shadow: 0 0 0px rgba(0, 242, 255, 0); }
+        }
+        .pulse-active { animation: pulse-glow 0.6s ease-out; }
+
+        /* MAIN HUD CONTAINER */
+        .container {
+            width: 96vw; height: 94vh;
+            border: 1px solid var(--panel-border); border-radius: 40px;
+            background: var(--glass); backdrop-filter: blur(50px);
+            display: flex; flex-direction: column; padding: 30px;
+            position: relative; z-index: 10; overflow: hidden;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+        }
+
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { font-family: 'Orbitron'; letter-spacing: 20px; margin: 0; font-size: 2.2rem; color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.1); }
+        .header .sub { color: var(--neon-cyan); letter-spacing: 7px; font-weight: 700; font-size: 0.8rem; text-shadow: 0 0 10px var(--neon-cyan); }
+
+        /* THREE-COLUMN WORKSPACE */
+        .main-workspace {
+            display: grid; grid-template-columns: 340px 1fr 340px; gap: 30px; flex: 1; min-height: 0;
+        }
+
+        .side-panel {
+            background: rgba(0,0,0,0.4); border: 1px solid var(--panel-border);
+            border-radius: 25px; padding: 20px; display: flex; flex-direction: column;
+        }
+
+        /* CENTER VIEWPORT */
+        .center-vault {
+            position: relative; border-radius: 30px;
+            background: rgba(0, 242, 255, 0.01); border: 1px solid rgba(0, 242, 255, 0.1);
+            display: flex; flex-direction: column;
+        }
+        .neo-status-bubble {
+            position: absolute; top: -12px; left: 40px;
+            background: #000; border: 2px solid var(--neon-pink);
+            padding: 5px 22px; border-radius: 20px; font-family: 'Orbitron';
+            font-size: 0.6rem; color: #fff; box-shadow: 0 0 20px var(--neon-pink); z-index: 20;
+        }
+
+        textarea {
+            flex: 1; background: transparent; border: none; padding: 35px;
+            color: #fff; font-family: 'Share Tech Mono'; font-size: 1.05rem;
+            outline: none; resize: none; line-height: 1.8;
+        }
+
+        /* HUD ELEMENTS */
+        .bubble { border-radius: 15px; padding: 18px; font-size: 0.75rem; margin-bottom: 15px; }
+        .b-purple { background: var(--neon-purple); color: #fff; box-shadow: 0 5px 15px rgba(189, 0, 255, 0.2); }
+        .b-cyan { background: var(--neon-cyan); color: #000; font-weight: 800; box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2); }
+
+        .label { font-size: 0.65rem; color: var(--gold); letter-spacing: 3px; margin: 15px 0 10px 5px; font-weight: 700; text-transform: uppercase; }
+        
+        select {
+            background: #000; border: 1px solid var(--panel-border); color: var(--neon-teal);
+            padding: 14px; border-radius: 12px; font-family: 'Share Tech Mono';
+            width: 100%; margin-bottom: 12px; outline: none; cursor: pointer;
+        }
+
+        #terminal-log {
+            flex: 1; background: rgba(0,0,0,0.8); border-radius: 20px; padding: 18px;
+            font-family: 'Share Tech Mono'; font-size: 0.7rem; color: var(--neon-teal);
+            overflow-y: auto; border: 1px solid rgba(0,255,157,0.1);
+        }
+
+        /* BUTTON HUB */
+        .action-hub { display: flex; justify-content: center; gap: 20px; padding: 25px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .btn { border-radius: 30px; padding: 12px 35px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.65rem; border: none; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-pdf { background: transparent; border: 1px solid #ff5500; color: #ff5500; }
+        .btn-word { background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); }
+        .btn-generate {
+            background: linear-gradient(90deg, var(--neon-teal), var(--neon-cyan));
+            color: #000; width: 450px; margin: 25px auto 0; font-weight: 900;
+            box-shadow: 0 0 40px rgba(0, 255, 157, 0.3);
+        }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.3); box-shadow: 0 0 20px currentColor; }
     </style>
 </head>
 <body>
 
-<div class="hud-grid">
-    <aside class="panel">
-        <div class="panel-header">CONTRACTGEN DOC VAULT <span>v3.7.9</span></div>
-        <div style="flex:1; overflow-y:auto;">
-            <div class="section">
-                <span class="label">CONTRACTGEN PROTOCOLS</span>
-                <select onchange="mount(this.value)">
-                    <option value="">-- SELECT A FORM --</option>
-                    <option value="ProSe1_Civil_Complaint.pdf">Pro Se 1: Civil Complaint</option>
-                    <option value="ProSe2_Injunction_Request.pdf">Pro Se 2: Injunction Request</option>
-                    <option value="ProSe3_Defendants_Answer.pdf">Pro Se 3: Defendant's Answer</option>
-                    <option value="ProSe7_Employment_Discrimination.pdf">Pro Se 7: Employment Discrimination</option>
-                    <option value="ProSe14_Civil_Rights_Prisoner.pdf">Pro Se 14: Civil Rights (Prisoner)</option>
-                    <option value="ProSe15_Civil_Rights_NonPrisoner.pdf">Pro Se 15: Civil Rights (Non-Prisoner)</option>
-                    <option value="AO240_IFP_Fee_Waiver.pdf">AO 240: IFP Fee Waiver</option>
-                    <option value="JS44_Civil_Cover_Sheet.pdf">JS 44: Civil Cover Sheet</option>
-                    <option value="AO440_Summons.pdf">AO 440: Federal Summons</option>
-                    <option value="Judicial_Misconduct_Complaint.pdf">Judicial Misconduct Form</option>
-                </select>
-            </div>
-            <div class="section">
-                <span class="label">CONTRACTGEN AGREEMENTS</span>
-                <select onchange="mount(this.value)">
-                    <option value="">-- SELECT A AGREEMENT --</option>
-                    <option value="Attorney_Client_Retainer.pdf">Attorney-Client Retainer</option>
-                    <option value="Non_Disclosure_Agreement.pdf">NDA (Mutual)</option>
-                    <option value="Residential_Lease_Agreement.pdf">Residential Lease</option>
-                    <option value="Commercial_Lease_Agreement.pdf">Commercial Lease</option>
-                    <option value="Real_Estate_Purchase_Contract.pdf">Real Estate Purchase</option>
-                    <option value="LLC_Operating_Agreement.pdf">LLC Operating Agreement</option>
-                    <option value="General_Power_of_Attorney.pdf">General Power of Attorney</option>
-                    <option value="Independent_Contractor_Agreement.pdf">Contractor Agreement</option>
-                    <option value="Divorce_Settlement_Agreement.pdf">Divorce Settlement</option>
-                    <option value="Software_Licensing_Agreement.pdf">SaaS License Agreement</option>
-                </select>
-            </div>
-            <div class="section">
-                <span class="label">CONTRACTGEN BETA PERSONA</span>
-                <select id="persona">
-                    <option value="litigator">SENIOR LITIGATOR</option>
-                    <option value="sarcastic">NEO-INTELLIGENCE</option>
-                    <option value="clerk">LADY LEGALZ BETA 4</option>
-                </select>
-            </div>
-        </div>
-    </aside>
+<canvas id="matrix-canvas"></canvas>
 
-    <main class="panel">
-        <div class="panel-header">CONTRACGEN VIEWPORT // <span id="asset-name" style="color:var(--gold)">LADY LEGALZ IDLE</span></div>
-        <div id="pdf-viewport">
-            <object id="pdf-frame" data="" type="application/pdf">
-                <div style="padding:100px; text-align:center; color:var(--gold);">[ SELECT ASSET TO DEPLOY ]</div>
-            </object>
-        </div>
-        <div id="terminal"></div>
-    </main>
+<div id="boot-screen">
+    <div class="boot-glitch">LADY LEGALZ BETA 4 // CONTRACTGEN</div>
+    <div class="boot-track"><div id="progress" class="boot-progress"></div></div>
+    <div id="status" style="margin-top:20px; font-family:'Share Tech Mono'; font-size:0.7rem; color:var(--neon-cyan);">LINKING TUOLAT ARCHIVES...</div>
+</div>
 
-    <aside class="panel">
-        <div class="panel-header">CONTRACTGEN NEO ENGINE <span style="color:var(--green)">LINK_OK</span></div>
-        <div style="flex:1; padding:15px; overflow-y:auto;">
-            <span class="label">CHRONO-TIMELINE</span>
-            <div id="timeline-hud">AWAITING SEQUENCE...</div>
-            <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
-            <span class="label">CONGRACTGEN SCRATCHPAD</span>
-            <textarea id="scratch" style="height:320px;" placeholder="PASTE TEXT HERE..." oninput="sync()"></textarea>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
-                <button onclick="runGrok()">LADY LEGALZ SCAN</button>
-                <button onclick="redact()" style="border-color:var(--red); color:var(--red);">BLACKOUT</button>
+<div class="container" id="ui-main">
+    <div class="header">
+        <h1>TUOLAT LABZ</h1>
+        <div class="sub">LADY LEGALZ BETA 4//GONTRACTGEN BETA v3.8.0//DOC_VAULT</div>
+    </div>
+
+    <div class="main-workspace">
+        <aside class="side-panel">
+            <span class="label">CONTRACTGEN PROTOCOLS</span>
+            <select onchange="mount(this.value)">
+                <option value="">-- SELECTION --</option>
+                <option value="ProSe1_Civil_Complaint.pdf">Pro Se 1: Civil Complaint</option>
+                <option value="ProSe2_Injunction_Request.pdf">Pro Se 2: Injunction Request</option>
+                <option value="ProSe3_Defendants_Answer.pdf">Pro Se 3: Defendant's Answer</option>
+                <option value="ProSe7_Employment_Discrimination.pdf">Pro Se 7: Employment Discrimination</option>
+                <option value="ProSe14_Civil_Rights_Prisoner.pdf">Pro Se 14: Civil Rights (Prisoner)</option>
+                <option value="ProSe15_Civil_Rights_NonPrisoner.pdf">Pro Se 15: Civil Rights (Non-Prisoner)</option>
+                <option value="AO240_IFP_Fee_Waiver.pdf">AO 240: IFP Fee Waiver</option>
+                <option value="JS44_Civil_Cover_Sheet.pdf">JS 44: Civil Cover Sheet</option>
+                <option value="AO440_Summons.pdf">AO 440: Federal Summons</option>
+                <option value="Judicial_Misconduct_Complaint.pdf">Judicial Misconduct Form</option>
+            </select>
+
+            <span class="label">CONTRACT AGREEMENTS</span>
+            <select onchange="mount(this.value)">
+                <option value="">-- SELECTION --</option>
+                <option value="Attorney_Client_Retainer.pdf">Attorney-Client Retainer</option>
+                <option value="Non_Disclosure_Agreement.pdf">NDA (Mutual)</option>
+                <option value="Residential_Lease_Agreement.pdf">Residential Lease</option>
+                <option value="Commercial_Lease_Agreement.pdf">Commercial Lease</option>
+                <option value="Real_Estate_Purchase_Contract.pdf">Real Estate Purchase</option>
+                <option value="LLC_Operating_Agreement.pdf">LLC Operating Agreement</option>
+                <option value="General_Power_of_Attorney.pdf">General Power of Attorney</option>
+                <option value="Independent_Contractor_Agreement.pdf">Contractor Agreement</option>
+                <option value="Divorce_Settlement_Agreement.pdf">Divorce Settlement</option>
+                <option value="Software_Licensing_Agreement.pdf">SaaS License Agreement</option>
+            </select>
+
+            <div id="terminal-log"></div>
+        </aside>
+
+        <main class="center-vault" id="editor-vault">
+            <div class="neo-status-bubble">NEO-INTELLIGENCE</div>
+            <textarea id="scratch" placeholder="Initiate neural stream or mount protocol..."></textarea>
+            <div class="action-hub">
+                <button class="btn btn-pdf" onclick="log('Generating Secure PDF...')">Download PDF</button>
+                <button class="btn btn-word" onclick="log('Formatting Word Document...')">Download Word</button>
             </div>
-            <button onclick="exportMemo()" style="margin-top:10px; border-color:var(--gold); color:var(--gold);">CONTRACTGEN MEMO</button>
-        </div>
-    </aside>
+        </main>
+
+        <aside class="side-panel">
+            <div class="bubble b-purple">CONTRACTGEN DATABASE SYNC: ACTIVE<br>LADY LEGALZ PROTECTION: AES-256-GCM</div>
+            <div class="bubble b-cyan">NEURAL LINK: STABLE</div>
+            
+            <span class="label">CONTRACTGEN_TIMELINE</span>
+            <div id="timeline" style="color: var(--neon-cyan); font-family: 'Share Tech Mono'; line-height: 2;">AWAITING DATA...</div>
+            
+            <button class="btn" style="margin-top:auto; border: 1px solid var(--neon-pink); color: var(--neon-pink);" onclick="purge()">PURGE SYSTEM</button>
+        </aside>
+    </div>
+
+    <button class="btn btn-generate" onclick="log('Synthesizing Legal Matrix...')">GENERATE</button>
 </div>
 
 <script>
+    // 1. MATRIX RAIN
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const chars = "010101ABCDEFHIJKLMNOPQRSTUVWXYZ";
+    const drops = Array(Math.floor(canvas.width/15)).fill(1);
+
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#00ff9d";
+        ctx.font = "15px Share Tech Mono";
+        drops.forEach((y, i) => {
+            const text = chars[Math.floor(Math.random()*chars.length)];
+            ctx.fillText(text, i*15, y*15);
+            if(y*15 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        });
+    }
+    setInterval(drawMatrix, 35);
+
+    // 2. BOOT SEQUENCE
+    let p = 0;
+    const stages = ["MOUNTING VAULT...", "PARSING 20 ASSETS...", "ENCRYPTING LINK...", "SYSTEM READY"];
+    const boot = setInterval(() => {
+        p += Math.random() * 12;
+        document.getElementById('progress').style.width = Math.min(p, 100) + "%";
+        document.getElementById('status').innerText = stages[Math.floor((p/101)*4)];
+        if(p >= 100) {
+            clearInterval(boot);
+            setTimeout(() => {
+                document.getElementById('boot-screen').style.opacity = '0';
+                setTimeout(() => document.getElementById('boot-screen').style.display='none', 1000);
+            }, 500);
+        }
+    }, 100);
+
+    // 3. CORE LOGIC
+    const scratch = document.getElementById('scratch');
+    const vault = document.getElementById('editor-vault');
+
     function log(m) {
-        const t = document.getElementById('terminal');
-        t.innerHTML = `[${new Date().toLocaleTimeString()}] >> ${m}<br>` + t.innerHTML;
+        const t = document.getElementById('terminal-log');
+        const stamp = new Date().toLocaleTimeString('en-GB', { hour12: false });
+        t.innerHTML = `<div><span style="color:var(--gold)">[${stamp}]</span> ${m}</div>` + t.innerHTML;
     }
-    function mount(f) {
-        if(!f) return;
-        document.getElementById('asset-name').innerText = f.toUpperCase();
-        document.getElementById('pdf-frame').data = "pdfs/" + f;
-        log(`Asset Mounted: ${f}`);
+
+    function mount(f) { if(f) log(`Protocol Mounted: ${f}`); }
+
+    scratch.addEventListener('input', () => {
+        // Pulse Effect
+        vault.classList.remove('pulse-active');
+        void vault.offsetWidth;
+        vault.classList.add('pulse-active');
+
+        // Timeline Logic
+        const years = [...new Set(scratch.value.match(/\b(19|20)\d{2}\b/g))].sort();
+        document.getElementById('timeline').innerText = years.length ? years.join(' → ') : "AWAITING DATA...";
+    });
+
+    function purge() {
+        if(!scratch.value) return;
+        scratch.classList.add('glitch-active');
+        log("CRITICAL: EXECUTING SYSTEM PURGE...");
+        setTimeout(() => {
+            scratch.value = "";
+            scratch.classList.remove('glitch-active');
+            document.getElementById('timeline').innerText = "AWAITING DATA...";
+            log("System Wiped. Cache Cleared.");
+        }, 1200);
     }
-    function sync() {
-        const text = document.getElementById('scratch').value;
-        const years = [...new Set(text.match(/\b(19|20)\d{2}\b/g))].sort();
-        document.getElementById('timeline-hud').innerHTML = years.length ? 
-            years.map(y => `<span>[${y}]</span>`).join(' → ') : "AWAITING MARKERS...";
-    }
-    function redact() {
-        const s = document.getElementById('scratch');
-        const val = s.value.substring(s.selectionStart, s.selectionEnd);
-        if(!val) return;
-        s.setRangeText("[REDACTED]");
-        log("Neural Redaction applied.");
-    }
-    async function runGrok() {
-        const text = document.getElementById('scratch').value;
-        if(!text) return log("ERROR: Scratchpad empty.");
-        log("Querying Grok Matrix via Secure Vercel API...");
-        try {
-            const res = await fetch('/api/grok', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: text, persona: document.getElementById('persona').value })
-            });
-            const data = await res.json();
-            const win = window.open('', '_blank');
-            win.document.write(`<body style="background:#020406;color:#00f2ff;padding:40px;font-family:monospace;">${data.choices[0].message.content}</body>`);
-            log("Analysis window deployed.");
-        } catch(e) { log("CRITICAL: Check API key in Vercel."); }
-    }
-    function exportMemo() {
-        const win = window.open('', '_blank');
-        win.document.write(`<html><body style="padding:50px;font-family:serif;"><h1>MEMO</h1><hr>${document.getElementById('scratch').value}</body></html>`);
-        log("Memo buffer exported.");
-    }
+
+    window.onload = () => log("Neural Interface v4.1 Online.");
 </script>
 </body>
 </html>
