@@ -3,237 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ | NEURAL SUITE v3.9.5</title>
+    <title>LADY LEGALZ | CONTRACTGEN v3.8.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --legal-black: #020406; --cyber-blue: #00d4ff; --legal-gold: #d4af37;
-            --neural-green: #00ff9d; --alert-red: #ff2a6d; --glass-bg: rgba(6, 11, 19, 0.96);
-            --border-glow: rgba(0, 212, 255, 0.3); --text-dim: #94a3b8;
+            --obsidian: #020406; --cyan: #00f2ff; --gold: #c5a059;
+            --green: #00ff9d; --red: #ff0055; --glass: rgba(15, 25, 35, 0.9);
+            --border: rgba(0, 242, 255, 0.2);
         }
-        * { box-sizing: border-box; transition: all 0.2s ease; }
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Rajdhani', sans-serif; background-color: var(--legal-black); color: #fff; }
-
-        /* HUD GRID SYSTEM */
-        .hud-container { display: grid; grid-template-columns: 360px 1fr 420px; height: 100vh; gap: 10px; padding: 12px; background: radial-gradient(circle at top, #0d1a26 0%, #020406 100%); }
-        .panel { background: var(--glass-bg); border: 1px solid var(--border-glow); backdrop-filter: blur(20px); border-radius: 4px; display: flex; flex-direction: column; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-        .panel-header { background: rgba(0, 212, 255, 0.1); padding: 12px; font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 2.5px; color: var(--cyber-blue); border-bottom: 1px solid var(--border-glow); display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; }
-
-        /* INPUTS & UI ELEMENTS */
-        .meta-box { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .label { font-size: 0.6rem; color: var(--legal-gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; display: block; font-weight: bold; }
-        input, select, textarea { background: rgba(0,0,0,0.7); border: 1px solid var(--border-glow); color: #fff; padding: 10px; font-family: 'Share Tech Mono'; font-size: 0.85rem; width: 100%; margin-bottom: 8px; border-radius: 2px; }
-        input:focus { border-color: var(--cyber-blue); box-shadow: 0 0 10px var(--cyber-blue); outline: none; }
-        
-        button { background: rgba(0, 212, 255, 0.05); border: 1px solid var(--cyber-blue); color: var(--cyber-blue); padding: 10px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.6rem; text-transform: uppercase; width: 100%; margin-top: 5px; letter-spacing: 1px; }
-        button:hover { background: var(--cyber-blue); color: #000; box-shadow: 0 0 20px var(--cyber-blue); }
-        .btn-redact { border-color: var(--alert-red); color: var(--alert-red); }
-        .btn-redact:hover { background: var(--alert-red); color: #fff; }
-        .btn-gold { border-color: var(--legal-gold); color: var(--legal-gold); }
-        .btn-gold:hover { background: var(--legal-gold); color: #000; }
-
-        /* VIEWPORT & LOGS */
-        #pdf-viewport { flex: 1; background: #000; position: relative; overflow: hidden; border-radius: 2px; margin: 8px; }
-        #pdf-object { width: 100%; height: 100%; filter: invert(0.88) hue-rotate(185deg) brightness(0.9) contrast(1.15); }
-        #terminal-log { height: 120px; background: rgba(0,0,0,0.9); font-family: 'Share Tech Mono'; font-size: 0.7rem; padding: 10px; overflow-y: auto; color: var(--neural-green); border-top: 1px solid var(--border-glow); }
-
-        /* TIMELINE DISPLAY */
-        #timeline-map { background: rgba(0, 212, 255, 0.03); padding: 10px; border: 1px dashed var(--border-glow); min-height: 50px; font-size: 0.7rem; color: var(--cyber-blue); margin-top: 5px; border-radius: 4px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-
-        /* BOOT SCREEN */
-        #boot-screen { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .glitch-logo { font-family: 'Orbitron'; font-size: 2.5rem; color: var(--legal-gold); letter-spacing: 15px; text-shadow: 2px 2px var(--alert-red); animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.98); } }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Rajdhani', sans-serif; background: var(--obsidian); color: #e0e6ed; }
+        .hud-grid { display: grid; grid-template-columns: 360px 1fr 420px; height: 100vh; gap: 12px; padding: 15px; }
+        .panel { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; }
+        .panel-header { background: rgba(0, 242, 255, 0.08); padding: 15px; font-family: 'Orbitron'; font-size: 0.7rem; color: var(--cyan); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
+        .section { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .label { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: block; font-weight: 700; }
+        select, textarea { background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: #fff; padding: 12px; font-family: 'Share Tech Mono'; width: 100%; border-radius: 4px; }
+        button { background: rgba(0, 242, 255, 0.05); border: 1px solid var(--cyan); color: var(--cyan); padding: 12px; border-radius: 4px; font-family: 'Orbitron'; font-size: 0.65rem; cursor: pointer; width: 100%; }
+        button:hover { background: var(--cyan); color: #000; box-shadow: 0 0 15px var(--cyan); }
+        #pdf-viewport { flex: 1; background: #000; margin: 10px; border-radius: 4px; overflow: hidden; }
+        #pdf-frame { width: 100%; height: 100%; filter: invert(0.9) hue-rotate(180deg) brightness(0.8); }
+        #terminal { height: 100px; background: rgba(0,0,0,0.8); font-family: 'Share Tech Mono'; font-size: 0.7rem; padding: 12px; color: var(--green); overflow-y: auto; }
+        #timeline-hud { background: rgba(0,242,255,0.03); padding: 12px; border-radius: 4px; min-height: 50px; font-size: 0.75rem; color: var(--cyan); display: flex; flex-wrap: wrap; gap: 8px; border: 1px dashed var(--border); }
     </style>
 </head>
 <body>
 
-<div id="boot-screen">
-    <div class="glitch-logo">LADY LEGALZ</div>
-    <div id="boot-log" style="font-family: 'Share Tech Mono'; color: var(--cyber-blue); margin-top: 20px; font-size: 0.8rem; text-align: center;">AUTHENTICATING NEURAL LINK...</div>
-</div>
-
-<div class="hud-container">
+<div class="hud-grid">
     <aside class="panel">
-        <div class="panel-header">VAULT_CORE <span>SECURE</span></div>
+        <div class="panel-header">CONTRACTGEN DOC VAULT <span>v3.7.9</span></div>
         <div style="flex:1; overflow-y:auto;">
-            <div class="meta-box">
-                <span class="label">GROK_XAI API KEY</span>
-                <input type="password" id="grok-key" placeholder="sk-..." onchange="saveKey()">
-                <div style="font-size:0.55rem; color:var(--text-dim); text-align:right;">GITHUB_READY: ACTIONS COMPLIANT</div>
-            </div>
-            
-            <div class="meta-box">
-                <span class="label">FEDERAL PROTOCOLS (11)</span>
-                <select onchange="loadPDF(this.value)">
-                    <option value="">-- SELECT FORM --</option>
-                    <option value="Civil Action Complaint Federal.pdf">Civil Complaint</option>
-                    <option value="Employment Discrimination.pdf">EEOC Complaint</option>
-                    <option value="Civil Rights Complaint.pdf">Civil Rights (Prisoner)</option>
-                    <option value="Civil Rights Non-Prisoner.pdf">Civil Rights (Non-Prisoner)</option>
-                    <option value="IFP Fee Waiver.pdf">IFP Fee Waiver</option>
-                    <option value="Civil Cover Sheet.pdf">Civil Cover Sheet</option>
-                    <option value="Federal Summons.pdf">Federal Summons</option>
-                    <option value="Judicial Misconduct.pdf">Judicial Misconduct</option>
-                    <option value="Defendant Answer.pdf">Defendant Answer</option>
-                    <option value="Notice of Waiver.pdf">Notice of Waiver</option>
-                    <option value="Waiver of Service.pdf">Waiver of Service</option>
+            <div class="section">
+                <span class="label">CONTRACTGEN PROTOCOLS</span>
+                <select onchange="mount(this.value)">
+                    <option value="">-- SELECT A FORM --</option>
+                    <option value="ProSe1_Civil_Complaint.pdf">Pro Se 1: Civil Complaint</option>
+                    <option value="ProSe2_Injunction_Request.pdf">Pro Se 2: Injunction Request</option>
+                    <option value="ProSe3_Defendants_Answer.pdf">Pro Se 3: Defendant's Answer</option>
+                    <option value="ProSe7_Employment_Discrimination.pdf">Pro Se 7: Employment Discrimination</option>
+                    <option value="ProSe14_Civil_Rights_Prisoner.pdf">Pro Se 14: Civil Rights (Prisoner)</option>
+                    <option value="ProSe15_Civil_Rights_NonPrisoner.pdf">Pro Se 15: Civil Rights (Non-Prisoner)</option>
+                    <option value="AO240_IFP_Fee_Waiver.pdf">AO 240: IFP Fee Waiver</option>
+                    <option value="JS44_Civil_Cover_Sheet.pdf">JS 44: Civil Cover Sheet</option>
+                    <option value="AO440_Summons.pdf">AO 440: Federal Summons</option>
+                    <option value="Judicial_Misconduct_Complaint.pdf">Judicial Misconduct Form</option>
                 </select>
             </div>
-
-            <div class="meta-box">
-                <span class="label">CIVIL ASSETS (9)</span>
-                <select onchange="loadPDF(this.value)">
-                    <option value="">-- SELECT ASSET --</option>
-                    <option value="Attorney Client Agreement.pdf">A/C Agreement</option>
-                    <option value="Divorce Settlement.pdf">Divorce Settlement</option>
-                    <option value="Estate Plan.pdf">Estate Plan Agreement</option>
-                    <option value="Hold Harmless.pdf">Hold Harmless Agreement</option>
-                    <option value="Land Purchase.pdf">Land Purchase Agreement</option>
-                    <option value="Lease Agreement.pdf">Landlord Tenant Agreement</option>
-                    <option value="LLC Articles.pdf">LLC Articles</option>
-                    <option value="LS Rep Agreement.pdf">Limited Scope Rep</option>
-                    <option value="Software Agreement.pdf">Software Dev Agreement</option>
+            <div class="section">
+                <span class="label">CONTRACTGEN AGREEMENTS</span>
+                <select onchange="mount(this.value)">
+                    <option value="">-- SELECT A AGREEMENT --</option>
+                    <option value="Attorney_Client_Retainer.pdf">Attorney-Client Retainer</option>
+                    <option value="Non_Disclosure_Agreement.pdf">NDA (Mutual)</option>
+                    <option value="Residential_Lease_Agreement.pdf">Residential Lease</option>
+                    <option value="Commercial_Lease_Agreement.pdf">Commercial Lease</option>
+                    <option value="Real_Estate_Purchase_Contract.pdf">Real Estate Purchase</option>
+                    <option value="LLC_Operating_Agreement.pdf">LLC Operating Agreement</option>
+                    <option value="General_Power_of_Attorney.pdf">General Power of Attorney</option>
+                    <option value="Independent_Contractor_Agreement.pdf">Contractor Agreement</option>
+                    <option value="Divorce_Settlement_Agreement.pdf">Divorce Settlement</option>
+                    <option value="Software_Licensing_Agreement.pdf">SaaS License Agreement</option>
                 </select>
             </div>
-
-            <div class="meta-box">
-                <span class="label">PERSONALITY_MATRIX</span>
-                <select id="persona" onchange="logUpdate('Persona Shift Detected.')">
-                    <option value="prof">PROFESSIONAL (CALCULATED)</option>
-                    <option value="agg">AGGRESSIVE (LITIGATOR)</option>
-                    <option value="sarc">SARCASTIC (GROK-V2)</option>
+            <div class="section">
+                <span class="label">CONTRACTGEN BETA PERSONA</span>
+                <select id="persona">
+                    <option value="litigator">SENIOR LITIGATOR</option>
+                    <option value="sarcastic">NEO-INTELLIGENCE</option>
+                    <option value="clerk">LADY LEGALZ BETA 4</option>
                 </select>
             </div>
         </div>
     </aside>
 
     <main class="panel">
-        <div class="panel-header">NEURAL_BUFFER // <span id="current-file" style="color:var(--legal-gold)">IDLE_MODE</span></div>
+        <div class="panel-header">CONTRACGEN VIEWPORT // <span id="asset-name" style="color:var(--gold)">LADY LEGALZ IDLE</span></div>
         <div id="pdf-viewport">
-            <object id="pdf-object" data="" type="application/pdf">
-                <div style="padding:100px; text-align:center; color:var(--text-dim); font-family:'Orbitron'; font-size:0.8rem;">[ SELECT ASSET TO MOUNT ]</div>
+            <object id="pdf-frame" data="" type="application/pdf">
+                <div style="padding:100px; text-align:center; color:var(--gold);">[ SELECT ASSET TO DEPLOY ]</div>
             </object>
         </div>
-        <div id="terminal-log"></div>
+        <div id="terminal"></div>
     </main>
 
     <aside class="panel">
-        <div class="panel-header">INTELLIGENCE_ENGINE <span id="grok-status" style="color:var(--alert-red)">● DISCONNECTED</span></div>
+        <div class="panel-header">CONTRACTGEN NEO ENGINE <span style="color:var(--green)">LINK_OK</span></div>
         <div style="flex:1; padding:15px; overflow-y:auto;">
-            <span class="label">NEURAL TIMELINE MAP</span>
-            <div id="timeline-map">Chronological scan standby...</div>
-            
-            <hr style="border:0; border-top:1px solid var(--border-glow); margin:15px 0;">
-            
-            <span class="label">DRAFTING SCRATCHPAD</span>
-            <textarea id="scratch" style="height:250px;" placeholder="Input sequence for neural analysis..." oninput="neuralProcess()"></textarea>
-            
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
-                <button onclick="invokeGrok()" class="btn-gold">GROK_SCAN</button>
-                <button onclick="applyBlackout()" class="btn-redact">BLACKOUT_RED</button>
+            <span class="label">CHRONO-TIMELINE</span>
+            <div id="timeline-hud">AWAITING SEQUENCE...</div>
+            <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
+            <span class="label">CONGRACTGEN SCRATCHPAD</span>
+            <textarea id="scratch" style="height:320px;" placeholder="PASTE TEXT HERE..." oninput="sync()"></textarea>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+                <button onclick="runGrok()">LADY LEGALZ SCAN</button>
+                <button onclick="redact()" style="border-color:var(--red); color:var(--red);">BLACKOUT</button>
             </div>
-            <button onclick="exportSecureMemo()">GENERATE_MEMO</button>
-
-            <hr style="border:0; border-top:1px solid var(--border-glow); margin:15px 0;">
-            <span class="label">DISCOVERY_INDEX</span>
-            <div id="discovery-index" style="font-family:'Share Tech Mono'; font-size:0.7rem; color:var(--neural-green);"></div>
+            <button onclick="exportMemo()" style="margin-top:10px; border-color:var(--gold); color:var(--gold);">CONTRACTGEN MEMO</button>
         </div>
     </aside>
 </div>
 
 <script>
-    const bootSequence = [
-        "Initializing Neural Kernel...",
-        "Mounting 20 PDF Assets...",
-        "Loading Redaction Chip v3.9...",
-        "Establishing xAI Handshake...",
-        "Lady Legalz v3.9.5 Online."
-    ];
-
-    window.onload = () => {
-        let i = 0;
-        const interval = setInterval(() => {
-            if(i < bootSequence.length) {
-                document.getElementById('boot-log').innerText = `>> ${bootSequence[i]}`;
-                i++;
-            } else {
-                clearInterval(interval);
-                document.getElementById('boot-screen').style.display = 'none';
-                document.getElementById('grok-key').value = localStorage.getItem('grok_api_key') || "";
-                checkGrok();
-            }
-        }, 400);
-        setInterval(() => { logUpdate("Neural sync active..."); }, 45000);
-    };
-
-    function logUpdate(msg) {
-        const log = document.getElementById('terminal-log');
-        const d = document.createElement('div');
-        d.innerHTML = `[${new Date().toLocaleTimeString()}] >> ${msg}`;
-        log.prepend(d);
+    function log(m) {
+        const t = document.getElementById('terminal');
+        t.innerHTML = `[${new Date().toLocaleTimeString()}] >> ${m}<br>` + t.innerHTML;
     }
-
-    function saveKey() {
-        localStorage.setItem('grok_api_key', document.getElementById('grok-key').value);
-        checkGrok();
-        logUpdate("API Key securely cached.");
-    }
-
-    function checkGrok() {
-        const key = document.getElementById('grok-key').value;
-        const status = document.getElementById('grok-status');
-        if(key.startsWith('xai-')) {
-            status.innerHTML = "● GROK_LINKED";
-            status.style.color = "var(--neural-green)";
-        }
-    }
-
-    function loadPDF(f) {
+    function mount(f) {
         if(!f) return;
-        document.getElementById('current-file').innerText = f.toUpperCase();
-        document.getElementById('pdf-object').data = "pdfs/" + f;
-        logUpdate(`Asset Mounted: ${f}`);
+        document.getElementById('asset-name').innerText = f.toUpperCase();
+        document.getElementById('pdf-frame').data = "pdfs/" + f;
+        log(`Asset Mounted: ${f}`);
     }
-
-    function neuralProcess() {
+    function sync() {
         const text = document.getElementById('scratch').value;
-        
-        // Timeline Logic
-        const dateRegex = /\b(19|20)\d{2}\b/g;
-        const years = [...new Set(text.match(dateRegex))].sort();
-        document.getElementById('timeline-map').innerHTML = years.length ? 
-            years.map(y => `<span style="background:rgba(0,212,255,0.1); padding:2px 5px; border:1px solid var(--cyber-blue);">${y}</span>`).join(' → ') 
-            : "No dates detected.";
-
-        // Discovery Logic
-        const discRegex = /(Exhibit\s[A-Z0-9]+|Evidence\s\d+|Photograph|Contract\s#\d+)/gi;
-        const matches = [...new Set(text.match(discRegex))];
-        document.getElementById('discovery-index').innerHTML = matches.map(m => `<div>> INDEXED: ${m.toUpperCase()}</div>`).join('');
+        const years = [...new Set(text.match(/\b(19|20)\d{2}\b/g))].sort();
+        document.getElementById('timeline-hud').innerHTML = years.length ? 
+            years.map(y => `<span>[${y}]</span>`).join(' → ') : "AWAITING MARKERS...";
     }
-
-    function applyBlackout() {
-        const el = document.getElementById('scratch');
-        const start = el.selectionStart;
-        const end = el.selectionEnd;
-        if (start === end) return alert("SELECT SENSITIVE DATA TO REDACT.");
-        const text = el.value;
-        el.value = text.substring(0, start) + "[REDACTED]" + text.substring(end);
-        logUpdate("Blackout applied to sensitive buffer segment.");
+    function redact() {
+        const s = document.getElementById('scratch');
+        const val = s.value.substring(s.selectionStart, s.selectionEnd);
+        if(!val) return;
+        s.setRangeText("[REDACTED]");
+        log("Neural Redaction applied.");
     }
-
-    async function invokeGrok() {
-        const key = localStorage.getItem('grok_api_key');
-        if(!key) return alert("AUTHENTICATION FAILED: NO API KEY.");
-        logUpdate("Grok-XAI Analysis initiated...");
-        // API Fetch logic would go here, utilizing the key from localStorage
-    }
-
-    function exportSecureMemo() {
+    async function runGrok() {
         const text = document.getElementById('scratch').value;
-        const memo = window.open('', '_blank');
-        memo.document.write(`<html><head><title>SECURE_MEMO</title><style>body{font-family:serif; padding:50px; line-height:1.6;} h1{border-bottom:2px solid #000;}</style></head><body><h1>PRIVILEGED WORK PRODUCT</h1><p>${text.replace(/\n/g, '<br>')}</p></body></html>`);
-        logUpdate("Memo buffer exported to secure viewer.");
+        if(!text) return log("ERROR: Scratchpad empty.");
+        log("Querying Grok Matrix via Secure Vercel API...");
+        try {
+            const res = await fetch('/api/grok', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: text, persona: document.getElementById('persona').value })
+            });
+            const data = await res.json();
+            const win = window.open('', '_blank');
+            win.document.write(`<body style="background:#020406;color:#00f2ff;padding:40px;font-family:monospace;">${data.choices[0].message.content}</body>`);
+            log("Analysis window deployed.");
+        } catch(e) { log("CRITICAL: Check API key in Vercel."); }
+    }
+    function exportMemo() {
+        const win = window.open('', '_blank');
+        win.document.write(`<html><body style="padding:50px;font-family:serif;"><h1>MEMO</h1><hr>${document.getElementById('scratch').value}</body></html>`);
+        log("Memo buffer exported.");
     }
 </script>
 </body>
