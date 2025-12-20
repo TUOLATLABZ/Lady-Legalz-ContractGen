@@ -19,7 +19,6 @@
 
         * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        /* MATRIX CANVAS */
         #matrix-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0.12; pointer-events: none; z-index: 1;
@@ -43,7 +42,6 @@
         .boot-track { width: 350px; height: 2px; background: rgba(0, 255, 157, 0.1); position: relative; }
         .boot-progress { position: absolute; height: 100%; width: 0%; background: var(--neon-teal); box-shadow: 0 0 20px var(--neon-teal); }
 
-        /* GLITCH PROTOCOL */
         @keyframes glitch-anim {
             0% { transform: translate(0); text-shadow: -3px 0 var(--neon-pink), 3px 0 var(--neon-cyan); }
             20% { transform: translate(-4px, 2px); }
@@ -52,7 +50,6 @@
         }
         .glitch-active { animation: glitch-anim 0.15s infinite; color: var(--neon-pink) !important; filter: brightness(1.5); }
 
-        /* NEURAL PULSE */
         @keyframes pulse-glow {
             0% { box-shadow: 0 0 0px rgba(0, 242, 255, 0); }
             50% { box-shadow: 0 0 25px rgba(0, 242, 255, 0.2); border-color: var(--neon-cyan); }
@@ -60,7 +57,6 @@
         }
         .pulse-active { animation: pulse-glow 0.6s ease-out; }
 
-        /* MAIN HUD CONTAINER */
         .container {
             width: 96vw; height: 94vh;
             border: 1px solid var(--panel-border); border-radius: 40px;
@@ -74,7 +70,6 @@
         .header h1 { font-family: 'Orbitron'; letter-spacing: 20px; margin: 0; font-size: 2.2rem; color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.1); }
         .header .sub { color: var(--neon-cyan); letter-spacing: 7px; font-weight: 700; font-size: 0.8rem; text-shadow: 0 0 10px var(--neon-cyan); }
 
-        /* THREE-COLUMN WORKSPACE */
         .main-workspace {
             display: grid; grid-template-columns: 340px 1fr 340px; gap: 30px; flex: 1; min-height: 0;
         }
@@ -88,22 +83,25 @@
         .center-vault {
             position: relative; border-radius: 30px;
             background: rgba(0, 242, 255, 0.01); border: 1px solid rgba(0, 242, 255, 0.1);
-            display: flex; flex-direction: column;
+            display: flex; flex-direction: column; overflow: hidden;
         }
         .neo-status-bubble {
-            position: absolute; top: -12px; left: 40px;
+            position: absolute; top: 15px; left: 40px;
             background: #000; border: 2px solid var(--neon-pink);
             padding: 5px 22px; border-radius: 20px; font-family: 'Orbitron';
             font-size: 0.6rem; color: #fff; box-shadow: 0 0 20px var(--neon-pink); z-index: 20;
         }
 
+        #pdf-frame {
+            width: 100%; height: 100%; border: none; display: none; background: #fff;
+        }
+
         textarea {
-            flex: 1; background: transparent; border: none; padding: 35px;
+            flex: 1; background: transparent; border: none; padding: 60px 35px 35px;
             color: #fff; font-family: 'Share Tech Mono'; font-size: 1.05rem;
             outline: none; resize: none; line-height: 1.8;
         }
 
-        /* HUD ELEMENTS */
         .bubble { border-radius: 15px; padding: 18px; font-size: 0.75rem; margin-bottom: 15px; }
         .b-purple { background: var(--neon-purple); color: #fff; box-shadow: 0 5px 15px rgba(189, 0, 255, 0.2); }
         .b-cyan { background: var(--neon-cyan); color: #000; font-weight: 800; box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2); }
@@ -122,7 +120,6 @@
             overflow-y: auto; border: 1px solid rgba(0,255,157,0.1);
         }
 
-        /* BUTTON HUB */
         .action-hub { display: flex; justify-content: center; gap: 20px; padding: 25px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
         .btn { border-radius: 30px; padding: 12px 35px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.65rem; border: none; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
         .btn-pdf { background: transparent; border: 1px solid #ff5500; color: #ff5500; }
@@ -155,51 +152,41 @@
         <aside class="side-panel">
             <span class="label">CONTRACTGEN PROTOCOLS</span>
             <select onchange="mount(this.value)">
-                <option value="">-- SELECTION --</option>
-                <option value="ProSe1_Civil_Complaint.pdf">Pro Se 1: Civil Complaint</option>
-                <option value="ProSe2_Injunction_Request.pdf">Pro Se 2: Injunction Request</option>
-                <option value="ProSe3_Defendants_Answer.pdf">Pro Se 3: Defendant's Answer</option>
-                <option value="ProSe7_Employment_Discrimination.pdf">Pro Se 7: Employment Discrimination</option>
-                <option value="ProSe14_Civil_Rights_Prisoner.pdf">Pro Se 14: Civil Rights (Prisoner)</option>
-                <option value="ProSe15_Civil_Rights_NonPrisoner.pdf">Pro Se 15: Civil Rights (Non-Prisoner)</option>
-                <option value="AO240_IFP_Fee_Waiver.pdf">AO 240: IFP Fee Waiver</option>
-                <option value="JS44_Civil_Cover_Sheet.pdf">JS 44: Civil Cover Sheet</option>
-                <option value="AO440_Summons.pdf">AO 440: Federal Summons</option>
-                <option value="Judicial_Misconduct_Complaint.pdf">Judicial Misconduct Form</option>
+                <option value="">-- NEURAL STREAM --</option>
+                <option value="Civil Action Complaint Federal.pdf">Pro Se 1: Civil Complaint</option>
+                <option value="Defendant Answer to Civil Action Complaint.pdf">Pro Se 3: Defendant's Answer</option>
+                <option value="Civil Rights Civil Action Complaint.pdf">Pro Se 14: Civil Rights (Prisoner)</option>
+                <option value="Civil Rights Civil Action Complaint (Non-Prisoner).pdf">Pro Se 15: Civil Rights (Non-Prisoner)</option>
+                <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf">AO 240: IFP Fee Waiver</option>
+                <option value="Civil Action Cover Sheet Federal.pdf">JS 44: Civil Cover Sheet</option>
+                <option value="Civil Action Cover Letter Federal.pdf">AO 440: Federal Summons</option>
+                <option value="COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf">Judicial Misconduct Form</option>
+                <option value="NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf">Notice & Waiver Request</option>
+                <option value="Waiver of Service.pdf">Waiver of Service</option>
             </select>
 
-            <span class="label">CONTRACT AGREEMENTS</span>
-            <select onchange="mount(this.value)">
-                <option value="">-- SELECTION --</option>
-                <option value="Attorney_Client_Retainer.pdf">Attorney-Client Retainer</option>
-                <option value="Non_Disclosure_Agreement.pdf">NDA (Mutual)</option>
-                <option value="Residential_Lease_Agreement.pdf">Residential Lease</option>
-                <option value="Commercial_Lease_Agreement.pdf">Commercial Lease</option>
-                <option value="Real_Estate_Purchase_Contract.pdf">Real Estate Purchase</option>
-                <option value="LLC_Operating_Agreement.pdf">LLC Operating Agreement</option>
-                <option value="General_Power_of_Attorney.pdf">General Power of Attorney</option>
-                <option value="Independent_Contractor_Agreement.pdf">Contractor Agreement</option>
-                <option value="Divorce_Settlement_Agreement.pdf">Divorce Settlement</option>
-                <option value="Software_Licensing_Agreement.pdf">SaaS License Agreement</option>
-            </select>
-
+            <span class="label">SYSTEM LOGS</span>
             <div id="terminal-log"></div>
         </aside>
 
         <main class="center-vault" id="editor-vault">
-            <div class="neo-status-bubble">NEO-INTELLIGENCE</div>
+            <div class="neo-status-bubble" id="vault-label">NEO-INTELLIGENCE</div>
+            
             <textarea id="scratch" placeholder="Initiate neural stream or mount protocol..."></textarea>
+            
+            <iframe id="pdf-frame" src=""></iframe>
+
             <div class="action-hub">
-                <button class="btn btn-pdf" onclick="log('Generating Secure PDF...')">Download PDF</button>
-                <button class="btn btn-word" onclick="log('Formatting Word Document...')">Download Word</button>
+                <button class="btn btn-pdf" onclick="log('Downloading Protocol PDF...')">Download PDF</button>
+                <button class="btn btn-word" onclick="log('Processing Word Export...')">Download Word</button>
             </div>
         </main>
 
         <aside class="side-panel">
-            <div class="bubble b-purple">CONTRACTGEN DATABASE SYNC: ACTIVE<br>LADY LEGALZ PROTECTION: AES-256-GCM</div>
+            <div class="bubble b-purple">CONTRACTGEN DATABASE SYNC: ACTIVE<br>PROTECTION: AES-256-GCM</div>
             <div class="bubble b-cyan">NEURAL LINK: STABLE</div>
             
-            <span class="label">CONTRACTGEN_TIMELINE</span>
+            <span class="label">TIMELINE_ANALYSIS</span>
             <div id="timeline" style="color: var(--neon-cyan); font-family: 'Share Tech Mono'; line-height: 2;">AWAITING DATA...</div>
             
             <button class="btn" style="margin-top:auto; border: 1px solid var(--neon-pink); color: var(--neon-pink);" onclick="purge()">PURGE SYSTEM</button>
@@ -250,7 +237,9 @@
 
     // 3. CORE LOGIC
     const scratch = document.getElementById('scratch');
+    const pdfFrame = document.getElementById('pdf-frame');
     const vault = document.getElementById('editor-vault');
+    const vaultLabel = document.getElementById('vault-label');
 
     function log(m) {
         const t = document.getElementById('terminal-log');
@@ -258,26 +247,48 @@
         t.innerHTML = `<div><span style="color:var(--gold)">[${stamp}]</span> ${m}</div>` + t.innerHTML;
     }
 
-    function mount(f) { if(f) log(`Protocol Mounted: ${f}`); }
+    // UPDATED MOUNT FUNCTION
+    function mount(fileName) { 
+        if(!fileName) {
+            pdfFrame.style.display = 'none';
+            scratch.style.display = 'block';
+            vaultLabel.innerText = "NEO-INTELLIGENCE";
+            log("Returning to Neural Stream.");
+            return;
+        }
 
-    scratch.addEventListener('input', () => {
+        log(`Mounting Secure Protocol: ${fileName}`);
+        vaultLabel.innerText = "SECURE DOCUMENT VAULT";
+        
         // Pulse Effect
         vault.classList.remove('pulse-active');
         void vault.offsetWidth;
         vault.classList.add('pulse-active');
 
-        // Timeline Logic
+        // Swap Viewport
+        scratch.style.display = 'none';
+        pdfFrame.style.display = 'block';
+        pdfFrame.src = fileName; 
+    }
+
+    scratch.addEventListener('input', () => {
+        vault.classList.remove('pulse-active');
+        void vault.offsetWidth;
+        vault.classList.add('pulse-active');
+
         const years = [...new Set(scratch.value.match(/\b(19|20)\d{2}\b/g))].sort();
         document.getElementById('timeline').innerText = years.length ? years.join(' → ') : "AWAITING DATA...";
     });
 
     function purge() {
-        if(!scratch.value) return;
-        scratch.classList.add('glitch-active');
+        if(!scratch.value && !pdfFrame.src) return;
+        vault.classList.add('glitch-active');
         log("CRITICAL: EXECUTING SYSTEM PURGE...");
         setTimeout(() => {
             scratch.value = "";
-            scratch.classList.remove('glitch-active');
+            pdfFrame.src = "";
+            mount(""); // Reset view
+            vault.classList.remove('glitch-active');
             document.getElementById('timeline').innerText = "AWAITING DATA...";
             log("System Wiped. Cache Cleared.");
         }, 1200);
@@ -287,3 +298,5 @@
 </script>
 </body>
 </html>
+
+          
