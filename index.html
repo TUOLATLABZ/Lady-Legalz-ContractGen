@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ | v6.5 | BATCH_PRO_ENGINE</title>
+    <title>LADY LEGALZ BETA 4 | CONTRACTGEN BETA v3.8.0 | NEO-INTELLIGENCE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
+   
     <style>
         :root {
             --bg: #010508;
@@ -19,92 +19,61 @@
             --panel-border: rgba(0, 255, 157, 0.2);
         }
         * { box-sizing: border-box; transition: all 0.2s ease; }
-        
-        #boot-screen {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; font-family: 'Share Tech Mono';
-            color: var(--neon-teal); transition: opacity 1s ease;
-        }
-        #boot-log { width: 400px; height: 250px; overflow: hidden; font-size: 0.8rem; line-height: 1.4; }
-        .loading-bar { width: 300px; height: 2px; background: #111; margin-top: 20px; position: relative; }
-        .progress { width: 0%; height: 100%; background: var(--neon-teal); box-shadow: 0 0 10px var(--neon-teal); }
-
         #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.12; pointer-events: none; z-index: 1; }
         body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; background: #000; color: #e0e6ed; font-family: 'Rajdhani', sans-serif; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        
         .container {
             width: 98vw; height: 96vh; border: 1px solid var(--panel-border); border-radius: 20px;
             background: var(--glass); backdrop-filter: blur(50px); display: flex; flex-direction: column; padding: 20px;
-            position: relative; z-index: 10; overflow: hidden; opacity: 0; transform: scale(0.98); transition: all 1s ease;
+            position: relative; z-index: 10; overflow: hidden;
         }
-        .container.active { opacity: 1; transform: scale(1); }
-
         .header { text-align: center; margin-bottom: 10px; border-bottom: 1px solid var(--panel-border); }
         .header h1 { font-family: 'Orbitron'; letter-spacing: 10px; margin: 0; font-size: 1.5rem; color: #fff; text-shadow: 0 0 15px var(--neon-teal); }
-        
+       
         .main-workspace { display: grid; grid-template-columns: 350px 1fr 300px; gap: 15px; flex: 1; min-height: 0; }
         .side-panel { background: rgba(0,0,0,0.5); border: 1px solid var(--panel-border); border-radius: 15px; padding: 15px; display: flex; flex-direction: column; overflow-y: auto; }
-        
+       
         .center-vault { position: relative; border-radius: 20px; background: rgba(0,0,0,0.4); border: 1px solid rgba(0, 242, 255, 0.2); display: flex; flex-direction: column; overflow: hidden; }
         textarea { flex: 1; background: transparent; border: none; padding: 20px; color: #fff; font-family: 'Share Tech Mono'; font-size: 0.85rem; outline: none; resize: none; line-height: 1.5; z-index: 5; }
-        
+       
         .label { font-size: 0.6rem; color: var(--gold); letter-spacing: 2px; margin: 10px 0 5px 5px; font-weight: 700; text-transform: uppercase; }
         select, input { background: #000; border: 1px solid var(--panel-border); color: var(--neon-teal); padding: 8px; border-radius: 5px; font-family: 'Share Tech Mono'; width: 100%; margin-bottom: 8px; outline: none; font-size: 0.7rem; }
-        
+       
         #sig-canvas { background: #fff; border-radius: 5px; cursor: crosshair; width: 100%; height: 100px; touch-action: none; }
         .btn { border-radius: 5px; padding: 8px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.6rem; border: none; text-transform: uppercase; font-weight: bold; width: 100%; margin-bottom: 8px; }
         .btn-generate { background: linear-gradient(90deg, var(--neon-teal), var(--neon-cyan)); color: #000; }
-        
+       
         #pdf-frame { width: 100%; height: 100%; border: none; display: none; background: #fff; }
         #terminal-log { flex: 1; font-family: 'Share Tech Mono'; font-size: 0.65rem; color: var(--neon-teal); overflow-y: auto; background: rgba(0,0,0,0.3); padding: 5px; }
         .global-var-box { border: 1px dashed var(--neon-pink); padding: 10px; border-radius: 10px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
-
-<div id="boot-screen">
-    <div style="font-family: Orbitron; font-size: 1.2rem; letter-spacing: 5px; margin-bottom: 20px;">LADY_LEGALZ_V6.5</div>
-    <div id="boot-log"></div>
-    <div class="loading-bar"><div class="progress" id="boot-progress"></div></div>
-</div>
-
 <canvas id="matrix-canvas"></canvas>
-<div class="container" id="main-container">
-    <div class="header"><h1>LADY LEGALZ <span style="font-size: 0.7rem; color: var(--neon-pink);">v6.5 BATCH</span></h1></div>
+<div class="container">
+    <div class="header"><h1>LADY LEGALZ <span style="font-size: 0.7rem; color: var(--neon-pink);">CONTRACTGEN BETA v3.8.0</span></h1></div>
     <div class="main-workspace">
         <aside class="side-panel">
             <div class="global-var-box">
-                <span class="label" style="color:var(--neon-pink)">GLOBAL BATCH VARIABLES</span>
-                <input type="text" id="g-plaintiff" placeholder="Plaintiff Name">
-                <input type="text" id="g-defendant" placeholder="Defendant Name">
-                <input type="text" id="g-case" placeholder="Case Number (Optional)">
+                <span class="label" style="color:var(--neon-pink)">CONTRACTGEN VARIABLES</span>
+                <input type="text" id="g-plaintiff" placeholder="Plaintiff Name" oninput="syncAll()">
+                <input type="text" id="g-defendant" placeholder="Defendant Name" oninput="syncAll()">
+                <input type="text" id="g-case" placeholder="Case Number (Optional)" oninput="syncAll()">
             </div>
-            
-            <span class="label">1. BATCH PROTOCOLS (UPDATED)</span>
-            <select id="protocol-select" onchange="mountPDF(this.value)">
+            <span class="label">CONTRACTGEN PROTOCOLS</span>
+            <select onchange="mountPDF(this.value)">
                 <option value="">-- MOUNT PDF --</option>
-                <optgroup label="FEDERAL FILINGS">
-                    <option value="Civil Action Cover Sheet Federal.pdf">Civil Action Cover Sheet</option>
-                    <option value="Civil Action Complaint Federal.pdf">Civil Action Complaint</option>
-                    <option value="Civil Action Cover Letter Federal.pdf">Summons (Cover Letter)</option>
-                    <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS.pdf">IFP Application (Fee Waiver)</option>
-                    <option value="Defendant Answer to Civil Action Complaint.pdf">Defendant's Answer</option>
-                </optgroup>
-                <optgroup label="CIVIL RIGHTS">
-                    <option value="Civil Rights Civil Action Complaint.pdf">Civil Rights (Prisoner)</option>
-                    <option value="Civil Rights Civil Action Complaint (Non-Prisoner).pdf">Civil Rights (Non-Prisoner)</option>
-                </optgroup>
-                <optgroup label="WAIVERS & SERVICE">
-                    <option value="NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS.pdf">Notice & Request to Waive</option>
-                    <option value="Waiver of Service.pdf">Waiver of Service Form</option>
-                </optgroup>
-                <optgroup label="JUDICIAL">
-                    <option value="COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY.pdf">Judicial Misconduct Complaint</option>
-                </optgroup>
+                <option value="Civil Action Cover Sheet Federal - Copy.pdf">Civil Cover Sheet (JS 44)</option>
+                <option value="Civil Action Complaint Federal - Copy.pdf">Civil Action Complaint</option>
+                <option value="Civil Action Cover Letter Federal - Copy.pdf">Summons in a Civil Action</option>
+                <option value="APPLICATION TO PROCEED IN DISTRICT COURT WITHOUT PREPAYING FEES OR COSTS - Copy.pdf">Application to Proceed Without Prepaying Fees (IFP)</option>
+                <option value="Waiver of Service - Copy.pdf">Waiver of the Service of Summons</option>
+                <option value="NOTICE OF A LAWSUIT AND REQUEST TO WAIVE SERVICE OF A SUMMONS - Copy.pdf">Notice of Lawsuit and Request to Waive Service</option>
+                <option value="COMPLAINT OF JUDICIAL MISCONDUCT OR DISABILITY - Copy.pdf">Complaint of Judicial Misconduct or Disability</option>
+                <option value="Defendant Answer to Civil Action Complaint - Copy.pdf">Defendant's Answer to Complaint</option>
+                <option value="Civil Rights Civil Action Complaint (Non-Prisoner) - Copy.pdf">Civil Rights Complaint (Non-Prisoner)</option>
+                <option value="Civil Rights Civil Action Complaint - Copy.pdf">Civil Rights Complaint (Prisoner)</option>
             </select>
-
-            <span class="label">2. NEURAL DRAFTS</span>
+            <span class="label">CONTRACTGEN AGREEMENTS</span>
             <select id="template-select" onchange="loadAgreement(this.value)">
                 <option value="">-- SELECT TEMPLATE --</option>
                 <option value="LLC">LLC Operating Agreement</option>
@@ -115,45 +84,41 @@
             </select>
             <div id="form-container"></div>
         </aside>
-
         <main class="center-vault">
-            <textarea id="scratch" placeholder="Ready for neural data..."></textarea>
+            <textarea id="scratch" placeholder="Ready for data..."></textarea>
             <iframe id="pdf-frame"></iframe>
-            
+           
             <div style="background: rgba(0,0,0,0.9); padding: 12px; border-top: 1px solid var(--neon-cyan);">
-                <canvas id="sig-canvas" width="400" height="100"></canvas>
+                <canvas id="sig-canvas"></canvas>
                 <div style="display: flex; gap: 8px; margin-top: 8px;">
-                    <button class="btn" style="background:#333; color: #fff;" onclick="clearSig()">Clear</button>
-                    <button class="btn btn-generate" onclick="generatePDF(true)">Flatten & Export</button>
+                    <button class="btn" style="background:#333; color: #fff;" onclick="clearSig()">RESET</button>
+                    <button class="btn btn-generate" onclick="generatePDF(true)">EXPORT</button>
                 </div>
             </div>
         </main>
-
         <aside class="side-panel">
-            <span class="label">BATCH_LOG_STREAM</span>
+            <span class="label">CONTRACTGEN LOG STREAM</span>
             <div id="terminal-log"></div>
-            <button class="btn" style="background: transparent; border: 1px solid var(--neon-purple); color: var(--neon-purple); margin-top: 15px;" onclick="togglePreview()">Preview Toggle</button>
+           
+            <button class="btn" style="background: transparent; border: 1px solid var(--neon-purple); color: var(--neon-purple); margin-top: 15px;" onclick="togglePreview()">PreviewGen</button>
+           
             <div style="margin-top: 15px; padding: 10px; background: rgba(0,255,157,0.05); border: 1px solid var(--neon-teal); border-radius: 8px;">
-                <span class="label">AUDIT DATA</span>
+                <span class="label">CONTRACTGEN AUDIT DATA</span>
                 <div id="audit-trail" style="font-family: 'Share Tech Mono'; font-size: 0.6rem; color: var(--neon-teal);">
-                    IP: Fetching...<br>TS: --:--:--<br>HASH: IDLE
+                    IP: Fetching...<br>
+                    TS: --:--:--<br>
+                    HASH: IDLE
                 </div>
             </div>
         </aside>
     </div>
 </div>
-
 <script>
     const { jsPDF } = window.jspdf;
     let currentTemplate = "";
     let isPreviewMode = false;
     let userIP = "127.0.0.1";
-    
-    const scratch = document.getElementById('scratch');
-    const formContainer = document.getElementById('form-container');
-    const sigCanvas = document.getElementById('sig-canvas');
-    const sigCtx = sigCanvas.getContext('2d');
-    
+    fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => userIP = d.ip);
     const templates = {
         LLC: `OPERATING AGREEMENT OF [COMPANY NAME], LLC\n\nI. FORMATION: Member [PLAINTIFF] hereby forms this LLC in the State of [STATE].\nII. PURPOSE: [BUSINESS PURPOSE].\nIII. REGISTERED AGENT: [DEFENDANT] is designated as initial agent.\n\nAUTHENTICATED SIGNATURE BELOW:`,
         NDA: `MUTUAL NON-DISCLOSURE AGREEMENT\n\nPARTIES: [PLAINTIFF] (Discloser) and [DEFENDANT] (Recipient).\nRE: [PROJECT NAME]\nCASE REF: [CASE_ID]\n\nAUTHENTICATED SIGNATURE BELOW:`,
@@ -161,119 +126,121 @@
         INTENT: `NOTICE OF INTENT TO SUE\n\nTO: [DEFENDANT]\nFROM: [PLAINTIFF]\n\nNOTICE: Unless $[DEMAND] is paid by [DEADLINE], legal action will proceed under Case Ref: [CASE_ID].\n\nAUTHENTICATED SIGNATURE BELOW:`,
         LS: `LIMITED SCOPE RETAINER AGREEMENT\n\nClient: [PLAINTIFF]\nAttorney: [DEFENDANT]\n\nScope of Services: [SCOPE].\nFee Structure: [FEE].\n\nAUTHENTICATED SIGNATURE BELOW:`
     };
-
-    function autoSave() {
-        const data = {
-            plaintiff: document.getElementById('g-plaintiff').value,
-            defendant: document.getElementById('g-defendant').value,
-            case: document.getElementById('g-case').value,
-            scratch: scratch.value
-        };
-        localStorage.setItem('ladyLegalz_cache', JSON.stringify(data));
-    }
-
-    function loadSavedData() {
-        const saved = localStorage.getItem('ladyLegalz_cache');
-        if (saved) {
-            const data = JSON.parse(saved);
-            document.getElementById('g-plaintiff').value = data.plaintiff || "";
-            document.getElementById('g-defendant').value = data.defendant || "";
-            document.getElementById('g-case').value = data.case || "";
-            scratch.value = data.scratch || "";
-            log("Cache sync successful.");
-        }
-    }
-
+    const scratch = document.getElementById('scratch');
+    const formContainer = document.getElementById('form-container');
+    const sigCanvas = document.getElementById('sig-canvas');
+    const sigCtx = sigCanvas.getContext('2d');
+    sigCtx.strokeStyle = '#000';
+    sigCtx.lineWidth = 2;
+    sigCtx.lineCap = 'round';
+    let drawing = false;
+    // --- BATCH SYNC LOGIC ---
     function syncAll() {
-        if(!currentTemplate) { autoSave(); return; }
+        if(!currentTemplate) return;
         let text = currentTemplate;
+       
+        // Map Global Variables
         const globals = {
             "[PLAINTIFF]": document.getElementById('g-plaintiff').value || "[PLAINTIFF]",
             "[DEFENDANT]": document.getElementById('g-defendant').value || "[DEFENDANT]",
             "[CASE_ID]": document.getElementById('g-case').value || "[CASE_ID]"
         };
         for (let key in globals) { text = text.split(key).join(globals[key]); }
+        // Map Specific Form Inputs
         formContainer.querySelectorAll('input').forEach(i => {
             const placeholder = `[${i.dataset.ph}]`;
-            text = text.split(placeholder).join(i.value || placeholder);
+            const val = i.value || placeholder;
+            text = text.split(placeholder).join(val);
         });
         scratch.value = text;
         updateAudit();
-        autoSave();
     }
-
     function loadAgreement(key) {
         if(!key) return;
         currentTemplate = templates[key] || "";
         const placeholders = [...new Set(currentTemplate.match(/\[([^\]]+)\]/g) || [])];
-        formContainer.innerHTML = `<span class="label">TEMPLATE SPECIFIC FIELDS</span>`;
+        formContainer.innerHTML = `<span class="label">CONTRACTGEN TEMPLATES</span>`;
+       
         placeholders.forEach(ph => {
+            // Skip globals in the sub-form
             if(["[PLAINTIFF]", "[DEFENDANT]", "[CASE_ID]"].includes(ph)) return;
+           
             const input = document.createElement('input');
             input.placeholder = ph.replace(/[\[\]]/g, '');
             input.dataset.ph = input.placeholder;
             input.oninput = syncAll;
             formContainer.appendChild(input);
         });
-        isPreviewMode = false;
-        document.getElementById('pdf-frame').style.display = 'none';
-        scratch.style.display = 'block';
         syncAll();
-        log(`Draft: ${key} initialized.`);
+        log(`Batch Mode: ${key} initialized.`);
     }
+    // --- SIGNATURE ---
+    sigCanvas.addEventListener("mousedown", (e) => { drawing = true; sigCtx.beginPath(); sigCtx.moveTo(e.offsetX, e.offsetY); });
+    sigCanvas.addEventListener("mousemove", (e) => { if(drawing) { sigCtx.lineTo(e.offsetX, e.offsetY); sigCtx.stroke(); } });
+    sigCanvas.addEventListener("mouseup", () => drawing = false);
+    sigCanvas.addEventListener("mouseleave", () => drawing = false);
 
-    function runBoot() {
-        const logBox = document.getElementById('boot-log');
-        const progress = document.getElementById('boot-progress');
-        const steps = ["INIT_KERNEL...", "MOUNTING_NEW_PDF_BATCH...", "SYNC_GATEWAY...", "LOAD_TEMPLATES...", "DECRYPT_HASH...", "READY."];
-        let step = 0;
-        const interval = setInterval(() => {
-            const line = document.createElement('div');
-            line.textContent = `> ${steps[step]}`;
-            logBox.appendChild(line);
-            step++;
-            progress.style.width = (step / steps.length) * 100 + "%";
-            if (step >= steps.length) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    document.getElementById('boot-screen').style.opacity = '0';
-                    document.getElementById('main-container').classList.add('active');
-                    setTimeout(() => document.getElementById('boot-screen').style.display = 'none', 1000);
-                }, 500);
-            }
-        }, 300);
-    }
+    sigCanvas.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const rect = sigCanvas.getBoundingClientRect();
+        drawing = true;
+        sigCtx.beginPath();
+        sigCtx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    });
+    sigCanvas.addEventListener("touchmove", (e) => {
+        e.preventDefault();
+        if (!drawing) return;
+        const touch = e.touches[0];
+        const rect = sigCanvas.getBoundingClientRect();
+        sigCtx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        sigCtx.stroke();
+    });
+    sigCanvas.addEventListener("touchend", () => drawing = false);
+    sigCanvas.addEventListener("touchcancel", () => drawing = false);
 
     function clearSig() { sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height); }
-
+    // --- PDF & UI ---
     function generatePDF(download = false) {
         const doc = new jsPDF();
-        doc.setFont("courier", "bold").text("LADY LEGALZ BATCH EXPORT", 105, 15, { align: "center" });
-        doc.setFont("courier", "normal").setFontSize(10);
+        doc.setFont("courier", "bold");
+        doc.text("CONTRACTGEN BATCH EXPORT", 105, 15, { align: "center" });
+        doc.setFont("courier", "normal");
+        doc.setFontSize(10);
+       
         const lines = doc.splitTextToSize(scratch.value, 180);
         let y = 30;
+        const lineHeight = 7;
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const marginBottom = 60;
+
         lines.forEach(l => {
-            if (y > 240) { doc.addPage(); y = 20; }
-            doc.text(l, 15, y); y += 7;
+            if (y + lineHeight > pageHeight - marginBottom) {
+                doc.addPage();
+                y = 20;
+            }
+            doc.text(l, 15, y);
+            y += lineHeight;
         });
         const sigData = sigCanvas.toDataURL('image/png');
-        if (y > 250) { doc.addPage(); y = 20; }
+        if (y + 30 > pageHeight - 30) {
+            doc.addPage();
+            y = 20;
+        }
         doc.addImage(sigData, 'PNG', 15, y + 5, 50, 20);
-        doc.setFontSize(7).text(`AUDIT: IP ${userIP} | TS ${new Date().toISOString()}`, 15, y + 30);
-        if(download) doc.save("LegalBatch_Export.pdf");
+       
+        doc.setFontSize(7);
+        doc.text(`CONTRACTGEN AUDIT TRAIL: IP ${userIP} | TS ${new Date().toISOString()} | HASH ${Math.random().toString(16).slice(2,10)}`, 15, y + 35);
+        if(download) doc.save("LadyLegalzBeta4_Export.pdf");
         return doc.output('bloburl');
     }
-
     function mountPDF(f) {
         if(!f) return;
-        isPreviewMode = false;
         scratch.style.display='none';
-        const frame = document.getElementById('pdf-frame');
-        frame.style.display='block';
-        frame.src = f;
-        log(`Mounted: ${f}`);
+        document.getElementById('pdf-frame').style.display='block';
+        document.getElementById('pdf-frame').src=f;
+        log(`Protocol Mounted: ${f}`);
     }
-
     function togglePreview() {
         isPreviewMode = !isPreviewMode;
         const frame = document.getElementById('pdf-frame');
@@ -284,56 +251,30 @@
             frame.style.display = 'none'; scratch.style.display = 'block';
         }
     }
-
     function updateAudit() {
         document.getElementById('audit-trail').innerHTML = `IP: ${userIP}<br>TS: ${new Date().toLocaleTimeString()}<br>HASH: ${Math.random().toString(36).substring(7).toUpperCase()}`;
     }
-
     function log(m) {
         const div = document.createElement('div');
         div.innerHTML = `> ${m}`;
         document.getElementById('terminal-log').prepend(div);
     }
-
-    window.onload = () => {
-        runBoot();
-        loadSavedData();
-        sigCtx.strokeStyle = '#000'; sigCtx.lineWidth = 2; sigCtx.lineCap = 'round';
-        let drawing = false;
-        const getPos = (e) => {
-            const rect = sigCanvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: clientX - rect.left, y: clientY - rect.top };
-        };
-        sigCanvas.addEventListener("mousedown", (e) => { drawing = true; const {x,y} = getPos(e); sigCtx.beginPath(); sigCtx.moveTo(x,y); });
-        sigCanvas.addEventListener("mousemove", (e) => { if(drawing) { const {x,y} = getPos(e); sigCtx.lineTo(x,y); sigCtx.stroke(); }});
-        window.addEventListener("mouseup", () => drawing = false);
-        sigCanvas.addEventListener("touchstart", (e) => { e.preventDefault(); drawing=true; const {x,y} = getPos(e); sigCtx.beginPath(); sigCtx.moveTo(x,y); });
-        sigCanvas.addEventListener("touchmove", (e) => { e.preventDefault(); if(drawing) { const {x,y} = getPos(e); sigCtx.lineTo(x,y); sigCtx.stroke(); }});
-
-        const mCanvas = document.getElementById('matrix-canvas');
-        const mCtx = mCanvas.getContext('2d');
-        const res = () => { mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight; };
-        window.onresize = res; res();
-        const dps = Array(Math.floor(mCanvas.width/15)).fill(1);
-        setInterval(() => {
-            mCtx.fillStyle = "rgba(0,0,0,0.05)"; mCtx.fillRect(0,0,mCanvas.width,mCanvas.height);
-            mCtx.fillStyle = "#00ff9d"; mCtx.font = "15px monospace";
-            dps.forEach((y, i) => {
-                mCtx.fillText(Math.random() > 0.5 ? "1":"0", i*15, y*15);
-                if(y*15 > mCanvas.height && Math.random() > 0.975) dps[i] = 0;
-                dps[i]++;
-            });
-        }, 35);
-
-        document.getElementById('g-plaintiff').oninput = syncAll;
-        document.getElementById('g-defendant').oninput = syncAll;
-        document.getElementById('g-case').oninput = syncAll;
-        scratch.oninput = autoSave;
-
-        fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => { userIP = d.ip; updateAudit(); });
-    };
+    // Matrix
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const drops = Array(Math.floor(canvas.width/15)).fill(1);
+    function draw() {
+        ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "#00ff9d";
+        drops.forEach((y, i) => {
+            ctx.fillText(Math.random() > 0.5 ? "1":"0", i*15, y*15);
+            if(y*15 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        });
+    }
+    setInterval(draw, 35);
+    log("Lady Legalz Engine Online.");
 </script>
 </body>
 </html>
