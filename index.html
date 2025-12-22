@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADY LEGALZ BETA 4 | CONTRACTGEN BETA v.3.8.0</title>
+    <title>LADY LEGALZ BETA 4 ||CONTRACTGEN BETA v3.8.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-   
+    
     <style>
         :root {
             --bg: #010508;
@@ -25,7 +25,6 @@
             100% { box-shadow: 0 0 15px var(--alert-red); border-color: var(--alert-red); }
         }
         .neural-alert { animation: pulse-red 0.8s infinite !important; }
-        /* BOOT SCREEN */
         #boot-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000; z-index: 9999;
@@ -34,12 +33,11 @@
             transition: opacity 1.5s ease;
         }
         .boot-loader { width: 300px; border: 1px solid #111; height: 2px; margin-top: 25px; }
-        .boot-progress { width: 0%; height: 100%; background: var(--neon-teal); box-shadow: 0 0 20px var(--neon-teal); }
-        /* CORE UI */
+        .boot-progress { width: 0%; height: 100%; background: var(--neon-teal); box-shadow: 0 0 20px var(--neon-teal); transition: width 0.2s; }
         * { box-sizing: border-box; }
         #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; pointer-events: none; z-index: 1; }
         body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; background: #000; color: #e0e6ed; font-family: 'Rajdhani', sans-serif; overflow: hidden; }
-       
+        
         .container {
             width: 100vw; height: 100vh; border: 1px solid var(--panel-border);
             background: var(--glass); backdrop-filter: blur(40px); display: flex; flex-direction: column; padding: 15px;
@@ -47,84 +45,88 @@
         }
         .header { text-align: center; padding: 10px; border-bottom: 1px solid var(--panel-border); margin-bottom: 10px; }
         .header h1 { font-family: 'Orbitron'; letter-spacing: 12px; margin: 0; font-size: 1.4rem; color: #fff; text-shadow: 0 0 10px var(--neon-teal); }
-       
-        .main-workspace { display: grid; grid-template-columns: 360px 1fr 320px; gap: 15px; flex: 1; min-height: 0; }
+        
+        .main-workspace { display: grid; grid-template-columns: 320px 1fr 320px; gap: 15px; flex: 1; min-height: 0; }
         .side-panel { background: rgba(0,0,0,0.6); border: 1px solid var(--panel-border); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; overflow-y: auto; }
-       
+        
         .center-vault { position: relative; border-radius: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(0, 242, 255, 0.15); display: flex; flex-direction: column; overflow: hidden; }
         textarea { flex: 1; background: transparent; border: none; padding: 25px; color: #fff; font-family: 'Share Tech Mono'; font-size: 0.85rem; outline: none; resize: none; line-height: 1.7; z-index: 5; }
-       
+        
         #pdf-frame { width: 100%; height: 100%; border: none; display: none; background: #fff; }
-       
+        
         .label { font-size: 0.65rem; color: var(--gold); letter-spacing: 2.5px; margin: 18px 0 6px 4px; font-weight: 700; text-transform: uppercase; }
         select, input { background: #080808; border: 1px solid var(--panel-border); color: var(--neon-teal); padding: 11px; border-radius: 4px; font-family: 'Share Tech Mono'; width: 100%; margin-bottom: 10px; outline: none; font-size: 0.75rem; }
-       
+        
         .sig-box { background: #fff; border-radius: 4px; width: 100%; height: 90px; touch-action: none; cursor: crosshair; }
-        .btn { border-radius: 4px; padding: 12px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.65rem; border: none; text-transform: uppercase; font-weight: bold; width: 100%; margin-bottom: 10px; }
+        .btn { border-radius: 4px; padding: 12px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.65rem; border: none; text-transform: uppercase; font-weight: bold; width: 100%; margin-bottom: 10px; transition: 0.3s; }
+        .btn:hover { filter: brightness(1.2); }
         .btn-generate { background: linear-gradient(90deg, var(--neon-teal), var(--neon-cyan)); color: #000; }
-       
+        
+        /* History Items */
+        .history-item { background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); padding: 8px; border-radius: 4px; margin-bottom: 8px; cursor: pointer; font-size: 0.65rem; }
+        .history-item:hover { border-color: var(--neon-teal); background: rgba(0, 255, 157, 0.1); }
+        .history-item .date { color: var(--neon-cyan); font-size: 0.55rem; }
+
         .evidence-dropzone { border: 1px dashed var(--neon-cyan); padding: 10px; text-align: center; font-size: 0.6rem; color: var(--neon-cyan); border-radius: 8px; cursor: pointer; background: rgba(0, 242, 255, 0.05); margin-bottom: 10px; }
         #evidence-preview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 5px; }
         .evidence-thumb { width: 100%; height: 40px; object-fit: cover; border: 1px solid var(--neon-teal); }
+        
+        #notary-badge { padding: 10px; border: 1px solid var(--gold); color: var(--gold); font-size: 0.6rem; font-family: 'Share Tech Mono'; border-radius: 4px; text-align: center; margin-top: 10px; display: none; word-break: break-all; }
     </style>
 </head>
 <body>
     <div id="boot-screen">
-        <div style="font-family: 'Orbitron'; font-size: 2.2rem; letter-spacing: 18px;">TUOLAT LABZ: LADY LEGALZ BETA 4</div>
+        <div style="font-family: 'Orbitron'; font-size: 1.8rem; letter-spacing: 12px; text-align: center;">TUOLAT LABZ: LADY LEGALZ v4.2.0</div>
         <div class="boot-loader"><div id="progress-bar" class="boot-progress"></div></div>
-        <div id="boot-log" style="font-size: 0.7rem; margin-top: 20px; color: var(--neon-cyan); height: 100px;"></div>
+        <div id="boot-log" style="font-size: 0.7rem; margin-top: 20px; color: var(--neon-cyan); height: 100px; text-align: center;"></div>
     </div>
     <canvas id="matrix-canvas"></canvas>
-   
+    
     <div class="container" id="main-container">
-        <div class="header"><h1>CONTRACTGEN BETA v3.8.0 <span style="font-size: 0.7rem; color: var(--neon-pink);">NEO-INTELLIGENCE</span></h1></div>
-       
+        <div class="header"><h1>TUOLAT LABZ <span style="font-size: 0.7rem; color: var(--neon-pink);">CONTRACTGEN NEO-INTELLIGENCE</span></h1></div>
+        
         <div class="main-workspace">
             <aside class="side-panel">
-                <div class="global-var-box" style="border: 1px solid var(--neon-pink); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
-                    <span class="label" style="color:var(--neon-pink); margin-top:0;">ENTER PRIMARY ENTITIES</span>
-                    <input type="text" id="g-plaintiff" placeholder="PLAINTIFF / PARTY A" oninput="syncAll()">
-                    <input type="text" id="g-defendant" placeholder="DEFENDANT / PARTY B" oninput="syncAll()">
-                    <input type="text" id="g-case" placeholder="CASE REF / TIMESTAMP" oninput="syncAll()">
-                </div>
-                <span class="label">CONTRACTGEN BETA EVIDENCE</span>
-                <div class="evidence-dropzone" onclick="document.getElementById('evidence-input').click()">[ ATTACH EXHIBITS ]</div>
-                <input type="file" id="evidence-input" style="display:none" multiple accept="image/*" onchange="handleEvidence(this)">
-                <div id="evidence-preview"></div>
+                <span class="label" style="margin-top:0;">DRAFT HISTORY</span>
+                <button class="btn" style="background: var(--neon-purple); color: #fff; font-size: 0.55rem;" onclick="saveDraft()">SAVE CURRENT SNAPSHOT</button>
+                <div id="history-list" style="flex: 1; overflow-y: auto; margin-bottom: 15px;">
+                    </div>
+
                 <span class="label">CONTRACTGEN PROTOCOLS</span>
-                <select onchange="mountPDF(this.value)">
-                    <option value="">-- SELECT FEDERAL PROTOCOL --</option>
-                    <option value="Civil Action Cover Sheet Federal.pdf">Civil Cover Sheet (JS 44)</option>
-                    <option value="Civil Action Complaint Federal.pdf">Civil Action Complaint</option>
-                    <option value="Summons.pdf">Summons in a Civil Action</option>
-                    <option value="IFP.pdf">Application to Proceed (IFP)</option>
-                    <option value="Waiver.pdf">Waiver of Service</option>
-                    <option value="Notice.pdf">Notice & Request to Waive</option>
-                    <option value="Misconduct.pdf">Judicial Misconduct Complaint</option>
-                    <option value="Answer.pdf">Defendant's Answer</option>
-                    <option value="CivilRightsNon.pdf">Civil Rights (Non-Prisoner)</option>
-                    <option value="CivilRightsPris.pdf">Civil Rights (Prisoner)</option>
+                <select onchange="openProtocol(this.value)">
+                    <option value="">-- SELECT FORM --</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/js_044.pdf">1. Civil Cover Sheet (JS 44)</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/pro_se_1_0.pdf">2. Civil Action Complaint</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/ao440.pdf">3. Summons in a Civil Action</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/ao240.pdf">4. Application to Proceed (IFP)</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/ao399.pdf">5. Waiver of Service</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/ao398.pdf">6. Notice & Request to Waive</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/ao_435_0.pdf">7. Judicial Misconduct Form</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/pro_se_3_0.pdf">8. Defendant's Answer</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/pro_se_15_0.pdf">9. Civil Rights (Non-Prisoner)</option>
+                    <option value="https://www.uscourts.gov/sites/default/files/pro_se_14_0.pdf">10. Civil Rights (Prisoner)</option>
                 </select>
+                
                 <span class="label">CONTRACTGEN AGREEMENTS</span>
-                <select id="template-select" onchange="loadAgreement(this.value)">
+                <select onchange="openProtocol(this.value)">
                     <option value="">-- SELECT AGREEMENT --</option>
-                    <option value="LLC">LLC Formation</option>
-                    <option value="DIVORCE">Divorce Settlement</option>
-                    <option value="ATTORNEY">Attorney-Client Retainer</option>
-                    <option value="LS">Limited Scope Rep</option>
-                    <option value="LAND">Land Purchase Agreement</option>
-                    <option value="VEHICLE">Vehicle Sale Bill of Sale</option>
-                    <option value="ESTATE">Estate Plan Services</option>
-                    <option value="SOFTWARE">Software Dev / IP Licensing</option>
-                    <option value="HARMLESS">Hold Harmless Clause</option>
-                    <option value="INTENT">Formal Intent to Sue</option>
+                    <option value="https://www.scc.virginia.gov/media/sccvirginiagov-home/business-home/start-a-new-business/business-types/llc1011.pdf">11. LLC Formation Articles</option>
+                    <option value="https://flcourts-media.flcourts.gov/content/download/685817/file_pdf/902f2.pdf">12. Divorce Settlement</option>
+                    <option value="https://willicklawgroup.com/wp-content/uploads/2012/10/TMC0058.pdf">13. Attorney-Client Retainer</option>
+                    <option value="https://eforms.com/download/2021/03/Georgia-Land-Contract.pdf">14. Land Purchase Agreement</option>
+                    <option value="https://sls.berkeley.edu/wp-content/uploads/2020/09/Form-Auto-Bill-of-Sale.pdf">15. Vehicle Bill of Sale</option>
+                    <option value="https://www.terma.com/media/0zhbnoox/clickwrap_sla__software_license_agreement_.pdf">16. Software Dev / IP License</option>
+                    <option value="https://eforms.com/images/2019/09/Letter-of-Intent-to-Sue.pdf">17. Formal Intent to Sue</option>
+                    <option value="https://www.sec.gov/Archives/edgar/data/1409171/000119312510170948/dex101.htm">18. Employment Agreement</option>
+                    <option value="https://www.nolo.com/files/sample_non_disclosure_agreement.pdf">19. Standard NDA Form</option>
+                    <option value="https://www.rocketlawyer.com/preview/lease-agreement.pdf">20. Residential Lease Template</option>
                 </select>
-                <div id="form-container"></div>
             </aside>
+
             <main class="center-vault">
                 <textarea id="scratch" placeholder="Initializing Workspace..."></textarea>
                 <iframe id="pdf-frame"></iframe>
-               
+                
                 <div style="background: rgba(0,0,0,0.95); padding: 12px; border-top: 1px solid var(--neon-cyan); display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div>
                         <span class="label" style="margin-top:0">DECLARANT SIG</span>
@@ -139,50 +141,123 @@
                 </div>
                 <button class="btn btn-generate" style="margin: 0; border-radius: 0;" onclick="generatePDF(true)">COMPILED EXPORT</button>
             </main>
+
             <aside class="side-panel">
-                <span class="label" style="margin-top:0">CONTRACTGEN ADVISORY</span>
-                <div id="ai-advisor" style="background: rgba(189, 0, 255, 0.1); border: 1px solid var(--neon-purple); padding: 12px; border-radius: 8px; font-size: 0.7rem; margin-bottom: 15px;">Waiting for protocol...</div>
-                <span class="label">LOG STREAM</span>
+                <div class="global-var-box" style="border: 1px solid var(--neon-pink); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+                    <span class="label" style="color:var(--neon-pink); margin-top:0;">PRIMARY ENTITIES</span>
+                    <input type="text" id="g-plaintiff" placeholder="PLAINTIFF / PARTY A" oninput="syncAll()">
+                    <input type="text" id="g-defendant" placeholder="DEFENDANT / PARTY B" oninput="syncAll()">
+                    <input type="text" id="g-case" placeholder="CASE REF / TIMESTAMP" oninput="syncAll()">
+                </div>
+
+                <span class="label">CONTRACTGEN EVIDENCE</span>
+                <div class="evidence-dropzone" onclick="document.getElementById('evidence-input').click()">[ ATTACH EXHIBITS ]</div>
+                <input type="file" id="evidence-input" style="display:none" multiple accept="image/*" onchange="handleEvidence(this)">
+                <div id="evidence-preview"></div>
+
+                <span class="label" style="margin-top:10px">NEURAL NOTARY</span>
+                <button class="btn" style="background: var(--gold); color: #000;" onclick="generateNotaryHash()">GENERATE SEAL</button>
+                <div id="notary-badge"></div>
+                
+                <span class="label">CONTRACTGEN LOG STREAM</span>
                 <div id="terminal-log" style="flex: 1; font-family: 'Share Tech Mono'; font-size: 0.6rem; color: var(--neon-teal); overflow-y: auto; background: rgba(0,0,0,0.4); padding: 10px;"></div>
                 <button class="btn" style="background: transparent; border: 1px solid var(--neon-purple); color: var(--neon-purple); margin-top: 15px;" onclick="togglePreview()">Live Preview Switch</button>
             </aside>
         </div>
     </div>
+
     <script>
-        const { jsPDF } = window.jspdf;
-        let currentTemplate = "";
-        let isPreviewMode = false;
+        const { jsPDF } = window.jspdf || {};
         let evidenceImages = [];
-        function speak(t) { window.speechSynthesis.speak(new SpeechSynthesisUtterance(t)); }
-        const templates = {
-            LLC: { text: `ARTICLES OF ORGANIZATION\nENTITY: [COMPANY_NAME]\nAGENT: [DEFENDANT]\nORGANIZER: [PLAINTIFF]\nDATE: [CASE_ID]`, advice: "File with Secretary of State immediately." },
-            DIVORCE: { text: `DIVORCE SETTLEMENT\nHUSBAND: [PLAINTIFF]\nWIFE: [DEFENDANT]\nCUSTODY: [CUSTODY]\nDATE: [CASE_ID]`, advice: "Requires notary verification." },
-            ATTORNEY: { text: `ATTORNEY RETAINER\nFIRM: [PLAINTIFF]\nCLIENT: [DEFENDANT]\nFEES: [FEE_STRUCTURE]`, advice: "Check State Bar fee compliance." },
-            LS: { text: `LIMITED SCOPE REP\nLAWYER: [PLAINTIFF]\nCLIENT: [DEFENDANT]\nLIMITS: [EXCLUSIONS]`, advice: "Ensure exclusions are clearly bolded." },
-            LAND: { text: `LAND PURCHASE\nSELLER: [PLAINTIFF]\nBUYER: [DEFENDANT]\nPARCEL: [LEGAL_DESC]`, advice: "Open Escrow within 24 hours." },
-            VEHICLE: { text: `VEHICLE BILL OF SALE\nSELLER: [PLAINTIFF]\nBUYER: [DEFENDANT]\nVIN: [VIN]`, advice: "Notify DMV of asset transfer." },
-            ESTATE: { text: `ESTATE SERVICES\nPLANNER: [PLAINTIFF]\nCLIENT: [DEFENDANT]\nTYPE: [PLAN_TYPE]`, advice: "Drafting Will/Trust protocols." },
-            SOFTWARE: { text: `SOFTWARE LICENSE\nLICENSOR: [PLAINTIFF]\nLICENSEE: [DEFENDANT]\nIP: [APP_NAME]`, advice: "Review 'Work for Hire' clauses." },
-            HARMLESS: { text: `HOLD HARMLESS\nINDEMNITOR: [PLAINTIFF]\nINDEMNITEE: [DEFENDANT]`, advice: "Liability shift protocol active." },
-            INTENT: { text: `NOTICE OF INTENT TO SUE\nFROM: [PLAINTIFF]\nTO: [DEFENDANT]\nDEMAND: [DEMAND]`, advice: "Certified Mail required for proof." }
-        };
+        let sessionHash = "";
+
+        function log(m) {
+            const d = document.createElement('div');
+            d.innerHTML = `<span style="color:var(--neon-pink)">></span> ${m}`;
+            const container = document.getElementById('terminal-log');
+            container.prepend(d);
+        }
+
+        // --- DRAFT HISTORY LOGIC ---
+        function saveDraft() {
+            const draft = {
+                id: Date.now(),
+                plaintiff: document.getElementById('g-plaintiff').value,
+                defendant: document.getElementById('g-defendant').value,
+                case: document.getElementById('g-case').value,
+                text: document.getElementById('scratch').value,
+                hash: sessionHash,
+                date: new Date().toLocaleString()
+            };
+            let history = JSON.parse(localStorage.getItem('legalz_history') || '[]');
+            history.unshift(draft);
+            localStorage.setItem('ladylegalz_history', JSON.stringify(history.slice(0, 10))); // Keep last 10
+            renderHistory();
+            log("Snapshot Saved to local memory.");
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('history-list');
+            const history = JSON.parse(localStorage.getItem('legalz_history') || '[]');
+            list.innerHTML = history.map(h => `
+                <div class="history-item" onclick="loadDraft(${h.id})">
+                    <div class="date">${h.date}</div>
+                    <div>${h.plaintiff || 'Untitled'} vs ${h.defendant || '...'}</div>
+                </div>
+            `).join('');
+        }
+
+        function loadDraft(id) {
+            const history = JSON.parse(localStorage.getItem('legalz_history') || '[]');
+            const draft = history.find(h => h.id === id);
+            if(draft) {
+                document.getElementById('g-plaintiff').value = draft.plaintiff;
+                document.getElementById('g-defendant').value = draft.defendant;
+                document.getElementById('g-case').value = draft.case;
+                document.getElementById('scratch').value = draft.text;
+                sessionHash = draft.hash;
+                if(sessionHash) {
+                    const badge = document.getElementById('notary-badge');
+                    badge.style.display = 'block';
+                    badge.innerHTML = `RESTORED SEAL:<br>${sessionHash}`;
+                }
+                log("Draft Restored.");
+                syncAll();
+            }
+        }
+        // ---------------------------
+
+        function generateNotaryHash() {
+            sessionHash = "CERT-" + Math.random().toString(36).substring(2, 15).toUpperCase() + "-" + Date.now();
+            const badge = document.getElementById('notary-badge');
+            badge.style.display = 'block';
+            badge.innerHTML = `DIGITAL SEAL ACTIVE:<br>${sessionHash}`;
+            log("Notary Seal Generated.");
+        }
+
         function runBoot() {
-            const msgs = ["Witness Logic Syncing...", "Encryption: TUOLAT LABZ Multi-Layer...", "LADY LEGALZ BETA 4 ONLINE."];
+            const msgs = ["CONTRACTGEN PROTOCOLS LOADED.", "LADY LEGALZ BETA 4.", "TUOLAT LABZ ONLINE", "INTERFACE READY."];
             let i = 0;
-            const log = document.getElementById('boot-log');
+            const logEl = document.getElementById('boot-log');
             const interval = setInterval(() => {
                 if(i < msgs.length) {
-                    log.innerHTML += `> ${msgs[i]}<br>`;
+                    logEl.innerHTML += `> ${msgs[i]}<br>`;
                     document.getElementById('progress-bar').style.width = ((i+1)/msgs.length)*100 + "%";
                     i++;
                 } else {
-                    clearInterval(interval); speak("Witness System Ready");
-                    setTimeout(() => { document.getElementById('boot-screen').style.opacity = '0';
-                    setTimeout(() => document.getElementById('boot-screen').style.display = 'none', 1000); }, 500);
+                    clearInterval(interval);
+                    setTimeout(() => { 
+                        document.getElementById('boot-screen').style.opacity = '0';
+                        setTimeout(() => {
+                            document.getElementById('boot-screen').style.display = 'none';
+                            renderHistory();
+                        }, 1000); 
+                    }, 500);
                 }
-            }, 500);
+            }, 300);
         }
         window.onload = runBoot;
+
         function handleEvidence(input) {
             Array.from(input.files).forEach(file => {
                 const reader = new FileReader();
@@ -196,104 +271,98 @@
                 reader.readAsDataURL(file);
             });
         }
+
         function syncAll() {
-            const val = (document.getElementById('g-plaintiff').value + document.getElementById('g-defendant').value).toLowerCase();
-            document.getElementById('main-container').classList.toggle('neural-alert', val.includes('sue') || val.includes('litigation'));
-            if(!currentTemplate) return;
-            let text = currentTemplate;
-            const globals = { "[PLAINTIFF]": document.getElementById('g-plaintiff').value, "[DEFENDANT]": document.getElementById('g-defendant').value, "[CASE_ID]": document.getElementById('g-case').value };
-            for (let key in globals) { text = text.split(key).join(globals[key] || key); }
-            document.querySelectorAll('#form-container input').forEach(i => { text = text.split(`[${i.dataset.ph}]`).join(i.value || i.dataset.ph); });
-            document.getElementById('scratch').value = text;
+            const p = document.getElementById('g-plaintiff').value.toLowerCase();
+            const d = document.getElementById('g-defendant').value.toLowerCase();
+            const trigger = p.includes('sue') || d.includes('sue') || p.includes('court');
+            document.getElementById('main-container').classList.toggle('neural-alert', trigger);
         }
-        function loadAgreement(key) {
-            if(!key) return;
-            currentTemplate = templates[key].text;
-            document.getElementById('ai-advisor').innerHTML = `<span style="color:var(--neon-pink)">ADVISORY:</span><br>${templates[key].advice}`;
-            const placeholders = [...new Set(currentTemplate.match(/\[([^\]]+)\]/g) || [])];
-            const container = document.getElementById('form-container');
-            container.innerHTML = `<span class="label">${key} FIELD INPUT</span>`;
-            placeholders.forEach(ph => {
-                if(["[PLAINTIFF]", "[DEFENDANT]", "[CASE_ID]"].includes(ph)) return;
-                const input = document.createElement('input'); const clean = ph.replace(/[\[\]]/g, '');
-                input.placeholder = clean; input.dataset.ph = clean; input.oninput = syncAll;
-                container.appendChild(input);
-            });
-            syncAll(); log(`Protocol: ${key}`);
-        }
+
         const setupSig = (id) => {
             const c = document.getElementById(id);
-            const dpr = window.devicePixelRatio || 1;
-            c.width = c.offsetWidth * dpr;
-            c.height = c.offsetHeight * dpr;
             const ctx = c.getContext('2d');
-            ctx.scale(dpr, dpr);
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 2;
             let draw = false;
-            c.addEventListener('mousedown', (e) => {
-                draw = true;
-                ctx.beginPath();
-                ctx.moveTo(e.offsetX, e.offsetY);
-            });
-            c.addEventListener('mousemove', (e) => {
-                if (draw) {
-                    ctx.lineTo(e.offsetX, e.offsetY);
-                    ctx.stroke();
-                }
-            });
-            c.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                const touch = e.touches[0];
+            const getPos = (e) => {
                 const rect = c.getBoundingClientRect();
-                draw = true;
-                ctx.beginPath();
-                ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
-            });
-            c.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                if (draw) {
-                    const touch = e.touches[0];
-                    const rect = c.getBoundingClientRect();
-                    ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-                    ctx.stroke();
-                }
-            });
-            window.addEventListener('mouseup', () => draw = false);
-            window.addEventListener('touchend', () => draw = false);
-            return ctx;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: (clientX - rect.left) * (c.width / rect.width), y: (clientY - rect.top) * (c.height / rect.height) };
+            };
+            const start = (e) => { draw = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); };
+            const move = (e) => { if (!draw) return; e.preventDefault(); const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); };
+            c.addEventListener('mousedown', start); c.addEventListener('mousemove', move);
+            c.addEventListener('touchstart', start); c.addEventListener('touchmove', move);
+            window.addEventListener('mouseup', () => draw = false); window.addEventListener('touchend', () => draw = false);
+            ctx.strokeStyle = '#000'; ctx.lineWidth = 2; return ctx;
         };
+
         const ctx1 = setupSig('sig-main'); const ctx2 = setupSig('sig-witness');
+
         function clearS(n) {
-            const ctx = n === 1 ? ctx1 : ctx2;
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            const c = n === 1 ? document.getElementById('sig-main') : document.getElementById('sig-witness');
+            c.getContext('2d').clearRect(0, 0, c.width, c.height);
         }
+
         function generatePDF(download = false) {
-            const doc = new jsPDF(); doc.setFont("courier", "bold").text("CONTRACTGEN BETA OUTPUT", 105, 20, { align: "center" });
-            doc.setFont("courier", "normal").setFontSize(10); doc.text(doc.splitTextToSize(document.getElementById('scratch').value, 175), 18, 40);
-            doc.text("PRIMARY DECLARANT SIGNATURE:", 18, 200); doc.addImage(document.getElementById('sig-main').toDataURL(), 'PNG', 18, 205, 50, 15);
-            doc.text("WITNESS SIGNATURE:", 110, 200); doc.addImage(document.getElementById('sig-witness').toDataURL(), 'PNG', 110, 205, 50, 15);
-            evidenceImages.forEach((img, i) => { doc.addPage(); doc.text(`EXHIBIT ${String.fromCharCode(65+i)}`, 105, 20, {align:"center"}); doc.addImage(img, 'JPEG', 15, 30, 180, 120); });
-            if(download) doc.save("TUOLATLABZ_DOC.pdf"); return doc.output('bloburl');
+            const doc = new jsPDF();
+            doc.setFont("courier", "bold").text("LADY LEGALZ CERTIFIED OUTPUT", 105, 20, { align: "center" });
+            if(sessionHash) {
+                doc.setFontSize(8).setTextColor(150, 120, 60);
+                doc.text(`DIGITAL SEAL: ${sessionHash}`, 105, 27, { align: "center" });
+                doc.setTextColor(0,0,0);
+            }
+            const content = document.getElementById('scratch').value || "[EMPTY DOCUMENT]";
+            doc.setFont("courier", "normal").setFontSize(10);
+            doc.text(doc.splitTextToSize(content, 175), 18, 40);
+            doc.text("PRIMARY DECLARANT SIG:", 18, 200);
+            doc.addImage(document.getElementById('sig-main').toDataURL(), 'PNG', 18, 205, 50, 15);
+            doc.text("WITNESS SIG:", 110, 200);
+            doc.addImage(document.getElementById('sig-witness').toDataURL(), 'PNG', 110, 205, 50, 15);
+            evidenceImages.forEach((img, i) => {
+                doc.addPage();
+                doc.text(`EXHIBIT ${String.fromCharCode(65+i)}`, 105, 20, {align:"center"});
+                doc.addImage(img, 'JPEG', 15, 30, 180, 120);
+            });
+            if(download) doc.save("LEGALZ_DOC.pdf");
+            return doc.output('bloburl');
         }
-        function mountPDF(f) { document.getElementById('scratch').style.display='none'; document.getElementById('pdf-frame').style.display='block'; document.getElementById('pdf-frame').src = f; log(`Mounted: ${f}`); }
-        function togglePreview() { isPreviewMode = !isPreviewMode; const f = document.getElementById('pdf-frame'); const s = document.getElementById('scratch'); if(isPreviewMode){ f.src = generatePDF(false); f.style.display='block'; s.style.display='none'; } else { f.style.display='none'; s.style.display='block'; } }
-        function log(m) { const d = document.createElement('div'); d.innerHTML = `<span style="color:var(--neon-pink)">></span> ${m}`; document.getElementById('terminal-log').prepend(d); }
-        const canv = document.getElementById('matrix-canvas'); const ctxM = canv.getContext('2d');
+
+        function openProtocol(url) {
+            if(!url) return;
+            log(`Opening protocol in secure tab...`);
+            window.open(url, '_blank');
+        }
+
+        function togglePreview() {
+            const f = document.getElementById('pdf-frame');
+            const s = document.getElementById('scratch');
+            if(f.style.display === 'none') {
+                f.src = generatePDF(false);
+                f.style.display='block';
+                s.style.display='none';
+            } else {
+                f.style.display='none';
+                s.style.display='block';
+            }
+        }
+
+        // Matrix Effect
+        const canv = document.getElementById('matrix-canvas'); 
+        const ctxM = canv.getContext('2d');
         canv.width = window.innerWidth; canv.height = window.innerHeight;
         let drops = Array(Math.floor(canv.width/18)).fill(1);
-        window.addEventListener('resize', () => {
-            canv.width = window.innerWidth;
-            canv.height = window.innerHeight;
-            drops = Array(Math.floor(canv.width / 18)).fill(1);
-        });
         function drawM() {
             ctxM.fillStyle = "rgba(0,0,0,0.08)"; ctxM.fillRect(0,0,canv.width,canv.height);
             ctxM.font = '18px "Share Tech Mono", monospace';
             ctxM.fillStyle = "#00ff9d";
-            drops.forEach((y, i) => { ctxM.fillText(Math.random() > 0.5 ? "0" : "1", i*18, y*18); if(y*18 > canv.height && Math.random() > 0.98) drops[i] = 0; drops[i]++; });
+            drops.forEach((y, i) => {
+                ctxM.fillText(Math.random() > 0.5 ? "0" : "1", i*18, y*18);
+                if(y*18 > canv.height && Math.random() > 0.98) drops[i] = 0;
+                drops[i]++;
+            });
         }
-        setInterval(drawM, 40);
+        setInterval(drawM, 50);
     </script>
 </body>
 </html>
