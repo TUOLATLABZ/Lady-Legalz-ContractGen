@@ -42,7 +42,7 @@
             position: relative; z-index: 10;
         }
         .header { text-align: center; padding: 10px; border-bottom: 1px solid var(--panel-border); margin-bottom: 10px; }
-        .header h1 { font-family: 'Orbitron'; letter-spacing: 12px; margin: 0; font-size: 1.4rem; color: #fff; text-shadow: 0 0 10px var(--neon-teal); }
+        .header h1 { font-family: 'Orbitron'; letter-spacing: 4px; margin: 0; font-size: 1.2rem; color: #fff; text-shadow: 0 0 10px var(--neon-teal); }
         .main-workspace { display: grid; grid-template-columns: 320px 1fr 320px; gap: 15px; flex: 1; min-height: 0; }
         .side-panel { background: rgba(0,0,0,0.6); border: 1px solid var(--panel-border); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; overflow-y: auto; }
         .center-vault { position: relative; border-radius: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(0, 242, 255, 0.15); display: flex; flex-direction: column; overflow: hidden; }
@@ -88,7 +88,7 @@
             <div id="history-list"></div>
 
             <div class="label">FEDERAL PROTOCOLS</div>
-            <select onchange="openProtocol(this.value)">
+            <select onchange="openProtocol(this.value, true)">
                 <option value="">-- SELECT FORM --</option>
                 <option value="https://www.uscourts.gov/sites/default/files/complaint_for_a_civil_case.pdf">1. Civil Complaint</option>
                 <option value="https://www.uscourts.gov/sites/default/files/ao440.pdf">2. Summons</option>
@@ -101,8 +101,8 @@
                 <option value="https://www.uscourts.gov/sites/default/files/complaint_for_violation_of_civil_rights_prisoner.pdf">9. Civil Rights (P)</option>
             </select>
 
-            <div class="label">CONTRACTGEN AGREEMENTS (ALABAMA)</div>
-            <select onchange="openProtocol(this.value)">
+            <div class="label">CONTRACTGEN AGREEMENTS (AL)</div>
+            <select onchange="openProtocol(this.value, false)">
                 <option value="">-- SELECT ALABAMA FORM --</option>
                 <option value="https://ipropertymanagement.com/wp-content/uploads/Standard-Alabama-Residential-Lease-Agreement-Template.pdf">Alabama Residential Lease</option>
                 <option value="https://freeforms.com/wp-content/uploads/2022/03/Alabama-LLC-Operating-Agreement-Form.pdf">Alabama LLC Operating Agreement</option>
@@ -112,7 +112,7 @@
             </select>
 
             <div class="label">ALL 50 STATE PORTALS</div>
-            <select onchange="openProtocol(this.value)">
+            <select onchange="openProtocol(this.value, false)">
                 <option value="">-- SELECT STATE PORTAL --</option>
                 <option value="https://eforms.alacourt.gov/">Alabama</option>
                 <option value="https://courts.alaska.gov/forms/index.htm">Alaska</option>
@@ -165,7 +165,8 @@
                 <option value="https://www.wicourts.gov/forms1/circuit.htm">Wisconsin</option>
                 <option value="https://www.courts.state.wy.us/legal-help-and-forms/court-forms/">Wyoming</option>
             </select>
-            
+        </div>
+
         <div class="center-vault">
             <textarea id="scratch" placeholder="Initializing Workspace..."></textarea>
             <iframe id="pdf-frame" title="Legal Protocol Viewer"></iframe>
@@ -216,15 +217,29 @@
     function log(m, url = null) {
         const d = document.createElement('div');
         d.style.marginBottom = "5px";
-        d.innerHTML = url ? `> ${m} <span class="log-link" onclick="window.open('${url}', '_blank')">[MANUAL]</span>` : `> ${m}`;
+        d.innerHTML = url ? `> ${m} <span class="log-link" onclick="window.open('${url}', '_blank')">[LINK]</span>` : `> ${m}`;
         document.getElementById('terminal-log').prepend(d);
     }
 
-    function openProtocol(url) {
+    /**
+     * @param {string} url - The URL to open
+     * @param {boolean} allowIframe - If true, tries to load in frame. If false, opens new tab.
+     */
+    function openProtocol(url, allowIframe) {
         if(!url) return;
         const frame = document.getElementById('pdf-frame');
         const scratch = document.getElementById('scratch');
+        
         log(`Protocol Accessed: ${url.split('/').pop()}`, url);
+
+        // Most state sites block Iframing (X-Frame-Options). 
+        // We open them in a new tab for reliability.
+        if(!allowIframe) {
+            window.open(url, '_blank');
+            return;
+        }
+
+        // PDFs usually work in iframe
         frame.src = url;
         frame.style.display = 'block';
         scratch.style.display = 'none';
@@ -234,8 +249,11 @@
         const f = document.getElementById('pdf-frame');
         const s = document.getElementById('scratch');
         if(f.style.display === 'none') {
-            f.src = generatePDF(false);
-            f.style.display = 'block'; s.style.display = 'none';
+            const pdfBlob = generatePDF(false);
+            if(pdfBlob) {
+                f.src = pdfBlob;
+                f.style.display = 'block'; s.style.display = 'none';
+            }
         } else {
             f.style.display = 'none'; s.style.display = 'block';
         }
@@ -327,6 +345,7 @@
     }
 
     function generatePDF(download = false) {
+        if(!window.jspdf) { log("Error: jsPDF not loaded"); return; }
         const doc = new jsPDF();
         const p = document.getElementById('g-plaintiff').value || "EMPTY";
         const d = document.getElementById('g-defendant').value || "EMPTY";
