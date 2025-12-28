@@ -101,12 +101,8 @@
                 <option value="https://www.uscourts.gov/sites/default/files/complaint_for_violation_of_civil_rights_prisoner.pdf">9. Civil Rights (P)</option>
             </select>
 
-            <div class="label">STATE AGREEMENTS (50 STATES)</div>
-            <select id="state-selector" onchange="openProtocol(this.value)">
-                <option value="">-- SELECT STATE --</option>
-                <option value="https://www.alacourt.gov/Forms.aspx">Alabama</option>
-                <div class="label">CONTRACTGEN AGREEMENTS (ALABAMA)</div>
-                <select onchange="openProtocol(this.value)">
+            <div class="label">CONTRACTGEN AGREEMENTS (ALABAMA)</div>
+            <select onchange="openProtocol(this.value)">
                 <option value="">-- SELECT ALABAMA FORM --</option>
                 <option value="https://ipropertymanagement.com/wp-content/uploads/Standard-Alabama-Residential-Lease-Agreement-Template.pdf">Alabama Residential Lease</option>
                 <option value="https://freeforms.com/wp-content/uploads/2022/03/Alabama-LLC-Operating-Agreement-Form.pdf">Alabama LLC Operating Agreement</option>
@@ -114,58 +110,62 @@
                 <option value="https://eforms.alacourt.gov/">E-Forms Alabama Portal</option>
                 <option value="https://www.alsd.uscourts.gov/forms/allforms">AL Southern District Forms</option>
             </select>
+
+            <div class="label">ALL 50 STATE PORTALS</div>
+            <select onchange="openProtocol(this.value)">
+                <option value="">-- SELECT STATE PORTAL --</option>
+                <option value="https://eforms.alacourt.gov/">Alabama</option>
                 <option value="https://courts.alaska.gov/forms/index.htm">Alaska</option>
                 <option value="https://www.azcourts.gov/selfhelp/Self-Help-Forms">Arizona</option>
                 <option value="https://www.arcourts.gov/forms-and-publications/court-forms">Arkansas</option>
                 <option value="https://www.courts.ca.gov/forms.htm">California</option>
                 <option value="https://www.courts.state.co.us/Forms/Index.cfm">Colorado</option>
-                <option value="https://jud.ct.gov/webforms/">Connecticut</option>
+                <option value="https://www.jud.ct.gov/webforms/">Connecticut</option>
                 <option value="https://courts.delaware.gov/forms/">Delaware</option>
-                <option value="https://flcourts-media.flcourts.gov/content/download/685817/file_pdf/902f2.pdf">Florida</option>
+                <option value="https://www.flcourts.org/Resources-Services/Court-Improvement/Family-Courts/Family-Law-Self-Help-Information/Family-Law-Forms">Florida</option>
                 <option value="https://georgiacourts.gov/forms/">Georgia</option>
                 <option value="https://www.courts.state.hi.us/self-help/courts_forms/court_forms">Hawaii</option>
-                <option value="https://isc.idaho.gov/main/forms">Idaho</option>
+                <option value="https://courtselfhelp.idaho.gov/">Idaho</option>
                 <option value="https://www.illinoiscourts.gov/documents-and-forms/approved-forms/">Illinois</option>
                 <option value="https://www.in.gov/courts/forms/">Indiana</option>
                 <option value="https://www.iowacourts.gov/for-the-public/court-forms/">Iowa</option>
                 <option value="https://www.kscourts.org/Public/Court-Forms">Kansas</option>
                 <option value="https://kycourts.gov/Legal-Forms/Pages/default.aspx">Kentucky</option>
-                <option value="https://lasc.org/rules/dist_ct/APPENDIX_3.0.pdf">Louisiana</option>
+                <option value="https://www.lasc.org/rules/form_index.asp">Louisiana</option>
                 <option value="https://www.courts.maine.gov/forms/index.html">Maine</option>
                 <option value="https://www.mdcourts.gov/forms">Maryland</option>
-                <option value="https://www.mass.gov/lists/court-forms-by-topic">Massachusetts</option>
+                <option value="https://www.mass.gov/lists/court-forms">Massachusetts</option>
                 <option value="https://www.courts.michigan.gov/SCAO-forms/">Michigan</option>
                 <option value="https://www.mncourts.gov/GetForms.aspx">Minnesota</option>
                 <option value="https://courts.ms.gov/forms/forms.php">Mississippi</option>
-                <option value="https://www.courts.mo.gov/page.jsp?id=583">Missouri</option>
+                <option value="https://www.courts.mo.gov/page.jsp?id=525">Missouri</option>
                 <option value="https://courts.mt.gov/Forms/">Montana</option>
                 <option value="https://supremecourt.nebraska.gov/forms">Nebraska</option>
-                <option value="https://nvcourts.gov/AOC/Templates/Documents/Forms/">Nevada</option>
+                <option value="https://nvcourts.gov/AOC/Templates/documents.aspx">Nevada</option>
                 <option value="https://www.courts.nh.gov/resources/forms-and-fees">New Hampshire</option>
                 <option value="https://www.njcourts.gov/forms">New Jersey</option>
-                <option value="https://nmsupremecourt.nmcourts.gov/court-forms.aspx">New Mexico</option>
+                <option value="https://nmsupremecourt.nmcourts.gov/forms.aspx">New Mexico</option>
                 <option value="https://ww2.nycourts.gov/forms/index.shtml">New York</option>
                 <option value="https://www.nccourts.gov/documents/forms">North Carolina</option>
                 <option value="https://www.ndcourts.gov/legal-self-help/forms">North Dakota</option>
-                <option value="https://www.supremecourt.ohio.gov/Forms/default.asp">Ohio</option>
-                <option value="https://www.oscn.net/v4/forms">Oklahoma</option>
+                <option value="https://www.supremecourt.ohio.gov/forms/all-forms/">Ohio</option>
+                <option value="https://www.oscn.net/v40/static/forms.aspx">Oklahoma</option>
                 <option value="https://www.courts.oregon.gov/forms/Pages/default.aspx">Oregon</option>
                 <option value="https://www.pacourts.us/forms">Pennsylvania</option>
                 <option value="https://www.courts.ri.gov/PublicResources/forms/Pages/default.aspx">Rhode Island</option>
                 <option value="https://www.sccourts.org/forms/">South Carolina</option>
-                <option value="https://ujs.sd.gov/Forms/default.aspx">South Dakota</option>
-                <option value="https://www.tncourts.gov/forms-publications">Tennessee</option>
+                <option value="https://ujs.sd.gov/Forms/">South Dakota</option>
+                <option value="https://www.tncourts.gov/Public-Forms">Tennessee</option>
                 <option value="https://www.txcourts.gov/rules-forms/forms/">Texas</option>
-                <option value="https://www.utcourts.gov/howto/forms/">Utah</option>
+                <option value="https://www.utcourts.gov/en/self-help/forms.html">Utah</option>
                 <option value="https://www.vermontjudiciary.org/court-forms">Vermont</option>
                 <option value="https://www.vacourts.gov/forms/home.html">Virginia</option>
                 <option value="https://www.courts.wa.gov/forms/">Washington</option>
                 <option value="http://www.courtswv.gov/legal-community/court-forms.html">West Virginia</option>
                 <option value="https://www.wicourts.gov/forms1/circuit.htm">Wisconsin</option>
-                <option value="https://www.courts.state.wy.us/legal-helpers/court-forms/">Wyoming</option>
+                <option value="https://www.courts.state.wy.us/legal-help-and-forms/court-forms/">Wyoming</option>
             </select>
-        </div>
-
+            
         <div class="center-vault">
             <textarea id="scratch" placeholder="Initializing Workspace..."></textarea>
             <iframe id="pdf-frame" title="Legal Protocol Viewer"></iframe>
