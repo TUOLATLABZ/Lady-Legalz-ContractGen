@@ -67,22 +67,27 @@
     </style>
 </head>
 <body>
+
 <div id="boot-screen">
     <div style="font-family: 'Orbitron'; font-size: 1.8rem; letter-spacing: 12px; text-align: center;">TUOLAT LABZ: LADY LEGALZ v4.0.0</div>
     <div class="boot-loader"><div id="progress-bar" class="boot-progress"></div></div>
     <div id="boot-log" style="font-size: 0.7rem; margin-top: 20px; color: var(--neon-cyan); height: 100px; text-align: center;"></div>
 </div>
+
 <canvas id="matrix-canvas"></canvas>
+
 <div class="container" id="main-container">
     <div class="header">
         <h1>TUOLAT LABZ || CONTRACTGEN BETA v.3.8.0 || NEO-INTELLIGENCE</h1>
     </div>
+
     <div class="main-workspace">
         <div class="side-panel">
             <div class="label">DRAFT HISTORY</div>
             <button class="btn" style="background: var(--neon-purple); color: #fff; font-size: 0.55rem;" onclick="saveDraft()">CONTRACTGEN SNAPSHOT</button>
             <div id="history-list"></div>
-            <div class="label">CONTRACTGEN PROTOCOLS</div>
+
+            <div class="label">FEDERAL PROTOCOLS</div>
             <select onchange="openProtocol(this.value)">
                 <option value="">-- SELECT FORM --</option>
                 <option value="https://www.uscourts.gov/sites/default/files/complaint_for_a_civil_case.pdf">1. Civil Complaint</option>
@@ -95,13 +100,63 @@
                 <option value="https://www.uscourts.gov/sites/default/files/complaint_for_violation_of_civil_rights_non-prisoner.pdf">8. Civil Rights (NP)</option>
                 <option value="https://www.uscourts.gov/sites/default/files/complaint_for_violation_of_civil_rights_prisoner.pdf">9. Civil Rights (P)</option>
             </select>
-            <div class="label">CONTRACTGEN AGREEMENTS</div>
-            <select onchange="openProtocol(this.value)">
-                <option value="">-- SELECT AGREEMENT --</option>
-                <option value="https://flcourts-media.flcourts.gov/content/download/685817/file_pdf/902f2.pdf">10. Divorce Settlement</option> 
-                <option value="https://eforms.com/images/2019/09/Letter-of-Intent-to-Sue.pdf">11. Intent to Sue</option>
+
+            <div class="label">STATE AGREEMENTS (50 STATES)</div>
+            <select id="state-selector" onchange="openProtocol(this.value)">
+                <option value="">-- SELECT STATE --</option>
+                <option value="https://www.alacourt.gov/Forms.aspx">Alabama</option>
+                <option value="https://courts.alaska.gov/forms/index.htm">Alaska</option>
+                <option value="https://www.azcourts.gov/selfhelp/Self-Help-Forms">Arizona</option>
+                <option value="https://www.arcourts.gov/forms-and-publications/court-forms">Arkansas</option>
+                <option value="https://www.courts.ca.gov/forms.htm">California</option>
+                <option value="https://www.courts.state.co.us/Forms/Index.cfm">Colorado</option>
+                <option value="https://jud.ct.gov/webforms/">Connecticut</option>
+                <option value="https://courts.delaware.gov/forms/">Delaware</option>
+                <option value="https://flcourts-media.flcourts.gov/content/download/685817/file_pdf/902f2.pdf">Florida</option>
+                <option value="https://georgiacourts.gov/forms/">Georgia</option>
+                <option value="https://www.courts.state.hi.us/self-help/courts_forms/court_forms">Hawaii</option>
+                <option value="https://isc.idaho.gov/main/forms">Idaho</option>
+                <option value="https://www.illinoiscourts.gov/documents-and-forms/approved-forms/">Illinois</option>
+                <option value="https://www.in.gov/courts/forms/">Indiana</option>
+                <option value="https://www.iowacourts.gov/for-the-public/court-forms/">Iowa</option>
+                <option value="https://www.kscourts.org/Public/Court-Forms">Kansas</option>
+                <option value="https://kycourts.gov/Legal-Forms/Pages/default.aspx">Kentucky</option>
+                <option value="https://lasc.org/rules/dist_ct/APPENDIX_3.0.pdf">Louisiana</option>
+                <option value="https://www.courts.maine.gov/forms/index.html">Maine</option>
+                <option value="https://www.mdcourts.gov/forms">Maryland</option>
+                <option value="https://www.mass.gov/lists/court-forms-by-topic">Massachusetts</option>
+                <option value="https://www.courts.michigan.gov/SCAO-forms/">Michigan</option>
+                <option value="https://www.mncourts.gov/GetForms.aspx">Minnesota</option>
+                <option value="https://courts.ms.gov/forms/forms.php">Mississippi</option>
+                <option value="https://www.courts.mo.gov/page.jsp?id=583">Missouri</option>
+                <option value="https://courts.mt.gov/Forms/">Montana</option>
+                <option value="https://supremecourt.nebraska.gov/forms">Nebraska</option>
+                <option value="https://nvcourts.gov/AOC/Templates/Documents/Forms/">Nevada</option>
+                <option value="https://www.courts.nh.gov/resources/forms-and-fees">New Hampshire</option>
+                <option value="https://www.njcourts.gov/forms">New Jersey</option>
+                <option value="https://nmsupremecourt.nmcourts.gov/court-forms.aspx">New Mexico</option>
+                <option value="https://ww2.nycourts.gov/forms/index.shtml">New York</option>
+                <option value="https://www.nccourts.gov/documents/forms">North Carolina</option>
+                <option value="https://www.ndcourts.gov/legal-self-help/forms">North Dakota</option>
+                <option value="https://www.supremecourt.ohio.gov/Forms/default.asp">Ohio</option>
+                <option value="https://www.oscn.net/v4/forms">Oklahoma</option>
+                <option value="https://www.courts.oregon.gov/forms/Pages/default.aspx">Oregon</option>
+                <option value="https://www.pacourts.us/forms">Pennsylvania</option>
+                <option value="https://www.courts.ri.gov/PublicResources/forms/Pages/default.aspx">Rhode Island</option>
+                <option value="https://www.sccourts.org/forms/">South Carolina</option>
+                <option value="https://ujs.sd.gov/Forms/default.aspx">South Dakota</option>
+                <option value="https://www.tncourts.gov/forms-publications">Tennessee</option>
+                <option value="https://www.txcourts.gov/rules-forms/forms/">Texas</option>
+                <option value="https://www.utcourts.gov/howto/forms/">Utah</option>
+                <option value="https://www.vermontjudiciary.org/court-forms">Vermont</option>
+                <option value="https://www.vacourts.gov/forms/home.html">Virginia</option>
+                <option value="https://www.courts.wa.gov/forms/">Washington</option>
+                <option value="http://www.courtswv.gov/legal-community/court-forms.html">West Virginia</option>
+                <option value="https://www.wicourts.gov/forms1/circuit.htm">Wisconsin</option>
+                <option value="https://www.courts.state.wy.us/legal-helpers/court-forms/">Wyoming</option>
             </select>
         </div>
+
         <div class="center-vault">
             <textarea id="scratch" placeholder="Initializing Workspace..."></textarea>
             <iframe id="pdf-frame" title="Legal Protocol Viewer"></iframe>
@@ -119,36 +174,43 @@
             </div>
             <button class="btn btn-generate" style="margin: 0; border-radius: 0;" onclick="generatePDF(true)">COMPILED EXPORT</button>
         </div>
+
         <div class="side-panel">
             <div class="label">ENTITIES</div>
             <input type="text" id="g-plaintiff" placeholder="PLAINTIFF / FIRST PARTY" oninput="syncAll()">
             <input type="text" id="g-defendant" placeholder="DEFENDANT / SECOND PARTY" oninput="syncAll()">
             <input type="text" id="g-case" placeholder="CASE REF / ID">
+            
             <div class="label">EVIDENCE</div>
             <div class="evidence-dropzone">
                 [ ATTACH EXHIBITS ]
                 <input type="file" multiple accept="image/*" onchange="handleEvidence(this)">
             </div>
             <div id="evidence-preview"></div>
-            <div class="label">CONTRACTGEN BETA 3.8.0</div>
+
+            <div class="label">NEURAL SECURITY</div>
             <button class="btn" style="background: var(--gold); color: #000;" onclick="generateNotaryHash()">GENERATE SEAL</button>
             <div id="notary-badge"></div>
+
             <div class="label">LOG STREAM</div>
             <div id="terminal-log"></div>
-            <button class="btn" style="background: transparent; border: 1px solid var(--neon-purple); color: var(--neon-purple); margin-top: 15px;" onclick="togglePreview()">Live TUOLAT LABZ Preview Switch</button>
+            <button class="btn" style="background: transparent; border: 1px solid var(--neon-purple); color: var(--neon-purple); margin-top: 15px;" onclick="togglePreview()">Live TUOLAT LABZ Preview</button>
         </div>
     </div>
 </div>
+
 <script>
     const { jsPDF } = window.jspdf || {};
     let evidenceImages = [];
     let sessionHash = "";
+
     function log(m, url = null) {
         const d = document.createElement('div');
         d.style.marginBottom = "5px";
         d.innerHTML = url ? `> ${m} <span class="log-link" onclick="window.open('${url}', '_blank')">[MANUAL]</span>` : `> ${m}`;
         document.getElementById('terminal-log').prepend(d);
     }
+
     function openProtocol(url) {
         if(!url) return;
         const frame = document.getElementById('pdf-frame');
@@ -158,6 +220,7 @@
         frame.style.display = 'block';
         scratch.style.display = 'none';
     }
+
     function togglePreview() {
         const f = document.getElementById('pdf-frame');
         const s = document.getElementById('scratch');
@@ -168,6 +231,7 @@
             f.style.display = 'none'; s.style.display = 'block';
         }
     }
+
     function saveDraft() {
         const draft = {
             id: Date.now(),
@@ -184,6 +248,7 @@
         renderHistory();
         log("Local Memory Committed.");
     }
+
     function renderHistory() {
         const list = document.getElementById('history-list');
         const history = JSON.parse(localStorage.getItem('legalz_v4_history') || '[]');
@@ -194,6 +259,7 @@
             </div>
         `).join('');
     }
+
     function loadDraft(id) {
         const history = JSON.parse(localStorage.getItem('legalz_v4_history') || '[]');
         const d = history.find(x => x.id === id);
@@ -207,13 +273,15 @@
             syncAll();
         }
     }
+
     function generateNotaryHash() {
         sessionHash = "LADY-SEC-" + Math.random().toString(36).substring(2, 10).toUpperCase();
         const badge = document.getElementById('notary-badge');
-        badge.style.display = badge.innerHTML = `NEURAL SEAL ACTIVE: ${sessionHash}`;
+        badge.innerHTML = `NEURAL SEAL ACTIVE: ${sessionHash}`;
         badge.style.display = 'block';
         log("Seal Generated.");
     }
+
     const setupSig = (id) => {
         const c = document.getElementById(id);
         const ctx = c.getContext('2d');
@@ -230,10 +298,12 @@
         ctx.strokeStyle = '#000'; ctx.lineWidth = 2; return ctx;
     };
     setupSig('sig-main'); setupSig('sig-witness');
+
     function clearS(n) {
         const c = document.getElementById(n === 1 ? 'sig-main' : 'sig-witness');
         c.getContext('2d').clearRect(0,0,c.width,c.height);
     }
+
     function handleEvidence(input) {
         Array.from(input.files).forEach(file => {
             const reader = new FileReader();
@@ -246,21 +316,25 @@
             reader.readAsDataURL(file);
         });
     }
+
     function generatePDF(download = false) {
         const doc = new jsPDF();
         const p = document.getElementById('g-plaintiff').value || "EMPTY";
         const d = document.getElementById('g-defendant').value || "EMPTY";
         const c = document.getElementById('g-case').value || "NONE";
         const txt = document.getElementById('scratch').value || "NO DATA RECORDED";
+        
         doc.setFillColor(1, 5, 8);
         doc.rect(0, 0, 210, 40, 'F');
         doc.setTextColor(0, 255, 157);
         doc.setFont("courier", "bold");
         doc.setFontSize(18);
         doc.text("LADY LEGALZ // CONTRACTGEN OUTPUT", 105, 20, { align: "center" });
+        
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(8);
         doc.text(`SESSION ID: ${Date.now()} | SEAL: ${sessionHash || 'UNVERIFIED'}`, 105, 30, { align: "center" });
+        
         doc.setTextColor(0,0,0);
         doc.setFontSize(10);
         doc.setFont("courier", "normal");
@@ -269,46 +343,35 @@
         y += 10;
         doc.text(`PARTIES: ${p} vs ${d}`, 20, y);
         y += 20;
+
         const txtLines = doc.splitTextToSize(txt, 170);
         for (let line of txtLines) {
-            if (y > 270) {
-                doc.addPage();
-                y = 20;
-            }
+            if (y > 270) { doc.addPage(); y = 20; }
             doc.text(line, 20, y);
             y += 5;
         }
+
         y += 10;
-        if (y > 250) {
-            doc.addPage();
-            y = 20;
-        }
+        if (y > 250) { doc.addPage(); y = 20; }
         doc.text("DECLARANT:", 20, y);
         y += 5;
         const sigMain = document.getElementById('sig-main').toDataURL('image/png');
         doc.addImage(sigMain, 'PNG', 20, y, 80, 18);
+
         y += 25;
-        if (y > 250) {
-            doc.addPage();
-            y = 20;
-        }
+        if (y > 250) { doc.addPage(); y = 20; }
         doc.text("WITNESS:", 20, y);
         y += 5;
         const sigWitness = document.getElementById('sig-witness').toDataURL('image/png');
         doc.addImage(sigWitness, 'PNG', 20, y, 80, 18);
-        y += 25;
+
         if (evidenceImages.length > 0) {
-            if (y > 250) {
-                doc.addPage();
-                y = 20;
-            }
+            doc.addPage();
+            y = 20;
             doc.text("EXHIBITS:", 20, y);
             y += 10;
             for (let i = 0; i < evidenceImages.length; i++) {
-                if (y > 200) {
-                    doc.addPage();
-                    y = 20;
-                }
+                if (y > 200) { doc.addPage(); y = 20; }
                 doc.text(`Exhibit ${i+1}:`, 20, y);
                 y += 5;
                 const imgData = evidenceImages[i];
@@ -317,12 +380,14 @@
                 y += 130;
             }
         }
+
         if(download) doc.save("LLCONTRACTGEN_EXPORT.pdf");
         return doc.output('bloburl');
     }
+
     function runBoot() {
         const logEl = document.getElementById('boot-log');
-        const msgs = ["WAKING NEURAL ENGINE...", "LOAD PROTOCOLS CONTRACTGEN v3.8.0", "SECURITY TUOLAT LABZ... OK", "LADY LEGALZ BETA 4 READY."];
+        const msgs = ["WAKING NEURAL ENGINE...", "LOAD PROTOCOLS CONTRACTGEN v3.8.0", "SYNCING 50 STATE DATABASE...", "SECURITY TUOLAT LABZ... OK", "LADY LEGALZ BETA 4 READY."];
         let i = 0;
         const iv = setInterval(() => {
             if(i < msgs.length) {
@@ -336,6 +401,8 @@
         }, 300);
     }
     runBoot();
+
+    // MATRIX EFFECT
     const canv = document.getElementById('matrix-canvas');
     const ctxM = canv.getContext('2d');
     canv.width = window.innerWidth; canv.height = window.innerHeight;
@@ -350,6 +417,7 @@
         });
     }
     setInterval(drawM, 50);
+
     function syncAll() {
         const val = (document.getElementById('g-plaintiff').value + document.getElementById('g-defendant').value).toLowerCase();
         document.getElementById('main-container').classList.toggle('neural-alert', val.includes('sue') || val.includes('court'));
